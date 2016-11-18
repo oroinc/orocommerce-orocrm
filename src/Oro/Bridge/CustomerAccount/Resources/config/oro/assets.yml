@@ -1,0 +1,4 @@
+assets:
+    css:
+        'orocustomeraccountbridge':
+          - 'bundles/orocustomeraccountbridge/css/less/main.less'

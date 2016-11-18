@@ -1,0 +1,34 @@
+{% block oro_config_customer_account_choice_widget %}
+    {% set valueContainerId = form.vars.id ~ '_container' %}
+    {% set valueContainerClass = form.vars.attr.class|default('oro-clearfix controls control-subgroup') %}
+    {% if form.vars.errors|length > 0 %}
+        {% set valueContainerClass = valueContainerClass ~ ' validation-error' %}
+    {% endif %}
+
+    {% set options = form.vars.options|default({})|merge({
+        warningContainer: '.customeraccount-warning-message',
+        view: 'orocustomeraccountbridge/js/app/account-creating-strategy/view/warning-view',
+        rootMessage: 'oro.customer_account_bridge.system_configuration.messages.root_warning'|trans,
+        eachMessage: 'oro.customer_account_bridge.system_configuration.messages.each_warning'|trans,
+        defaultStrategy: 'each'
+    }) %}
+
+    <div id="{{ valueContainerId }}" class="{{ valueContainerClass }}"
+         data-page-component-module="oroui/js/app/components/view-component"
+         data-page-component-options="{{ options|json_encode }}">
+        {{ form_widget(form) }}
+        {{ form_errors(form) }}
+        <div class="customeraccount-warning-message alert alert-warning"></div>
+    </div>
+{% endblock %}
+
+{% block _account_settings_oro_customer_account_bridge___customer_account_settings_use_parent_scope_value_widget  %}
+    {% set options = form.vars.options|default({})|merge({
+        view: 'orocustomeraccountbridge/js/app/account-creating-strategy/view/use-default-view'
+    }) %}
+
+    <span data-page-component-module="oroui/js/app/components/view-component"
+          data-page-component-options="{{ options|json_encode }}">
+        {{ form_widget(form) }}
+    </span>
+{% endblock %}

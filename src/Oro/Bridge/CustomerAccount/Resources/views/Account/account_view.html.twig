@@ -1,0 +1,10 @@
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+
+{% if entity.account %}
+    {% set accountData %}
+        <a href="{{ path('oro_account_view', {id: entity.account.id}) }}">
+            {{ entity.account.name }}
+        </a>
+    {% endset %}
+{% endif %}
+{{ UI.renderHtmlProperty('oro.account.entity_label'|trans, accountData|default('N/A')) }}

@@ -1,0 +1,10 @@
+datagrids:
+    shopping-list-by-account-grid:
+        extends: shopping-list-grid
+        source:
+            query:
+                where:
+                    and:
+                        - IDENTITY(shopping_list.account) = :account_id
+            bind_parameters:
+                - account_id

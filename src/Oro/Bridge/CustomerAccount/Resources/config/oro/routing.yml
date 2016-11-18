@@ -1,0 +1,4 @@
+oro_customer_account_bridg_bundle:
+    resource:     "@OroCustomerAccountBridgeBundle/Controller"
+    type:         annotation
+    prefix:       /

@@ -1,0 +1,101 @@
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+
+{% set uniqueSuffix = '_customer_' ~ customer.id %}
+{% set tabs = [] %}
+
+{% set tabs = tabs|merge([
+    {
+        'alias': 'oro_account_customer_users' ~ uniqueSuffix,
+        'widgetType': 'block',
+        'label': 'oro.customer.accountuser.entity_plural_label'|trans,
+        'url': path('oro_account_customer_widget_customer_user_info', {'id': customer.id})
+    }
+]) %}
+
+{% set tabs = tabs|merge([
+    {
+        'alias': 'oro_account_customer_shopping_carts' ~ uniqueSuffix,
+        'widgetType': 'block',
+        'label': 'oro.shoppinglist.entity_plural_label'|trans,
+        'url': path('oro_account_customer_widget_shopping_lists_info', {'id': customer.id})
+    }
+]) %}
+
+{% set tabs = tabs|merge([
+    {
+        'alias': 'oro_account_customer_rfqs' ~ uniqueSuffix,
+        'widgetType': 'block',
+        'label': 'oro.rfp.request.entity_plural_label'|trans,
+        'url': path('oro_account_customer_widget_rfq_info', {'id': customer.id})
+    }
+]) %}
+
+{% set tabs = tabs|merge([
+    {
+        'alias': 'oro_account_customer_quotes' ~ uniqueSuffix,
+        'widgetType': 'block',
+        'label': 'oro.sale.quote.entity_plural_label'|trans,
+        'url': path('oro_account_customer_widget_quotes_info', {'id': customer.id})
+    }
+]) %}
+
+{% set tabs = tabs|merge([
+    {
+        'alias': 'oro_account_customer_orders' ~ uniqueSuffix,
+        'widgetType': 'block',
+        'label': 'oro.order.entity_plural_label'|trans,
+        'url': path('oro_account_customer_widget_orders_info', {'id': customer.id})
+    }
+]) %}
+
+{% set hasTabs = tabs|length > 0 %}
+
+<div class="widget-content row-fluid {% if hasTabs %}row-fluid-divider{% endif %}">
+    <div class="responsive-cell form-horizontal widget-section-align">
+        {% set customer_name_link %}
+            <a href="{{ path('oro_magento_customer_view', {'id':customer.id}) }}">
+                {{ customer|oro_format_name|escape }}
+            </a>
+        {% endset %}
+
+        {% set customerData %}
+            <a href="{{ path('oro_customer_account_view', {id: customer.id}) }}">
+                {{ customer.name }}
+            </a>
+        {% endset %}
+        {{ UI.renderHtmlProperty('oro.customer.account.name.label'|trans, customerData) }}
+
+        {% if customer.group %}
+            {% if is_granted('VIEW', customer.group) %}
+                {% set groupData %}
+                    <a href="{{ path('oro_customer_account_group_view', {id: customer.group.id}) }}">
+                        {{ customer.group.name }}
+                    </a>
+                {% endset %}
+                {{ UI.renderHtmlProperty('oro.customer.account.group.label'|trans, groupData) }}
+            {% else %}
+                {{ UI.renderProperty('oro.customer.account.group.label'|trans, customer.group.name) }}
+            {% endif %}
+        {% endif %}
+
+        {% if customer.parent %}
+            {% if is_granted('VIEW', customer.parent) %}
+                {% set parentData %}
+                    <a href="{{ path('oro_customer_account_view', {id: customer.parent.id}) }}">
+                        {{ customer.parent.name }}
+                    </a>
+                {% endset %}
+                {{ UI.renderHtmlProperty('oro.customer.account.parent.label'|trans, parentData) }}
+            {% else %}
+                {{ UI.renderProperty('oro.customer.account.parent.label'|trans, customer.parent.name) }}
+            {% endif %}
+        {% endif %}
+    </div>
+
+    {% if hasTabs %}
+        <div class="responsive-cell" id="magento-without-border-tabs">
+            {{ tabPanel(tabs) }}
+        </div>
+    {% endif %}
+</div>
+

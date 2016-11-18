@@ -1,0 +1,93 @@
+parameters:
+
+services:
+    oro_customer_account.event_listener.customer_create:
+        class: 'Oro\Bridge\CustomerAccount\EventListener\CustomerCreateListener'
+        tags:
+            - { name: doctrine.event_listener, event: onFlush, method: onFlush }
+            - { name: doctrine.event_listener, event: postFlush, method: postFlush }
+
+    oro_customer_account.event_listener.datagrid.customer_grid:
+        class: 'Oro\Bridge\CustomerAccount\EventListener\Datagrid\CustomerGridListener'
+        tags:
+            - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.before.account-accounts-grid, method: onBuildBefore }
+
+    oro_customer_account.form.my_extension:
+        class: 'Oro\Bridge\CustomerAccount\Form\Extension\CustomerExtension'
+        tags:
+            - { name: form.type_extension, alias: oro_account_type }
+
+    oro_customer_account.event_listener.account_form_view:
+        class: 'Oro\Bridge\CustomerAccount\EventListener\AccountFormViewListener'
+        arguments:
+            - "@oro_entity.doctrine_helper"
+            - "@request_stack"
+            - '%oro_customer.entity.account.class%'
+        tags:
+            - { name: kernel.event_listener, event: oro_ui.scroll_data.before.account-view, method: onView }
+            - { name: kernel.event_listener, event: oro_ui.scroll_data.before.account-edit, method: onEdit }
+
+    oro_customer_account.event_listener.account_view:
+        class: 'Oro\Bridge\CustomerAccount\EventListener\AccountViewListener'
+        arguments:
+            - '%oro_account.entity.account.class%'
+            - "@oro_entity.doctrine_helper"
+            - "@request_stack"
+            - '@translator'
+            - '@oro_config.manager'
+        tags:
+            - { name: kernel.event_listener, event: oro_ui.scroll_data.before.accountView, method: onView }
+
+    oro_customer_account.form.type.google_sync_checkbox:
+        class: 'Oro\Bridge\CustomerAccount\Form\Type\CustomerAccountConfigChoice'
+        tags:
+            - { name: form.type, alias: oro_config_customer_account_choice }
+
+    # message queue
+    oro_customer_account.async.reassign_customer_processor:
+        class: 'Oro\Bridge\CustomerAccount\Async\ReassingCustomerProcessor'
+        arguments:
+            - '@oro_customer_account.manager.account_manager'
+            - '@oro_message_queue.job.runner'
+            - '@logger'
+        tags:
+            - { name: 'oro_message_queue.client.message_processor' }
+
+    oro_customer_account.async.reassign_customer_producer:
+        class: 'Oro\Bridge\CustomerAccount\Async\ReassingCustomerProducer'
+        arguments:
+            - '@oro_config.manager'
+            - '@oro_message_queue.client.message_producer'
+
+    oro_customer_account.form.event_listener.change_config_option:
+        class: 'Oro\Bridge\CustomerAccount\EventListener\ChangeConfigOptionListener'
+        tags:
+            - { name: kernel.event_listener, event: oro_config.update_after, method: onConfigUpdate }
+        arguments:
+            - '@oro_customer_account.async.reassign_customer_producer'
+
+    # manager
+    oro_customer_account.manager.account_builder:
+        class: 'Oro\Bridge\CustomerAccount\Manager\AccountBuilder'
+        arguments:
+            - '@doctrine'
+            - '@logger'
+
+    oro_customer_account.manager.account_manager:
+        class: 'Oro\Bridge\CustomerAccount\Manager\AccountManager'
+        arguments:
+            - '@doctrine'
+            - '@logger'
+        calls:
+            - [addStrategy, ['@oro_customer_account.manager.strategy.assign_each_strategy']]
+            - [addStrategy, ['@oro_customer_account.manager.strategy.assign_root_strategy']]
+
+    oro_customer_account.manager.strategy.assign_each_strategy:
+        class: 'Oro\Bridge\CustomerAccount\Manager\Strategy\AssignEachStrategy'
+        arguments:
+            - '@oro_customer_account.manager.account_builder'
+
+    oro_customer_account.manager.strategy.assign_root_strategy:
+        class: 'Oro\Bridge\CustomerAccount\Manager\Strategy\AssignRootStrategy'
+        arguments:
+            - '@oro_customer_account.manager.account_builder'

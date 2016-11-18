@@ -1,0 +1,9 @@
+placeholders:
+    placeholders:
+        oro_account_customers_info_section:
+            items:
+                oro_account_customers_info: ~
+
+    items:
+        oro_account_customers_info:
+            action: OroCustomerAccountBridgeBundle:Customer:accountCustomersInfo
