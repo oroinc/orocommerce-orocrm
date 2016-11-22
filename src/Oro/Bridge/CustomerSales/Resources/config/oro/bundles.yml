@@ -1,0 +1,2 @@
+bundles:
+    - { name: Oro\Bridge\CustomerSales\OroCustomerSalesBridgeBundle, priority: 65 }
