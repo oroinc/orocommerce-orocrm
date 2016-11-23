@@ -5,6 +5,16 @@ datagrids:
             query:
                 where:
                     and:
-                        - IDENTITY(shopping_list.account) = :account_id
+                        - IDENTITY(shopping_list.account) = :customer_id
             bind_parameters:
-                - account_id
+                - customer_id
+    sales-opportunity-by-account-grid:
+        extends: sales-opportunity-grid
+        source:
+            query:
+                where:
+                    and:
+                        - IDENTITY(o.account_63cf8c3b) = :customer_id
+            bind_parameters:
+                - customer_id
+        views_list: ~

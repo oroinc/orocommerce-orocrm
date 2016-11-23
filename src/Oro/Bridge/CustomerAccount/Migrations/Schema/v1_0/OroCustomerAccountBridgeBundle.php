@@ -143,6 +143,9 @@ class OroCustomerAccountBridgeBundle implements
                 'datagrid' => [
                     'is_visible' => DatagridScope::IS_VISIBLE_FALSE
                 ],
+                'form' => [
+                    'is_enabled' => false
+                ],
                 'view' => ['is_displayable' => false],
                 'merge' => ['display' => false],
                 'dataaudit' => ['auditable' => false]
