@@ -1,4 +1,5 @@
 <?php
+
 namespace Oro\Bridge\CustomerSales\Tests\Unit\Provider;
 
 use Oro\Bridge\CustomerSales\Provider\Customer\CustomerIconProvider;
