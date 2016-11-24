@@ -9,9 +9,7 @@ use Oro\Bundle\ActivityListBundle\Migration\Extension\ActivityListExtensionAware
 use Oro\Bundle\EntityBundle\EntityConfig\DatagridScope;
 use Oro\Bundle\MigrationBundle\Migration\Installation;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
-use Oro\Bundle\EntityConfigBundle\Entity\ConfigModel;
 use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
-use Oro\Bundle\EntityExtendBundle\Migration\ExtendOptionsManager;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtension;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterface;
 
@@ -47,7 +45,7 @@ class OroCustomerAccountBridgeBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_0';
+        return 'v1_1';
     }
 
     /**
@@ -115,9 +113,8 @@ class OroCustomerAccountBridgeBundleInstaller implements
             'oro_account',
             'account',
             'orocrm_account',
-            'id',
+            'name',
             [
-                ExtendOptionsManager::MODE_OPTION => ConfigModel::MODE_READONLY,
                 'entity' => ['label' => 'oro.account.entity_label'],
                 'extend' => [
                     'owner' => ExtendScope::OWNER_CUSTOM,
@@ -128,7 +125,8 @@ class OroCustomerAccountBridgeBundleInstaller implements
                     'form_type' => 'oro_account_select'
                 ],
                 'datagrid' => [
-                    'is_visible' => DatagridScope::IS_VISIBLE_FALSE
+                    'is_visible' => DatagridScope::IS_VISIBLE_TRUE,
+                    'show_filter' => true,
                 ],
                 'view' => ['is_displayable' => false],
                 'merge' => ['display' => false],
@@ -140,16 +138,15 @@ class OroCustomerAccountBridgeBundleInstaller implements
             'oro_account',
             'previous_account',
             'orocrm_account',
-            'id',
+            'name',
             [
-                ExtendOptionsManager::MODE_OPTION => ConfigModel::MODE_READONLY,
                 'entity' => ['label' => 'oro.customer_account_bridge.previous_account.entity_label'],
                 'extend' => [
                     'owner' => ExtendScope::OWNER_CUSTOM,
                     'is_extend' => true,
                 ],
                 'datagrid' => [
-                    'is_visible' => DatagridScope::IS_VISIBLE_FALSE
+                    'is_visible' => DatagridScope::IS_VISIBLE_FALSE,
                 ],
                 'form' => [
                     'is_enabled' => false
