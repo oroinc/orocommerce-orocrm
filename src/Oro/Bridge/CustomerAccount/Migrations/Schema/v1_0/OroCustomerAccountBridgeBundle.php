@@ -11,9 +11,7 @@ use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtension;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterface;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
-use Oro\Bundle\EntityConfigBundle\Entity\ConfigModel;
 use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
-use Oro\Bundle\EntityExtendBundle\Migration\ExtendOptionsManager;
 
 class OroCustomerAccountBridgeBundle implements
     Migration,
@@ -109,7 +107,6 @@ class OroCustomerAccountBridgeBundle implements
             'orocrm_account',
             'id',
             [
-                ExtendOptionsManager::MODE_OPTION => ConfigModel::MODE_READONLY,
                 'entity' => ['label' => 'oro.account.entity_label'],
                 'extend' => [
                     'owner' => ExtendScope::OWNER_CUSTOM,
@@ -134,7 +131,6 @@ class OroCustomerAccountBridgeBundle implements
             'orocrm_account',
             'id',
             [
-                ExtendOptionsManager::MODE_OPTION => ConfigModel::MODE_READONLY,
                 'entity' => ['label' => 'oro.customer_account_bridge.previous_account.entity_label'],
                 'extend' => [
                     'owner' => ExtendScope::OWNER_CUSTOM,
