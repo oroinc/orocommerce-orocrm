@@ -6,17 +6,14 @@ use Doctrine\DBAL\Schema\Schema;
 
 use Oro\Bundle\MigrationBundle\Migration\Installation;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
-use Oro\Bundle\SalesBundle\Migration\Extension\Customers\LeadExtensionAwareInterface;
-use Oro\Bundle\SalesBundle\Migration\Extension\Customers\LeadExtensionTrait;
 use Oro\Bundle\SalesBundle\Migration\Extension\Customers\OpportunityExtensionAwareInterface;
 use Oro\Bundle\SalesBundle\Migration\Extension\Customers\OpportunityExtensionTrait;
 
 class OroCustomerSalesBridgeBundleInstaller implements
     Installation,
-    OpportunityExtensionAwareInterface,
-    LeadExtensionAwareInterface
+    OpportunityExtensionAwareInterface
 {
-    use LeadExtensionTrait, OpportunityExtensionTrait;
+    use OpportunityExtensionTrait;
 
     /**
      * {@inheritdoc}
@@ -30,7 +27,6 @@ class OroCustomerSalesBridgeBundleInstaller implements
      */
     public function up(Schema $schema, QueryBag $queries)
     {
-        $this->leadExtension->addCustomerAssociation($schema, 'oro_account');
         $this->opportunityExtension->addCustomerAssociation($schema, 'oro_account');
     }
 }
