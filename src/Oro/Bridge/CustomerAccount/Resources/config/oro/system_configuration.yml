@@ -25,6 +25,7 @@ system_configuration:
             priority: 60
             options:
                 label: oro.customer_account_bridge.system_configuration.fields.commerce_customers_section_name.label
+                tooltip: oro.customer_account_bridge.system_configuration.fields.commerce_customers_section_name.tooltip
                 constraints:
                     - NotBlank: ~
                     - Type: string
