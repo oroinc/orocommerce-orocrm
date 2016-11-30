@@ -12,6 +12,11 @@ services:
         tags:
             - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.before.account-accounts-grid, method: onBuildBefore }
 
+    oro_customer_account.event_listener.datagrid.opportunity_accout_grid:
+        class: 'Oro\Bridge\CustomerAccount\EventListener\Datagrid\CustomerAccountGridListener'
+        tags:
+            - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.before.sales-opportunity-by-account-grid, method: onBuildBefore }
+
     oro_customer_account.form.my_extension:
         class: 'Oro\Bridge\CustomerAccount\Form\Extension\CustomerExtension'
         tags:
