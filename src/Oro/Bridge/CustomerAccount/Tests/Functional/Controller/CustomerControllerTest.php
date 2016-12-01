@@ -163,6 +163,23 @@ class CustomerControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
     }
 
+    public function testOpportunitiesAction()
+    {
+        $this->client->request(
+            'GET',
+            $this->getUrl(
+                'oro_account_customer_widget_opportunities_info',
+                [
+                    'id' => $this->customer->getId()
+                ]
+            ),
+            ['_widgetContainer' => 'widget']
+        );
+
+        $result = $this->client->getResponse();
+        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+    }
+
     public function testQuotesAction()
     {
         $this->client->request(

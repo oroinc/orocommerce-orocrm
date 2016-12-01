@@ -1,5 +1,10 @@
 {% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
 
 <div class="widget-content">
-    {{ dataGrid.renderGrid('account-user-by-account-grid', {account_id: customer.id}) }}
+    {% set scope = 'account-customer-%customer%'|replace({'%customer%': customer.id}) %}
+
+    {{ dataGrid.renderGrid(
+        oro_datagrid_build_fullname('account-user-by-account-grid', scope),
+        {account_id: customer.id})
+    }}
 </div>

@@ -168,6 +168,26 @@ class CustomerController extends Controller
     }
 
     /**
+     * @param Customer $customer
+     * @return array
+     *
+     * @Route(
+     *        "/widget/opportunities-info/{id}",
+     *        name="oro_account_customer_widget_opportunities_info",
+     *        requirements={"id"="\d+"}
+     * )
+     * @ParamConverter("customer", class="OroCustomerBundle:Account", options={"id" = "id"})
+     * @AclAncestor("oro_sales_opportunity_view")
+     * @Template
+     */
+    public function opportunitiesAction(Customer $customer)
+    {
+        return [
+            'customer' => $customer
+        ];
+    }
+
+    /**
      * @return SecurityFacade
      */
     protected function getSecurityFacade()
