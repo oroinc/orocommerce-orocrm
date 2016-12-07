@@ -20,3 +20,5 @@ oro.customer_account_bridge:
         messages:
             root_warning: You are about to change CRM account creation strategy. All children customers will be assigned to the corresponding root CRM account.
             each_warning: You are about to change CRM account creation strategy. All customers will be reassigned to each own customer account
+
+oro.customer.account.lifetime.label: Lifetime sales value
