@@ -2,7 +2,7 @@ system_configuration:
     groups:
         account_settings:
             title: oro.customer_account_bridge.system_configuration.groups.account_settings.title
-            icon: 'icon-book'
+            icon: 'fa-book'
         customer_account_settings:
             title: oro.customer_account_bridge.system_configuration.groups.customer_account_settings.title
 
