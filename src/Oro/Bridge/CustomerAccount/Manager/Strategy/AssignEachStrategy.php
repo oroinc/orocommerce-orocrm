@@ -2,6 +2,8 @@
 
 namespace Oro\Bridge\CustomerAccount\Manager\Strategy;
 
+use Oro\Bundle\AccountBundle\Entity\Account;
+use Oro\Bundle\SalesBundle\Entity\Customer as CustomerAssociation;
 use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
 
 class AssignEachStrategy extends AssignStrategyAbstract
@@ -22,13 +24,17 @@ class AssignEachStrategy extends AssignStrategyAbstract
     public function process($entity)
     {
         $objects = [];
-        $account = $this->getPreviousAccount($entity);
-        if (null === $account) {
+
+        $customerAssociation = $this->accountCustomerManager->getAccountCustomerByTarget($entity);
+
+        $account = $this->getPreviousAccount($entity, $customerAssociation);
+        if (!$account) {
             $account = $this->builder->build($entity);
             $objects[] = $account;
         }
-        $entity->setAccount($account);
+        $customerAssociation->setTarget($account, $entity);
         $objects[] = $entity;
+        $objects[] = $customerAssociation;
 
         return $objects;
     }
@@ -36,21 +42,26 @@ class AssignEachStrategy extends AssignStrategyAbstract
     /**
      * Try to get previous account to child customers
      *
-     * @param Customer $customer
+     * @param Customer            $customer
+     * @param CustomerAssociation $customerAssociation
      *
-     * @return mixed
+     * @return Account|null
      */
-    protected function getPreviousAccount($customer)
+    protected function getPreviousAccount(Customer $customer, CustomerAssociation $customerAssociation)
     {
         $account = null;
-        $currentAccount = $customer->getAccount();
+        $currentAccount = $customerAssociation->getAccount();
+
         if ($customer->getParent() !== null) {
             $rootCustomer = $this->getRootCustomer($customer);
+            $rootCustomerAssociation = $this->accountCustomerManager->getAccountCustomerByTarget($rootCustomer);
+            $rootAccount = $rootCustomerAssociation->getAccount();
+
             $previousAccount = $customer->getPreviousAccount();
-            $rootAccount = $rootCustomer->getAccount();
             if ($previousAccount && $previousAccount !== $currentAccount && $previousAccount !== $rootAccount) {
                 $account = $previousAccount;
             }
+
             if ($account === null && $currentAccount && $rootAccount && $rootAccount !== $currentAccount) {
                 $account = $currentAccount;
             }

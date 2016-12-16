@@ -1,4 +1,0 @@
-Oro\Bundle\CustomerBundle\Entity\Account:
-    properties:
-        account:
-            - NotBlank: { groups: [Integration] }

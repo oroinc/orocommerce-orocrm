@@ -11,6 +11,7 @@ use Oro\Bridge\CustomerAccount\Manager\Strategy\AssignStrategyInterface;
 use Oro\Bundle\CustomerBundle\Entity\Repository\AccountRepository;
 use Oro\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
+use Oro\Bundle\SalesBundle\Entity\Customer as CustomerAssociation;
 
 class AccountManager
 {
@@ -33,10 +34,8 @@ class AccountManager
      * @param ManagerRegistry $registry
      * @param LoggerInterface $logger
      */
-    public function __construct(
-        ManagerRegistry $registry,
-        LoggerInterface $logger
-    ) {
+    public function __construct(ManagerRegistry $registry, LoggerInterface $logger)
+    {
         $this->registry = $registry;
         $this->logger = $logger;
     }
@@ -118,6 +117,7 @@ class AccountManager
     {
         $this->getManager()->clear(Customer::class);
         $this->getManager()->clear(Account::class);
+        $this->getManager()->clear(CustomerAssociation::class);
     }
 
     /**

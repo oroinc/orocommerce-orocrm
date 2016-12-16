@@ -24,8 +24,8 @@ class ReassingCustomerProcessor implements MessageProcessorInterface, TopicSubsc
     private $jobRunner;
 
     /**
-     * @param AccountManager $manager
-     * @param JobRunner $jobRunner
+     * @param AccountManager  $manager
+     * @param JobRunner       $jobRunner
      * @param LoggerInterface $logger
      */
     public function __construct(AccountManager $manager, JobRunner $jobRunner, LoggerInterface $logger)
@@ -52,14 +52,14 @@ class ReassingCustomerProcessor implements MessageProcessorInterface, TopicSubsc
                     $message->getBody()
                 ),
                 [
-                    'message' => $message
+                    'message' => $message,
                 ]
             );
 
             return self::REJECT;
         }
 
-        $this->jobRunner->runUnique(
+        $result = $this->jobRunner->runUnique(
             $message->getMessageId(),
             Topics::REASSIGN_CUSTOMER_ACCOUNT,
             function () use ($type) {
@@ -67,7 +67,7 @@ class ReassingCustomerProcessor implements MessageProcessorInterface, TopicSubsc
             }
         );
 
-        return self::ACK;
+        return $result ? self::ACK : self::REJECT;
     }
 
     /**

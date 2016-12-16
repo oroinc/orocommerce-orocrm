@@ -3,6 +3,7 @@
 namespace Oro\Bridge\CustomerAccount\Manager\Strategy;
 
 use Oro\Bridge\CustomerAccount\Manager\AccountBuilder;
+use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
 use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
 
 abstract class AssignStrategyAbstract implements AssignStrategyInterface
@@ -13,11 +14,18 @@ abstract class AssignStrategyAbstract implements AssignStrategyInterface
     protected $builder;
 
     /**
-     * @param AccountBuilder $builder
+     * @var AccountCustomerManager
      */
-    public function __construct(AccountBuilder $builder)
+    protected $accountCustomerManager;
+
+    /**
+     * @param AccountBuilder         $builder
+     * @param AccountCustomerManager $accountCustomerManager
+     */
+    public function __construct(AccountBuilder $builder, AccountCustomerManager $accountCustomerManager)
     {
         $this->builder = $builder;
+        $this->accountCustomerManager = $accountCustomerManager;
     }
 
     /**

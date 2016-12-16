@@ -43,7 +43,8 @@ class TaxAccountControllerTest extends BaseAccountControllerTest
         AccountTaxCode $accountTaxCode
     ) {
         $values = parent::getFormValues($name, $parent, $group, $internalRating, $accountTaxCode);
-        $values['oro_account_type[account]'] = $this->getReference(LoadAccount::ACCOUNT)->getId();
+        $values['oro_account_type[customer_association_account]'] = $this->getReference(LoadAccount::ACCOUNT_1)->getId(
+        );
 
         return $values;
     }
