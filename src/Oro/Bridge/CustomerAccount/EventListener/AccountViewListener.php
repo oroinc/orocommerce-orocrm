@@ -84,12 +84,14 @@ class AccountViewListener
             ['entity' => $account]
         );
 
-        $title = $this->configManager->get('oro_customer_account_bridge.commerce_customers_section_name');
-        $title = $this->translator->trans($title);
+        if (strlen(trim($template))) {
+            $title = $this->configManager->get('oro_customer_account_bridge.commerce_customers_section_name');
+            $title = $this->translator->trans($title);
 
-        $scrollData = $event->getScrollData();
-        $blockId = $scrollData->addBlock($title);
-        $subBlockId = $scrollData->addSubBlock($blockId);
-        $scrollData->addSubBlockData($blockId, $subBlockId, $template);
+            $scrollData = $event->getScrollData();
+            $blockId = $scrollData->addBlock($title);
+            $subBlockId = $scrollData->addSubBlock($blockId);
+            $scrollData->addSubBlockData($blockId, $subBlockId, $template);
+        }
     }
 }
