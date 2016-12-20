@@ -1,0 +1,6 @@
+channels:
+    channel_types:
+        commerce:
+            label: oro.customer_account_bridge.channel_type.label
+            lifetime_value: lifetime
+            priority: -20

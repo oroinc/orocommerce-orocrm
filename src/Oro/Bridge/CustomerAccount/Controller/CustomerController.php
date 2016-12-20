@@ -25,7 +25,7 @@ class CustomerController extends Controller
      * @Route(
      *         "/widget/customers-info/{accountId}",
      *          name="oro_account_widget_customers_info",
-     *          requirements={"accountId"="\d+", "channelId"="\d+"}
+     *          requirements={"accountId"="\d+"}
      * )
      * @ParamConverter("account", class="OroAccountBundle:Account", options={"id" = "accountId"})
      * @AclAncestor("oro_customer_account_view"))
@@ -44,7 +44,10 @@ class CustomerController extends Controller
             }
         );
 
-        return ['customers' => $customers];
+        return [
+            'account' => $account,
+            'customers' => $customers
+        ];
     }
 
     /**

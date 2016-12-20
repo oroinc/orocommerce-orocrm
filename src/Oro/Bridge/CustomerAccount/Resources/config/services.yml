@@ -96,3 +96,17 @@ services:
         class: 'Oro\Bridge\CustomerAccount\Manager\Strategy\AssignRootStrategy'
         arguments:
             - '@oro_customer_account.manager.account_builder'
+
+    oro_customer_account.manager.lifetime_processor:
+        class: 'Oro\Bridge\CustomerAccount\Manager\LifetimeProcessor'
+        arguments:
+            - '@doctrine'
+            - '@oro_currency.query.currency_transformer'
+
+#    oro_customer_account.event_listener.customer_lifetime_listener:
+#        class: 'Oro\Bridge\CustomerAccount\EventListener\CustomerLifetimeListener'
+#        arguments:
+#            - '@oro_customer_account.manager.account_builder'
+#        tags:
+#            - { name: doctrine.event_listener, event: onFlush, method: onFlush }
+#            - { name: doctrine.event_listener, event: postFlush, method: postFlush }

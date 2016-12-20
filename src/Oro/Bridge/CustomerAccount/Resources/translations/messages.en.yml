@@ -1,4 +1,5 @@
 oro.customer_account_bridge:
+    channel_type.label: Commerce
     previous_account:
         entity_label: Previous Account
     account:
