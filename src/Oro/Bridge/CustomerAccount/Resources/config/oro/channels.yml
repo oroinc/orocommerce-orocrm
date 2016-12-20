@@ -4,3 +4,4 @@ channels:
             label: oro.customer_account_bridge.channel_type.label
             lifetime_value: lifetime
             priority: -20
+            customer_identity: Oro\Bundle\CustomerBundle\Entity\Account

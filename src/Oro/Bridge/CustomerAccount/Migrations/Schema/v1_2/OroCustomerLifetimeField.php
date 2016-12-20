@@ -4,13 +4,31 @@ namespace Oro\Bridge\CustomerAccount\Migrations\Schema\v1_2;
 
 use Doctrine\DBAL\Schema\Schema;
 
+use Oro\Bundle\EntityBundle\EntityConfig\DatagridScope;
+use Oro\Bundle\EntityConfigBundle\Entity\ConfigModel;
+use Oro\Bundle\EntityExtendBundle\Migration\ExtendOptionsManager;
+use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtension;
+use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterface;
 use Oro\Bundle\EntityExtendBundle\Migration\OroOptions;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
 
-class OroCustomerLifetimeField implements Migration
+class OroCustomerLifetimeField implements
+    Migration,
+    ExtendExtensionAwareInterface
 {
+    /** @var ExtendExtension */
+    protected $extendExtension;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setExtendExtension(ExtendExtension $extendExtension)
+    {
+        $this->extendExtension = $extendExtension;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -18,6 +36,7 @@ class OroCustomerLifetimeField implements Migration
     {
         if ($schema->hasTable('oro_account')) {
             $this->createLifetimeFields($schema);
+            $this->createChannelFields($schema);
         }
     }
 
@@ -46,6 +65,36 @@ class OroCustomerLifetimeField implements Migration
                         'order' => 15
                     ]
                 ],
+            ]
+        );
+    }
+
+    /**
+     * @param Schema $schema
+     */
+    protected function createChannelFields(Schema $schema)
+    {
+        $this->extendExtension->addManyToOneRelation(
+            $schema,
+            'oro_account',
+            'dataChannel',
+            'orocrm_channel',
+            'name',
+            [
+                ExtendOptionsManager::MODE_OPTION => ConfigModel::MODE_READONLY,
+                'extend' => [
+                    'owner' => ExtendScope::OWNER_CUSTOM,
+                    'is_extend' => true,
+                ],
+                'form' => [
+                    'is_enabled' => false
+                ],
+                'datagrid' => [
+                    'is_visible' => DatagridScope::IS_VISIBLE_FALSE
+                ],
+                'view' => ['is_displayable' => false],
+                'merge' => ['display' => false],
+                'dataaudit' => ['auditable' => false]
             ]
         );
     }

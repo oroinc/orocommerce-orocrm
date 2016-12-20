@@ -10,7 +10,7 @@ use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
 use Oro\Bundle\UIBundle\Event\BeforeListRenderEvent;
 
-class AccountViewListener
+class CustomerViewListener
 {
     /** @var DoctrineHelper */
     protected $doctrineHelper;
@@ -60,12 +60,12 @@ class AccountViewListener
             return null;
         }
 
-        $accountId = filter_var($request->get('id'), FILTER_VALIDATE_INT);
-        if (false === $accountId) {
+        $customerId = filter_var($request->get('id'), FILTER_VALIDATE_INT);
+        if (false === $customerId) {
             return null;
         }
 
-        return $this->doctrineHelper->getEntityReference($this->entityClass, $accountId);
+        return $this->doctrineHelper->getEntityReference($this->entityClass, $customerId);
     }
 
     /**
@@ -74,24 +74,22 @@ class AccountViewListener
     public function onView(BeforeListRenderEvent $event)
     {
         /** @var Customer $customer */
-        $account = $this->getEntityFromRequest();
-        if (!$account) {
+        $customer = $this->getEntityFromRequest();
+        if (!$customer) {
             return;
         }
 
         $template = $event->getEnvironment()->render(
-            'OroCustomerAccountBridgeBundle:Account:customer-section.html.twig',
-            ['entity' => $account]
+            'OroCustomerAccountBridgeBundle:Customer:view.html.twig',
+            ['entity' => $customer]
         );
 
-        if (strlen(trim($template))) {
-            $title = $this->configManager->get('oro_customer_account_bridge.commerce_customers_section_name');
-            $title = $this->translator->trans($title);
+        $title = $this->configManager->get('oro.customer.account.lifetime.label');
+        $title = $this->translator->trans($title);
 
-            $scrollData = $event->getScrollData();
-            $blockId = $scrollData->addBlock($title);
-            $subBlockId = $scrollData->addSubBlock($blockId);
-            $scrollData->addSubBlockData($blockId, $subBlockId, $template);
-        }
+        $scrollData = $event->getScrollData();
+        $blockId = $scrollData->addBlock($title);
+        $subBlockId = $scrollData->addSubBlock($blockId);
+        $scrollData->addSubBlockData($blockId, $subBlockId, $template);
     }
 }

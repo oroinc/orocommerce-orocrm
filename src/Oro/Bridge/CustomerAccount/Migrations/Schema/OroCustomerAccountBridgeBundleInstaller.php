@@ -7,6 +7,8 @@ use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\ActivityListBundle\Migration\Extension\ActivityListExtension;
 use Oro\Bundle\ActivityListBundle\Migration\Extension\ActivityListExtensionAwareInterface;
 use Oro\Bundle\EntityBundle\EntityConfig\DatagridScope;
+use Oro\Bundle\EntityConfigBundle\Entity\ConfigModel;
+use Oro\Bundle\EntityExtendBundle\Migration\ExtendOptionsManager;
 use Oro\Bundle\EntityExtendBundle\Migration\OroOptions;
 use Oro\Bundle\MigrationBundle\Migration\Installation;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
@@ -58,6 +60,7 @@ class OroCustomerAccountBridgeBundleInstaller implements
             $this->createFields($schema);
             $this->addInheritanceTargets($schema);
             $this->createLifetimeFields($schema);
+            $this->createChannelFields($schema);
         }
     }
 
@@ -185,6 +188,36 @@ class OroCustomerAccountBridgeBundleInstaller implements
                         'order' => 15
                     ]
                 ],
+            ]
+        );
+    }
+
+    /**
+     * @param Schema $schema
+     */
+    protected function createChannelFields(Schema $schema)
+    {
+        $this->extendExtension->addManyToOneRelation(
+            $schema,
+            'oro_account',
+            'dataChannel',
+            'orocrm_channel',
+            'name',
+            [
+                ExtendOptionsManager::MODE_OPTION => ConfigModel::MODE_READONLY,
+                'extend' => [
+                    'owner' => ExtendScope::OWNER_CUSTOM,
+                    'is_extend' => true,
+                ],
+                'form' => [
+                    'is_enabled' => false
+                ],
+                'datagrid' => [
+                    'is_visible' => DatagridScope::IS_VISIBLE_FALSE
+                ],
+                'view' => ['is_displayable' => false],
+                'merge' => ['display' => false],
+                'dataaudit' => ['auditable' => false]
             ]
         );
     }

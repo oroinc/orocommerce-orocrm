@@ -8,10 +8,11 @@ use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PostFlushEventArgs;
 
-use Oro\Bundle\EntityExtendBundle\Tools\ExtendHelper;
-use Oro\Bundle\SalesBundle\Entity\B2bCustomer;
-use Oro\Bundle\SalesBundle\Entity\Opportunity;
-use Oro\Bundle\SalesBundle\Entity\Repository\B2bCustomerRepository;
+use Oro\Bridge\CustomerAccount\Manager\LifetimeProcessor;
+use Oro\Bundle\CurrencyBundle\Converter\RateConverterInterface;
+use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
+use Oro\Bundle\OrderBundle\Entity\Order;
+use Oro\Component\DependencyInjection\ServiceLink;
 
 class CustomerLifetimeListener
 {
@@ -21,11 +22,29 @@ class CustomerLifetimeListener
     /** @var EntityManager */
     protected $em;
 
-    /** @var B2bCustomer[] */
+    /** @var LifetimeProcessor */
+    protected $lifetimeProcessor;
+
+    /** @var Customer[] */
     protected $queued = [];
 
     /** @var bool */
     protected $isInProgress = false;
+
+    /** @var RateConverterInterface  */
+    protected $rateConverter;
+
+    /**
+     * @param ServiceLink $rateConverterLink
+     * @param LifetimeProcessor $lifetimeProcessor
+     */
+    public function __construct(
+        ServiceLink $rateConverterLink,
+        LifetimeProcessor $lifetimeProcessor
+    ) {
+        $this->rateConverter = $rateConverterLink->getService();
+        $this->lifetimeProcessor = $lifetimeProcessor;
+    }
 
     /**
      * @param OnFlushEventArgs $args
@@ -40,46 +59,41 @@ class CustomerLifetimeListener
             $this->uow->getScheduledEntityUpdates()
         );
 
-        /** @var Opportunity[] $entities */
+        /** @var Order[] $entities */
         $entities = array_filter(
             $entities,
             function ($entity) {
-                return 'Oro\\Bundle\\SalesBundle\\Entity\\Opportunity' === ClassUtils::getClass($entity);
+                return 'Oro\\Bundle\\OrderBundle\\Entity\\Order' === ClassUtils::getClass($entity);
             }
         );
 
         foreach ($entities as $entity) {
-            if (!$entity->getId() && $this->isValuable($entity)) {
+            if (!$entity->getId()) {
                 // handle creation, just add to prev lifetime value and recalculate change set
-                $b2bCustomer = $entity->getCustomer();
-                $b2bCustomer->setLifetime($b2bCustomer->getLifetime() + $entity->getCloseRevenueValue());
-                $this->scheduleUpdate($b2bCustomer);
+                $customer = $entity->getAccount();
+                $subtotalValue = $this->rateConverter->getBaseCurrencyAmount($entity->getSubtotalObject());
+                $customer->setLifetime($customer->getLifetime() + $subtotalValue);
+                $this->scheduleUpdate($customer);
                 $this->uow->computeChangeSet(
-                    $this->em->getClassMetadata(ClassUtils::getClass($b2bCustomer)),
-                    $b2bCustomer
+                    $this->em->getClassMetadata(ClassUtils::getClass($customer)),
+                    $customer
                 );
-            } elseif ($this->uow->isScheduledForDelete($entity) && $this->isValuable($entity)) {
-                $this->scheduleUpdate($entity->getCustomer());
+            } elseif ($this->uow->isScheduledForDelete($entity)) {
+                $this->scheduleUpdate($entity->getAccount());
             } elseif ($this->uow->isScheduledForUpdate($entity)) {
                 // handle update
                 $changeSet = $this->uow->getEntityChangeSet($entity);
 
                 if ($this->isChangeSetValuable($changeSet)) {
                     if (!empty($changeSet['customer'])
-                        && $changeSet['customer'][0] instanceof B2bCustomer
-                        && B2bCustomerRepository::VALUABLE_STATUS === $this->getOldStatus($entity, $changeSet)
+                        && reset($changeSet['customer']) instanceof Customer
                     ) {
-                        // handle change of b2b customer
-                        $this->scheduleUpdate($changeSet['customer'][0]);
+                        // handle change of customer
+                        $this->scheduleUpdate(reset($changeSet['customer']));
                     }
 
-                    if ($this->isValuable($entity, isset($changeSet['closeRevenue']))
-                        || (
-                            B2bCustomerRepository::VALUABLE_STATUS === $this->getOldStatus($entity, $changeSet)
-                            && $entity->getCustomer()
-                        )
-                    ) {
-                        $this->scheduleUpdate($entity->getCustomer());
+                    if (isset($changeSet['subtotal'])) {
+                        $this->scheduleUpdate($entity->getAccount());
                     }
                 }
             }
@@ -96,58 +110,38 @@ class CustomerLifetimeListener
         }
 
         $this->initializeFromEventArgs($args);
-        $repo = $this->em->getRepository('OroSalesBundle:B2bCustomer');
-
         $flushRequired = false;
-        foreach ($this->queued as $b2bCustomer) {
-            if (!$b2bCustomer->getId()) {
+        foreach ($this->queued as $customer) {
+            if (!$customer->getId()) {
                 // skip update for just removed customers
                 continue;
             }
-
-            $newLifetimeValue = $repo->calculateLifetimeValue($b2bCustomer);
-            if ($newLifetimeValue != $b2bCustomer->getLifetime()) {
-                $b2bCustomer->setLifetime($newLifetimeValue);
+            $newLifetimeValue = $this->lifetimeProcessor->calculateLifetimeValue($customer);
+            if ($newLifetimeValue != $customer->getLifetime()) {
+                $customer->setLifetime($newLifetimeValue);
                 $flushRequired = true;
             }
         }
 
         if ($flushRequired) {
             $this->isInProgress = true;
-
             $this->em->flush($this->queued);
 
             $this->isInProgress = false;
         }
-
         $this->queued = [];
     }
 
     /**
-     * @param B2bCustomer $b2bCustomer
+     * @param Customer $customer
      */
-    protected function scheduleUpdate(B2bCustomer $b2bCustomer)
+    protected function scheduleUpdate(Customer $customer)
     {
-        if ($this->uow->isScheduledForDelete($b2bCustomer)) {
+        if ($this->uow->isScheduledForDelete($customer)) {
             return;
         }
 
-        $this->queued[$b2bCustomer->getId()] = $b2bCustomer;
-    }
-
-    /**
-     * @param Opportunity $opportunity
-     * @param bool        $takeZeroRevenue
-     *
-     * @return bool
-     */
-    protected function isValuable(Opportunity $opportunity, $takeZeroRevenue = false)
-    {
-        return
-            $opportunity->getCustomer()
-            && $opportunity->getStatus()
-            && $opportunity->getStatus()->getId() === B2bCustomerRepository::VALUABLE_STATUS
-            && ($takeZeroRevenue || $opportunity->getCloseRevenueValue() > 0);
+        $this->queued[$customer->getId()] = $customer;
     }
 
     /**
@@ -157,35 +151,9 @@ class CustomerLifetimeListener
      */
     protected function isChangeSetValuable(array $changeSet)
     {
-        $fieldsUpdated = array_intersect(['customer', 'status', 'closeRevenue'], array_keys($changeSet));
-
-        if (!empty($changeSet['status'])) {
-            $statusChangeSet = array_map(
-                function ($status = null) {
-                    return $status ? $status->getId() : null;
-                },
-                $changeSet['status']
-            );
-
-            // if status was changed, check whether it had/has needed value
-            return in_array(B2bCustomerRepository::VALUABLE_STATUS, $statusChangeSet, true);
-        }
+        $fieldsUpdated = array_intersect(['account', 'subtotal'], array_keys($changeSet));
 
         return (bool)$fieldsUpdated;
-    }
-
-    /**
-     * @param Opportunity $opportunity
-     * @param array       $changeSet
-     *
-     * @return bool|string
-     */
-    protected function getOldStatus(Opportunity $opportunity, array $changeSet)
-    {
-        $enumClass = ExtendHelper::buildEnumValueClassName(Opportunity::INTERNAL_STATUS_CODE);
-        return isset($changeSet['status']) && ClassUtils::getClass($changeSet['status'][0]) === $enumClass
-            ? $changeSet['status'][0]->getId()
-            : ($opportunity->getStatus() ? $opportunity->getStatus()->getId() : false);
     }
 
     /**

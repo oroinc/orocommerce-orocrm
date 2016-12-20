@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Oro\Bundle\AccountBundle\Entity\Account;
+use Oro\Bundle\ChannelBundle\Entity\Channel;
 use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
 
 /**
@@ -23,19 +24,20 @@ class CustomerController extends Controller
      * @return array
      *
      * @Route(
-     *         "/widget/customers-info/{accountId}",
+     *         "/widget/customers-info/{accountId}/{channelId}",
      *          name="oro_account_widget_customers_info",
      *          requirements={"accountId"="\d+"}
      * )
      * @ParamConverter("account", class="OroAccountBundle:Account", options={"id" = "accountId"})
+     * @ParamConverter("channel", class="OroChannelBundle:Channel", options={"id" = "channelId"})
      * @AclAncestor("oro_customer_account_view"))
      * @Template
      */
-    public function accountCustomersInfoAction(Account $account)
+    public function accountCustomersInfoAction(Account $account, Channel $channel)
     {
         $customers = $this->getDoctrine()
             ->getRepository('OroCustomerBundle:Account')
-            ->findBy(['account' => $account]);
+            ->findBy(['account' => $account, 'dataChannel' => $channel]);
 
         $customers = array_filter(
             $customers,
@@ -46,7 +48,8 @@ class CustomerController extends Controller
 
         return [
             'account' => $account,
-            'customers' => $customers
+            'customers' => $customers,
+            'channel' => $channel
         ];
     }
 
@@ -55,18 +58,20 @@ class CustomerController extends Controller
      * @return array
      *
      * @Route(
-     *        "/widget/customer-info/{id}",
+     *        "/widget/customer-info/{id}/{channelId}",
      *        name="oro_account_customer_widget_customer_info",
-     *        requirements={"id"="\d+"}
+     *        requirements={"id"="\d+", "channelId"="\d+"}
      * )
      * @ParamConverter("customer", class="OroCustomerBundle:Account", options={"id" = "id"})
+     * @ParamConverter("channel", class="OroChannelBundle:Channel", options={"id" = "channelId"})
      * @AclAncestor("oro_customer_account_view"))
      * @Template
      */
-    public function customerInfoAction(Customer $customer)
+    public function customerInfoAction(Customer $customer, Channel $channel)
     {
         return [
             'customer' => $customer,
+            'channel' => $channel,
         ];
     }
 

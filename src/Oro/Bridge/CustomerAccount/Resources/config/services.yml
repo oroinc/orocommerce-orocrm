@@ -32,16 +32,16 @@ services:
             - { name: kernel.event_listener, event: oro_ui.scroll_data.before.account-view, method: onView }
             - { name: kernel.event_listener, event: oro_ui.scroll_data.before.account-edit, method: onEdit }
 
-    oro_customer_account.event_listener.account_view:
-        class: 'Oro\Bridge\CustomerAccount\EventListener\AccountViewListener'
+    oro_customer_account.event_listener.customer_view:
+        class: 'Oro\Bridge\CustomerAccount\EventListener\CustomerViewListener'
         arguments:
-            - '%oro_account.entity.account.class%'
+            - '%oro_customer.entity.account.class%'
             - "@oro_entity.doctrine_helper"
             - "@request_stack"
             - '@translator'
             - '@oro_config.manager'
         tags:
-            - { name: kernel.event_listener, event: oro_ui.scroll_data.before.accountView, method: onView }
+            - { name: kernel.event_listener, event: oro_ui.scroll_data.before.account-stats-view, method: onView }
 
     oro_customer_account.form.type.google_sync_checkbox:
         class: 'Oro\Bridge\CustomerAccount\Form\Type\CustomerAccountConfigChoice'
@@ -103,10 +103,11 @@ services:
             - '@doctrine'
             - '@oro_currency.query.currency_transformer'
 
-#    oro_customer_account.event_listener.customer_lifetime_listener:
-#        class: 'Oro\Bridge\CustomerAccount\EventListener\CustomerLifetimeListener'
-#        arguments:
-#            - '@oro_customer_account.manager.account_builder'
-#        tags:
-#            - { name: doctrine.event_listener, event: onFlush, method: onFlush }
-#            - { name: doctrine.event_listener, event: postFlush, method: postFlush }
+    oro_customer_account.event_listener.customer_lifetime_listener:
+        class: 'Oro\Bridge\CustomerAccount\EventListener\CustomerLifetimeListener'
+        arguments:
+            - '@oro_currency.converter.rate.link'
+            - '@oro_customer_account.manager.lifetime_processor'
+        tags:
+            - { name: doctrine.event_listener, event: onFlush, method: onFlush }
+            - { name: doctrine.event_listener, event: postFlush, method: postFlush }

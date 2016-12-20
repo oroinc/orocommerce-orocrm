@@ -13,6 +13,8 @@ use Oro\Bundle\AccountBundle\Entity\Account;
 
 class CustomerCreateListener
 {
+    const COMMERCE_CHANNEL_TYPE = 'commerce';
+
     /** @var UnitOfWork */
     protected $uow;
 
@@ -52,6 +54,13 @@ class CustomerCreateListener
                     $this->em->persist($account);
                     $entity->setAccount($account);
                     $this->em->persist($entity);
+                }
+                if (!$entity->getDataChannel()) {
+                    $channels = $this->em->getRepository('OroChannelBundle:Channel')
+                        ->findBy(['channelType' => self::COMMERCE_CHANNEL_TYPE]);
+                    if (count($channels) === 1) {
+                        $entity->setDataChannel(reset($channels));
+                    }
                 }
             }
             $this->queued = [];
