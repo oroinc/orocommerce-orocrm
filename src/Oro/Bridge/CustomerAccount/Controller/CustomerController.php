@@ -12,6 +12,9 @@ use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Oro\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
+use Oro\Bundle\SalesBundle\Entity\Customer as CustomerAssociation;
+
+use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
 
 /**
  * @Route("/account-customer")
@@ -33,9 +36,16 @@ class CustomerController extends Controller
      */
     public function accountCustomersInfoAction(Account $account)
     {
+        $field = AccountCustomerManager::getCustomerTargetField(Customer::class);
+
         $customers = $this->getDoctrine()
             ->getRepository('OroCustomerBundle:Account')
-            ->findBy(['account' => $account]);
+            ->createQueryBuilder('c')
+            ->join(CustomerAssociation::class, 'ca', 'WITH', sprintf('ca.%s = c', $field))
+            ->where('ca.account = :account')
+            ->setParameter('account', $account)
+            ->getQuery()
+            ->getResult();
 
         $customers = array_filter(
             $customers,

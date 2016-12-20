@@ -39,7 +39,8 @@ class AccountControllerTest extends BaseAccountControllerTest
         AbstractEnumValue $internalRating
     ) {
         $values = parent::prepareFormValues($name, $parent, $group, $internalRating);
-        $values['oro_account_type[account]'] = $this->getReference(LoadAccount::ACCOUNT)->getId();
+        $values['oro_account_type[customer_association_account]'] = $this->getReference(LoadAccount::ACCOUNT_1)->getId(
+        );
 
         return $values;
     }

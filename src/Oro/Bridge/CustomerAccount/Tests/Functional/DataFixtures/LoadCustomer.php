@@ -6,7 +6,9 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
+use Oro\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
+use Oro\Bundle\SalesBundle\Entity\Customer as CustomerAssociation;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Tests\Functional\DataFixtures\LoadUserData;
 
@@ -58,14 +60,20 @@ class LoadCustomer extends AbstractFixture implements DependentFixtureInterface
     {
         /** @var User $user */
         $user = $this->getReference($orderData['user']);
+
+        /** @var Account $account */
         $account = $this->getReference($orderData['account']);
 
         $customer = new Customer();
         $customer->setName($name);
         $customer->setOwner($user);
-        $customer->setAccount($account);
+
+        $customerAssociation = new CustomerAssociation();
+        $customerAssociation->setTarget($account, $customer);
 
         $manager->persist($customer);
+        $manager->persist($customerAssociation);
+
         $this->addReference($name, $customer);
 
         return $customer;

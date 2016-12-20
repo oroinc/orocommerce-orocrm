@@ -4,20 +4,28 @@ namespace Oro\Bridge\CustomerSales\Migrations\Schema\v1_0;
 
 use Doctrine\DBAL\Schema\Schema;
 
+use Oro\Bundle\EntityExtendBundle\Migration\OroOptions;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
-use Oro\Bundle\SalesBundle\Migration\Extension\Customers\OpportunityExtensionAwareInterface;
-use Oro\Bundle\SalesBundle\Migration\Extension\Customers\OpportunityExtensionTrait;
+use Oro\Bundle\SalesBundle\Migration\Extension\CustomerExtensionAwareInterface;
+use Oro\Bundle\SalesBundle\Migration\Extension\CustomerExtensionTrait;
 
-class OroCustomerSalesBridgeBundle implements Migration, OpportunityExtensionAwareInterface
+class OroCustomerSalesBridgeBundle implements Migration, CustomerExtensionAwareInterface
 {
-    use OpportunityExtensionTrait;
+    use CustomerExtensionTrait;
 
     /**
      * {@inheritdoc}
      */
     public function up(Schema $schema, QueryBag $queries)
     {
-        $this->opportunityExtension->addCustomerAssociation($schema, 'oro_account');
+        $this->customerExtension->addCustomerAssociation($schema, 'oro_account');
+
+        $table = $schema->getTable('oro_account');
+
+        // before activity block which have 1000
+        $options = new OroOptions();
+        $options->set('customer', 'associated_opportunity_block_priority', 990);
+        $table->addOption(OroOptions::KEY, $options);
     }
 }

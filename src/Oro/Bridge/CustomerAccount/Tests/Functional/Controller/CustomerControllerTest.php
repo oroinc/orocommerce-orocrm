@@ -66,9 +66,10 @@ class CustomerControllerTest extends WebTestCase
         $tabs = $crawler->filter('div.oro-tabs div.oro-tabs')->html();
         $this->assertContains('Customer Users', $tabs);
         $this->assertContains('Shopping Lists', $tabs);
-        $this->assertContains('Request Products', $tabs);
-        $this->assertContains('Orders', $tabs);
+        $this->assertContains('Requests For Quote', $tabs);
         $this->assertContains('Quotes', $tabs);
+        $this->assertContains('Orders', $tabs);
+        $this->assertContains('Opportunities', $tabs);
     }
 
     public function testCustomerInfoAction()
@@ -90,7 +91,7 @@ class CustomerControllerTest extends WebTestCase
         $tabs = $crawler->filter('div.oro-tabs')->html();
         $this->assertContains('Customer Users', $tabs);
         $this->assertContains('Shopping Lists', $tabs);
-        $this->assertContains('Request Products', $tabs);
+        $this->assertContains('Requests For Quote', $tabs);
         $this->assertContains('Orders', $tabs);
         $this->assertContains('Quotes', $tabs);
     }

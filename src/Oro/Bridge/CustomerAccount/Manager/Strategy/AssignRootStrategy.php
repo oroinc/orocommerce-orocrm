@@ -22,16 +22,20 @@ class AssignRootStrategy extends AssignStrategyAbstract
         $objects = [];
         $account = null;
         $rootCustomer = $this->getRootCustomer($entity);
-        if ($rootCustomer->getAccount()) {
-            $account = $rootCustomer->getAccount();
+        $rootCustomerAssociation = $this->accountCustomerManager->getAccountCustomerByTarget($rootCustomer);
+        if ($rootCustomerAssociation->getAccount()) {
+            $account = $rootCustomerAssociation->getAccount();
         }
         if (!$account) {
             $account = $this->builder->build($entity);
             $objects[] = $account;
         }
-        $entity->setPreviousAccount($entity->getAccount());
-        $entity->setAccount($account);
+
+        $customerAssociation = $this->accountCustomerManager->getAccountCustomerByTarget($entity);
+        $entity->setPreviousAccount($customerAssociation->getAccount());
+        $customerAssociation->setTarget($account, $entity);
         $objects[] = $entity;
+        $objects[] = $customerAssociation;
 
         return $objects;
     }

@@ -11,39 +11,11 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
 class OroCustomerAccountBridgeBundle implements Migration
 {
-
     /**
      * {@inheritdoc}
      */
     public function up(Schema $schema, QueryBag $queries)
     {
-        $queries->addPostQuery(
-            new UpdateEntityConfigFieldValueQuery(
-                'Oro\Bundle\CustomerBundle\Entity\Customer',
-                'account',
-                'datagrid',
-                'is_visible',
-                DatagridScope::IS_VISIBLE_TRUE
-            )
-        );
-        $queries->addPostQuery(
-            new UpdateEntityConfigFieldValueQuery(
-                'Oro\Bundle\CustomerBundle\Entity\Customer',
-                'account',
-                'datagrid',
-                'show_filter',
-                true
-            )
-        );
-        $queries->addPostQuery(
-            new UpdateEntityConfigFieldValueQuery(
-                'Oro\Bundle\CustomerBundle\Entity\Customer',
-                'account',
-                'extend',
-                'target_field',
-                'name'
-            )
-        );
         $queries->addPostQuery(
             new UpdateEntityConfigFieldValueQuery(
                 'Oro\Bundle\CustomerBundle\Entity\Customer',
