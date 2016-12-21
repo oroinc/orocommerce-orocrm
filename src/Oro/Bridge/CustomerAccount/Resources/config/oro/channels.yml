@@ -5,3 +5,4 @@ channels:
             lifetime_value: lifetime
             priority: -20
             customer_identity: Oro\Bundle\CustomerBundle\Entity\Account
+            system: true
