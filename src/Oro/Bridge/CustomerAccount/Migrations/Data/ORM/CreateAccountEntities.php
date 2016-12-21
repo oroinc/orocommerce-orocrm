@@ -8,34 +8,35 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Oro\Bundle\BatchBundle\ORM\Query\BufferedQueryResultIterator;
 use Oro\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
+use Oro\Bundle\SalesBundle\Entity\Customer as CustomerAssociation;
+
+use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
 
 class CreateAccountEntities extends AbstractFixture
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(ObjectManager $manager)
     {
+        $field = AccountCustomerManager::getCustomerTargetField(Customer::class);
+
         $qb = $manager->getRepository(Customer::class)
             ->createQueryBuilder('c')
-            ->where('c.account IS NULL');
+            ->leftJoin(CustomerAssociation::class, 'ca', 'WITH', sprintf('ca.%s = c', $field))
+            ->where('ca.id IS NULL');
 
         $iterator = new BufferedQueryResultIterator($qb);
         $iterator->setBufferSize(500);
         $objects = [];
         foreach ($iterator as $entity) {
-            if (!$entity->getAccount()) {
-                $account = $this->getAccount($entity);
-                $manager->persist($account);
-                $entity->setAccount($account);
-                $manager->persist($entity);
-                $objects[] = $account;
-                $objects[] = $entity;
-                if (count($objects) >= 100) {
-                    $manager->flush($objects);
-                    $this->clear($manager);
-                    $objects = [];
-                }
+            $customerAssociation = $this->createCustomerAssociation($entity);
+            $manager->persist($customerAssociation);
+            $objects[] = $customerAssociation;
+            if (count($objects) >= 100) {
+                $manager->flush($objects);
+                $this->clear($manager);
+                $objects = [];
             }
         }
         if ($objects) {
@@ -47,16 +48,19 @@ class CreateAccountEntities extends AbstractFixture
     /**
      * @param Customer $entity
      *
-     * @return Account
+     * @return CustomerAssociation
      */
-    protected function getAccount($entity)
+    protected function createCustomerAssociation($entity)
     {
         $account = new Account();
         $account->setName($entity->getName());
         $account->setOrganization($entity->getOrganization());
         $account->setOwner($entity->getOwner());
 
-        return $account;
+        $customerAssociation = new CustomerAssociation();
+        $customerAssociation->setTarget($account, $entity);
+
+        return $customerAssociation;
     }
 
     /**
@@ -64,7 +68,7 @@ class CreateAccountEntities extends AbstractFixture
      */
     protected function clear($manager)
     {
-        $manager->clear(Customer::class);
+        $manager->clear(CustomerAssociation::class);
         $manager->clear(Account::class);
     }
 }

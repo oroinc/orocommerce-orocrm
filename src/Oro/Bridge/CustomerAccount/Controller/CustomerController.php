@@ -13,6 +13,9 @@ use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Oro\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\ChannelBundle\Entity\Channel;
 use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
+use Oro\Bundle\SalesBundle\Entity\Customer as CustomerAssociation;
+
+use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
 
 /**
  * @Route("/account-customer")
@@ -35,9 +38,18 @@ class CustomerController extends Controller
      */
     public function accountCustomersInfoAction(Account $account, Channel $channel)
     {
+        $field = AccountCustomerManager::getCustomerTargetField(Customer::class);
+
         $customers = $this->getDoctrine()
             ->getRepository('OroCustomerBundle:Account')
-            ->findBy(['account' => $account, 'dataChannel' => $channel]);
+            ->createQueryBuilder('c')
+            ->join(CustomerAssociation::class, 'ca', 'WITH', sprintf('ca.%s = c', $field))
+            ->where('ca.account = :account')
+            ->where('ca.dataChannel = :dataChannel')
+            ->setParameter('account', $account)
+            ->setParameter('dataChannel', $channel)
+            ->getQuery()
+            ->getResult();
 
         $customers = array_filter(
             $customers,

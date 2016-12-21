@@ -15,6 +15,7 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtension;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterface;
+use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
 
 class OroCustomerAccountBridgeBundleInstaller implements
     Installation,
@@ -69,42 +70,50 @@ class OroCustomerAccountBridgeBundleInstaller implements
      */
     public function addInheritanceTargets(Schema $schema)
     {
+        $customerPath = [
+            'join'          => 'Oro\Bundle\SalesBundle\Entity\Customer',
+            'conditionType' => 'WITH',
+            'field'         => AccountCustomerManager::getCustomerTargetField(
+                'Oro\Bundle\CustomerBundle\Entity\Account'
+            ),
+        ];
+
         $this->activityListExtension->addInheritanceTargets(
             $schema,
             'orocrm_account',
             'oro_account',
-            ['account']
+            [$customerPath, 'account']
         );
         $this->activityListExtension->addInheritanceTargets(
             $schema,
             'orocrm_account',
             'oro_order',
-            ['account', 'account']
+            ['account', $customerPath, 'account']
         );
         $this->activityListExtension->addInheritanceTargets(
             $schema,
             'orocrm_account',
             'oro_account_user',
-            ['account', 'account']
+            ['account', $customerPath, 'account']
         );
         $this->activityListExtension->addInheritanceTargets(
             $schema,
             'orocrm_account',
             'oro_shopping_list',
-            ['account', 'account']
+            ['account', $customerPath, 'account']
         );
 
         $this->activityListExtension->addInheritanceTargets(
             $schema,
             'orocrm_account',
             'oro_sale_quote',
-            ['account', 'account']
+            ['account', $customerPath, 'account']
         );
         $this->activityListExtension->addInheritanceTargets(
             $schema,
             'orocrm_account',
             'oro_rfp_request',
-            ['account', 'account']
+            ['account', $customerPath, 'account']
         );
     }
 
@@ -113,31 +122,6 @@ class OroCustomerAccountBridgeBundleInstaller implements
      */
     protected function createFields(Schema $schema)
     {
-        $this->extendExtension->addManyToOneRelation(
-            $schema,
-            'oro_account',
-            'account',
-            'orocrm_account',
-            'name',
-            [
-                'entity' => ['label' => 'oro.account.entity_label'],
-                'extend' => [
-                    'owner' => ExtendScope::OWNER_CUSTOM,
-                    'is_extend' => true,
-                ],
-                'form' => [
-                    'is_enabled' => true,
-                    'form_type' => 'oro_account_select'
-                ],
-                'datagrid' => [
-                    'is_visible' => DatagridScope::IS_VISIBLE_TRUE,
-                    'show_filter' => true,
-                ],
-                'view' => ['is_displayable' => false],
-                'merge' => ['display' => false],
-                'dataaudit' => ['auditable' => false]
-            ]
-        );
         $this->extendExtension->addManyToOneRelation(
             $schema,
             'oro_account',

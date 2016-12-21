@@ -4,8 +4,10 @@ namespace Oro\Bridge\CustomerAccount\Tests\Functional\EventListener;
 
 use Doctrine\ORM\EntityManager;
 
+use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
+use Oro\Bundle\SalesBundle\Entity\Customer as CustomerAssociation;
 use Oro\Bundle\AccountBundle\Entity\Account;
 
 /**
@@ -28,12 +30,15 @@ class CustomerCreateListenerTest extends WebTestCase
         $customer = new Customer();
         $customer->setName('Test Customer');
 
-        $this->assertNull($customer->getAccount());
-
         $em->persist($customer);
         $em->flush();
 
-        $this->assertEquals('Test Customer', $customer->getAccount()->getName());
+        /** @var AccountCustomerManager $accountCustomerManager */
+        $accountCustomerManager = $this->getContainer()->get('oro_sales.manager.account_customer');
+        $customerAssociation = $accountCustomerManager->getAccountCustomerByTarget($customer);
+        $account = $customerAssociation->getAccount();
+
+        $this->assertEquals('Test Customer', $account->getName());
     }
 
     /**
@@ -46,13 +51,21 @@ class CustomerCreateListenerTest extends WebTestCase
         $customer->setName('Test Customer');
         $account = new Account();
         $account->setName('Test Account');
-        $customer->setAccount($account);
+
+        $customerAssociation = new CustomerAssociation();
+        $customerAssociation->setTarget($account, $customer);
 
         $em->persist($account);
         $em->persist($customer);
+        $em->persist($customerAssociation);
         $em->flush();
 
-        $this->assertEquals('Test Account', $customer->getAccount()->getName());
+        /** @var AccountCustomerManager $accountCustomerManager */
+        $accountCustomerManager = $this->getContainer()->get('oro_sales.manager.account_customer');
+        $customerAssociation = $accountCustomerManager->getAccountCustomerByTarget($customer);
+        $account = $customerAssociation->getAccount();
+
+        $this->assertEquals('Test Account', $account->getName());
     }
 
     /**

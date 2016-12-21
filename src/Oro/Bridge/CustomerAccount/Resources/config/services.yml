@@ -1,36 +1,17 @@
 parameters:
 
 services:
-    oro_customer_account.event_listener.customer_create:
-        class: 'Oro\Bridge\CustomerAccount\EventListener\CustomerCreateListener'
+    oro_customer_account.form.event_listener.change_config_option:
+        class: 'Oro\Bridge\CustomerAccount\EventListener\ChangeConfigOptionListener'
         tags:
-            - { name: doctrine.event_listener, event: onFlush, method: onFlush }
-            - { name: doctrine.event_listener, event: postFlush, method: postFlush }
-
-    oro_customer_account.event_listener.datagrid.customer_grid:
-        class: 'Oro\Bridge\CustomerAccount\EventListener\Datagrid\CustomerGridListener'
-        tags:
-            - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.before.account-accounts-grid, method: onBuildBefore }
-
-    oro_customer_account.event_listener.datagrid.opportunity_accout_grid:
-        class: 'Oro\Bridge\CustomerAccount\EventListener\Datagrid\CustomerAccountGridListener'
-        tags:
-            - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.before.sales-opportunity-by-account-grid, method: onBuildBefore }
-
-    oro_customer_account.form.my_extension:
-        class: 'Oro\Bridge\CustomerAccount\Form\Extension\CustomerExtension'
-        tags:
-            - { name: form.type_extension, alias: oro_account_type }
-
-    oro_customer_account.event_listener.account_form_view:
-        class: 'Oro\Bridge\CustomerAccount\EventListener\AccountFormViewListener'
+            - { name: kernel.event_listener, event: oro_config.update_after, method: onConfigUpdate }
         arguments:
-            - "@oro_entity.doctrine_helper"
-            - "@request_stack"
-            - '%oro_customer.entity.account.class%'
+            - '@oro_message_queue.client.message_producer'
+
+    oro_customer_account.form.type.customer_account_config_choice:
+        class: 'Oro\Bridge\CustomerAccount\Form\Type\CustomerAccountConfigChoice'
         tags:
-            - { name: kernel.event_listener, event: oro_ui.scroll_data.before.account-view, method: onView }
-            - { name: kernel.event_listener, event: oro_ui.scroll_data.before.account-edit, method: onEdit }
+            - { name: form.type, alias: oro_config_customer_account_choice }
 
     oro_customer_account.event_listener.customer_view:
         class: 'Oro\Bridge\CustomerAccount\EventListener\CustomerViewListener'
@@ -43,10 +24,23 @@ services:
         tags:
             - { name: kernel.event_listener, event: oro_ui.scroll_data.before.account-stats-view, method: onView }
 
-    oro_customer_account.form.type.google_sync_checkbox:
-        class: 'Oro\Bridge\CustomerAccount\Form\Type\CustomerAccountConfigChoice'
+    oro_customer_account.event_listener.customer_account_view:
+        class: 'Oro\Bundle\SalesBundle\EventListener\AccountViewListener'
+        arguments:
+            - '@oro_entity.doctrine_helper'
+            - '@request_stack'
+            - '@oro_sales.customer.config_provider'
+            - '@oro_sales.manager.account_customer'
+            - 'Oro\Bundle\CustomerBundle\Entity\Account'
         tags:
-            - { name: form.type, alias: oro_config_customer_account_choice }
+            - { name: kernel.event_listener, event: oro_ui.scroll_data.before.account-view, method: onView }
+
+    oro_customer_account.event_listener.datagrid.opportunity_accout_grid:
+        class: 'Oro\Bridge\CustomerAccount\EventListener\Datagrid\CustomerAccountGridListener'
+        arguments:
+            - '@oro_datagrid.grid_configuration.helper'
+        tags:
+            - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.before.sales-opportunity-by-account-grid, method: onBuildBefore }
 
     # message queue
     oro_customer_account.async.reassign_customer_processor:
@@ -57,19 +51,6 @@ services:
             - '@logger'
         tags:
             - { name: 'oro_message_queue.client.message_processor' }
-
-    oro_customer_account.async.reassign_customer_producer:
-        class: 'Oro\Bridge\CustomerAccount\Async\ReassingCustomerProducer'
-        arguments:
-            - '@oro_config.manager'
-            - '@oro_message_queue.client.message_producer'
-
-    oro_customer_account.form.event_listener.change_config_option:
-        class: 'Oro\Bridge\CustomerAccount\EventListener\ChangeConfigOptionListener'
-        tags:
-            - { name: kernel.event_listener, event: oro_config.update_after, method: onConfigUpdate }
-        arguments:
-            - '@oro_customer_account.async.reassign_customer_producer'
 
     # manager
     oro_customer_account.manager.account_builder:
@@ -91,11 +72,22 @@ services:
         class: 'Oro\Bridge\CustomerAccount\Manager\Strategy\AssignEachStrategy'
         arguments:
             - '@oro_customer_account.manager.account_builder'
+            - '@oro_sales.manager.account_customer'
 
     oro_customer_account.manager.strategy.assign_root_strategy:
         class: 'Oro\Bridge\CustomerAccount\Manager\Strategy\AssignRootStrategy'
         arguments:
             - '@oro_customer_account.manager.account_builder'
+            - '@oro_sales.manager.account_customer'
+
+    # provider
+    oro_customer_account.provider.customer.account_creation:
+        class: Oro\Bridge\CustomerAccount\Provider\Customer\AccountProvider
+        arguments:
+            - '@oro_config.manager'
+            - '@oro_user.manager'
+        tags:
+         - { name: oro_sales.provider.customer.account_creation, priority: 10 }
 
     oro_customer_account.manager.lifetime_processor:
         class: 'Oro\Bridge\CustomerAccount\Manager\LifetimeProcessor'

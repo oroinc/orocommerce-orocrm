@@ -1,5 +1,5 @@
 services:
-  oro_customer_sales.provider.customer.customer_icon:
-     class: Oro\Bridge\CustomerSales\Provider\Customer\CustomerIconProvider
-     tags:
-         - { name: oro_sales.customer_icon, priority: 10 }
+    oro_customer_sales.provider.customer.customer_icon:
+        class: Oro\Bridge\CustomerSales\Provider\Customer\CustomerIconProvider
+        tags:
+            - { name: oro_sales.customer_icon, priority: 10 }
