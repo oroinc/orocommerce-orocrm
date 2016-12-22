@@ -19,6 +19,8 @@ class AssignEachStrategyTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestIncomplete('CRM-7187');
+
         $this->accountBuilder = new AccountBuilder();
 
         $this->ssignEachStrategy = new AssignEachStrategy(

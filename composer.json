@@ -14,18 +14,10 @@
             "Oro\\Bridge": "src/"
         }
     },
-    "repositories": {
-        "composer": {
-            "type": "composer",
-            "url": "https://packagist.orocrm.com"
-        }
-    },
     "require": {
         "oro/crm": "1.x-dev",
         "oro/commerce": "1.x-dev"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "extra": {
         "branch-alias": {
             "dev-master": "1.x-dev"
