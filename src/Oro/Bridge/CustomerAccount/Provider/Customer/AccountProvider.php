@@ -2,6 +2,8 @@
 
 namespace Oro\Bridge\CustomerAccount\Provider\Customer;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
+
 use Oro\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
@@ -20,11 +22,16 @@ class AccountProvider implements AccountProviderInterface
     /**
      * @param ConfigManager $configManager
      * @param UserManager   $userManager
+     * @param ManagerRegistry $registry
      */
-    public function __construct(ConfigManager $configManager, UserManager $userManager)
-    {
+    public function __construct(
+        ConfigManager $configManager,
+        UserManager $userManager,
+        ManagerRegistry $registry
+    ) {
         $this->configManager = $configManager;
         $this->userManager = $userManager;
+        $this->registry = $registry;
     }
 
     /**
@@ -48,6 +55,14 @@ class AccountProvider implements AccountProviderInterface
 
         if ($owner) {
             $account->setOwner($owner);
+        }
+
+        if (!$targetCustomer->getDataChannel()) {
+            $channels = $this->registry->getManagerForClass('OroChannelBundle:Channel')
+                ->getRepository('OroChannelBundle:Channel')->findBy(['channelType' => 'commerce']);
+            if (count($channels) > 0) {
+                $targetCustomer->setDataChannel(reset($channels));
+            }
         }
 
         return $account;
