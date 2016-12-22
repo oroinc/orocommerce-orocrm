@@ -45,7 +45,7 @@ class CustomerController extends Controller
             ->createQueryBuilder('c')
             ->join(CustomerAssociation::class, 'ca', 'WITH', sprintf('ca.%s = c', $field))
             ->where('ca.account = :account')
-            ->where('ca.dataChannel = :dataChannel')
+            ->andWhere('c.dataChannel = :dataChannel')
             ->setParameter('account', $account)
             ->setParameter('dataChannel', $channel)
             ->getQuery()
