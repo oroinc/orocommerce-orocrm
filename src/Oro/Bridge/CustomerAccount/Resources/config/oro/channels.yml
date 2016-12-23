@@ -1,4 +1,7 @@
 channels:
+    entity_data:
+        -
+            name: Oro\Bundle\CustomerBundle\Entity\Account
     channel_types:
         commerce:
             label: oro.customer_account_bridge.channel_type.label
