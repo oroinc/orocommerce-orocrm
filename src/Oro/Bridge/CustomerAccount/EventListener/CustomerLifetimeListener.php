@@ -92,7 +92,7 @@ class CustomerLifetimeListener
                         $this->scheduleUpdate(reset($changeSet['customer']));
                     }
 
-                    if (isset($changeSet['subtotal'])) {
+                    if (isset($changeSet['subtotalValue'])) {
                         $this->scheduleUpdate($entity->getAccount());
                     }
                 }
@@ -151,7 +151,7 @@ class CustomerLifetimeListener
      */
     protected function isChangeSetValuable(array $changeSet)
     {
-        $fieldsUpdated = array_intersect(['account', 'subtotal'], array_keys($changeSet));
+        $fieldsUpdated = array_intersect(['account', 'subtotalValue'], array_keys($changeSet));
 
         return (bool)$fieldsUpdated;
     }
