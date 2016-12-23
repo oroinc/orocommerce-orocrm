@@ -68,17 +68,7 @@ class CustomerLifetimeListener
         );
 
         foreach ($entities as $entity) {
-            if (!$entity->getId()) {
-                // handle creation, just add to prev lifetime value and recalculate change set
-                $customer = $entity->getAccount();
-                $subtotalValue = $this->rateConverter->getBaseCurrencyAmount($entity->getSubtotalObject());
-                $customer->setLifetime($customer->getLifetime() + $subtotalValue);
-                $this->scheduleUpdate($customer);
-                $this->uow->computeChangeSet(
-                    $this->em->getClassMetadata(ClassUtils::getClass($customer)),
-                    $customer
-                );
-            } elseif ($this->uow->isScheduledForDelete($entity)) {
+            if (!$entity->getId() || $this->uow->isScheduledForDelete($entity)) {
                 $this->scheduleUpdate($entity->getAccount());
             } elseif ($this->uow->isScheduledForUpdate($entity)) {
                 // handle update

@@ -73,12 +73,14 @@ services:
         arguments:
             - '@oro_customer_account.manager.account_builder'
             - '@oro_sales.manager.account_customer'
+            - '@oro_customer_account.manager.lifetime_processor'
 
     oro_customer_account.manager.strategy.assign_root_strategy:
         class: 'Oro\Bridge\CustomerAccount\Manager\Strategy\AssignRootStrategy'
         arguments:
             - '@oro_customer_account.manager.account_builder'
             - '@oro_sales.manager.account_customer'
+            - '@oro_customer_account.manager.lifetime_processor'
 
     # provider
     oro_customer_account.provider.customer.account_creation:

@@ -32,6 +32,7 @@ class AssignEachStrategy extends AssignStrategyAbstract
             $account = $this->builder->build($entity);
             $objects[] = $account;
         }
+        $this->recalculateLifeTimeValue($entity);
         $customerAssociation->setTarget($account, $entity);
         $objects[] = $entity;
         $objects[] = $customerAssociation;

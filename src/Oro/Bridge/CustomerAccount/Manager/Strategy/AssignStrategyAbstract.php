@@ -3,6 +3,7 @@
 namespace Oro\Bridge\CustomerAccount\Manager\Strategy;
 
 use Oro\Bridge\CustomerAccount\Manager\AccountBuilder;
+use Oro\Bridge\CustomerAccount\Manager\LifetimeProcessor;
 use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
 use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
 
@@ -19,13 +20,23 @@ abstract class AssignStrategyAbstract implements AssignStrategyInterface
     protected $accountCustomerManager;
 
     /**
+     * @var LifetimeProcessor
+     */
+    protected $lifetimeProcessor;
+
+    /**
      * @param AccountBuilder         $builder
      * @param AccountCustomerManager $accountCustomerManager
+     * @param LifetimeProcessor $lifetimeProcessor
      */
-    public function __construct(AccountBuilder $builder, AccountCustomerManager $accountCustomerManager)
-    {
+    public function __construct(
+        AccountBuilder $builder,
+        AccountCustomerManager $accountCustomerManager,
+        LifetimeProcessor $lifetimeProcessor
+    ) {
         $this->builder = $builder;
         $this->accountCustomerManager = $accountCustomerManager;
+        $this->lifetimeProcessor = $lifetimeProcessor;
     }
 
     /**
@@ -42,5 +53,14 @@ abstract class AssignStrategyAbstract implements AssignStrategyInterface
         }
 
         return $customer;
+    }
+
+    /**
+     * @param Customer $customer
+     */
+    protected function recalculateLifeTimeValue(Customer $customer)
+    {
+        $newLifetimeValue = $this->lifetimeProcessor->calculateLifetimeValue($customer);
+        $customer->setLifetime($newLifetimeValue);
     }
 }

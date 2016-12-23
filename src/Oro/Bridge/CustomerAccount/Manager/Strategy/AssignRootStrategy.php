@@ -34,6 +34,8 @@ class AssignRootStrategy extends AssignStrategyAbstract
         $customerAssociation = $this->accountCustomerManager->getAccountCustomerByTarget($entity);
         $entity->setPreviousAccount($customerAssociation->getAccount());
         $customerAssociation->setTarget($account, $entity);
+
+        $this->recalculateLifeTimeValue($entity);
         $objects[] = $entity;
         $objects[] = $customerAssociation;
 
