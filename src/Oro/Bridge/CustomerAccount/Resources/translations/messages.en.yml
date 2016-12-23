@@ -7,9 +7,6 @@ oro.customer_account_bridge:
             account_settings.title: CRM and Commerce
             customer_account_settings.title: Account and Customer Relation
         fields:
-            commerce_customers_section_name:
-                label: Commerce Customers Section Title
-                tooltip: This is a name of the OroCommerce section at Account view
             strategy_creating_customers_account:
                 label: Creation new Account
                 tooltip: An Account is created for every Commerce Customer. An Account is created only for the root Commerce Customer (one without a parent customer). All its children will be assigned to the same account.

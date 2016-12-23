@@ -19,17 +19,6 @@ system_configuration:
                 constraints:
                     - NotBlank: ~
 
-        oro_customer_account_bridge.commerce_customers_section_name:
-            data_type: string
-            type: text
-            priority: 60
-            options:
-                label: oro.customer_account_bridge.system_configuration.fields.commerce_customers_section_name.label
-                tooltip: oro.customer_account_bridge.system_configuration.fields.commerce_customers_section_name.tooltip
-                constraints:
-                    - NotBlank: ~
-                    - Type: string
-
     tree:
         system_configuration:
             platform:
@@ -40,5 +29,4 @@ system_configuration:
                                 children:
                                     customer_account_settings:
                                         children:
-                                            - oro_customer_account_bridge.commerce_customers_section_name
                                             - oro_customer_account_bridge.customer_account_settings
