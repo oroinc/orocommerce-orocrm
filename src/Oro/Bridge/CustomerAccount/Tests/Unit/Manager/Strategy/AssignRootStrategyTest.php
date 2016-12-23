@@ -19,6 +19,8 @@ class AssignRootStrategyTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        $this->markTestIncomplete('CRM-7187');
+
         $this->strategy = new AssignRootStrategy($this->createAccountBuilderMock());
     }
 
@@ -91,6 +93,6 @@ class AssignRootStrategyTest extends \PHPUnit_Framework_TestCase
      */
     private function createAccountBuilderMock()
     {
-        return $this->getMock(AccountBuilder::class, [], [], '', false);
+        return $this->createMock(AccountBuilder::class);
     }
 }

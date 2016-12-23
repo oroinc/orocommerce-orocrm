@@ -32,7 +32,7 @@ class AccountViewListenerTest extends FormViewListenerTestCase
         parent::setUp();
         $this->request = $this->getRequest();
         /** @var RequestStack|\PHPUnit_Framework_MockObject_MockObject $requestStack */
-        $this->requestStack = $this->getMock('Symfony\Component\HttpFoundation\RequestStack');
+        $this->requestStack = $this->createMock('Symfony\Component\HttpFoundation\RequestStack');
 
         $this->configManager = $this->getMockBuilder('Oro\Bundle\ConfigBundle\Config\ConfigManager')
             ->disableOriginalConstructor()->getMock();
