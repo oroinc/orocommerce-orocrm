@@ -5,13 +5,13 @@ namespace Oro\Bridge\CustomerAccount\Tests\Unit\EventListener;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-use Oro\Bridge\CustomerAccount\EventListener\AccountViewListener;
 use Oro\Bundle\AccountBundle\Entity\Account;
+use Oro\Bridge\CustomerAccount\EventListener\CustomerViewListener;
 use Oro\Bundle\UIBundle\Event\BeforeListRenderEvent;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Component\Testing\Unit\FormViewListenerTestCase;
 
-class AccountViewListenerTest extends FormViewListenerTestCase
+class CustomerViewListenerTest extends FormViewListenerTestCase
 {
     /** @var AccountViewListener */
     protected $listener;
@@ -24,6 +24,7 @@ class AccountViewListenerTest extends FormViewListenerTestCase
 
     /** @var  RequestStack|\PHPUnit_Framework_MockObject_MockObject */
     protected $requestStack;
+
     /**
      * {@inheritdoc}
      */
@@ -38,7 +39,7 @@ class AccountViewListenerTest extends FormViewListenerTestCase
             ->disableOriginalConstructor()->getMock();
 
         $this->listener =
-            new AccountViewListener(
+            new CustomerViewListener(
                 'Oro\Bundle\AccountBundle\Entity\Account',
                 $this->doctrineHelper,
                 $this->requestStack,
@@ -80,7 +81,7 @@ class AccountViewListenerTest extends FormViewListenerTestCase
             ->getMock();
         $env->expects(self::once())
             ->method('render')
-            ->with('OroCustomerAccountBridgeBundle:Account:customer-section.html.twig', ['entity' => $account])
+            ->with('OroCustomerAccountBridgeBundle:Customer:view.html.twig', ['entity' => $account])
             ->willReturn('');
 
         $event = $this->getBeforeListRenderEvent();
