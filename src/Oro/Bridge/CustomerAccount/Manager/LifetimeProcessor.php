@@ -3,9 +3,11 @@
 namespace Oro\Bridge\CustomerAccount\Manager;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\Expr\Join;
 
 use Oro\Bundle\CurrencyBundle\Query\CurrencyQueryBuilderTransformerInterface;
 use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
+use Oro\Bundle\PaymentBundle\Provider\PaymentStatusProvider;
 
 class LifetimeProcessor
 {
@@ -40,10 +42,18 @@ class LifetimeProcessor
             ->createQueryBuilder('o');
         $subtotalValueQuery = $this->qbTransformer->getTransformSelectQuery('subtotal', $qb);
         $qb->select(sprintf('SUM(%s)', $subtotalValueQuery))
+            ->leftJoin(
+                'Oro\Bundle\PaymentBundle\Entity\PaymentStatus',
+                'payment_status',
+                Join::WITH,
+                "payment_status.entityIdentifier = o.id AND payment_status.entityClass = 'Oro\\Bundle\\OrderBundle\\Entity\\Order'"
+            )
             ->where(
                 $qb->expr()->eq('o.account', ':account')
             )
-            ->setParameter('account', $customer->getId());
+            ->andWhere('payment_status.paymentStatus = :paymentStatus')
+            ->setParameter('account', $customer->getId())
+            ->setParameter('paymentStatus', PaymentStatusProvider::FULL);
 
         return (float)$qb->getQuery()->getSingleScalarResult();
     }

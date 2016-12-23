@@ -103,6 +103,11 @@ services:
         arguments:
             - '@oro_currency.converter.rate.link'
             - '@oro_customer_account.manager.lifetime_processor'
+            - '@oro_payment.provider.payment_status.link'
         tags:
             - { name: doctrine.event_listener, event: onFlush, method: onFlush }
             - { name: doctrine.event_listener, event: postFlush, method: postFlush }
+
+    oro_payment.provider.payment_status.link:
+        tags:
+            - { name: oro_service_link, service: oro_payment.provider.payment_status }

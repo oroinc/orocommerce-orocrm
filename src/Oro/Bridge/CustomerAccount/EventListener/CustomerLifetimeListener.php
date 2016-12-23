@@ -2,6 +2,7 @@
 
 namespace Oro\Bridge\CustomerAccount\EventListener;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\UnitOfWork;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Common\Util\ClassUtils;
@@ -12,6 +13,8 @@ use Oro\Bridge\CustomerAccount\Manager\LifetimeProcessor;
 use Oro\Bundle\CurrencyBundle\Converter\RateConverterInterface;
 use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
 use Oro\Bundle\OrderBundle\Entity\Order;
+use Oro\Bundle\PaymentBundle\Entity\PaymentTransaction;
+use Oro\Bundle\PaymentBundle\Provider\PaymentStatusProvider;
 use Oro\Component\DependencyInjection\ServiceLink;
 
 class CustomerLifetimeListener
@@ -34,16 +37,25 @@ class CustomerLifetimeListener
     /** @var RateConverterInterface  */
     protected $rateConverter;
 
+    /** @var ServiceLink */
+    protected $paymentStatusProviderLink;
+
+    /** @var PaymentStatusProvider */
+    protected $paymentStatusProvider;
+
     /**
      * @param ServiceLink $rateConverterLink
      * @param LifetimeProcessor $lifetimeProcessor
+     * @param ServiceLink $paymentStatusProviderLink
      */
     public function __construct(
         ServiceLink $rateConverterLink,
-        LifetimeProcessor $lifetimeProcessor
+        LifetimeProcessor $lifetimeProcessor,
+        ServiceLink $paymentStatusProviderLink
     ) {
         $this->rateConverter = $rateConverterLink->getService();
         $this->lifetimeProcessor = $lifetimeProcessor;
+        $this->paymentStatusProviderLink = $paymentStatusProviderLink;
     }
 
     /**
@@ -59,15 +71,43 @@ class CustomerLifetimeListener
             $this->uow->getScheduledEntityUpdates()
         );
 
-        /** @var Order[] $entities */
-        $entities = array_filter(
+        /** @var Order[] $entitiesOrder */
+        $orders = array_filter(
             $entities,
             function ($entity) {
-                return 'Oro\\Bundle\\OrderBundle\\Entity\\Order' === ClassUtils::getClass($entity);
+                $paymentStatus = null;
+                if ('Oro\\Bundle\\OrderBundle\\Entity\\Order' === ClassUtils::getClass($entity)) {
+                    $paymentStatus = $this->getPaymentStatusProvider()->getPaymentStatus($entity);
+                }
+
+                return PaymentStatusProvider::FULL === $paymentStatus;
             }
         );
 
-        foreach ($entities as $entity) {
+        /** @var $entitiesPaymentTransaction[] PaymentTransaction */
+        $paymentTransactions = array_filter(
+            $entities,
+            function ($entity) {
+                return 'Oro\\Bundle\\PaymentBundle\\Entity\\PaymentTransaction' === ClassUtils::getClass($entity);
+            }
+        );
+
+        if (count($paymentTransactions) > 0) {
+            $this->handlePaymentTransactions($paymentTransactions);
+        }
+
+        if (count($orders) > 0) {
+            $this->handleOrders($orders);
+        }
+    }
+
+    /**
+     * @param Order[] $orders
+     */
+    protected function handleOrders($orders)
+    {
+        /** @var Order $entity */
+        foreach ($orders as $entity) {
             if (!$entity->getId() || $this->uow->isScheduledForDelete($entity)) {
                 $this->scheduleUpdate($entity->getAccount());
             } elseif ($this->uow->isScheduledForUpdate($entity)) {
@@ -123,6 +163,31 @@ class CustomerLifetimeListener
     }
 
     /**
+     * @param $paymentTransactions
+     */
+    protected function handlePaymentTransactions($paymentTransactions)
+    {
+        /** @var PaymentTransaction $paymentTransaction */
+        foreach ($paymentTransactions as $paymentTransaction)
+        {
+            if ($paymentTransaction->getEntityClass() === 'Oro\\Bundle\\OrderBundle\\Entity\\Order') {
+                $order = $this->em->getRepository($paymentTransaction->getEntityClass())
+                    ->find($paymentTransaction->getEntityIdentifier());
+                if ($order) {
+                    $paymentStatus = $this->getPaymentStatusProvider()->computeStatus(
+                        $order,
+                        new ArrayCollection([$paymentTransaction])
+                    );
+
+                    if (PaymentStatusProvider::FULL === $paymentStatus) {
+                        $this->scheduleUpdate($order->getAccount());
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * @param Customer $customer
      */
     protected function scheduleUpdate(Customer $customer)
@@ -153,5 +218,17 @@ class CustomerLifetimeListener
     {
         $this->em  = $args->getEntityManager();
         $this->uow = $this->em->getUnitOfWork();
+    }
+
+    /**
+     * @return object|PaymentStatusProvider
+     */
+    protected function getPaymentStatusProvider()
+    {
+        if (!$this->paymentStatusProvider) {
+            $this->paymentStatusProvider = $this->paymentStatusProviderLink->getService();
+        }
+
+        return $this->paymentStatusProvider;
     }
 }
