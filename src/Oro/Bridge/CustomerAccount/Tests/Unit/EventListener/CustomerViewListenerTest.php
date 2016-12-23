@@ -13,7 +13,7 @@ use Oro\Component\Testing\Unit\FormViewListenerTestCase;
 
 class CustomerViewListenerTest extends FormViewListenerTestCase
 {
-    /** @var AccountViewListener */
+    /** @var CustomerViewListener */
     protected $listener;
 
     /** @var  Request|\PHPUnit_Framework_MockObject_MockObject */
