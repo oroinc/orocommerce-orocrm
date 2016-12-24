@@ -46,7 +46,8 @@ class LifetimeProcessor
                 'Oro\Bundle\PaymentBundle\Entity\PaymentStatus',
                 'payment_status',
                 Join::WITH,
-                "payment_status.entityIdentifier = o.id AND payment_status.entityClass = 'Oro\\Bundle\\OrderBundle\\Entity\\Order'"
+                'payment_status.entityIdentifier = o.id '
+                . "AND payment_status.entityClass = 'Oro\\Bundle\\OrderBundle\\Entity\\Order'"
             )
             ->where(
                 $qb->expr()->eq('o.account', ':account')

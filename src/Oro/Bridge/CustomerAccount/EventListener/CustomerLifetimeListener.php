@@ -168,8 +168,7 @@ class CustomerLifetimeListener
     protected function handlePaymentTransactions($paymentTransactions)
     {
         /** @var PaymentTransaction $paymentTransaction */
-        foreach ($paymentTransactions as $paymentTransaction)
-        {
+        foreach ($paymentTransactions as $paymentTransaction) {
             if ($paymentTransaction->getEntityClass() === 'Oro\\Bundle\\OrderBundle\\Entity\\Order') {
                 $order = $this->em->getRepository($paymentTransaction->getEntityClass())
                     ->find($paymentTransaction->getEntityIdentifier());
