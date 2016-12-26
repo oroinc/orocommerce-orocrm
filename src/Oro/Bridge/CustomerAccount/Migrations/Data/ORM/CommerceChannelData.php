@@ -4,9 +4,13 @@ namespace Oro\Bridge\CustomerAccount\Migrations\Data\ORM;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Connection;
 
 use Oro\Bundle\ChannelBundle\Entity\Channel;
 use Oro\Bundle\ChannelBundle\Migrations\Data\ORM\AbstractDefaultChannelDataFixture;
+use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
+use Oro\Bundle\SalesBundle\Entity\Customer as CustomerAssociation;
 
 class CommerceChannelData extends AbstractDefaultChannelDataFixture
 {
@@ -74,5 +78,49 @@ class CommerceChannelData extends AbstractDefaultChannelDataFixture
             }
         }
         $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param int[]   $accountIds
+     * @param Channel $channel
+     * @param string  $customerIdentity
+     * @param string  $lifetimeFieldName
+     */
+    protected function updateLifetime(array $accountIds, Channel $channel, $customerIdentity, $lifetimeFieldName)
+    {
+        $customerMetadata   = $this->em->getClassMetadata($customerIdentity);
+        $lifetimeColumnName = $customerMetadata->getColumnName($lifetimeFieldName);
+        $field = AccountCustomerManager::getCustomerTargetField($customerIdentity);
+
+        $this->em->getConnection()->executeUpdate(
+            'UPDATE orocrm_channel_lifetime_hist SET status = :status'
+            . ' WHERE data_channel_id = :channel_id AND account_id IN (:account_ids)',
+            ['status' => false, 'channel_id' => $channel->getId(), 'account_ids' => $accountIds],
+            ['status' => Type::BOOLEAN, 'channel_id' => Type::INTEGER, 'account_ids' => Connection::PARAM_INT_ARRAY]
+        );
+        $this->em->getConnection()->executeUpdate(
+            'INSERT INTO orocrm_channel_lifetime_hist'
+            . ' (account_id, data_channel_id, status, amount, created_at)'
+            . sprintf(
+                ' SELECT ca.account_id AS hist_account_id, e.dataChannel_id AS hist_data_channel_id,'
+                . ' ca.account_id > 0 as hist_status, SUM(COALESCE(e.%s, 0)) AS hist_amount,'
+                . ' TIMESTAMP :created_at AS hist_created_at',
+                $lifetimeColumnName
+            )
+            . sprintf(' FROM %s AS e', $customerMetadata->getTableName())
+            . sprintf(' JOIN orocrm_sales_customer AS ca ON ca.%s_id = e.id', $field)
+            . ' WHERE e.dataChannel_id = :channel_id AND ca.account_id IN (:account_ids)'
+            . ' GROUP BY hist_account_id, hist_data_channel_id, hist_status, hist_created_at',
+            [
+                'created_at' => new \DateTime(null, new \DateTimeZone('UTC')),
+                'channel_id' => $channel->getId(),
+                'account_ids' => $accountIds
+            ],
+            [
+                'created_at' => Type::DATETIME,
+                'channel_id' => Type::INTEGER,
+                'account_ids' => Connection::PARAM_INT_ARRAY
+            ]
+        );
     }
 }
