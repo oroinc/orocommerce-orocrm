@@ -2,7 +2,6 @@
 
 namespace Oro\Bridge\CustomerAccount\EventListener;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\UnitOfWork;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Common\Util\ClassUtils;
@@ -13,7 +12,7 @@ use Oro\Bridge\CustomerAccount\Manager\LifetimeProcessor;
 use Oro\Bundle\CurrencyBundle\Converter\RateConverterInterface;
 use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
 use Oro\Bundle\OrderBundle\Entity\Order;
-use Oro\Bundle\PaymentBundle\Entity\PaymentTransaction;
+use Oro\Bundle\PaymentBundle\Entity\PaymentStatus;
 use Oro\Bundle\PaymentBundle\Provider\PaymentStatusProvider;
 use Oro\Component\DependencyInjection\ServiceLink;
 
@@ -84,20 +83,20 @@ class CustomerLifetimeListener
             }
         );
 
-        /** @var $entitiesPaymentTransaction[] PaymentTransaction */
-        $paymentTransactions = array_filter(
+        /** @var $paymentStatuses[] PaymentStatus */
+        $paymentStatuses = array_filter(
             $entities,
             function ($entity) {
-                return 'Oro\\Bundle\\PaymentBundle\\Entity\\PaymentTransaction' === ClassUtils::getClass($entity);
+                return 'Oro\\Bundle\\PaymentBundle\\Entity\\PaymentStatus' === ClassUtils::getClass($entity);
             }
         );
 
-        if (count($paymentTransactions) > 0) {
-            $this->handlePaymentTransactions($paymentTransactions);
-        }
-
         if (count($orders) > 0) {
             $this->handleOrders($orders);
+        }
+
+        if (count($paymentStatuses) > 0) {
+            $this->handlePaymentStatuses($paymentStatuses);
         }
     }
 
@@ -163,24 +162,19 @@ class CustomerLifetimeListener
     }
 
     /**
-     * @param $paymentTransactions
+     * @param PaymentStatus[] $paymentStatuses
      */
-    protected function handlePaymentTransactions($paymentTransactions)
+    protected function handlePaymentStatuses($paymentStatuses)
     {
-        /** @var PaymentTransaction $paymentTransaction */
-        foreach ($paymentTransactions as $paymentTransaction) {
-            if ($paymentTransaction->getEntityClass() === 'Oro\\Bundle\\OrderBundle\\Entity\\Order') {
-                $order = $this->em->getRepository($paymentTransaction->getEntityClass())
-                    ->find($paymentTransaction->getEntityIdentifier());
+        /** @var PaymentStatus $paymentStatus */
+        foreach ($paymentStatuses as $paymentStatus) {
+            if ($paymentStatus->getEntityClass() === 'Oro\\Bundle\\OrderBundle\\Entity\\Order' &&
+                PaymentStatusProvider::FULL === $paymentStatus->getPaymentStatus()
+            ) {
+                $order = $this->em->getRepository($paymentStatus->getEntityClass())
+                    ->find($paymentStatus->getEntityIdentifier());
                 if ($order) {
-                    $paymentStatus = $this->getPaymentStatusProvider()->computeStatus(
-                        $order,
-                        new ArrayCollection([$paymentTransaction])
-                    );
-
-                    if (PaymentStatusProvider::FULL === $paymentStatus) {
-                        $this->scheduleUpdate($order->getAccount());
-                    }
+                    $this->scheduleUpdate($order->getAccount());
                 }
             }
         }
