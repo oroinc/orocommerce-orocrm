@@ -53,7 +53,8 @@ class CustomerControllerTest extends WebTestCase
             $this->getUrl(
                 'oro_account_widget_customers_info',
                 [
-                    'accountId' => $this->account->getId()
+                    'accountId' => $this->account->getId(),
+                    'channelId' => $this->customer->getDataChannel()->getId()
                 ]
             )
         );

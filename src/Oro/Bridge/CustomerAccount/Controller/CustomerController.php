@@ -70,20 +70,19 @@ class CustomerController extends Controller
      * @return array
      *
      * @Route(
-     *        "/widget/customer-info/{id}/{channelId}",
+     *        "/widget/customer-info/{id}",
      *        name="oro_account_customer_widget_customer_info",
      *        requirements={"id"="\d+", "channelId"="\d+"}
      * )
      * @ParamConverter("customer", class="OroCustomerBundle:Account", options={"id" = "id"})
-     * @ParamConverter("channel", class="OroChannelBundle:Channel", options={"id" = "channelId"})
      * @AclAncestor("oro_customer_account_view"))
      * @Template
      */
-    public function customerInfoAction(Customer $customer, Channel $channel)
+    public function customerInfoAction(Customer $customer)
     {
         return [
             'customer' => $customer,
-            'channel' => $channel,
+            'channel' => $customer->getDataChannel(),
         ];
     }
 

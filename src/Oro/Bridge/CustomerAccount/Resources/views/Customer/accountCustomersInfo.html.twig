@@ -13,7 +13,7 @@
                 'alias': 'oro_customer_info_customer_' ~ customer.id,
                 'widgetType': 'block',
                 'label': customer|oro_format_name,
-                'url': path('oro_account_customer_widget_customer_info', {'id': customer.id, 'channelId': channel.id})
+                'url': path('oro_account_customer_widget_customer_info', {'id': customer.id})
             }
             ]) %}
         {% endfor %}

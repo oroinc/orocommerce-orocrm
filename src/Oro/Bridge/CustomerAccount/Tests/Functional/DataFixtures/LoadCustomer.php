@@ -6,15 +6,38 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 use Oro\Bundle\AccountBundle\Entity\Account;
+use Oro\Bundle\ChannelBundle\Entity\Channel;
 use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
 use Oro\Bundle\SalesBundle\Entity\Customer as CustomerAssociation;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Tests\Functional\DataFixtures\LoadUserData;
+use Oro\Bundle\ChannelBundle\Builder\BuilderFactory;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
 
-class LoadCustomer extends AbstractFixture implements DependentFixtureInterface
+class LoadCustomer extends AbstractFixture implements DependentFixtureInterface, ContainerAwareInterface
 {
     const CUSTOMER_1 = 'simple_customer';
+    const CHANNEL_TYPE  = 'commerce';
+    const CHANNEL_NAME  = 'Commerce Channel';
+
+    /** @var ObjectManager */
+    protected $em;
+
+    /** @var BuilderFactory */
+    protected $factory;
+
+    /** @var Channel */
+    protected $channel;
+
+    /** @var User */
+    protected $user;
+
+    /** @var Organization */
+    protected $organization;
 
     /**
      * @var array
@@ -38,10 +61,22 @@ class LoadCustomer extends AbstractFixture implements DependentFixtureInterface
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->factory = $container->get('oro_channel.builder.factory');
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function load(ObjectManager $manager)
     {
+        $this->em = $manager;
+        $this->organization = $manager->getRepository('OroOrganizationBundle:Organization')->getFirst();
+        $this->createChannel();
+
         foreach ($this->customers as $name => $customer) {
             $this->createCustomer($manager, $name, $customer);
         }
@@ -67,6 +102,7 @@ class LoadCustomer extends AbstractFixture implements DependentFixtureInterface
         $customer = new Customer();
         $customer->setName($name);
         $customer->setOwner($user);
+        $customer->setDataChannel($this->getReference('commerce_channel'));
 
         $customerAssociation = new CustomerAssociation();
         $customerAssociation->setTarget($account, $customer);
@@ -77,5 +113,28 @@ class LoadCustomer extends AbstractFixture implements DependentFixtureInterface
         $this->addReference($name, $customer);
 
         return $customer;
+    }
+
+    /**
+     * @return Channel
+     */
+    protected function createChannel()
+    {
+        $channel = $this
+            ->factory
+            ->createBuilder()
+            ->setName(self::CHANNEL_NAME)
+            ->setChannelType(self::CHANNEL_TYPE)
+            ->setStatus(Channel::STATUS_ACTIVE)
+            ->setOwner($this->organization)
+            ->setEntities()
+            ->getChannel();
+
+        $this->em->persist($channel);
+        $this->em->flush();
+
+        $this->setReference('commerce_channel', $channel);
+
+        return $this;
     }
 }
