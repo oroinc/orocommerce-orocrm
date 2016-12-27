@@ -59,13 +59,16 @@ class OrderPaymentTransactionAndStatus extends AbstractFixture implements Depend
 
     /**
      * @param ObjectManager $manager
-     * @param string $name
-     * @param array $orderData
+     * @param string $orderReferenceName
+     * @param array $paymentTransactionData
      *
      * @return PaymentTransaction
      */
-    protected function createPaymentTransaction(ObjectManager $manager, $orderReferenceName, array $paymentTransactionData)
-    {
+    protected function createPaymentTransaction(
+        ObjectManager $manager,
+        $orderReferenceName,
+        array $paymentTransactionData
+    ) {
         $order = $this->getReference($orderReferenceName);
 
         $paymentTransaction = new PaymentTransaction();
