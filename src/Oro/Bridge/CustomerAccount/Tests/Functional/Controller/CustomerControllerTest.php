@@ -61,9 +61,9 @@ class CustomerControllerTest extends WebTestCase
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
-        $this->assertContains('simple_customer', $crawler->filter('div.oro-tabs')->first()->html());
+        $this->assertContains('simple_customer', $crawler->filter('div.account-customer-title')->html());
 
-        $tabs = $crawler->filter('div.oro-tabs div.oro-tabs')->html();
+        $tabs = $crawler->filter('div.oro-tabs')->html();
         $this->assertContains('Customer Users', $tabs);
         $this->assertContains('Shopping Lists', $tabs);
         $this->assertContains('Requests For Quote', $tabs);

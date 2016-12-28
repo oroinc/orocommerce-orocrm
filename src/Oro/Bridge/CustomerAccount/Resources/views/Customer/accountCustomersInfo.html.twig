@@ -1,16 +1,36 @@
 {% if resource_granted('oro_customer_account_view') and customers|length > 0 %}
-    <div class="widget-content">
-        {% set tabs = [] %}
-        {% for customer in customers %}
-            {% set tabs = tabs|merge([
+    {% set subtitle = 'oro.sales.customer.entity_plural_label'|trans %}
+    {% set tabs = [] %}
+    {% for customer in customers %}
+        {% set tabs = tabs|merge([
             {
                 'alias': 'oro_customer_info_customer_' ~ customer.id,
-                'widgetType': 'block',
+                'widgetType': 'customer-info',
                 'label': customer|oro_format_name,
                 'url': path('oro_account_customer_widget_customer_info', {'id': customer.id})
             }
-            ]) %}
-        {% endfor %}
-        {{ tabPanel(tabs) }}
-    </div>
+        ]) %}
+    {% endfor %}
+    {% if (tabs|length > 1) %}
+        {% if isMobileVersion() %}
+            {% set tabsOptions = {useDropdown: true} %}
+        {% else %}
+            {% set tabsOptions = {verticalTabs: true, subtitle: 'oro.sales.customer.entity_plural_label'|trans} %}
+        {% endif %}
+        {% import 'OroUIBundle::macros.html.twig' as UI %}
+        <div class="widget-content account-customer-info multicustomer" {{ UI.renderPageComponentAttributes({
+            module: 'oroui/js/app/components/view-component',
+            options: {
+                view: 'orosales/js/app/views/account-multicustomer-view',
+                customerType: 'account_customer',
+                useChannel: false
+            }
+        }) }}>
+            {{ tabPanel(tabs, tabsOptions) }}
+        </div>
+    {% else %}
+        <div class="widget-content account-customer-info">
+            {{ oro_widget_render(tabs[0]) }}
+        </div>
+    {% endif %}
 {% endif %}
