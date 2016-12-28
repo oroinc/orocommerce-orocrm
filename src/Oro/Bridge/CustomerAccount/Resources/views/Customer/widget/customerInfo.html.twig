@@ -122,9 +122,13 @@
 {% endif %}
 
 <div class="widget-content row-fluid">
-    <div class="account-customer-title">{{ customer|oro_format_name|escape }}</div>
+    <div class="account-customer-title">{{ customer|oro_format_name|escape }}
+        <div class="pull-right label label-info orocrm-channel-lifetime-value-label">
+            <b>{{ 'oro.customer.account.lifetime.label'|trans}}:
+                {{ oro_channel_account_lifetime(account, channel)|oro_format_currency }}</b>
+        </div>
+    </div>
     <div class="customer-without-border-tabs">
         {{ tabPanel(tabs, tabPanelOptions) }}
     </div>
 </div>
-

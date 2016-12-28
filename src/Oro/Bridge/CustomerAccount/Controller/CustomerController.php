@@ -80,8 +80,10 @@ class CustomerController extends Controller
      */
     public function customerInfoAction(Customer $customer)
     {
+        $accountCustomerManager = $this->get('oro_sales.manager.account_customer');
         return [
             'customer' => $customer,
+            'account' => $accountCustomerManager->getAccountCustomerByTarget($customer)->getAccount(),
             'channel' => $customer->getDataChannel(),
         ];
     }
