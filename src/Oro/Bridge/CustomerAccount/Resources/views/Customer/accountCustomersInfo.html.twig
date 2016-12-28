@@ -1,11 +1,4 @@
 {% if resource_granted('oro_customer_account_view') and customers|length > 0 %}
-
-    <div class="pull-right label label-info orocrm-channel-lifetime-value-label">
-        <b>{{ 'oro.magento.customer.lifetime.label'|trans}}:
-            {{ oro_channel_account_lifetime(account, channel)|oro_format_currency }}
-        </b>
-    </div>
-
     {% set subtitle = 'oro.sales.customer.entity_plural_label'|trans %}
     {% set tabs = [] %}
     {% for customer in customers %}
@@ -29,8 +22,7 @@
             module: 'oroui/js/app/components/view-component',
             options: {
                 view: 'orosales/js/app/views/account-multicustomer-view',
-                customerType: 'account_customer',
-                useChannel: false
+                customerType: 'account_customer'
             }
         }) }}>
             {{ tabPanel(tabs, tabsOptions) }}
