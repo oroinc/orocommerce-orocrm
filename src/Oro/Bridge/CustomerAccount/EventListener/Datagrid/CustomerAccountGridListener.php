@@ -2,24 +2,14 @@
 
 namespace Oro\Bridge\CustomerAccount\EventListener\Datagrid;
 
-use Oro\Bundle\DataGridBundle\Tools\GridConfigurationHelper;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
+use Oro\Bundle\DataGridBundle\Datasource\Orm\OrmQueryConfiguration;
 use Oro\Bundle\DataGridBundle\Event\BuildBefore;
 use Oro\Bundle\EntityExtendBundle\Tools\ExtendHelper;
 use Oro\Bundle\SalesBundle\EntityConfig\CustomerScope;
 
 class CustomerAccountGridListener
 {
-    protected $configurationHelper;
-
-    /**
-     * @param GridConfigurationHelper $configurationHelper
-     */
-    public function __construct(GridConfigurationHelper $configurationHelper)
-    {
-        $this->configurationHelper = $configurationHelper;
-    }
-
     /**
      * @param BuildBefore $event
      */
@@ -35,18 +25,13 @@ class CustomerAccountGridListener
      */
     protected function addWhere(DatagridConfiguration $config)
     {
-        $rootAlias = $this->configurationHelper->getEntityRootAlias($config);
+        $rootAlias = $config->getOrmQuery()->getRootAlias();
         if (!$rootAlias) {
             return;
         }
 
-        $query = $config->offsetGetByPath('[source][query]', []);
-
-        $query['join']['left'][] = [
-            'join'  => sprintf('%s.customerAssociation', $rootAlias),
-            'alias' => 'customerAssociation',
-        ];
-        $config->offsetSetByPath('[source][query]', $query);
+        $query = $config->getOrmQuery();
+        $query->addLeftJoin(sprintf('%s.customerAssociation', $rootAlias), 'customerAssociation');
 
         $associationName = ExtendHelper::buildAssociationName(
             'Oro\Bundle\CustomerBundle\Entity\Account',
@@ -54,7 +39,7 @@ class CustomerAccountGridListener
         );
         $condition = sprintf('customerAssociation.%s = :customer_id', $associationName);
 
-        $config->offsetSetByPath('[source][query][where][and][0]', $condition);
-        $config->offsetSetByPath('[source][bind_parameters][0]', 'customer_id');
+        $config->offsetSetByPath(OrmQueryConfiguration::WHERE_AND_PATH . '[0]', $condition);
+        $config->offsetSetByPath(DatagridConfiguration::DATASOURCE_BIND_PARAMETERS_PATH . '[0]', 'customer_id');
     }
 }
