@@ -19,9 +19,12 @@ class AccountProvider implements AccountProviderInterface
     /** @var UserManager */
     protected $userManager;
 
+    /** @var ManagerRegistry */
+    protected $registry;
+
     /**
-     * @param ConfigManager $configManager
-     * @param UserManager   $userManager
+     * @param ConfigManager   $configManager
+     * @param UserManager     $userManager
      * @param ManagerRegistry $registry
      */
     public function __construct(
@@ -46,6 +49,7 @@ class AccountProvider implements AccountProviderInterface
         $account = new Account();
         $account->setName($targetCustomer->getName());
         $owner = $targetCustomer->getOwner();
+        $organization = $targetCustomer->getOrganization();
         if ($owner === null) {
             $userId = $this->configManager->get('oro_customer.default_account_owner');
 
@@ -55,7 +59,9 @@ class AccountProvider implements AccountProviderInterface
 
         if ($owner) {
             $account->setOwner($owner);
+            $organization = $owner->getOrganization();
         }
+        $account->setOrganization($organization);
 
         if (!$targetCustomer->getDataChannel()) {
             $channels = $this->registry->getManagerForClass('OroChannelBundle:Channel')
