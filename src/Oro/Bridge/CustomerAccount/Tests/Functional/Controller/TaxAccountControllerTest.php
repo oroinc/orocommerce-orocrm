@@ -6,7 +6,7 @@ use Oro\Bridge\CustomerAccount\Tests\Functional\DataFixtures\LoadAccount;
 
 use Oro\Bundle\EntityExtendBundle\Entity\AbstractEnumValue;
 use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
-use Oro\Bundle\CustomerBundle\Entity\AccountGroup;
+use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\TaxBundle\Entity\AccountTaxCode;
 use Oro\Bundle\TaxBundle\Tests\Functional\Controller\AccountControllerTest as BaseAccountControllerTest;
 
@@ -29,7 +29,7 @@ class TaxAccountControllerTest extends BaseAccountControllerTest
     /**
      * @param $name
      * @param Customer $parent
-     * @param AccountGroup $group
+     * @param CustomerGroup $group
      * @param AbstractEnumValue $internalRating
      * @param AccountTaxCode $accountTaxCode
      *
@@ -38,7 +38,7 @@ class TaxAccountControllerTest extends BaseAccountControllerTest
     protected function getFormValues(
         $name,
         Customer $parent,
-        AccountGroup $group,
+        CustomerGroup $group,
         AbstractEnumValue $internalRating,
         AccountTaxCode $accountTaxCode
     ) {

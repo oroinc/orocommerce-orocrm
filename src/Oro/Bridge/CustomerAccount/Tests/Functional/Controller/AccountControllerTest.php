@@ -6,7 +6,7 @@ use Oro\Bridge\CustomerAccount\Tests\Functional\DataFixtures\LoadAccount;
 
 use Oro\Bundle\EntityExtendBundle\Entity\AbstractEnumValue;
 use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
-use Oro\Bundle\CustomerBundle\Entity\AccountGroup;
+use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Controller\AccountControllerTest as BaseAccountControllerTest;
 
 /**
@@ -28,14 +28,14 @@ class AccountControllerTest extends BaseAccountControllerTest
     /**
      * @param $name
      * @param Customer $parent
-     * @param AccountGroup $group
+     * @param CustomerGroup $group
      * @param AbstractEnumValue $internalRating
      * @return array
      */
     protected function prepareFormValues(
         $name,
         Customer $parent,
-        AccountGroup $group,
+        CustomerGroup $group,
         AbstractEnumValue $internalRating
     ) {
         $values = parent::prepareFormValues($name, $parent, $group, $internalRating);
