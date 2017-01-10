@@ -5,7 +5,7 @@ namespace Oro\Bridge\CustomerAccount\Tests\Functional\Controller;
 use Oro\Bridge\CustomerAccount\Tests\Functional\DataFixtures\LoadAccount;
 use Oro\Bridge\CustomerAccount\Tests\Functional\DataFixtures\LoadCustomer;
 use Oro\Bundle\AccountBundle\Entity\Account;
-use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 /**

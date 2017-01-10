@@ -5,10 +5,10 @@ namespace Oro\Bridge\CustomerAccount\Tests\Functional\Functional\Controller;
 use Oro\Bridge\CustomerAccount\Tests\Functional\DataFixtures\LoadAccount;
 
 use Oro\Bundle\EntityExtendBundle\Entity\AbstractEnumValue;
-use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
-use Oro\Bundle\TaxBundle\Entity\AccountTaxCode;
-use Oro\Bundle\TaxBundle\Tests\Functional\Controller\AccountControllerTest as BaseAccountControllerTest;
+use Oro\Bundle\TaxBundle\Entity\CustomerTaxCode;
+use Oro\Bundle\TaxBundle\Tests\Functional\Controller\CustomerControllerTest as BaseAccountControllerTest;
 
 /**
  * @dbIsolation
@@ -31,7 +31,7 @@ class TaxAccountControllerTest extends BaseAccountControllerTest
      * @param Customer $parent
      * @param CustomerGroup $group
      * @param AbstractEnumValue $internalRating
-     * @param AccountTaxCode $accountTaxCode
+     * @param CustomerTaxCode $customerTaxCode
      *
      * @return array
      */
@@ -40,10 +40,10 @@ class TaxAccountControllerTest extends BaseAccountControllerTest
         Customer $parent,
         CustomerGroup $group,
         AbstractEnumValue $internalRating,
-        AccountTaxCode $accountTaxCode
+        CustomerTaxCode $customerTaxCode
     ) {
-        $values = parent::getFormValues($name, $parent, $group, $internalRating, $accountTaxCode);
-        $values['oro_account_type[customer_association_account]'] = $this->getReference(LoadAccount::ACCOUNT_1)->getId(
+        $values = parent::getFormValues($name, $parent, $group, $internalRating, $customerTaxCode);
+        $values['oro_customer_type[customer_association_account]'] = $this->getReference(LoadAccount::ACCOUNT_1)->getId(
         );
 
         return $values;

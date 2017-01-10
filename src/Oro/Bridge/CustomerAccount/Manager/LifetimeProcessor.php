@@ -50,10 +50,10 @@ class LifetimeProcessor
                 . "AND payment_status.entityClass = 'Oro\\Bundle\\OrderBundle\\Entity\\Order'"
             )
             ->where(
-                $qb->expr()->eq('o.account', ':account')
+                $qb->expr()->eq('o.customer', ':customer')
             )
             ->andWhere('payment_status.paymentStatus = :paymentStatus')
-            ->setParameter('account', $customer->getId())
+            ->setParameter('customer', $customer->getId())
             ->setParameter('paymentStatus', PaymentStatusProvider::FULL);
 
         return (float)$qb->getQuery()->getSingleScalarResult();

@@ -6,14 +6,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 use Oro\Bundle\AccountBundle\Entity\Account;
-use Oro\Bridge\CustomerAccount\EventListener\CustomerViewListener;
+use Oro\Bridge\CustomerAccount\EventListener\AccountViewListener;
 use Oro\Bundle\UIBundle\Event\BeforeListRenderEvent;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Component\Testing\Unit\FormViewListenerTestCase;
 
 class CustomerViewListenerTest extends FormViewListenerTestCase
 {
-    /** @var CustomerViewListener */
+    /** @var AccountViewListener */
     protected $listener;
 
     /** @var  Request|\PHPUnit_Framework_MockObject_MockObject */
@@ -39,7 +39,7 @@ class CustomerViewListenerTest extends FormViewListenerTestCase
             ->disableOriginalConstructor()->getMock();
 
         $this->listener =
-            new CustomerViewListener(
+            new AccountViewListener(
                 'Oro\Bundle\AccountBundle\Entity\Account',
                 $this->doctrineHelper,
                 $this->requestStack,

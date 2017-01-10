@@ -36,7 +36,7 @@ class CustomerLifetimeListenerTest extends WebTestCase
         $paymentStatus->setEntityClass(ClassUtils::getClass($order));
         $paymentStatus->setEntityIdentifier($order->getId());
         $paymentStatus->setPaymentStatus(PaymentStatusProvider::FULL);
-        $customer = $order->getAccount();
+        $customer = $order->getCustomer();
 
         $em = $this->getEntityManager();
         $em->persist($paymentStatus);
@@ -53,7 +53,7 @@ class CustomerLifetimeListenerTest extends WebTestCase
         $paymentStatus->setEntityClass(ClassUtils::getClass($order));
         $paymentStatus->setEntityIdentifier($order->getId());
         $paymentStatus->setPaymentStatus(PaymentStatusProvider::PENDING);
-        $customer = $order->getAccount();
+        $customer = $order->getCustomer();
 
         $em = $this->getEntityManager();
         $em->persist($paymentStatus);
@@ -67,7 +67,7 @@ class CustomerLifetimeListenerTest extends WebTestCase
         /** @var Order $order */
         $order = $this->getReference('my_order');
         $order->setSubtotal(500);
-        $customer = $order->getAccount();
+        $customer = $order->getCustomer();
         $em = $this->getEntityManager();
         self::assertEquals(1500, $customer->getLifetime());
 

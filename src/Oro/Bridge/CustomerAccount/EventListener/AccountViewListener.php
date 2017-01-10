@@ -7,10 +7,10 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\UIBundle\Event\BeforeListRenderEvent;
 
-class CustomerViewListener
+class AccountViewListener
 {
     /** @var DoctrineHelper */
     protected $doctrineHelper;

@@ -13,10 +13,10 @@ services:
         tags:
             - { name: form.type, alias: oro_config_customer_account_choice }
 
-    oro_customer_account.event_listener.customer_view:
-        class: 'Oro\Bridge\CustomerAccount\EventListener\CustomerViewListener'
+    oro_customer_account.event_listener.account_view:
+        class: 'Oro\Bridge\CustomerAccount\EventListener\AccountViewListener'
         arguments:
-            - '%oro_customer.entity.account.class%'
+            - '%oro_customer.entity.customer.class%'
             - "@oro_entity.doctrine_helper"
             - "@request_stack"
             - '@translator'

@@ -4,7 +4,7 @@
     {% set scope = 'account-customer-%customer%'|replace({'%customer%': customer.id}) %}
 
     {{ dataGrid.renderGrid(
-        oro_datagrid_build_fullname('account-orders-grid', scope),
-        {account_id: customer.id})
+        oro_datagrid_build_fullname('customer-orders-grid', scope),
+        {customer_id: customer.id})
     }}
 </div>

@@ -10,25 +10,25 @@
     {% endset %}
 
     {% set customerData %}
-        <a href="{{ path('oro_customer_account_view', {id: customer.id}) }}">
+        <a href="{{ path('oro_customer_customer_view', {id: customer.id}) }}">
             {{ customer.name }}
         </a>
     {% endset %}
     <div class="row-fluid">
         <br>
         <div class="responsive-block">
-            {{ UI.renderHtmlProperty('oro.customer.account.name.label'|trans, customerData) }}
+            {{ UI.renderHtmlProperty('oro.customer.customer.name.label'|trans, customerData) }}
 
             {% if customer.group %}
                 {% if is_granted('VIEW', customer.group) %}
                     {% set groupData %}
-                        <a href="{{ path('oro_customer_account_group_view', {id: customer.group.id}) }}">
+                        <a href="{{ path('oro_customer_customer_group_view', {id: customer.group.id}) }}">
                             {{ customer.group.name }}
                         </a>
                     {% endset %}
-                    {{ UI.renderHtmlProperty('oro.customer.account.group.label'|trans, groupData) }}
+                    {{ UI.renderHtmlProperty('oro.customer.customer.group.label'|trans, groupData) }}
                 {% else %}
-                    {{ UI.renderProperty('oro.customer.account.group.label'|trans, customer.group.name) }}
+                    {{ UI.renderProperty('oro.customer.customer.group.label'|trans, customer.group.name) }}
                 {% endif %}
             {% endif %}
         </div>
@@ -36,13 +36,13 @@
             {% if customer.parent %}
                 {% if is_granted('VIEW', customer.parent) %}
                     {% set parentData %}
-                        <a href="{{ path('oro_customer_account_view', {id: customer.parent.id}) }}">
+                        <a href="{{ path('oro_customer_customer_view', {id: customer.parent.id}) }}">
                             {{ customer.parent.name }}
                         </a>
                     {% endset %}
-                    {{ UI.renderHtmlProperty('oro.customer.account.parent.label'|trans, parentData) }}
+                    {{ UI.renderHtmlProperty('oro.customer.customer.parent.label'|trans, parentData) }}
                 {% else %}
-                    {{ UI.renderProperty('oro.customer.account.parent.label'|trans, customer.parent.name) }}
+                    {{ UI.renderProperty('oro.customer.customer.parent.label'|trans, customer.parent.name) }}
                 {% endif %}
             {% endif %}
         </div>
@@ -124,7 +124,7 @@
 <div class="widget-content row-fluid">
     <div class="account-customer-title">{{ customer|oro_format_name|escape }}
         <div class="pull-right label label-info orocrm-channel-lifetime-value-label">
-            <b>{{ 'oro.customer.account.lifetime.label'|trans}}:
+            <b>{{ 'oro.customer.customer.lifetime.label'|trans}}:
                 {{ oro_channel_account_lifetime(account, channel)|oro_format_currency }}</b>
         </div>
     </div>

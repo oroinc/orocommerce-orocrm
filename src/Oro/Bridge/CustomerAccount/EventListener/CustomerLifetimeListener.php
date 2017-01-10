@@ -10,7 +10,7 @@ use Doctrine\ORM\Event\PostFlushEventArgs;
 
 use Oro\Bridge\CustomerAccount\Manager\LifetimeProcessor;
 use Oro\Bundle\CurrencyBundle\Converter\RateConverterInterface;
-use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\OrderBundle\Entity\Order;
 use Oro\Bundle\PaymentBundle\Entity\PaymentStatus;
 use Oro\Bundle\PaymentBundle\Provider\PaymentStatusProvider;
@@ -108,7 +108,7 @@ class CustomerLifetimeListener
         /** @var Order $entity */
         foreach ($orders as $entity) {
             if (!$entity->getId() || $this->uow->isScheduledForDelete($entity)) {
-                $this->scheduleUpdate($entity->getAccount());
+                $this->scheduleUpdate($entity->getCustomer());
             } elseif ($this->uow->isScheduledForUpdate($entity)) {
                 // handle update
                 $changeSet = $this->uow->getEntityChangeSet($entity);
@@ -122,7 +122,7 @@ class CustomerLifetimeListener
                     }
 
                     if (isset($changeSet['subtotalValue'])) {
-                        $this->scheduleUpdate($entity->getAccount());
+                        $this->scheduleUpdate($entity->getCustomer());
                     }
                 }
             }
@@ -174,7 +174,7 @@ class CustomerLifetimeListener
                 $order = $this->em->getRepository($paymentStatus->getEntityClass())
                     ->find($paymentStatus->getEntityIdentifier());
                 if ($order) {
-                    $this->scheduleUpdate($order->getAccount());
+                    $this->scheduleUpdate($order->getCustomer());
                 }
             }
         }
@@ -199,7 +199,7 @@ class CustomerLifetimeListener
      */
     protected function isChangeSetValuable(array $changeSet)
     {
-        $fieldsUpdated = array_intersect(['account', 'subtotalValue'], array_keys($changeSet));
+        $fieldsUpdated = array_intersect(['customer', 'subtotalValue'], array_keys($changeSet));
 
         return (bool)$fieldsUpdated;
     }

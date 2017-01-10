@@ -94,26 +94,26 @@ class OroCustomerAccountBridgeBundleInstaller implements
             $schema,
             'orocrm_account',
             'oro_customer_user',
-            ['account', $customerPath, 'account']
+            ['customer', $customerPath, 'account']
         );
         $this->activityListExtension->addInheritanceTargets(
             $schema,
             'orocrm_account',
             'oro_shopping_list',
-            ['account', $customerPath, 'account']
+            ['customer', $customerPath, 'account']
         );
 
         $this->activityListExtension->addInheritanceTargets(
             $schema,
             'orocrm_account',
             'oro_sale_quote',
-            ['account', $customerPath, 'account']
+            ['customer', $customerPath, 'account']
         );
         $this->activityListExtension->addInheritanceTargets(
             $schema,
             'orocrm_account',
             'oro_rfp_request',
-            ['account', $customerPath, 'account']
+            ['customer', $customerPath, 'account']
         );
     }
 

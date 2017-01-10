@@ -51,7 +51,7 @@ class AccountProvider implements AccountProviderInterface
         $owner = $targetCustomer->getOwner();
         $organization = $targetCustomer->getOrganization();
         if ($owner === null) {
-            $userId = $this->configManager->get('oro_customer.default_account_owner');
+            $userId = $this->configManager->get('oro_customer.default_customer_owner');
 
             /** @var User $user */
             $owner = $this->userManager->getRepository()->find($userId);

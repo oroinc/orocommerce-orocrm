@@ -5,7 +5,7 @@ datagrids:
             query:
                 where:
                     and:
-                        - IDENTITY(shopping_list.account) = :customer_id
+                        - IDENTITY(shopping_list.customer) = :customer_id
             bind_parameters:
                 - customer_id
 
