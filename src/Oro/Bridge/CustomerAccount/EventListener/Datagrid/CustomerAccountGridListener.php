@@ -34,7 +34,7 @@ class CustomerAccountGridListener
         $query->addLeftJoin(sprintf('%s.customerAssociation', $rootAlias), 'customerAssociation');
 
         $associationName = ExtendHelper::buildAssociationName(
-            'Oro\Bundle\CustomerBundle\Entity\Account',
+            'Oro\Bundle\CustomerBundle\Entity\Customer',
             CustomerScope::ASSOCIATION_KIND
         );
         $condition = sprintf('customerAssociation.%s = :customer_id', $associationName);

@@ -7,7 +7,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 use Oro\Bundle\BatchBundle\ORM\Query\BufferedQueryResultIterator;
 use Oro\Bundle\AccountBundle\Entity\Account;
-use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
+use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
 use Oro\Bundle\SalesBundle\Entity\Customer as CustomerAssociation;
 
 use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;

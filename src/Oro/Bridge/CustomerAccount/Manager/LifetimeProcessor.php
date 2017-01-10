@@ -6,7 +6,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query\Expr\Join;
 
 use Oro\Bundle\CurrencyBundle\Query\CurrencyQueryBuilderTransformerInterface;
-use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
+use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
 use Oro\Bundle\PaymentBundle\Provider\PaymentStatusProvider;
 
 class LifetimeProcessor

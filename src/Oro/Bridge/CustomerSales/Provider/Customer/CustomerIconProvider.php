@@ -2,7 +2,7 @@
 
 namespace Oro\Bridge\CustomerSales\Provider\Customer;
 
-use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
+use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
 use Oro\Bundle\SalesBundle\Provider\Customer\CustomerIconProviderInterface;
 use Oro\Bundle\UIBundle\Model\Image;
 

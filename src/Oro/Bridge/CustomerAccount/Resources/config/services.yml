@@ -31,7 +31,7 @@ services:
             - '@request_stack'
             - '@oro_sales.customer.config_provider'
             - '@oro_sales.manager.account_customer'
-            - 'Oro\Bundle\CustomerBundle\Entity\Account'
+            - 'Oro\Bundle\CustomerBundle\Entity\Customer'
         tags:
             - { name: kernel.event_listener, event: oro_ui.scroll_data.before.account-view, method: onView }
 

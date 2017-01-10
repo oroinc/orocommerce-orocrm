@@ -27,9 +27,9 @@ class OroCustomerSalesBridgeBundleInstaller implements Installation, CustomerExt
      */
     public function up(Schema $schema, QueryBag $queries)
     {
-        $this->customerExtension->addCustomerAssociation($schema, 'oro_account');
+        $this->customerExtension->addCustomerAssociation($schema, 'oro_customer');
 
-        $table = $schema->getTable('oro_account');
+        $table = $schema->getTable('oro_customer');
 
         // before activity block which have 1000
         $options = new OroOptions();

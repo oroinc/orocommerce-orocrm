@@ -57,7 +57,7 @@ class OroCustomerAccountBridgeBundleInstaller implements
      */
     public function up(Schema $schema, QueryBag $queries)
     {
-        if ($schema->hasTable('oro_account') && $schema->hasTable('orocrm_account')) {
+        if ($schema->hasTable('oro_customer') && $schema->hasTable('orocrm_account')) {
             $this->createFields($schema);
             $this->addInheritanceTargets($schema);
             $this->createLifetimeFields($schema);
@@ -74,26 +74,26 @@ class OroCustomerAccountBridgeBundleInstaller implements
             'join'          => 'Oro\Bundle\SalesBundle\Entity\Customer',
             'conditionType' => 'WITH',
             'field'         => AccountCustomerManager::getCustomerTargetField(
-                'Oro\Bundle\CustomerBundle\Entity\Account'
+                'Oro\Bundle\CustomerBundle\Entity\Customer'
             ),
         ];
 
         $this->activityListExtension->addInheritanceTargets(
             $schema,
             'orocrm_account',
-            'oro_account',
+            'oro_customer',
             [$customerPath, 'account']
         );
         $this->activityListExtension->addInheritanceTargets(
             $schema,
             'orocrm_account',
             'oro_order',
-            ['account', $customerPath, 'account']
+            [$customerPath, 'account']
         );
         $this->activityListExtension->addInheritanceTargets(
             $schema,
             'orocrm_account',
-            'oro_account_user',
+            'oro_customer_user',
             ['account', $customerPath, 'account']
         );
         $this->activityListExtension->addInheritanceTargets(
@@ -124,7 +124,7 @@ class OroCustomerAccountBridgeBundleInstaller implements
     {
         $this->extendExtension->addManyToOneRelation(
             $schema,
-            'oro_account',
+            'oro_customer',
             'previous_account',
             'orocrm_account',
             'name',
@@ -152,7 +152,7 @@ class OroCustomerAccountBridgeBundleInstaller implements
      */
     protected function createLifetimeFields(Schema $schema)
     {
-        $table = $schema->getTable('oro_account');
+        $table = $schema->getTable('oro_customer');
         $table->addColumn(
             'lifetime',
             'money',
@@ -183,7 +183,7 @@ class OroCustomerAccountBridgeBundleInstaller implements
     {
         $this->extendExtension->addManyToOneRelation(
             $schema,
-            'oro_account',
+            'oro_customer',
             'dataChannel',
             'orocrm_channel',
             'name',

@@ -46,7 +46,7 @@ class OroCustomerAccountBridgeBundle implements
      */
     public function up(Schema $schema, QueryBag $queries)
     {
-        if ($schema->hasTable('oro_account') && $schema->hasTable('orocrm_account')) {
+        if ($schema->hasTable('oro_customer') && $schema->hasTable('orocrm_account')) {
             $this->createFields($schema);
             $this->addInheritanceTargets($schema);
         }
@@ -61,14 +61,14 @@ class OroCustomerAccountBridgeBundle implements
             'join'          => 'Oro\Bundle\SalesBundle\Entity\Customer',
             'conditionType' => 'WITH',
             'field'         => AccountCustomerManager::getCustomerTargetField(
-                'Oro\Bundle\CustomerBundle\Entity\Account'
+                'Oro\Bundle\CustomerBundle\Entity\Customer'
             ),
         ];
 
         $this->activityListExtension->addInheritanceTargets(
             $schema,
             'orocrm_account',
-            'oro_account',
+            'oro_customer',
             [$customerPath, 'account']
         );
         $this->activityListExtension->addInheritanceTargets(
@@ -111,7 +111,7 @@ class OroCustomerAccountBridgeBundle implements
     {
         $this->extendExtension->addManyToOneRelation(
             $schema,
-            'oro_account',
+            'oro_customer',
             'previous_account',
             'orocrm_account',
             'id',

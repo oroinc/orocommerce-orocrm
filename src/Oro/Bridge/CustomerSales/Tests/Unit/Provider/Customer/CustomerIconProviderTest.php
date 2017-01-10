@@ -4,7 +4,7 @@ namespace Oro\Bridge\CustomerSales\Tests\Unit\Provider;
 
 use Oro\Bridge\CustomerSales\Provider\Customer\CustomerIconProvider;
 use Oro\Bundle\UIBundle\Model\Image;
-use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
+use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
 
 class CustomerIconProviderTest extends \PHPUnit_Framework_TestCase
 {

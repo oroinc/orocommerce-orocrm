@@ -3,7 +3,7 @@
 namespace Oro\Bridge\CustomerAccount\Tests\Unit\Fixtures;
 
 use Oro\Bundle\AccountBundle\Entity\Account;
-use Oro\Bundle\CustomerBundle\Entity\Account as BaseCustomer;
+use Oro\Bundle\CustomerBundle\Entity\Customer as BaseCustomer;
 
 class Customer extends BaseCustomer
 {

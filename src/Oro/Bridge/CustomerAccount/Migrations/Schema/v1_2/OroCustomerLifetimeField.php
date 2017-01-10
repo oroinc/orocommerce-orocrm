@@ -34,7 +34,7 @@ class OroCustomerLifetimeField implements
      */
     public function up(Schema $schema, QueryBag $queries)
     {
-        if ($schema->hasTable('oro_account')) {
+        if ($schema->hasTable('oro_customer')) {
             $this->createLifetimeFields($schema);
             $this->createChannelFields($schema);
         }
@@ -45,7 +45,7 @@ class OroCustomerLifetimeField implements
      */
     protected function createLifetimeFields(Schema $schema)
     {
-        $table = $schema->getTable('oro_account');
+        $table = $schema->getTable('oro_customer');
         $table->addColumn(
             'lifetime',
             'money',
@@ -76,7 +76,7 @@ class OroCustomerLifetimeField implements
     {
         $this->extendExtension->addManyToOneRelation(
             $schema,
-            'oro_account',
+            'oro_customer',
             'dataChannel',
             'orocrm_channel',
             'name',

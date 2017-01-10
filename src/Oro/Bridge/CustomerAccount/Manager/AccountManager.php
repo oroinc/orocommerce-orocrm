@@ -10,7 +10,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Oro\Bridge\CustomerAccount\Manager\Strategy\AssignStrategyInterface;
 use Oro\Bundle\CustomerBundle\Entity\Repository\AccountRepository;
 use Oro\Bundle\AccountBundle\Entity\Account;
-use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
+use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
 use Oro\Bundle\SalesBundle\Entity\Customer as CustomerAssociation;
 
 class AccountManager
@@ -99,7 +99,7 @@ class AccountManager
      */
     protected function getRepository()
     {
-        return $this->getManager()->getRepository('OroCustomerBundle:Account');
+        return $this->getManager()->getRepository('OroCustomerBundle:Customer');
     }
 
     /**
@@ -107,7 +107,7 @@ class AccountManager
      */
     protected function getManager()
     {
-        return $this->registry->getManagerForClass('OroCustomerBundle:Account');
+        return $this->registry->getManagerForClass('OroCustomerBundle:Customer');
     }
 
     /**

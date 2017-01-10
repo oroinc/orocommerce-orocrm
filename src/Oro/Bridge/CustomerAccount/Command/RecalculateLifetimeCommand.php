@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 
 use Oro\Bundle\ChannelBundle\Command\RecalculateLifetimeCommand as AbstractRecalculateLifetimeCommand;
-use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
+use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
 
 class RecalculateLifetimeCommand extends AbstractRecalculateLifetimeCommand
 {
@@ -52,7 +52,7 @@ class RecalculateLifetimeCommand extends AbstractRecalculateLifetimeCommand
      */
     protected function getCustomersQueryBuilder(EntityManager $em, $customerClass, $channelType)
     {
-        return $em->getRepository('OroCustomerBundle:Account')->createQueryBuilder('customer')
+        return $em->getRepository('OroCustomerBundle:Customer')->createQueryBuilder('customer')
             ->select(sprintf('customer.%s as customer_id', 'id'));
     }
 
@@ -61,6 +61,6 @@ class RecalculateLifetimeCommand extends AbstractRecalculateLifetimeCommand
      */
     protected function getCustomerClass($channelSettings)
     {
-        return 'Oro\Bundle\CustomerBundle\Entity\Account';
+        return 'Oro\Bundle\CustomerBundle\Entity\Customer';
     }
 }

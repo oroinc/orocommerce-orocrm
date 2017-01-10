@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 
-use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
+use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
 use Oro\Bundle\AccountBundle\Entity\Account;
 
 class CustomerCreateListener

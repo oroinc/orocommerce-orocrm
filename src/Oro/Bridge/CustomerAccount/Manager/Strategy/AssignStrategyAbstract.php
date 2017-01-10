@@ -5,7 +5,7 @@ namespace Oro\Bridge\CustomerAccount\Manager\Strategy;
 use Oro\Bridge\CustomerAccount\Manager\AccountBuilder;
 use Oro\Bridge\CustomerAccount\Manager\LifetimeProcessor;
 use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
-use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
+use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
 
 abstract class AssignStrategyAbstract implements AssignStrategyInterface
 {

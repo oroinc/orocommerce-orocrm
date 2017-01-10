@@ -4,7 +4,7 @@ namespace Oro\Bridge\CustomerAccount\Manager\Strategy;
 
 use Oro\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\SalesBundle\Entity\Customer as CustomerAssociation;
-use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
+use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
 
 class AssignEachStrategy extends AssignStrategyAbstract
 {

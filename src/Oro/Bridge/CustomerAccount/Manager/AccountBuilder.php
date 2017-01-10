@@ -3,7 +3,7 @@
 namespace Oro\Bridge\CustomerAccount\Manager;
 
 use Oro\Bundle\AccountBundle\Entity\Account;
-use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
+use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
 
 class AccountBuilder
 {

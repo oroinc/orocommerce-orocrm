@@ -5,7 +5,7 @@ namespace Oro\Bridge\CustomerAccount\Tests\Functional\Functional\Controller;
 use Oro\Bridge\CustomerAccount\Tests\Functional\DataFixtures\LoadAccount;
 
 use Oro\Bundle\EntityExtendBundle\Entity\AbstractEnumValue;
-use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
+use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Controller\AccountControllerTest as BaseAccountControllerTest;
 

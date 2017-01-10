@@ -10,7 +10,7 @@ use Doctrine\ORM\Event\PostFlushEventArgs;
 
 use Oro\Bridge\CustomerAccount\Manager\LifetimeProcessor;
 use Oro\Bundle\CurrencyBundle\Converter\RateConverterInterface;
-use Oro\Bundle\CustomerBundle\Entity\Account as Customer;
+use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
 use Oro\Bundle\OrderBundle\Entity\Order;
 use Oro\Bundle\PaymentBundle\Entity\PaymentStatus;
 use Oro\Bundle\PaymentBundle\Provider\PaymentStatusProvider;
