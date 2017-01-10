@@ -13,6 +13,9 @@ class Customer extends BaseCustomer
     /** @var Account */
     protected $previousAccount;
 
+    /** @var int */
+    protected $lifetime;
+
     public function getAccount()
     {
         return $this->account;
@@ -31,5 +34,21 @@ class Customer extends BaseCustomer
     public function setPreviousAccount(Account $account = null)
     {
         $this->previousAccount = $account;
+    }
+
+    /**
+     * @param float $lifetime
+     */
+    public function setLifetime($lifetime)
+    {
+        $this->lifetime = $lifetime;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLifetime()
+    {
+        return $this->lifetime;
     }
 }
