@@ -2,35 +2,42 @@
 
 namespace Oro\Bridge\CustomerAccount\Tests\Unit\Manager\Strategy;
 
+use Oro\Bridge\CustomerAccount\Manager\LifetimeProcessor;
 use Oro\Bridge\CustomerAccount\Manager\Strategy\AssignEachStrategy;
 use Oro\Bridge\CustomerAccount\Manager\AccountBuilder;
 use Oro\Bridge\CustomerAccount\Tests\Unit\Fixtures\Customer;
+use Oro\Bridge\CustomerAccount\Tests\Unit\Fixtures\CustomerAssociation;
 use Oro\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
 use Oro\Bundle\UserBundle\Entity\User;
 
 class AssignEachStrategyTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var AccountBuilder| */
+    /** @var AccountBuilder */
     protected $accountBuilder;
 
     /** @var AssignEachStrategy */
-    protected $ssignEachStrategy;
+    protected $assignEachStrategy;
+
+    /** @var AccountCustomerManager */
+    protected $manager;
 
     protected function setUp()
     {
-        $this->markTestIncomplete('CRM-7187');
-
         $this->accountBuilder = new AccountBuilder();
+        $this->manager = $this->getAccountCustomerManager();
 
-        $this->ssignEachStrategy = new AssignEachStrategy(
-            $this->accountBuilder
+        $this->assignEachStrategy = new AssignEachStrategy(
+            $this->accountBuilder,
+            $this->manager,
+            $this->getLifetimeProcessor()
         );
     }
 
     public function testGetName()
     {
-        self::assertEquals('each', $this->ssignEachStrategy->getName());
+        self::assertEquals('each', $this->assignEachStrategy->getName());
     }
 
     public function testProcessCustomerWithoutAccount()
@@ -39,15 +46,20 @@ class AssignEachStrategyTest extends \PHPUnit_Framework_TestCase
         $organization = new Organization();
 
         $customer = $this->initCustomer('Test Customer', $user, $organization);
+        $account = $this->initAccount('Test Customer', $user, $organization);
 
-        $expectedAccount = $this->initAccount('Test Customer', $user, $organization);
-        $expectedCustomer = $this->initCustomer('Test Customer', $user, $organization);
-        $expectedCustomer->setAccount($expectedAccount);
+        $customerAssociation = new CustomerAssociation();
+        $customerAssociation->setTarget($account);
 
-        self::assertEquals([
-            $expectedAccount,
-            $expectedCustomer
-        ], $this->ssignEachStrategy->process($customer));
+        $this->manager->method('getAccountCustomerByTarget')->willReturn($customerAssociation);
+
+        self::assertEquals(
+            [
+                $customer,
+                $customerAssociation,
+            ],
+            $this->assignEachStrategy->process($customer)
+        );
     }
 
     public function testProcessCustomerWithAccount()
@@ -57,15 +69,19 @@ class AssignEachStrategyTest extends \PHPUnit_Framework_TestCase
 
         $customer = $this->initCustomer('Test Customer', $user, $organization);
         $account = $this->initAccount('Test Account', $user, $organization);
-        $customer->setAccount($account);
 
-        $expectedAccount = $this->initAccount('Test Account', $user, $organization);
-        $expectedCustomer = $this->initCustomer('Test Customer', $user, $organization);
-        $expectedCustomer->setAccount($expectedAccount);
+        $customerAssociation = new CustomerAssociation();
+        $customerAssociation->setTarget($account);
 
-        self::assertEquals([
-            $expectedCustomer
-        ], $this->ssignEachStrategy->process($customer));
+        $this->manager->method('getAccountCustomerByTarget')->willReturn($customerAssociation);
+
+        self::assertEquals(
+            [
+                $customer,
+                $customerAssociation,
+            ],
+            $this->assignEachStrategy->process($customer)
+        );
     }
 
     public function testProcessCustomerWithAccountAndParent()
@@ -75,22 +91,27 @@ class AssignEachStrategyTest extends \PHPUnit_Framework_TestCase
 
         $customer = $this->initCustomer('Test Customer', $user, $organization);
         $account = $this->initAccount('Test Account', $user, $organization);
-        $customer->setAccount($account);
 
-        $parentAccount = $this->initCustomer('Parent Customer', $user, $organization);
-        $customer->setParent($parentAccount);
+        $customerAssociation = new CustomerAssociation();
+        $customerAssociation->setTarget($account);
 
-        $expectedAccount = $this->initAccount('Test Customer', $user, $organization);
-        $expectedCustomer = $this->initCustomer('Test Customer', $user, $organization);
-        $expectedCustomer->setAccount($expectedAccount);
+        $parentCustomer = $this->initCustomer('Parent Customer', $user, $organization);
+        $parentAccount = $this->initAccount('Parent Account', $user, $organization);
+        $customer->setParent($parentCustomer);
 
-        $expectedParentAccount = $this->initCustomer('Parent Customer', $user, $organization);
-        $expectedCustomer->setParent($expectedParentAccount);
+        $rootCustomerAssociation = new CustomerAssociation();
+        $rootCustomerAssociation->setTarget($parentAccount);
 
-        self::assertEquals([
-            $expectedAccount,
-            $expectedCustomer
-        ], $this->ssignEachStrategy->process($customer));
+        $this->manager->method('getAccountCustomerByTarget')
+            ->willReturnOnConsecutiveCalls($customerAssociation, $rootCustomerAssociation);
+
+        self::assertEquals(
+            [
+                $customer,
+                $customerAssociation,
+            ],
+            $this->assignEachStrategy->process($customer)
+        );
     }
 
     protected function initAccount($name, $owner, $organization)
@@ -111,5 +132,29 @@ class AssignEachStrategyTest extends \PHPUnit_Framework_TestCase
         $customer->setOrganization($organization);
 
         return $customer;
+    }
+
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject|AccountCustomerManager
+     */
+    private function getAccountCustomerManager()
+    {
+        $manager = $this->getMockBuilder(AccountCustomerManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        return $manager;
+    }
+
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject|LifetimeProcessor
+     */
+    private function getLifetimeProcessor()
+    {
+        $processor = $this->getMockBuilder(LifetimeProcessor::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        return $processor;
     }
 }
