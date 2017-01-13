@@ -44,24 +44,19 @@ class AssignRootStrategyTest extends \PHPUnit_Framework_TestCase
     public function testCreateNewEntitiesIfNoParentCustomer()
     {
         $customerAssociation = new CustomerAssociation();
-        $customerAssociation->setTarget(new Account());
 
         $this->manager->method('getAccountCustomerByTarget')->willReturn($customerAssociation);
+        $this->builder->method('build')->willReturn(new Account());
 
         $entity = new Customer();
         $results = $this->strategy->process($entity);
 
-        $this->assertCount(2, $results);
+        $this->assertCount(3, $results);
     }
 
     public function testGetParentValueIfIsParentCustomerWithAccount()
     {
-
         $parentAccount = new Account();
-        $parentAccount->setId(1);
-
-        $account = new Account();
-        $account->setId(2);
 
         $entity = new Customer();
         $parent = new Customer();
@@ -73,7 +68,6 @@ class AssignRootStrategyTest extends \PHPUnit_Framework_TestCase
         $rootCustomerAssociation->setTarget($parentAccount);
 
         $customerAssociation = new CustomerAssociation();
-        $customerAssociation->setTarget($account);
 
         $this->manager
             ->method('getAccountCustomerByTarget')
@@ -82,24 +76,21 @@ class AssignRootStrategyTest extends \PHPUnit_Framework_TestCase
         $results = $this->strategy->process($entity);
 
         $this->assertCount(2, $results);
-        $this->assertNull($results[0]->getAccount());
-        $this->assertEquals($account, $results[0]->getPreviousAccount());
         $this->assertEquals($parentAccount, $results[1]->getAccount());
+        $this->assertNull($entity->getPreviousAccount());
+        $this->assertNull($results[0]->getAccount());
     }
 
     public function testCreateNewEntityIfIsParentCustomerWithoutAccount()
     {
-        $account = new Account();
-        $account->setId(2);
-
         $entity = new Customer();
         $parent = new Customer();
         $entity->setParent($parent);
 
-        $rootCustomerAssociation = new CustomerAssociation();
-
+        $account = new Account();
         $customerAssociation = new CustomerAssociation();
         $customerAssociation->setTarget($account);
+        $rootCustomerAssociation = new CustomerAssociation();
 
         $this->manager
             ->expects($this->exactly(2))
@@ -113,9 +104,37 @@ class AssignRootStrategyTest extends \PHPUnit_Framework_TestCase
         $results = $this->strategy->process($entity);
 
         $this->assertCount(3, $results);
-        $this->assertEquals($account, $results[1]->getPreviousAccount());
-        $this->assertNull($results[1]->getAccount());
-        $this->assertEquals($account, $results[2]->getAccount());
+        $this->assertEquals($account, $results[0]);
+    }
+
+    public function testSavePreviousAccountWhenIsParentCustomerWithAccount()
+    {
+        $entity = new Customer();
+        $parent = new Customer();
+
+        $account = new Account();
+        $previousAccount = new Account();
+
+        $parent->setAccount($account);
+        $entity->setParent($parent);
+        $entity->setAccount($previousAccount);
+
+        $rootCustomerAssociation = new CustomerAssociation();
+        $rootCustomerAssociation->setTarget($previousAccount);
+
+        $customerAssociation = new CustomerAssociation();
+        $customerAssociation->setTarget($account);
+
+        $this->manager
+            ->expects($this->exactly(2))
+            ->method('getAccountCustomerByTarget')
+            ->willReturnOnConsecutiveCalls($rootCustomerAssociation, $customerAssociation);
+
+        $results = $this->strategy->process($entity);
+
+        $this->assertCount(2, $results);
+        $this->assertEquals($account, $results[0]->getAccount());
+        $this->assertEquals($previousAccount, $results[0]->getPreviousAccount());
     }
 
     /**

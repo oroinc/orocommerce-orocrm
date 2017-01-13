@@ -46,20 +46,21 @@ class AssignEachStrategyTest extends \PHPUnit_Framework_TestCase
         $organization = new Organization();
 
         $customer = $this->initCustomer('Test Customer', $user, $organization);
-        $account = $this->initAccount('Test Customer', $user, $organization);
-
+        $expectedAccount = $this->initAccount('Test Customer', $user, $organization);
         $customerAssociation = new CustomerAssociation();
-        $customerAssociation->setTarget($account);
 
         $this->manager->method('getAccountCustomerByTarget')->willReturn($customerAssociation);
 
         self::assertEquals(
             [
+                $expectedAccount,
                 $customer,
                 $customerAssociation,
             ],
             $this->assignEachStrategy->process($customer)
         );
+
+        self::assertEquals($customer, $customerAssociation->getTarget());
     }
 
     public function testProcessCustomerWithAccount()
@@ -82,6 +83,8 @@ class AssignEachStrategyTest extends \PHPUnit_Framework_TestCase
             ],
             $this->assignEachStrategy->process($customer)
         );
+
+        self::assertEquals($customer, $customerAssociation->getTarget());
     }
 
     public function testProcessCustomerWithAccountAndParent()
@@ -112,8 +115,16 @@ class AssignEachStrategyTest extends \PHPUnit_Framework_TestCase
             ],
             $this->assignEachStrategy->process($customer)
         );
+
+        self::assertEquals($customer, $customerAssociation->getTarget());
     }
 
+    /**
+     * @param $name
+     * @param $owner
+     * @param $organization
+     * @return Account
+     */
     protected function initAccount($name, $owner, $organization)
     {
         $account = new Account();
@@ -124,6 +135,12 @@ class AssignEachStrategyTest extends \PHPUnit_Framework_TestCase
         return $account;
     }
 
+    /**
+     * @param $name
+     * @param $owner
+     * @param $organization
+     * @return Customer
+     */
     protected function initCustomer($name, $owner, $organization)
     {
         $customer = new Customer();
