@@ -11,7 +11,7 @@
     ],
     "autoload": {
         "psr-0": {
-            "Oro\\Bridge": "src/"
+            "Oro": "src/"
         }
     },
     "require": {
