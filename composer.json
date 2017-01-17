@@ -1,12 +1,12 @@
 {
     "name": "oro/commerce-crm",
-    "description": "OroCRM Commerce",
-    "homepage": "https://github.com/orocrm/commerce-crm.git",
-    "license": "Commercial",
+    "description": "OroCRM integration for OroCommerce",
+    "homepage": "https://github.com/orocommerce/orocommerce-orocrm",
+    "license": "OSL-3.0",
     "authors": [
         {
             "name": "Oro, Inc",
-            "homepage": "http://www.orocrm.com"
+            "homepage": "https://www.orocommerce.com/"
         }
     ],
     "autoload": {
