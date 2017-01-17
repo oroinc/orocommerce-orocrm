@@ -16,7 +16,7 @@
     },
     "require": {
         "oro/crm": "2.0.0",
-        "oro/commerce": "1.0.0-rc.2"
+        "oro/commerce": "1.0.0"
     },
     "extra": {
         "branch-alias": {
