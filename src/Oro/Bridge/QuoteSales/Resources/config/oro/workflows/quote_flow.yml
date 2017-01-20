@@ -1,0 +1,10 @@
+imports:
+    - { resource: 'quote_flow/steps.yml' }
+    - { resource: 'quote_flow/attributes.yml' }
+    - { resource: 'quote_flow/transitions.yml' }
+    - { resource: 'quote_flow/transition_definitions.yml' }
+
+workflows:
+    quote_flow:
+        entity: Oro\Bundle\SalesBundle\Entity\Opportunity
+        entity_attribute: opportunity

@@ -1,0 +1,12 @@
+workflows:
+    quote_flow:
+        attributes:
+           status:
+              property_path: opportunity.status
+           quote:
+              type: entity
+              options:
+                  class: Oro\Bundle\SaleBundle\Entity\Quote
+           customer:
+              property_path: opportunity.customerAssociation
+

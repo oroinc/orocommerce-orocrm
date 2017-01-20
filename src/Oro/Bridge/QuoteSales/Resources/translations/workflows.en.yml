@@ -1,0 +1,17 @@
+oro:
+    workflow:
+        quote_flow:
+            label: 'Quote flow'
+            step:
+                quote_send:
+                    label: 'Quote Sent'
+            attribute:
+                status:
+                    label: 'Status'
+                quote:
+                    label: 'Quote'
+                customer:
+                    label: 'Customer'
+            transition:
+                quote_creating:
+                      label: 'Create Quote'

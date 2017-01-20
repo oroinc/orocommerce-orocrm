@@ -1,0 +1,11 @@
+workflows:
+    quote_flow:
+        transitions:
+           quote_creating:
+               step_to: quote_send
+               is_start: true
+               is_unavailable_hidden: true
+               frontend_options:
+                   icon: fa-play
+                   class: btn-primary
+               transition_definition: quote_creating_definition

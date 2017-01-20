@@ -1,0 +1,2 @@
+imports:
+    - { resource: 'workflows/quote_flow.yml' }    # Quote Management Flow
