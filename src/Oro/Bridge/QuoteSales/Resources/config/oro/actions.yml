@@ -1,0 +1,47 @@
+operations:
+    DELETE:
+        exclude_datagrids:
+            - opportunity-quotes-grid
+    UPDATE:
+        exclude_datagrids:
+            - opportunity-quotes-grid
+    oro_sale_expire_quote:
+        datagrids:
+            - opportunity-quotes-grid
+
+    opportunity_quotes_delete:
+        extends: DELETE
+        for_all_entities: false
+        for_all_datagrids: false
+        replace:
+            - datagrids
+            - preconditions
+        datagrids:
+            - opportunity-quotes-grid
+        preconditions:
+            '@and':
+                - '@not_blank': $.data
+                - '@or':
+                    - '@blank': $.requestRoute
+                    - '@and':
+                        - '@not_blank': $.routes[name]
+                - '@or':
+                    - '@not_blank': $.routes[name]
+                    - '@not_blank': $.gridName
+    opportunity_quotes_update:
+        extends: UPDATE
+        for_all_entities: false
+        for_all_datagrids: false
+        replace:
+            - datagrids
+            - preconditions
+        datagrids:
+            - opportunity-quotes-grid
+        preconditions:
+            '@and':
+                - '@not_blank': $.data
+                - '@not_blank': $.routes[update]
+                - '@or':
+                    - '@blank': $.requestRoute
+                    - '@and':
+                        - '@not_blank': $.routes[name]

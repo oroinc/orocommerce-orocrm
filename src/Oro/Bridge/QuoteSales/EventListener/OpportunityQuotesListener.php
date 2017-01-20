@@ -1,0 +1,77 @@
+<?php
+
+namespace Oro\Bridge\QuoteSales\EventListener;
+
+use Symfony\Component\Translation\TranslatorInterface;
+
+use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
+use Oro\Bundle\SalesBundle\Entity\Opportunity;
+use Oro\Bridge\QuoteSales\Provider\OpportunityQuotesProvider;
+use Oro\Bundle\UIBundle\Event\BeforeViewRenderEvent;
+
+class OpportunityQuotesListener
+{
+    // below activity block which have 1000
+    const GRID_BLOCK_PRIORITY = 1005;
+
+    /** @var TranslatorInterface */
+    protected $translator;
+
+    /** @var DoctrineHelper  */
+    protected $doctrineHelper;
+
+    /**
+     * @param OpportunityQuotesProvider $opportunityQuotesProvider
+     * @param TranslatorInterface $translator
+     */
+    public function __construct(
+        OpportunityQuotesProvider $opportunityQuotesProvider,
+        TranslatorInterface $translator
+    ) {
+        $this->opportunityQuotesProvider        = $opportunityQuotesProvider;
+        $this->translator                       = $translator;
+    }
+
+    /**
+     * Adds block with relevant opportunities grid on the Opportunity view
+     *
+     * @param BeforeViewRenderEvent $event
+     */
+    public function addRelatedQuotes(BeforeViewRenderEvent $event)
+    {
+        $data        = $event->getData();
+        $entity      = $event->getEntity();
+        $environment = $event->getTwigEnvironment();
+
+        if (!$entity instanceof Opportunity) {
+            return;
+        }
+
+        if (!$entity->getCustomerAssociation()) {
+            return;
+        }
+
+        if (!count($this->opportunityQuotesProvider->getQuotesByOpportunity($entity))) {
+            return;
+        }
+
+        $quotesData = $environment->render(
+            'OroQuoteSalesBridgeBundle:Opportunity:opportunityQuotes.html.twig',
+            [
+                'gridParams' =>
+                    [
+                        'opportunity_id' => $entity->getId(),
+                        'related_entity_class' => Opportunity::class
+                    ]
+            ]
+        );
+
+        $data['dataBlocks'][] = [
+            'title'     => $this->translator->trans('oro.quote_sales.opportunity_quotes.entity_label'),
+            'priority'  => self::GRID_BLOCK_PRIORITY,
+            'subblocks' => [['data' => [$quotesData]]]
+        ];
+
+        $event->setData($data);
+    }
+}

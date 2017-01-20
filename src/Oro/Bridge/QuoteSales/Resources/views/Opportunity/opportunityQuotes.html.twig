@@ -1,0 +1,7 @@
+{% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+
+{% set gridName = 'opportunity-quotes-grid' %}
+
+<div class="widget-content">
+    {{ dataGrid.renderGrid(gridName, gridParams) }}
+</div>

@@ -1,0 +1,15 @@
+services:
+    oro_quote_sales.opportunity_quotes.listener:
+        class: Oro\Bridge\QuoteSales\EventListener\OpportunityQuotesListener
+        arguments:
+            - '@oro_quote_sales.opportunity_quotes.provider'
+            - '@translator'
+            - '@oro_sales.provider.opportunity.display_settings_config'
+        tags:
+            - { name: kernel.event_listener, event: entity_view.render.before, method: addRelatedQuotes }
+
+    oro_quote_sales.opportunity_quotes.provider:
+        class: Oro\Bridge\QuoteSales\Provider\OpportunityQuotesProvider
+        arguments:
+            - '@doctrine'
+            - '@oro_security.acl_helper'

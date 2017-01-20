@@ -1,0 +1,13 @@
+datagrids:
+    opportunity-quotes-grid:
+        extends: base-quote-grid
+        source:
+            query:
+                join:
+                    left:
+                        - { join: quote.opportunity, alias: opportunity }
+                where:
+                    and:
+                        - opportunity.id = :opportunity_id
+            bind_parameters:
+                - opportunity_id
