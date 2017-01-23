@@ -60,6 +60,13 @@ class OroQuoteSalesBridgeBundleInstaller implements Installation, ExtendExtensio
                 'datagrid' => [
                     'is_visible' => DatagridScope::IS_VISIBLE_FALSE
                 ],
+                'form' => [
+                    'is_enabled' => true,
+                    'form_type' => 'oro_sales_opportunity_select',
+                    'form_options' => [
+                        'grid_name' => 'sales-opportunity-for-context-grid',
+                    ]
+                ],
                 'view' => ['is_displayable' => true],
                 'merge' => ['display' => false],
                 'dataaudit' => ['auditable' => false]
