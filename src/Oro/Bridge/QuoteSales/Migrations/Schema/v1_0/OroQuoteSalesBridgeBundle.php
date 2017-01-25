@@ -42,7 +42,7 @@ class OroQuoteSalesBridgeBundle implements Migration, ExtendExtensionAwareInterf
             'oro_quote',
             'opportunity',
             'oro_opportunity',
-            'id',
+            'name',
             [
                 'entity' => ['label' => 'oro.quote_sales.opportunity_quotes.entity_label'],
                 'extend' => [

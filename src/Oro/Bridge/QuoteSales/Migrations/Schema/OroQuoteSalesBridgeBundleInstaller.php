@@ -50,7 +50,7 @@ class OroQuoteSalesBridgeBundleInstaller implements Installation, ExtendExtensio
             'oro_sale_quote',
             'opportunity',
             'orocrm_sales_opportunity',
-            'id',
+            'name',
             [
                 'entity' => ['label' => 'oro.quote_sales.opportunity_quotes.entity_label'],
                 'extend' => [
