@@ -1,8 +1,14 @@
 workflows:
     quote_flow:
         steps:
-            quote_send:
+            open:
+                order: 10
+                allowed_transitions:
+                  - quote_create
+                  - quote_send
+            quote_sent:
                 order: 20
                 allowed_transitions:
-                    - quote_creating
+                  - quote_add
+
 

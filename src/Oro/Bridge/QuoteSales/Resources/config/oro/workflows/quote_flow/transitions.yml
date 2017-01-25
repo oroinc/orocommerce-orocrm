@@ -1,11 +1,28 @@
 workflows:
     quote_flow:
         transitions:
-           quote_creating:
-               step_to: quote_send
+           quote_send:
+               step_to: quote_sent
+               is_hidden: true
+               transition_definition: empty_definition
+               triggers:
+                   -
+                       event: create
+                       entity_class: Oro\Bundle\SaleBundle\Entity\Quote
+                       relation: opportunity
+                       queued: false
+           quote_create:
+               step_to: open
                is_start: true
                is_unavailable_hidden: true
                frontend_options:
                    icon: fa-play
                    class: btn-primary
                transition_definition: quote_creating_definition
+           quote_add:
+                step_to: quote_sent
+                is_unavailable_hidden: true
+                frontend_options:
+                    icon: fa-play
+                    class: btn-primary
+                transition_definition: quote_creating_definition

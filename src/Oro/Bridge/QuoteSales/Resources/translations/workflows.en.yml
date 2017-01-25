@@ -3,7 +3,9 @@ oro:
         quote_flow:
             label: 'Quote flow'
             step:
-                quote_send:
+                open:
+                    label: 'Open'
+                quote_sent:
                     label: 'Quote Sent'
             attribute:
                 status:
@@ -13,5 +15,9 @@ oro:
                 customer:
                     label: 'Customer'
             transition:
-                quote_creating:
+                quote_send:
+                      label: 'To Quote Sent Step'
+                quote_create:
+                      label: 'Create Quote'
+                quote_add:
                       label: 'Create Quote'
