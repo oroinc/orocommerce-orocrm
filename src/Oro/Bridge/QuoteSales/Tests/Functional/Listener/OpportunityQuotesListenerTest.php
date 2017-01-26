@@ -21,6 +21,7 @@ class OpportunityQuotesListenerTest extends WebTestCase
             array_merge($this->generateBasicAuthHeader(), array('HTTP_X-CSRF-Header' => 1))
         );
         $this->loadFixtures([
+            'Oro\Bridge\QuoteSales\Tests\Functional\Fixture\CreateDefaultAccountFixture',
             'Oro\Bridge\QuoteSales\Tests\Functional\Fixture\OpportunityQuotesListenerFixture'
         ]);
         $this->translator = static::getContainer()->get('translator');
