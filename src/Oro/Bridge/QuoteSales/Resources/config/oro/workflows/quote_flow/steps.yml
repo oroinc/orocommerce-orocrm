@@ -6,7 +6,7 @@ workflows:
                 allowed_transitions:
                   - quote_create
                   - quote_send
-            quote_sent:
+            quote_created:
                 order: 20
                 allowed_transitions:
                   - quote_add

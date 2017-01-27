@@ -5,8 +5,8 @@ oro:
             step:
                 open:
                     label: 'Open'
-                quote_sent:
-                    label: 'Quote Sent'
+                quote_created:
+                    label: 'Quote created'
             attribute:
                 status:
                     label: 'Status'

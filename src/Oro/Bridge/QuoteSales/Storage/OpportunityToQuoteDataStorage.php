@@ -2,24 +2,24 @@
 
 namespace Oro\Bridge\QuoteSales\Storage;
 
+use Oro\Bundle\ProductBundle\Storage\DataStorageInterface;
 use Oro\Bundle\ProductBundle\Storage\ProductDataStorage;
 use Oro\Bundle\SalesBundle\Entity\Opportunity;
 
 class OpportunityToQuoteDataStorage
 {
     /**
-     * @var ProductDataStorage
+     * @var DataStorageInterface
      */
-    protected $storage;
+    protected $attributeStorage;
 
     /**
      * OpportunityToQuoteDataStorage constructor.
-     *
-     * @param ProductDataStorage $storage
+     * @param DataStorageInterface $attributeStorage
      */
-    public function __construct(ProductDataStorage $storage)
+    public function __construct(DataStorageInterface $attributeStorage)
     {
-        $this->storage = $storage;
+        $this->attributeStorage = $attributeStorage;
     }
 
     /**
@@ -35,6 +35,6 @@ class OpportunityToQuoteDataStorage
             ],
         ];
 
-        $this->storage->set($data);
+        $this->attributeStorage->set($data);
     }
 }

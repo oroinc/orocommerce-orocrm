@@ -44,7 +44,7 @@ class OpportunityQuotesListenerTest extends WebTestCase
         $this->assertEquals($response->getStatusCode(), 200, "Failed in getting widget view !");
         $this->assertNotEmpty($crawler->html());
         $this->assertContains(
-            $this->translator->trans('oro.quote_sales.opportunity_quotes.entity_label'),
+            $this->translator->trans('oro.sale.quote.entity_plural_label'),
             $crawler->html()
         );
     }

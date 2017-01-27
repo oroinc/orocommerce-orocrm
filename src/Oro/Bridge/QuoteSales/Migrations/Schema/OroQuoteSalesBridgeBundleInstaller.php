@@ -52,7 +52,7 @@ class OroQuoteSalesBridgeBundleInstaller implements Installation, ExtendExtensio
             'orocrm_sales_opportunity',
             'name',
             [
-                'entity' => ['label' => 'oro.quote_sales.opportunity_quotes.entity_label'],
+                'entity' => ['label' => 'oro.sales.opportunity.entity_label'],
                 'extend' => [
                     'owner' => ExtendScope::OWNER_CUSTOM,
                     'is_extend' => true,
@@ -64,7 +64,7 @@ class OroQuoteSalesBridgeBundleInstaller implements Installation, ExtendExtensio
                     'is_enabled' => true,
                     'form_type' => 'oro_sales_opportunity_select',
                     'form_options' => [
-                        'grid_name' => 'sales-opportunity-for-context-grid',
+                        'read_only' => true,
                     ]
                 ],
                 'view' => ['is_displayable' => true],

@@ -13,7 +13,11 @@ workflows:
                            service: oro_quote_sales.opportunity_to_quote_data_storage
                            method: saveToStorage
                            method_parameters: [$opportunity]
+                       - '@call_service_method':
+                           service: oro_quote_sales.opportunity_to_route_data_storage
+                           method: saveToStorage
+                           method_parameters:  [$opportunity]
                        - '@redirect':
                            parameters:
                                route: oro_sale_quote_create
-                               route_parameters: {'storage': true}
+                               route_parameters: { storage: true, redirect_back: true }

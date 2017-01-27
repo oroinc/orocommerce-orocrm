@@ -13,7 +13,13 @@ services:
         arguments:
             - '@doctrine'
             - '@oro_security.acl_helper'
+
     oro_quote_sales.opportunity_to_quote_data_storage:
         class: 'Oro\Bridge\QuoteSales\Storage\OpportunityToQuoteDataStorage'
         arguments:
-            - "@oro_product.storage.product_data_storage"
+            - '@oro_product.storage.product_data_storage'
+
+    oro_quote_sales.opportunity_to_route_data_storage:
+        class: 'Oro\Bridge\QuoteSales\Storage\OpportunityToRouteDataStorage'
+        arguments:
+            - '@oro_sale.storage.return_route_storage'

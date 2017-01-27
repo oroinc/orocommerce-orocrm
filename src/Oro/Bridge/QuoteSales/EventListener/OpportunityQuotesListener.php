@@ -67,7 +67,7 @@ class OpportunityQuotesListener
         );
 
         $data['dataBlocks'][] = [
-            'title'     => $this->translator->trans('oro.quote_sales.opportunity_quotes.entity_label'),
+            'title'     => $this->translator->trans('oro.sale.quote.entity_plural_label'),
             'priority'  => self::GRID_BLOCK_PRIORITY,
             'subblocks' => [['data' => [$quotesData]]]
         ];

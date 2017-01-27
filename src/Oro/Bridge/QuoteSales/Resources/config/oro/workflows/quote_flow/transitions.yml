@@ -2,7 +2,7 @@ workflows:
     quote_flow:
         transitions:
            quote_send:
-               step_to: quote_sent
+               step_to: quote_created
                is_hidden: true
                transition_definition: empty_definition
                triggers:
@@ -16,13 +16,11 @@ workflows:
                is_start: true
                is_unavailable_hidden: true
                frontend_options:
-                   icon: fa-play
-                   class: btn-primary
+                   icon: fa-list-alt
                transition_definition: quote_creating_definition
            quote_add:
-                step_to: quote_sent
+                step_to: quote_created
                 is_unavailable_hidden: true
                 frontend_options:
-                    icon: fa-play
-                    class: btn-primary
+                    icon: fa-list-alt
                 transition_definition: quote_creating_definition
