@@ -1,19 +1,18 @@
 <?php
 namespace Oro\Bridge\QuoteSales\Tests\Functional\Listener;
 
-use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-use Oro\Bundle\TranslationBundle\Translation\Translator;
+use Oro\Bundle\DataGridBundle\Tests\Functional\AbstractDatagridTestCase;
+use Oro\Bridge\QuoteSales\Tests\Functional\Fixture\CreateDefaultAccountFixture;
+use Oro\Bridge\QuoteSales\Tests\Functional\Fixture\OpportunityQuotesListenerFixture;
 
 /**
  * @dbIsolationPerTest
  */
-class OpportunityQuotesListenerTest extends WebTestCase
+class OpportunityQuotesListenerTest extends AbstractDatagridTestCase
 {
     /**
-     * @var Translator
+     * {@inheritDoc}
      */
-    protected $translator;
-
     public function setUp()
     {
         $this->initClient(
@@ -21,10 +20,9 @@ class OpportunityQuotesListenerTest extends WebTestCase
             array_merge($this->generateBasicAuthHeader(), array('HTTP_X-CSRF-Header' => 1))
         );
         $this->loadFixtures([
-            'Oro\Bridge\QuoteSales\Tests\Functional\Fixture\CreateDefaultAccountFixture',
-            'Oro\Bridge\QuoteSales\Tests\Functional\Fixture\OpportunityQuotesListenerFixture'
+            CreateDefaultAccountFixture::class,
+            OpportunityQuotesListenerFixture::class
         ]);
-        $this->translator = static::getContainer()->get('translator');
     }
 
     public function testQuoteGridOnOpportunityView()
@@ -41,11 +39,67 @@ class OpportunityQuotesListenerTest extends WebTestCase
             )
         );
         $response = $this->client->getResponse();
-        $this->assertEquals($response->getStatusCode(), 200, "Failed in getting widget view !");
+        $this->assertEquals($response->getStatusCode(), 200, 'Failed in getting widget view !');
         $this->assertNotEmpty($crawler->html());
-        $this->assertContains(
-            $this->translator->trans('oro.sale.quote.entity_plural_label'),
-            $crawler->html()
+        $this->assertContains('Quotes', $crawler->html());
+    }
+
+    /**
+     * @dataProvider gridProvider
+     *
+     * @param array $requestData
+     */
+    public function testGrid($requestData)
+    {
+        $requestData['gridParameters'] = array_replace(
+            $requestData['gridParameters'],
+            [
+                'opportunity-quotes-grid[opportunity_id]' => $this->getReference('opportunity')->getId()
+            ]
         );
+
+        parent::testGrid($requestData);
+
+        $result = static::jsonToArray($this->client->getResponse()->getContent());
+
+        if (!empty($requestData['assertRowActions'])) {
+            foreach ($result['data'] as $row) {
+                $this->assertNotEmpty($row['action_configuration'], 'No available row actions');
+
+                $rowActions = array_keys($row['action_configuration']);
+                $notAvailableActions = array_diff($requestData['assertRowActions'], $rowActions);
+
+                $this->assertEmpty(
+                    $notAvailableActions,
+                    'Not all required row actions are available'
+                );
+            }
+        }
+    }
+
+
+    /**
+     * @return array
+     */
+    public function gridProvider()
+    {
+        return [
+            'Quote grid CRUD + Expire actions available' => [
+                [
+                    'gridParameters'      => [
+                        'gridName' => 'opportunity-quotes-grid',
+                        'opportunity-quotes-grid[opportunity_id]' => '', //will be set later
+                    ],
+                    'gridFilters'         => [],
+                    'assert'              => [],
+                    'assertRowActions'       => [
+                        'oro_sale_expire_quote',
+                        'opportunity_quotes_update',
+                        'opportunity_quotes_delete'
+                    ],
+                    'expectedResultCount' => 1
+                ],
+            ]
+        ];
     }
 }

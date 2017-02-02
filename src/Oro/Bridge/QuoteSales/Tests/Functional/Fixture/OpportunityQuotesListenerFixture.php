@@ -5,7 +5,6 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer as CommerceCustomer;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\EntityExtendBundle\Entity\AbstractEnumValue;
 use Oro\Bundle\EntityExtendBundle\Tools\ExtendHelper;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
@@ -14,7 +13,6 @@ use Oro\Bundle\SalesBundle\Entity\B2bCustomer;
 use Oro\Bundle\SalesBundle\Entity\Opportunity;
 use Oro\Bundle\SalesBundle\Entity\Customer;
 use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
-use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -24,53 +22,16 @@ class OpportunityQuotesListenerFixture extends AbstractFixture implements Contai
 {
     use ContainerAwareTrait;
 
-    /** @var Organization */
-    protected $organization;
-
     /** @var ObjectManager */
     protected $em;
-
-    /** @var CustomerUser */
-    protected $customer;
-
-    /** @var B2bCustomer */
-    protected $b2bCustomer;
-
-    /** @var Website */
-    protected $website;
-
-    /** @var User */
-    protected $user;
 
     /** @var AccountCustomerManager */
     protected $accountCustomerManager;
 
-    public function createOpportunity()
-    {
-        foreach ($this->opportunityProvider() as $data) {
-            $status = $this->getStatus($data['status']);
-            $customer = $data['customer'];
-            $opportunity = new Opportunity();
-            $opportunity->setName(sprintf('Opportunity name_%d', mt_rand(1, 10)));
-            $opportunity->setStatus($status);
-            $opportunity->setOrganization($this->organization);
-            $opportunity->setCustomerAssociation($customer);
-
-            $this->em->persist($opportunity);
-            $this->em->flush();
-
-            if (array_key_exists('create_quote', $data) && $data['create_quote']) {
-                $this->createQuote($opportunity);
-            }
-
-            $this->setReference($data['reference_name'], $opportunity);
-        }
-    }
-
     /**
      * @return Customer
      */
-    protected function createCustomer()
+    protected function createCommerceCustomer()
     {
         $customer = new CommerceCustomer();
         $customer->setName('Default customer');
@@ -78,18 +39,21 @@ class OpportunityQuotesListenerFixture extends AbstractFixture implements Contai
         $this->em->persist($customer);
         $this->em->flush();
 
+        $this->setReference('customer', $customer);
         return $this->accountCustomerManager->getAccountCustomerByTarget($customer);
     }
 
+
     /**
-     * @return Customer
+     * @param Organization $organization
+     * @return \Extend\Entity\EX_OroSalesBundle_Customer|Customer
      */
-    protected function createB2bCustomer()
+    protected function createB2bCustomer(Organization $organization)
     {
         $customer = new B2bCustomer();
         $customer->setAccount($this->getReference(CreateDefaultAccountFixture::DEFAULT_ACCOUNT_REF));
         $customer->setName('B2BCustomer');
-        $customer->setOrganization($this->organization);
+        $customer->setOrganization($organization);
 
         $this->em->persist($customer);
         $this->em->flush();
@@ -110,27 +74,19 @@ class OpportunityQuotesListenerFixture extends AbstractFixture implements Contai
 
     /**
      * @param Opportunity $opportunity
+     * @param Website $website
      */
-    protected function createQuote(Opportunity $opportunity)
+    protected function createQuote(Opportunity $opportunity, Website $website)
     {
-        $customerUsers = array_merge([null], $this->customer->getUsers()->getValues());
-        /* @var $customerUser CustomerUser */
-        $customerUser = $customerUsers[mt_rand(0, count($customerUsers) - 1)];
+        $customer = $opportunity->getCustomerAssociation()->getTarget();
 
-        $validUntil = new \DateTime('now');
-        $addDays = sprintf('+%s days', mt_rand(10, 100));
-        $validUntil->modify($addDays);
-        $poNumber = 'CA' . mt_rand(1000, 9999) . 'USD';
         $quote = new Quote();
         $quote
-            ->setOwner($this->user)
-            ->setOrganization($this->organization)
-            ->setValidUntil($validUntil)
-            ->setCustomerUser($customerUser)
-            ->setCustomer($this->customer)
-            ->setShipUntil(new \DateTime('+10 day'))
-            ->setPoNumber($poNumber)
-            ->setWebsite($this->website)
+            ->setOrganization($opportunity->getOrganization())
+            ->setCustomerUser(null)
+            ->setCustomer($customer)
+            ->setPoNumber('CA1000USD')
+            ->setWebsite($website)
             ->setOpportunity($opportunity);
 
         $this->em->persist($quote);
@@ -138,28 +94,49 @@ class OpportunityQuotesListenerFixture extends AbstractFixture implements Contai
     }
 
     /**
-     * @return array
+     * @param Organization $organization
+     * @param Website $website
      */
-    protected function opportunityProvider()
+    protected function createOpportunity(Organization $organization, Website $website)
     {
-        return [
+        $customer = $this->createCommerceCustomer();
+        $opportunityData = [
             [
                 'status'            => 'in_progress',
-                'customer'          => $this->createCustomer(),
+                'customer'          => $customer,
                 'create_quote'      => true,
                 'reference_name'    => 'opportunity'
             ],
             [
                 'status'            => 'in_progress',
-                'customer'          => $this->createB2bCustomer(),
+                'customer'          => $this->createB2bCustomer($organization),
                 'reference_name'    => 'opportunity_won_b2b'
             ],
             [
                 'status'            => 'lost',
-                'customer'          => $this->createCustomer(),
+                'customer'          => $customer,
                 'reference_name'    => 'opportunity_won'
             ]
         ];
+
+        foreach ($opportunityData as $data) {
+            $status = $this->getStatus($data['status']);
+            $customer = $data['customer'];
+            $opportunity = new Opportunity();
+            $opportunity->setName(sprintf('Opportunity name_%d', mt_rand(1, 10)));
+            $opportunity->setStatus($status);
+            $opportunity->setOrganization($organization);
+            $opportunity->setCustomerAssociation($customer);
+
+            $this->em->persist($opportunity);
+            $this->em->flush();
+
+            if (array_key_exists('create_quote', $data) && $data['create_quote']) {
+                $this->createQuote($opportunity, $website);
+            }
+
+            $this->setReference($data['reference_name'], $opportunity);
+        }
     }
 
     /**
@@ -167,16 +144,12 @@ class OpportunityQuotesListenerFixture extends AbstractFixture implements Contai
      */
     public function load(ObjectManager $manager)
     {
+        $this->em = $manager;
         $this->accountCustomerManager = $this->container->get('oro_sales.manager.account_customer');
 
-        $role = $manager->getRepository('OroUserBundle:Role')
-                        ->findOneBy(['role' => 'ROLE_ADMINISTRATOR']);
-        $this->user = $manager->getRepository('OroUserBundle:Role')->getFirstMatchedUser($role);
-        $this->organization = $manager->getRepository('OroOrganizationBundle:Organization')->getFirst();
-        $this->website = $manager->getRepository('OroWebsiteBundle:Website')->findOneBy(['name' => 'Default']);
-        $this->customer = $manager->getRepository('OroCustomerBundle:Customer')->findOneBy([]);
-
-        $this->em = $manager;
-        $this->createOpportunity();
+        $this->createOpportunity(
+            $manager->getRepository('OroOrganizationBundle:Organization')->getFirst(),
+            $manager->getRepository('OroWebsiteBundle:Website')->findOneBy(['name' => 'Default'])
+        );
     }
 }
