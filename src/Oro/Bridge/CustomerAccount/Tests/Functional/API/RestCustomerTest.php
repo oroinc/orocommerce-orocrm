@@ -10,9 +10,6 @@ use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadGroups;
 use Oro\Bundle\UserBundle\Tests\Functional\DataFixtures\LoadUserData;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @dbIsolation
- */
 class RestCustomerTest extends AbstractRestTest
 {
     /**

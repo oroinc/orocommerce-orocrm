@@ -10,10 +10,6 @@ use Oro\Bundle\ConfigBundle\Event\ConfigUpdateEvent;
 use Oro\Bundle\MessageQueueBundle\Test\Functional\MessageQueueExtension;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
-/**
- * @outputBuffering enabled
- * @dbIsolation
- */
 class ChangeConfigOptionListenerTest extends WebTestCase
 {
     use MessageQueueExtension;

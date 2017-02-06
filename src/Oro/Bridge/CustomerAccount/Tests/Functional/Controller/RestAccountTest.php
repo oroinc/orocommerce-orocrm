@@ -4,9 +4,6 @@ namespace Oro\Bridge\CustomerAccount\Tests\Functional\Functional\Controller;
 
 use Oro\Bundle\AccountBundle\Tests\Functional\API\RestAccountTest as BaseRestAccountTest;
 
-/**
- * @dbIsolation
- */
 class RestAccountTest extends BaseRestAccountTest
 {
     /**

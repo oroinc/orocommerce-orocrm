@@ -10,9 +10,6 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\TaxBundle\Entity\CustomerTaxCode;
 use Oro\Bundle\TaxBundle\Tests\Functional\Controller\CustomerControllerTest as BaseAccountControllerTest;
 
-/**
- * @dbIsolation
- */
 class TaxAccountControllerTest extends BaseAccountControllerTest
 {
     /**

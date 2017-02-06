@@ -9,9 +9,6 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Controller\CustomerControllerTest as BaseAccountControllerTest;
 
-/**
- * @dbIsolation
- */
 class AccountControllerTest extends BaseAccountControllerTest
 {
     /**

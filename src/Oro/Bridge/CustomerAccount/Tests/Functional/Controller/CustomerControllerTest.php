@@ -8,9 +8,6 @@ use Oro\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
-/**
- * @dbIsolation
- */
 class CustomerControllerTest extends WebTestCase
 {
     /** @var  Account */

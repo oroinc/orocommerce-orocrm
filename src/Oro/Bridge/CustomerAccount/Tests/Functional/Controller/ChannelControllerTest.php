@@ -4,10 +4,6 @@ namespace Oro\Bridge\CustomerAccount\Tests\Functional\Functional\Controller;
 
 use Oro\Bundle\ChannelBundle\Tests\Functional\Controller\ChannelControllerTest as BaseChannelControllerTest;
 
-/**
- * @outputBuffering enabled
- * @dbIsolation
- */
 class ChannelControllerTest extends BaseChannelControllerTest
 {
     public function gridProvider()

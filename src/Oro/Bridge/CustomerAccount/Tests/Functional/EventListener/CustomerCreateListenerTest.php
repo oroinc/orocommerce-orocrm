@@ -10,10 +10,6 @@ use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
 use Oro\Bundle\SalesBundle\Entity\Customer as CustomerAssociation;
 use Oro\Bundle\AccountBundle\Entity\Account;
 
-/**
- * @outputBuffering enabled
- * @dbIsolation
- */
 class CustomerCreateListenerTest extends WebTestCase
 {
     protected function setUp()

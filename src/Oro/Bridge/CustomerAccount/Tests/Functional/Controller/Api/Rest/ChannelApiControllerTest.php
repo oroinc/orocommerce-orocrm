@@ -6,10 +6,6 @@ use Oro\Bundle\ChannelBundle\Entity\Channel;
 use Oro\Bundle\ChannelBundle\Tests\Functional\Controller\Api\Rest\ChannelApiControllerTest
     as BaseChannelApiControllerTest;
 
-/**
- * @outputBuffering enabled
- * @dbIsolation
- */
 class ChannelApiControllerTest extends BaseChannelApiControllerTest
 {
     protected function getExpectedCountForCget()
