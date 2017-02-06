@@ -1,0 +1,27 @@
+workflows:
+    commerce_opportunity_flow:
+        steps:
+            open:
+                order: 10
+                allowed_transitions:
+                     - quote_create
+                     - develop
+                     - close_won
+                     - close_lost
+            quote_created:
+                order: 20
+                allowed_transitions:
+                    - quote_create
+                    - quote_develop
+                    - close_won
+                    - close_lost
+            won:
+                order: 30
+                allowed_transitions:
+                    - reopen
+                is_final: true
+            lost:
+                order: 30
+                allowed_transitions:
+                    - reopen
+                is_final: true

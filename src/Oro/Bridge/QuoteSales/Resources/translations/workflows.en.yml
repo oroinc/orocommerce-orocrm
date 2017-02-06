@@ -21,3 +21,60 @@ oro:
                       label: 'Create Quote'
                 quote_add:
                       label: 'Create Quote'
+        commerce_opportunity_flow:
+                    label: 'OroCommerce Opportunity Management Flow'
+                    step:
+                        'step:starting_point':
+                            label: 'Start Opportunity Management Flow'
+                        open:
+                            label: 'Open'
+                        quote_created:
+                            label: 'Quote created'
+                        won:
+                            label: 'Won'
+                        lost:
+                            label: 'Lost'
+                    attribute:
+                        opportunity_name:
+                            label: 'Opportunity name'
+                        notes:
+                            label: 'Notes'
+                        contact:
+                            label: 'Contact'
+                        probability:
+                            label: 'Probability'
+                        budget_amount:
+                            label: 'Budget Amount'
+                        customer_need:
+                            label: 'Customer'
+                        proposed_solution:
+                            label: 'Proposed Solution'
+                        close_reason_name:
+                            label: 'Close reason name'
+                        close_reason:
+                            label: 'Close Reason'
+                        close_revenue:
+                            label: 'Close revenue'
+                        close_date:
+                            label: 'Close Date'
+                        status:
+                            label: 'Status'
+                        quote:
+                            label: 'Quote'
+                        customer:
+                            label: 'Customer'
+                    transition:
+                        __start__:
+                            label: 'Start Opportunity Management Flow'
+                        develop:
+                            label: 'Develop'
+                        close_won:
+                            label: 'Close as won'
+                        close_lost:
+                            label: 'Close as lost'
+                        reopen:
+                            label: 'Reopen'
+                        quote_create:
+                            label: 'Create quote'
+                        quote_develop:
+                            label: 'Develop'

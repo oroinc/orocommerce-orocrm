@@ -1,2 +1,3 @@
 imports:
     - { resource: 'workflows/quote_flow.yml' }    # Quote Management Flow
+    - { resource: 'workflows/commerce_opportunity_flow.yml' }    # Commerce opportunity flow
