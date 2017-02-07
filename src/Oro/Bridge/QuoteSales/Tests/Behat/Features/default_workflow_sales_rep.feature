@@ -19,9 +19,8 @@ Feature: Default workflow for Commerce Sales Rep
     And there is following Product:
       | SKU   | Name   | Status  | Precision |
       | Prod1 | Tables | Enabled | 10        |
-    And "Commerce Opportunity Management Flow" Workflow is activated
-    # name of the flow should be clarified
-
+    And "OroCommerce Opportunity Management Flow" Workflow is activated
+    
   Scenario: Admnistrator activates CRM Opportunity Management Flow
     Given I login as "OroAdmin" user
     When I go to System/Workflows
@@ -29,20 +28,21 @@ Feature: Default workflow for Commerce Sales Rep
     And I click "Activate"
     And I submit form
     And I go to System/Workflows
-    Then I should see Commerce Opportunity Management Flow in grid with following data:
+    Then I should see OroCommerce Opportunity Management Flow in grid with following data:
     | ACTIVE |
     | No     |
     And I should see Opportunity Management Flow in grid with following data:
     | ACTIVE |
     | Yes    |
-    But And I open Commerce Opportunity Management Flow page
+    But I go to System/Workflows
+    And I open Commerce Opportunity Management Flow page
     And I click "Activate"
     And I submit form
     And I go to System/Workflows
     Then I should see Opportunity Management Flow in grid with following data:
       | ACTIVE |
       | No     |
-    And I should see Commerce Opportunity Management Flow in grid with following data:
+    And I should see OroCommerce Opportunity Management Flow in grid with following data:
       | ACTIVE |
       | Yes    |
 
@@ -54,14 +54,6 @@ Feature: Default workflow for Commerce Sales Rep
       | Opportunity Name | Account       | Status | Probability (%) |
       | Europe Oppo 2x1  | Commerce John | Open   | 2               |
     And I save setting
-    Then I should see "Open" gray status
-
-  Scenario: Sales Rep starts workflow for Opportunity
-    Given I click "Start Opportunity Management Flow"
-    When I fill in the following:
-      | Status                     | Probability (%) |
-      | Identification & Alignment | 11              |
-    And click "Submit"
     Then I should see "Open" green status
     And there should be following buttons:
     | Button Name   |
