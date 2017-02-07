@@ -8,3 +8,4 @@ workflows:
     quote_flow:
         entity: Oro\Bundle\SalesBundle\Entity\Opportunity
         entity_attribute: opportunity
+        exclusive_active_groups: [quote_management]

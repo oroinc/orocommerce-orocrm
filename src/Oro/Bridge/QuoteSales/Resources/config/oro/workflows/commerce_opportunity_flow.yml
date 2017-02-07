@@ -10,4 +10,7 @@ workflows:
         entity: Oro\Bundle\SalesBundle\Entity\Opportunity
         entity_attribute: opportunity
         start_step: open
+        exclusive_active_groups:
+            - opportunity_management
+            - quote_management
 
