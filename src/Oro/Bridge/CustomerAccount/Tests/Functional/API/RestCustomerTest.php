@@ -65,7 +65,7 @@ class RestCustomerTest extends AbstractRestTest
                         'users' => [
                             'data' => [
                                 [
-                                    'type' => 'customerusers',
+                                    'type' => 'customer_users',
                                     'id' => $defaultCustomer->getUsers()->first()->getId(),
                                 ],
                             ],
@@ -128,13 +128,13 @@ class RestCustomerTest extends AbstractRestTest
                         'internal_rating' => [
                             'data' =>
                                 [
-                                    'type' => 'accinternalratings',
+                                    'type' => 'customer_rating',
                                     'id' => 'internal_rating.1_of_5',
                                 ],
                         ],
                         'group' => [
                             'data' => [
-                                'type' => 'customergroups',
+                                'type' => 'customer_groups',
                                 'id' => (string)$this->getGroup(LoadGroups::GROUP1)->getId(),
                             ],
                         ],
@@ -213,13 +213,13 @@ class RestCustomerTest extends AbstractRestTest
                     'internal_rating' => [
                         'data' =>
                             [
-                                'type' => 'accinternalratings',
+                                'type' => 'customer_rating',
                                 'id' => 'internal_rating.1_of_5',
                             ],
                     ],
                     'group' => [
                         'data' => [
-                            'type' => 'customergroups',
+                            'type' => 'customer_groups',
                             'id' => (string)$this->getGroup(LoadGroups::GROUP1)->getId(),
                         ],
                     ],
@@ -277,7 +277,7 @@ class RestCustomerTest extends AbstractRestTest
                     'users' => [
                         'data' => [
                             [
-                                'type' => 'customerusers',
+                                'type' => 'customer_users',
                                 'id' => '1',
                             ],
                         ],
@@ -366,13 +366,13 @@ class RestCustomerTest extends AbstractRestTest
                         'internal_rating' => [
                             'data' =>
                                 [
-                                    'type' => 'accinternalratings',
+                                    'type' => 'customer_rating',
                                     'id' => 'internal_rating.1_of_5',
                                 ],
                         ],
                         'group' => [
                             'data' => [
-                                'type' => 'customergroups',
+                                'type' => 'customer_groups',
                                 'id' => (string)$this->getGroup(LoadGroups::GROUP1)->getId(),
                             ],
                         ],
