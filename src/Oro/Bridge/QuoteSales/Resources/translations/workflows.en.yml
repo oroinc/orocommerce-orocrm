@@ -22,7 +22,7 @@ oro:
                 quote_add:
                       label: 'Create Quote'
         commerce_opportunity_flow:
-                    label: 'OroCommerce Opportunity Management Flow'
+                    label: 'OroCommerce Opportunity Flow'
                     step:
                         'step:starting_point':
                             label: 'Start Opportunity Management Flow'
