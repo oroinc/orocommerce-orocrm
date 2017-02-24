@@ -149,7 +149,7 @@ class RestCustomerTest extends AbstractRestTest
                 ],
             ],
         ];
-        $this->assertEquals($expected, $content);
+        $this->assertArraySubset($expected, $content);
     }
 
     public function testGetCustomer()
@@ -233,7 +233,7 @@ class RestCustomerTest extends AbstractRestTest
                 ],
             ],
         ];
-        $this->assertEquals($expected, $content);
+        $this->assertArraySubset($expected, $content);
     }
 
     public function testGetParentSubresource()
@@ -301,7 +301,7 @@ class RestCustomerTest extends AbstractRestTest
                 ],
             ],
         ];
-        $this->assertEquals($expected, $content);
+        $this->assertArraySubset($expected, $content);
     }
 
     public function testGetChildrenSubresource()
@@ -387,7 +387,7 @@ class RestCustomerTest extends AbstractRestTest
                 ],
             ],
         ];
-        $this->assertEquals($expected, $content);
+        $this->assertArraySubset($expected, $content);
     }
 
     /**
