@@ -109,3 +109,11 @@ services:
     oro_payment.provider.payment_status.link:
         tags:
             - { name: oro_service_link, service: oro_payment.provider.payment_status }
+
+    oro_sales.event_listener.import_export_account_subscriber:
+        class: Oro\Bridge\CustomerAccount\EventSubscriber\CustomerAccountImportExportSubscriber
+        arguments:
+            - '@oro_entity.doctrine_helper'
+            - '%oro_customer.entity.customer.class%'
+        tags:
+            - { name: kernel.event_subscriber }

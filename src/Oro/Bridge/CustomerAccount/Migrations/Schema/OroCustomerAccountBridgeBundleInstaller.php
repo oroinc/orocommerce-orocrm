@@ -49,7 +49,7 @@ class OroCustomerAccountBridgeBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_2';
+        return 'v1_3';
     }
 
     /**
@@ -142,7 +142,8 @@ class OroCustomerAccountBridgeBundleInstaller implements
                 ],
                 'view' => ['is_displayable' => false],
                 'merge' => ['display' => false],
-                'dataaudit' => ['auditable' => false]
+                'dataaudit' => ['auditable' => false],
+                'importexport' => ['excluded' => true],
             ]
         );
     }
@@ -168,8 +169,7 @@ class OroCustomerAccountBridgeBundleInstaller implements
                     'merge' => ['display' => false],
                     'dataaudit' => ['auditable' => true],
                     'importexport' => [
-                        'full' => true,
-                        'order' => 15
+                        'excluded' => true,
                     ]
                 ],
             ]
@@ -201,7 +201,8 @@ class OroCustomerAccountBridgeBundleInstaller implements
                 ],
                 'view' => ['is_displayable' => false],
                 'merge' => ['display' => false],
-                'dataaudit' => ['auditable' => false]
+                'dataaudit' => ['auditable' => false],
+                'importexport' => ['excluded' => true],
             ]
         );
     }
