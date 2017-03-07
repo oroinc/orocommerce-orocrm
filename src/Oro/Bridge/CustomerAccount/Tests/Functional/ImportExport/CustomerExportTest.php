@@ -9,13 +9,31 @@ use Oro\Bundle\CustomerBundle\Tests\Functional\ImportExport\CustomerExportTest a
  */
 class CustomerExportTest extends BaseCustomerExportTest
 {
-    public function testExport()
+    /**
+     * {@inheritdoc}
+     */
+    protected function getContains()
     {
-        parent::testExport();
+        return array_merge(
+            parent::getContains(),
+            [
+                'Account',
+            ]
+        );
+    }
 
-        $this->assertContains('Account', $this->fileContent);
-        $this->assertNotContains('Lifetime', $this->fileContent);
-        $this->assertNotContains('Channel Name', $this->fileContent);
-        $this->assertNotContains('Previous Account', $this->fileContent);
+    /**
+     * {@inheritdoc}
+     */
+    protected function getNotContains()
+    {
+        return array_merge(
+            parent::getNotContains(),
+            [
+                'Lifetime',
+                'Channel Name',
+                'Previous Account',
+            ]
+        );
     }
 }
