@@ -1,15 +1,20 @@
 <?php
+
 namespace Oro\Bridge\QuoteSales\Tests\Functional\Listener;
 
 use Oro\Bundle\DataGridBundle\Tests\Functional\AbstractDatagridTestCase;
 use Oro\Bridge\QuoteSales\Tests\Functional\Fixture\CreateDefaultAccountFixture;
 use Oro\Bridge\QuoteSales\Tests\Functional\Fixture\OpportunityQuotesListenerFixture;
+use Oro\Bundle\WorkflowBundle\Model\WorkflowManager;
 
 /**
  * @dbIsolationPerTest
  */
 class OpportunityQuotesListenerTest extends AbstractDatagridTestCase
 {
+    /** @var WorkflowManager */
+    protected $manager;
+
     /**
      * {@inheritDoc}
      */
@@ -19,6 +24,9 @@ class OpportunityQuotesListenerTest extends AbstractDatagridTestCase
             ['debug' => false],
             array_merge($this->generateBasicAuthHeader(), array('HTTP_X-CSRF-Header' => 1))
         );
+
+        $this->manager = $this->getContainer()->get('oro_workflow.manager');
+
         $this->loadFixtures([
             CreateDefaultAccountFixture::class,
             OpportunityQuotesListenerFixture::class
@@ -51,6 +59,8 @@ class OpportunityQuotesListenerTest extends AbstractDatagridTestCase
      */
     public function testGrid($requestData)
     {
+        $this->manager->deactivateWorkflow('b2b_quote_backoffice_default');
+
         $requestData['gridParameters'] = array_replace(
             $requestData['gridParameters'],
             [
