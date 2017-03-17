@@ -1,0 +1,133 @@
+Oro\Bundle\PaymentTermBundle\Entity\PaymentTerm:
+    net_30:
+        label: 'net 30'
+    net_60:
+        label: 'net 60'
+    net_90:
+        label: 'net 90'
+
+Oro\Bundle\TaxBundle\Entity\CustomerTaxCode:
+    tax_code_1:
+        code: 'Tax_code_1'
+        customers:
+            - '@company_A'
+            - '@company_A_east'
+            - '@company_A_west'
+    tax_code_2:
+        code: 'Tax_code_2'
+        customers:
+            - '@wholesaler_B'
+    tax_code_3:
+        code: 'Tax_code_3'
+        customers:
+            - '@partner_C'
+            - '@customer_G'
+
+Oro\Bundle\AccountBundle\Entity\Account:
+    acc_company_A:
+        name: 'Company A'
+    acc_company_A_east:
+        name: 'Company A - East Division'
+    acc_company_A_west:
+        name: 'Company A - West Division'
+    acc_wholesaler_B:
+        name: 'Wholesaler B'
+    acc_partner_C:
+        name: 'Partner C'
+    acc_customer_G:
+        name: 'Customer G'
+
+Oro\Bundle\SalesBundle\Entity\Customer:
+    sales_customer_1:
+        account: '@acc_company_A'
+        customer_e197f906: '@company_A'
+    sales_customer_2:
+        account: '@acc_company_A_east'
+        customer_e197f906: '@company_A_east'
+    sales_customer_2:
+        account: '@acc_company_A_west'
+        customer_e197f906: '@company_A_west'
+    sales_customer_2:
+        account: '@acc_wholesaler_B'
+        customer_e197f906: '@wholesaler_B'
+    sales_customer_2:
+        account: '@acc_partner_C'
+        customer_e197f906: '@partner_C'
+    sales_customer_2:
+        account: '@acc_customer_G'
+        customer_e197f906: '@customer_G'
+
+Extend\Entity\EV_Acc_Internal_Rating:
+    1_of_5:
+        __construct:
+            - '1_of_5'
+            - '1_of_5'
+    2_of_5:
+        __construct:
+            - '2_of_5'
+            - '2_of_5'
+    3_of_5:
+        __construct:
+            - '3_of_5'
+            - '3_of_5'
+    4_of_5:
+        __construct:
+            - '4_of_5'
+            - '4_of_5'
+    5_of_5:
+        __construct:
+            - '5_of_5'
+            - '5_of_5'
+Oro\Bundle\CustomerBundle\Entity\CustomerGroup:
+    all_customers:
+        name: 'All Customers'
+    partners:
+        name: 'Partners'
+    wholesale_customers:
+        name: 'Wholesale Customers'
+
+Oro\Bundle\CustomerBundle\Entity\Customer:
+    company_A:
+        name: 'Company A'
+        organization: '@organization'
+        owner: '@admin'
+        group: '@all_customers'
+        internal_rating: '@2_of_5'
+        payment_term_7c4f1e8e: '@net_30'
+    company_A_east:
+        name: 'Company A - East Division'
+        organization: '@organization'
+        owner: '@admin'
+        parent: '@company_A'
+        group: '@all_customers'
+        internal_rating: '@1_of_5'
+        payment_term_7c4f1e8e: '@net_90'
+    company_A_west:
+        name: 'Company A - West Division'
+        organization: '@organization'
+        owner: '@admin'
+        parent: '@company_A'
+        group: '@all_customers'
+        internal_rating: '@1_of_5'
+        payment_term_7c4f1e8e: '@net_60'
+    wholesaler_B:
+        name: 'Wholesaler B'
+        organization: '@organization'
+        owner: '@admin'
+        group: '@all_customers'
+        internal_rating: '@4_of_5'
+        payment_term_7c4f1e8e: '@net_60'
+    partner_C:
+        name: 'Partner C'
+        organization: '@organization'
+        owner: '@admin'
+        group: '@partners'
+        internal_rating: '@4_of_5'
+        payment_term_7c4f1e8e: '@net_30'
+    customer_G:
+        name: 'Customer G'
+        organization: '@organization'
+        owner: '@admin'
+        group: '@wholesale_customers'
+        internal_rating: '@3_of_5'
+        payment_term_7c4f1e8e: '@net_60'
