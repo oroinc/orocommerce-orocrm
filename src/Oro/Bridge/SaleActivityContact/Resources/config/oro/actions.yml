@@ -1,0 +1,31 @@
+action_groups:
+    oro_rfp_duplicate:
+        actions:
+            # clear activitiy contact stats
+            - '@assign_value': [$.requestCopy.ac_last_contact_date, null]
+            - '@assign_value': [$.requestCopy.ac_last_contact_date_in, null]
+            - '@assign_value': [$.requestCopy.ac_last_contact_date_out, null]
+            - '@assign_value': [$.requestCopy.ac_contact_count, 0]
+            - '@assign_value': [$.requestCopy.ac_contact_count_in, 0]
+            - '@assign_value': [$.requestCopy.ac_contact_count_out, 0]
+
+            - '@flush_entity':
+                conditions:
+                    '@equal': [true, $.flush]
+                parameters: [$.requestCopy]
+
+    oro_sale_quote_duplicate:
+        actions:
+            # clear activitiy contact stats
+            - '@assign_value': [$.quoteCopy.ac_last_contact_date, null]
+            - '@assign_value': [$.quoteCopy.ac_last_contact_date_in, null]
+            - '@assign_value': [$.quoteCopy.ac_last_contact_date_out, null]
+            - '@assign_value': [$.quoteCopy.ac_contact_count, 0]
+            - '@assign_value': [$.quoteCopy.ac_contact_count_in, 0]
+            - '@assign_value': [$.quoteCopy.ac_contact_count_out, 0]
+
+            - '@flush_entity':
+                conditions:
+                    '@equal': [true, $.flush]
+                parameters:
+                    entity: $.quoteCopy
