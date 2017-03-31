@@ -7,6 +7,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Oro\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
+use Oro\Bundle\ImportExportBundle\Event\LoadTemplateFixturesEvent;
 use Oro\Bundle\ImportExportBundle\Event\AfterEntityPageLoadedEvent;
 use Oro\Bundle\ImportExportBundle\Event\Events;
 use Oro\Bundle\ImportExportBundle\Event\LoadEntityRulesAndBackendHeadersEvent;
@@ -53,6 +54,7 @@ class CustomerAccountImportExportSubscriber implements EventSubscriberInterface
             Events::AFTER_ENTITY_PAGE_LOADED => 'updateEntityResults',
             Events::AFTER_NORMALIZE_ENTITY => 'normalizeEntity',
             Events::AFTER_LOAD_ENTITY_RULES_AND_BACKEND_HEADERS => 'loadEntityRulesAndBackendHeaders',
+            Events::AFTER_LOAD_TEMPLATE_FIXTURES => 'addAccountToCustomers',
         ];
     }
 
@@ -104,6 +106,22 @@ class CustomerAccountImportExportSubscriber implements EventSubscriberInterface
             'value' => sprintf('account%sname', $event->getConvertDelimiter()),
             'order' => 300,
         ]);
+    }
+
+    /**
+     * @param LoadTemplateFixturesEvent $event
+     */
+    public function addAccountToCustomers(LoadTemplateFixturesEvent $event)
+    {
+        foreach ($event->getEntities() as $customerData) {
+            foreach ($customerData as $customer) {
+                /** @var Customer $customer */
+                $customer = $customer['entity'];
+
+                $this->customerAccounts[$customer->getId()] = (new SalesCustomer())
+                    ->setTarget((new Account())->setName('Related Account'))->getAccount();
+            }
+        }
     }
 
     /**
