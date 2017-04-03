@@ -1,0 +1,11 @@
+oro_behat_extension:
+  suites:
+    OroCustomerAccountBridgeBundle:
+      contexts:
+        - Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\OroMainContext
+        - Oro\Bridge\CustomerAccount\Tests\Behat\Context\CustomerAccountContext
+        - OroImportExportBundle::ImportExportContext:
+            - '@oro_entity.entity_alias_resolver'
+            - '@oro_importexport.processor.registry'
+      paths:
+        - '@OroCustomerAccountBridgeBundle/Tests/Behat/Features'

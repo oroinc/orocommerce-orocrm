@@ -1,0 +1,4 @@
+bundles:
+    # needs to be loaded after OroRFPBundle's priority: 40
+    # needs to be loaded after OroSaleBundle's priority: 60
+    - { name: Oro\Bridge\SaleActivityContact\OroSaleActivityContactBridgeBundle, priority: 65 }
