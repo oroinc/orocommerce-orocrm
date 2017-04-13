@@ -46,8 +46,7 @@ class OroContactUsBridgeBundleInstaller implements
             'id',
             [
                 'extend' => [
-                    'owner' => ExtendScope::OWNER_SYSTEM,
-                    'is_extend' => false,
+                    'owner' => ExtendScope::OWNER_CUSTOM
                 ]
             ]
         );
