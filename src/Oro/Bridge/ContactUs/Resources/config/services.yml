@@ -1,0 +1,7 @@
+services:
+    oro_contact_us_bridge.contact_request_type:
+        class: 'Oro\Bridge\ContactUs\Form\Type\ContactRequestType'
+        arguments:
+            - '@oro_security.security_facade'
+        tags:
+            - { name: form.type}
