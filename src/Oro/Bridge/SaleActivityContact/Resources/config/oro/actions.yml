@@ -1,4 +1,47 @@
 action_groups:
+    oro_rfp_create_request_additional_note:
+        actions:
+            - '@run_action_group':
+                action_group: oro_rfp_update_request_last_contact_data
+                parameters_mapping:
+                    request: $.request
+                    current_date: $.current_date
+                    current_user: $.current_user
+
+    oro_rfp_update_request_last_contact_data:
+        parameters:
+            request:
+                type: Oro\Bundle\RFPBundle\Entity\Request
+            current_date:
+                type: DateTime
+            current_user:
+                type: Oro\Bundle\UserBundle\Entity\AbstractUser
+        actions:
+            - '@increase_value': [$.request.ac_contact_count, 1]
+            - '@assign_value':
+                conditions:
+                    '@gt': [$.current_date, $.request.ac_last_contact_date]
+                parameters: [$.request.ac_last_contact_date, $.current_date]
+            - '@tree':
+                conditions:
+                    '@instanceof': [$.current_user, Oro\Bundle\UserBundle\Entity\User]
+                actions:
+                    - '@increase_value': [$.request.ac_contact_count_out, 1]
+                    - '@assign_value':
+                        conditions:
+                            '@gt': [$.current_date, $.request.ac_last_contact_date_out]
+                        parameters: [$.request.ac_last_contact_date_out, $.current_date]
+            - '@tree':
+                conditions:
+                    '@instanceof': [$.current_user, Oro\Bundle\CustomerBundle\Entity\CustomerUser]
+                actions:
+                    - '@increase_value': [$.request.ac_contact_count_in, 1]
+                    - '@assign_value':
+                        conditions:
+                            '@gt': [$.current_date, $.request.ac_last_contact_date_in]
+                        parameters: [$.request.ac_last_contact_date_in, $.current_date]
+            - '@flush_entity': $.request
+
     oro_rfp_duplicate:
         actions:
             # clear activitiy contact stats
