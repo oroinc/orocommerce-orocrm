@@ -5,3 +5,14 @@ services:
             - '@oro_security.security_facade'
         tags:
             - { name: form.type}
+
+    oro_contact_us_bridge.contact_request_form_widget:
+        class: 'Oro\Bridge\ContactUs\Widget\ContactRequestFormWidget'
+        lazy: true
+        arguments:
+            - '@form.factory'
+            - '@router'
+            - '@twig.form.renderer'
+            - '@request_stack'
+        tags:
+            - {name: oro_cms.widget, alias: contact_us_form}

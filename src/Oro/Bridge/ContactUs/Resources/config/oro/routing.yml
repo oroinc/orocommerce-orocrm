@@ -1,0 +1,6 @@
+oro_contact_us_bridge_bundle:
+    resource:     "@OroContactUsBridgeBundle/Controller"
+    type:         annotation
+    prefix:       /contact-us
+    options:
+        frontend: true

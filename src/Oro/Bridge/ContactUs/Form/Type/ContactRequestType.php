@@ -35,6 +35,11 @@ class ContactRequestType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if ($builder->has('customer_user')) {
+            $builder->remove('customer_user');
+        }
+        $builder->remove('submit');
+
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
             function (FormEvent $event) {

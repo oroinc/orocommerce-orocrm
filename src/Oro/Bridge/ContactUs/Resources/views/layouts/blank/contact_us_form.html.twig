@@ -1,0 +1,48 @@
+{% block contact_request_widget %}
+    <div class="contact-us-form">
+        {{ form_start(form, {'attr': {'id': form.vars.id, 'name': form.vars.name, 'novalidate': 'novalidate' }}) }}
+        <div class="grid">
+            <div class="grid__row grid__row--offset-none">
+                <div class="grid__column grid__column--6">
+                    {{ form_row(form.firstName) }}
+                </div>
+                <div class="grid__column grid__column--6">
+                    {{ form_row(form.lastName) }}
+                </div>
+            </div>
+            <div class="grid__row grid__row--offset-none">
+                <div class="grid__column grid__column--12">
+                    {{ form_row(form.organizationName) }}
+                </div>
+            </div>
+            <div class="grid__row grid__row--offset-none">
+                <div class="grid__column grid__column--12">
+                    {{ form_row(form.preferredContactMethod) }}
+                </div>
+            </div>
+            <div class="grid__row grid__row--offset-none">
+                <div class="grid__column grid__column--6">
+                    {{ form_row(form.phone) }}
+                </div>
+                <div class="grid__column grid__column--6">
+                    {{ form_row(form.emailAddress) }}
+                </div>
+            </div>
+            <div class="grid__row grid__row--offset-none">
+                <div class="grid__column grid__column--12">
+                    {{ form_row(form.contactReason) }}
+                </div>
+            </div>
+            <div class="grid__row grid__row--offset-none">
+                <div class="grid__column grid__column--12">
+                    {{ form_row(form.comment) }}
+                </div>
+            </div>
+        </div>
+        <div class="contact-us-form-actions">
+            <button class="role-submit btn btn--info" type="submit">Submit</button>
+        </div>
+        {{ form_end(form) }}
+        {{ oro_form_js_validation(form, js_validation_options|default({})) }}
+    </div>
+{% endblock %}
