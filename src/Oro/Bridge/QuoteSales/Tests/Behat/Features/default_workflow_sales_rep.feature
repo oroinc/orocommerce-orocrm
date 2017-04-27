@@ -1,3 +1,5 @@
+@ticket-CRM-7573
+@automatically-ticket-tagged
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
 @fixture-OroPaymentTermBundle:PaymentTermIntegration.yml
 @fixture-OroCheckoutBundle:Checkout.yml
