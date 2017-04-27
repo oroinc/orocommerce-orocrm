@@ -1,3 +1,5 @@
+@ticket-BB-7843
+@automatically-ticket-tagged
 @fixture-ExportCustomerFixture.yml
 Feature: Export Customers
   In order to export list of customers
