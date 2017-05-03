@@ -16,3 +16,13 @@ services:
             - '@request_stack'
         tags:
             - {name: oro_cms.widget, alias: contact_us_form}
+
+    oro_contact_us_bridge.event_listener.contact_request_datagrid:
+        class: 'Oro\Bridge\ContactUs\EventListener\ContactRequestDatagridListener'
+        tags:
+            - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.before.orcrm-contact-requests-grid, method: onBuildBefore }
+
+    oro_contact_us_bridge.event_listener.contact_request_view:
+        class: 'Oro\Bridge\ContactUs\EventListener\ContactRequestViewListener'
+        tags:
+            - { name: kernel.event_listener, event: oro_ui.scroll_data.before.contactRequestView, method: onView }

@@ -4,7 +4,10 @@ namespace Oro\Bridge\ContactUs\Migrations\Schema;
 
 use Doctrine\DBAL\Schema\Schema;
 
+use Oro\Bundle\EntityBundle\EntityConfig\DatagridScope;
+use Oro\Bundle\EntityConfigBundle\Entity\ConfigModel;
 use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
+use Oro\Bundle\EntityExtendBundle\Migration\ExtendOptionsManager;
 use Oro\Bundle\MigrationBundle\Migration\Installation;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtension;
@@ -43,11 +46,16 @@ class OroContactUsBridgeBundleInstaller implements
             'orocrm_contactus_request',
             'customer_user',
             'oro_customer_user',
-            'id',
+            'username',
             [
+                ExtendOptionsManager::MODE_OPTION => ConfigModel::MODE_READONLY,
                 'extend' => [
-                    'owner' => ExtendScope::OWNER_CUSTOM
-                ]
+                    'owner' => ExtendScope::OWNER_CUSTOM,
+                ],
+                'datagrid' => [
+                    'is_visible' => DatagridScope::IS_VISIBLE_FALSE,
+                ],
+                'view' => ['is_displayable' => false]
             ]
         );
     }

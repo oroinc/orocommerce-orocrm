@@ -1,3 +1,5 @@
 oro.contactus:
+    contactrequest:
+        customer_user.label: Customer User
     form:
         contactrequest.sent: "Thank you for your Request!"
