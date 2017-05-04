@@ -12,6 +12,8 @@ use Oro\Bridge\ContactUs\Form\Type\ContactRequestType;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\SecurityFacade;
+use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
 use Oro\Component\Testing\Unit\EntityTrait;
@@ -31,12 +33,18 @@ class ContactRequestTypeTest extends TypeTestCase
     protected $securityFacade;
 
     /**
+     * @var WebsiteManager|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $websiteManager;
+
+    /**
      * {@inheritDoc}
      */
     protected function setUp()
     {
         $this->securityFacade = $this->createMock(SecurityFacade::class);
-        $this->type = new ContactRequestType($this->securityFacade);
+        $this->websiteManager  = $this->createMock(WebsiteManager::class);
+        $this->type = new ContactRequestType($this->securityFacade, $this->websiteManager);
 
         parent::setUp();
     }
@@ -46,6 +54,14 @@ class ContactRequestTypeTest extends TypeTestCase
         $this->securityFacade->expects($this->once())
             ->method('getLoggedUser')
             ->willReturn(null);
+
+        $organization = $this->createMock(Organization::class);
+        $website = new Website();
+        $website->setOrganization($organization);
+
+        $this->websiteManager->expects($this->once())
+            ->method('getCurrentWebsite')
+            ->willReturn($website);
         $contactRequest = $this->getEntity(ContactRequestStub::class);
         $form = $this->factory->create(
             ContactRequestType::class,
@@ -68,6 +84,7 @@ class ContactRequestTypeTest extends TypeTestCase
         $expected->setLastName('Cole');
         $expected->setEmailAddress('AmandaRCole@example.org');
         $expected->setOrganizationName('OroCRM');
+        $expected->setOwner($organization);
         $expected->setPreferredContactMethod('oro.contactus.contactrequest.method.phone');
         $expected->setContactReason($this->mockContactReason());
 

@@ -10,6 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
+use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\SecurityBundle\SecurityFacade;
@@ -23,11 +24,17 @@ class ContactRequestType extends AbstractType
     protected $securityFacade;
 
     /**
+     * @var WebsiteManager
+     */
+    protected $websiteManager;
+
+    /**
      * @param SecurityFacade $securityFacade
      */
-    public function __construct(SecurityFacade $securityFacade)
+    public function __construct(SecurityFacade $securityFacade, WebsiteManager $websiteManager)
     {
         $this->securityFacade = $securityFacade;
+        $this->websiteManager = $websiteManager;
     }
 
     /**
@@ -43,11 +50,16 @@ class ContactRequestType extends AbstractType
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
             function (FormEvent $event) {
+                $contactRequest = $event->getData();
+
                 $loggedUser = $this->securityFacade->getLoggedUser();
+                if (null === $loggedUser) { // todo remove in scope of BB-9269
+                    $website = $this->websiteManager->getCurrentWebsite();
+                    $contactRequest->setOwner($website->getOrganization());
+                }
                 if (!$loggedUser instanceof CustomerUser) {
                     return;
                 }
-                $contactRequest = $event->getData();
                 // update data only for new contact requests
                 if (!$contactRequest instanceof ContactRequest || null !== $contactRequest->getId()) {
                     return;
