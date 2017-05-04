@@ -109,7 +109,11 @@ class CustomerAccountImportExportSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $customerAccount = $this->customerAccountImportExportHelper->fetchAccount($data);
+        if (!isset($data['account'], $data['account']['id']) || empty($data['account']['id'])) {
+            return;
+        }
+
+        $customerAccount = $this->customerAccountImportExportHelper->fetchAccount($data['account']['id']);
 
         if ($customerAccount) {
             $this->customerAccountImportExportHelper->assignAccount($entity, $customerAccount);

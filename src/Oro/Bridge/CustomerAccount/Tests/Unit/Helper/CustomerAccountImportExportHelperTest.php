@@ -107,20 +107,8 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit_Framework_TestCase
         $this->shouldCallAccountRepository(1);
         $this->andShouldFind(1);
 
-        $account = $this->customerAccountImportExportHelper->fetchAccount($data);
+        $account = $this->customerAccountImportExportHelper->fetchAccount($data['account']['id']);
         $this->assertEquals($expectedAccount, $account);
-    }
-
-    /**
-     * @dataProvider testDenormalizeAccountWithWrongArrayDataProvider
-     * @param array $data
-     */
-    public function testDenormalizeAccountWithWrongArray(array $data)
-    {
-        $this->shouldNotCallAccountRepository();
-
-        $account = $this->customerAccountImportExportHelper->fetchAccount($data);
-        $this->assertNull($account);
     }
 
     public function testAssignAccountNoNeedToUpdate()
@@ -212,17 +200,6 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit_Framework_TestCase
                 ['account' => ['id' => 10000]],
                 null
             ],
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    public function testDenormalizeAccountWithWrongArrayDataProvider()
-    {
-        return [
-            'array_without_account' => [['something' => 'wrong']],
-            'array_without_account_name' => [['account' => ['something' => 'wrong']]],
         ];
     }
 

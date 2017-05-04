@@ -1,3 +1,14 @@
+Oro\Bundle\UserBundle\Entity\User:
+    second_user:
+        username: user2
+        email: user2@example.com
+        firstName: New
+        lastName: Owner
+        password: password
+        salt: salt
+        organization: '@organization'
+        owner: '@business_unit'
+
 Oro\Bundle\PaymentTermBundle\Entity\PaymentTerm:
     net_30:
         label: 'net 30'
@@ -26,16 +37,28 @@ Oro\Bundle\TaxBundle\Entity\CustomerTaxCode:
 Oro\Bundle\AccountBundle\Entity\Account:
     acc_company_A:
         name: 'Company A'
+        organization: '@organization'
+        owner: '@admin'
     acc_company_A_east:
         name: 'Company A - East Division'
+        organization: '@organization'
+        owner: '@admin'
     acc_company_A_west:
         name: 'Company A - West Division'
-    acc_wholesaler_B:
-        name: 'Wholesaler B'
-    acc_partner_C:
-        name: 'Partner C'
+        organization: '@organization'
+        owner: '@admin'
     acc_customer_G:
         name: 'Customer G'
+        organization: '@organization'
+        owner: '@admin'
+    acc_partner_C:
+        name: 'Partner C'
+        organization: '@organization'
+        owner: '@admin'
+    acc_wholesaler_B:
+        name: 'Wholesaler B'
+        organization: '@organization'
+        owner: '@admin'
 
 Oro\Bundle\SalesBundle\Entity\Customer:
     sales_customer_1:
@@ -44,16 +67,16 @@ Oro\Bundle\SalesBundle\Entity\Customer:
     sales_customer_2:
         account: '@acc_company_A_east'
         customer_e197f906: '@company_A_east'
-    sales_customer_2:
+    sales_customer_3:
         account: '@acc_company_A_west'
         customer_e197f906: '@company_A_west'
-    sales_customer_2:
+    sales_customer_4:
         account: '@acc_wholesaler_B'
         customer_e197f906: '@wholesaler_B'
-    sales_customer_2:
+    sales_customer_5:
         account: '@acc_partner_C'
         customer_e197f906: '@partner_C'
-    sales_customer_2:
+    sales_customer_6:
         account: '@acc_customer_G'
         customer_e197f906: '@customer_G'
 
@@ -110,24 +133,24 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
         group: '@all_customers'
         internal_rating: '@1_of_5'
         payment_term_7c4f1e8e: '@net_60'
-    wholesaler_B:
-        name: 'Wholesaler B'
+    customer_G:
+        name: 'Customer G'
         organization: '@organization'
-        owner: '@admin'
-        group: '@all_customers'
-        internal_rating: '@4_of_5'
+        owner: '@second_user'
+        group: '@wholesale_customers'
+        internal_rating: '@3_of_5'
         payment_term_7c4f1e8e: '@net_60'
     partner_C:
         name: 'Partner C'
         organization: '@organization'
-        owner: '@admin'
+        owner: '@second_user'
         group: '@partners'
         internal_rating: '@4_of_5'
         payment_term_7c4f1e8e: '@net_30'
-    customer_G:
-        name: 'Customer G'
+    wholesaler_B:
+        name: 'Wholesaler B'
         organization: '@organization'
-        owner: '@admin'
-        group: '@wholesale_customers'
-        internal_rating: '@3_of_5'
+        owner: '@second_user'
+        group: '@all_customers'
+        internal_rating: '@4_of_5'
         payment_term_7c4f1e8e: '@net_60'

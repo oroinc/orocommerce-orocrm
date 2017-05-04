@@ -56,16 +56,12 @@ class CustomerAccountImportExportHelper
     }
 
     /**
-     * @param array $data
+     * @param int $id
      * @return null|Account
      */
-    public function fetchAccount(array $data)
+    public function fetchAccount($id)
     {
-        if (!isset($data['account'], $data['account']['id'])) {
-            return null;
-        }
-
-        return $this->getAccountRepository()->find($data['account']['id']);
+        return $this->getAccountRepository()->find($id);
     }
 
     /**
@@ -135,8 +131,7 @@ class CustomerAccountImportExportHelper
     private function assignAccountToNewCustomer(Customer $customer, Account $account)
     {
         $salesCustomer = $this->createNewSalesCustomer()
-            ->setTarget($account)
-            ->setCustomerTarget($customer);
+            ->setTarget($account, $customer);
 
         $this->getEntityManager()->persist($salesCustomer);
     }
