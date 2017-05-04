@@ -159,6 +159,10 @@ class CustomerAccountImportExportSubscriber implements EventSubscriberInterface
                 /** @var Customer $customer */
                 $customer = $customer['entity'];
 
+                if (!$customer instanceof Customer) {
+                    continue;
+                }
+
                 $this->customerAccounts[$customer->getId()] = (new Account())->setId(1);
             }
         }
