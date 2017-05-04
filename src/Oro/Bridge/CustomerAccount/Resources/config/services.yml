@@ -110,10 +110,18 @@ services:
         tags:
             - { name: oro_service_link, service: oro_payment.provider.payment_status }
 
+    oro_sales.helper.import_export_account_helper:
+        class: Oro\Bridge\CustomerAccount\Helper\CustomerAccountImportExportHelper
+        public: false
+        arguments:
+            - '@oro_entity.doctrine_helper'
+            - Oro\Bundle\SalesBundle\Entity\Customer
+
     oro_sales.event_listener.import_export_account_subscriber:
         class: Oro\Bridge\CustomerAccount\EventSubscriber\CustomerAccountImportExportSubscriber
         arguments:
-            - '@oro_entity.doctrine_helper'
+            - '@translator'
+            - '@oro_sales.helper.import_export_account_helper'
             - '%oro_customer.entity.customer.class%'
         tags:
             - { name: kernel.event_subscriber }
