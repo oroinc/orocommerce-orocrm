@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 use Oro\Bridge\ContactUs\Form\Type\ContactRequestType;
 use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
+use Oro\Bundle\LayoutBundle\Annotation\Layout;
 
 class ContactRequestController extends Controller
 {
@@ -51,7 +52,49 @@ class ContactRequestController extends Controller
             }
         );
 
-        return new RedirectResponse($request->query->get('requestUri', ''));
+        return new RedirectResponse(
+            $request->query->get(
+                'requestUri',
+                $request->headers->get('referer')
+            )
+        );
+    }
+
+    /**
+     * @Route(
+     *      "/show",
+     *      name="oro_contactus_bridge_request_show"
+     * )
+     * @Layout
+     *
+     * @return array|RedirectResponse
+     */
+    public function showAction()
+    {
+        $contactRequest = new ContactRequest();
+
+        $form = $this->createForm(
+            ContactRequestType::class,
+            $contactRequest,
+            [
+                'action' => $this->generateUrl(
+                    'oro_contactus_bridge_request_create'
+                ),
+            ]
+        );
+
+        $this->get('oro_form.update_handler')->update(
+            $contactRequest,
+            $form,
+            $this->get('translator')->trans('oro.contactus.form.contactrequest.sent'),
+            null,
+            null,
+            function ($entity, FormInterface $form) {
+                return ['data' => ['contact_us_request_form' => $form->createView()]];
+            }
+        );
+
+        return ['data' => ['contact_us_request_form' => $form->createView()]];
     }
 
     /**

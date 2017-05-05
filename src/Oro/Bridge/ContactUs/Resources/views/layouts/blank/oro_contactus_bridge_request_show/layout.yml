@@ -1,0 +1,13 @@
+layout:
+    actions:
+        - '@add':
+            id: form_item
+            parentId: page_content
+            blockType: form_fields
+            options:
+                form: '=data["contact_us_request_form"]'
+        - '@setOption':
+            id: page_title
+            optionName: defaultValue
+            optionValue:
+                label: 'oro.contactus.title'
