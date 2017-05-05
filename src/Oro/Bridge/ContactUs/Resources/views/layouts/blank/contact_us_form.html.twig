@@ -3,6 +3,10 @@
         {% set formAttr = {
             'id': form.vars.id,
             'novalidate': 'novalidate',
+
+        } %}
+
+        {% set fieldAttr = {
             "data-validation": {
                 "Oro\\Bundle\\ContactUsBundle\\Validator\\ContactRequestCallbackValidator": {
                     "target": "preferredContactMethod",
@@ -14,6 +18,7 @@
                 }
             }|json_encode
         } %}
+
         {{ form_start(form, {'attr': formAttr}) }}
         <div class="grid">
             <div class="grid__row grid__row--offset-none">
@@ -31,7 +36,7 @@
             </div>
             <div class="grid__row grid__row--offset-none">
                 <div class="grid__column grid__column--12">
-                    {{ form_row(form.preferredContactMethod) }}
+                    {{ form_row(form.preferredContactMethod, {'attr': fieldAttr}) }}
                 </div>
             </div>
             <div class="grid__row grid__row--offset-none">
