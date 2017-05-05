@@ -90,6 +90,26 @@ Feature: Import Customers
       | Wholesaler B               | All Customers       |  Partner C         | 1_of_5         |  net 60      | Tax_code_1 | Wholesaler B               |
     And number of records should be 6
 
+  Scenario: Import Customers with circular reference
+    And go to Customers/ Customers
+    And I fill template with data:
+      | Id  | Name                       |  Parent Id   |  Group Name         | Tax code   | Account Id  | Internal rating Id | Payment term Label |
+      |  1  | Company A - 1 circular     |  6           | All Customers       | Tax_code_1 | 1           | 2_of_5             |        net 30      |
+      |     | XX - Customer w/o circular |  6           | All Customers       | Tax_code_1 | 1           | 2_of_5             |        net 30      |
+    When I import file
+    Then I should see "Import started successfully. You will receive email notification upon completion." flash message
+    And reload the page
+    And Email should contains the following "Errors: 1 processed: 2, read: 2, added: 1, updated: 0, replaced: 0" text
+      | Name                       | Group               |Parent Customer             | Internal rating| Payment term | Tax code   | Account                    |
+      | Company A - 1 new          | All Customers       |                            | 2_of_5         |  net 30      | Tax_code_1 | Company A                  |
+      | Company A - East Division  | All Customers       |  Customer G                | 1_of_5         |  net 90      | Tax_code_1 | Company A - East Division  |
+      | Company A - West Division  | All Customers       |  Company A - 1 new         | 1_of_5         |  net 60      | Tax_code_1 | Company A - West Division  |
+      | Customer G                 | Wholesale Customers |                            | 3_of_5         |  net 90      | Tax_code_3 | Customer G                 |
+      | Partner C                  | Partners            |                            | 1_of_5         |  net 30      | Tax_code_3 | Partner C                  |
+      | Wholesaler B               | All Customers       |  Partner C                 | 1_of_5         |  net 60      | Tax_code_1 | Wholesaler B               |
+      | XX - Customer w/o circular | All Customers       |  Company A - West Division | 2_of_5         |  net 30      | Tax_code_1 | Company A                  |
+    And number of records should be 7
+
   Scenario: Import Customers by user without "Assign" permissions
     Given user has following permissions
       | Assign | Customer               | None   |
@@ -112,7 +132,7 @@ Feature: Import Customers
     And there is no records in grid
     And I fill template with data:
       | Id  | Name    |  Parent Id |  Group Name  | Tax code   | Account | Internal rating Id | Payment term Label |Owner ID|
-      |  7  | NewUser |            | All Customers| Tax_code_2 | NewUser | 4_of_5             |        net 60      |   1    |
+      |  8  | NewUser |            | All Customers| Tax_code_2 | NewUser | 4_of_5             |        net 60      |   1    |
     When I import file
     Then I should see "Import started successfully. You will receive email notification upon completion." flash message
     And reload the page
@@ -129,7 +149,7 @@ Feature: Import Customers
     And go to Customers/ Customers
     And I fill template with data:
       | Id  | Name    |  Parent Name |  Group Name  | Tax code   | Account Id | Internal rating Id | Payment term Label |Owner ID|
-      | 7   | NewUser |              | All Customers| Tax_code_2 | 7          | 4_of_5             |        net 60      | 2      |
+      | 8   | NewUser |              | All Customers| Tax_code_2 | 7          | 4_of_5             |        net 60      | 2      |
     When I import file
     Then I should see "Import started successfully. You will receive email notification upon completion." flash message
     And reload the page
@@ -145,7 +165,7 @@ Feature: Import Customers
     And go to Customers/ Customers
     And I fill template with data:
       | Id  | Name       |
-      | 7   | NewUserXXX |
+      | 8   | NewUserXXX |
     When I import file
     Then I should see "Import started successfully. You will receive email notification upon completion." flash message
     And reload the page
