@@ -1,6 +1,25 @@
 {% block contact_request_widget %}
     <div class="contact-us-form">
-        {{ form_start(form, {'attr': {'id': form.vars.id, 'name': form.vars.name, 'novalidate': 'novalidate' }}) }}
+        {% set formAttr = {
+            'id': form.vars.id,
+            'novalidate': 'novalidate',
+
+        } %}
+
+        {% set fieldAttr = {
+            "data-validation": {
+                "Oro\\Bundle\\ContactUsBundle\\Validator\\ContactRequestCallbackValidator": {
+                    "target": "preferredContactMethod",
+                    "deps": {
+                        "oro.contactus.contactrequest.method.both": ["emailAddress", "phone"],
+                        "oro.contactus.contactrequest.method.phone": "phone",
+                        "oro.contactus.contactrequest.method.email": "emailAddress"
+                    }
+                }
+            }|json_encode
+        } %}
+
+        {{ form_start(form, {'attr': formAttr}) }}
         <div class="grid">
             <div class="grid__row grid__row--offset-none">
                 <div class="grid__column grid__column--6">
@@ -17,7 +36,7 @@
             </div>
             <div class="grid__row grid__row--offset-none">
                 <div class="grid__column grid__column--12">
-                    {{ form_row(form.preferredContactMethod) }}
+                    {{ form_row(form.preferredContactMethod, {'attr': fieldAttr}) }}
                 </div>
             </div>
             <div class="grid__row grid__row--offset-none">
