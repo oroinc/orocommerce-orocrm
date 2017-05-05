@@ -220,15 +220,8 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit_Framework_TestCase
         $this->doctrineHelper
             ->expects($this->exactly($howManyTimes))
             ->method('getEntityRepository')
-            ->willReturn(Account::class)
+            ->with(Account::class)
             ->willReturn($this->accountRepository);
-    }
-
-    private function shouldNotCallAccountRepository()
-    {
-        $this->doctrineHelper
-            ->expects($this->never())
-            ->method('getEntityRepository');
     }
 
     /**
