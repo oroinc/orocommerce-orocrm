@@ -3,3 +3,11 @@ oro.contactus:
         customer_user.label: Customer User
     form:
         contactrequest.sent: "Thank you for your Request!"
+oro.contact_us_bridge:
+    system_configuration:
+        groups:
+            contact_requests.label: Contact Requests
+        fields:
+            contact_requests:
+                label: Allow Contact Requests
+                tooltip: Allow Contact Requests form.
