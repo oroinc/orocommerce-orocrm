@@ -8,6 +8,7 @@ use Oro\Bundle\ImportExportBundle\Tests\Behat\Context\ImportExportContext;
 use Oro\Bundle\TestFrameworkBundle\Behat\Context\OroFeatureContext;
 use Oro\Bundle\TestFrameworkBundle\Behat\Isolation\MessageQueueIsolatorAwareInterface;
 use Oro\Bundle\TestFrameworkBundle\Behat\Isolation\MessageQueueIsolatorInterface;
+use Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\OroMainContext;
 
 class CustomerAccountContext extends OroFeatureContext implements MessageQueueIsolatorAwareInterface
 {
@@ -22,12 +23,18 @@ class CustomerAccountContext extends OroFeatureContext implements MessageQueueIs
     private $importExportContext;
 
     /**
+     * @var OroMainContext
+     */
+    private $mainContext;
+
+    /**
      * @BeforeScenario
      */
     public function gatherContexts(BeforeScenarioScope $scope)
     {
         $environment = $scope->getEnvironment();
         $this->importExportContext = $environment->getContext(ImportExportContext::class);
+        $this->mainContext = $environment->getContext(OroMainContext::class);
     }
 
     /**
@@ -45,6 +52,8 @@ class CustomerAccountContext extends OroFeatureContext implements MessageQueueIs
     public function iImportCustomersFile()
     {
         $this->importExportContext->iImportFile();
+        $flashMessage = 'Import started successfully. You will receive email notification upon completion.';
+        $this->mainContext->iShouldSeeFlashMessage($flashMessage);
         // need to wait for so long because of postpone processing of customers rows. See PostponeRowsHandler consts
         $this->messageQueueIsolator->waitWhileProcessingMessages(600);
     }
