@@ -31,6 +31,7 @@ Feature: Contact us widget
       | Last Name   | Tester       |
       | Step        | Open         |
       | Email       | qa@oroinc.com|
+      | Website     | Default      |
     And I click view "qa@oroinc.com" in grid
     And I should see "Test Comment"
     And I click logout in user menu
@@ -51,6 +52,7 @@ Feature: Contact us widget
       | First Name  | Amanda                  |
       | Last Name   | Cole                    |
       | Email       | AmandaRCole@example.org |
+      | Website     | Default                 |
     And I click view "AmandaRCole@example.org" in grid
     And I should see "Testers Comment"
     And I click logout in user menu
