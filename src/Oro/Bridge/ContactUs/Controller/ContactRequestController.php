@@ -48,6 +48,7 @@ class ContactRequestController extends Controller
             null,
             function ($entity, FormInterface $form) {
                 $this->addFlash('error', $this->formatErrors($form->getErrors(true)));
+
                 return [];
             }
         );
@@ -55,39 +56,33 @@ class ContactRequestController extends Controller
         return new RedirectResponse(
             $request->query->get(
                 'requestUri',
-                $request->headers->get('referer')
+                $this->generateUrl('oro_frontend_root')
             )
         );
     }
 
     /**
      * @Route(
-     *      "/show",
-     *      name="oro_contactus_bridge_request_show"
+     *      "/",
+     *      name="oro_contactus_bridge_contact_us_page"
      * )
      * @Layout
      *
      * @return array|RedirectResponse
      */
-    public function showAction()
+    public function contactUsPageAction()
     {
         $contactRequest = new ContactRequest();
 
         $form = $this->createForm(
             ContactRequestType::class,
-            $contactRequest,
-            [
-                'action' => $this->generateUrl(
-                    'oro_contactus_bridge_request_create'
-                ),
-            ]
+            $contactRequest
         );
 
         $this->get('oro_form.update_handler')->update(
             $contactRequest,
             $form,
             $this->get('translator')->trans('oro.contactus.form.contactrequest.sent'),
-            null,
             null,
             function ($entity, FormInterface $form) {
                 return ['data' => ['contact_us_request_form' => $form->createView()]];

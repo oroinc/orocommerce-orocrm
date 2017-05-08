@@ -5,10 +5,13 @@ oro.contactus:
         contactrequest.sent: "Thank you for your Request!"
     title: Contact Us
 oro.contact_us_bridge:
+    frontend.navigation.items:
+                live_chat.label: 'Live Chat'
+                contact_us.label: 'Contact Us'
     system_configuration:
         groups:
             contact_requests.label: Contact Requests
         fields:
             contact_requests:
                 label: Allow Contact Requests
-                tooltip: Allow Contact Requests form.
+                tooltip: Allow Access to "Contact Us" page on a Store Front.
