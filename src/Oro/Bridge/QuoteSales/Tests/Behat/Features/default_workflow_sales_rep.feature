@@ -1,175 +1,169 @@
-@not-automated
-@draft
+@ticket-CRM-7573
+@automatically-ticket-tagged
+@fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
+@fixture-OroPaymentTermBundle:PaymentTermIntegration.yml
+@fixture-OroCheckoutBundle:Checkout.yml
 Feature: Default workflow for Commerce Sales Rep
   In order to work with all Commerce features from the Opportunity view conveniently
   As a Sales Rep
   I want to have a default workflow for Opportunities
 
   Scenario: Feature Background
-    Given there is following Commerce Customer:
+    Given there is following Customer:
       | Name          |
       | Commerce John |
-    And there are following User:
-      | Username | Roles         |
-      | OroAdmin | Administrator |
-      | SalesMan | Sales Rep     |
+    And two users charlie and samantha exists in the system
     And there is following Website:
       | Name     |
       | SaleSite |
-    And there is following Product:
-      | SKU   | Name   | Status  | Precision |
-      | Prod1 | Tables | Enabled | 10        |
-    And "OroCommerce Opportunity Management Flow" Workflow is activated
-    
-  Scenario: Admnistrator activates CRM Opportunity Management Flow
-    Given I login as "OroAdmin" user
+
+  Scenario: Administrator activates CRM Opportunity Management Flow
+    Given I login as administrator
     When I go to System/Workflows
-    And I open Opportunity Management Flow page
-    And I click "Activate"
-    And I submit form
-    And I go to System/Workflows
-    Then I should see OroCommerce Opportunity Management Flow in grid with following data:
-    | ACTIVE |
-    | No     |
-    And I should see Opportunity Management Flow in grid with following data:
-    | ACTIVE |
-    | Yes    |
-    But I go to System/Workflows
-    And I open Commerce Opportunity Management Flow page
-    And I click "Activate"
-    And I submit form
-    And I go to System/Workflows
-    Then I should see Opportunity Management Flow in grid with following data:
-      | ACTIVE |
-      | No     |
-    And I should see OroCommerce Opportunity Management Flow in grid with following data:
-      | ACTIVE |
-      | Yes    |
+    Then I should see "Opportunity Management Flow" in grid with following data:
+      | Active                  | No                     |
+      | Exclusive Active Groups | opportunity_management |
+    When I click Activate Opportunity Management Flow in grid
+    And I press "Activate"
+    Then I should see "Workflow activated" flash message
+    And I should see "Opportunity Management Flow" in grid with following data:
+      | Active                  | Yes                    |
+      | Exclusive Active Groups | opportunity_management |
+
+  Scenario: Administrator activates "Quote flow"
+    Given I check "Opportunity" in Related Entity filter
+    And I should see "Quote flow" in grid with following data:
+      | Active                  | No               |
+      | Exclusive Active Groups | quote_management |
+    When I click Activate Quote flow in grid
+    And I press "Activate"
+    Then I should see "Workflow activated" flash message
+    And I should see "Quote flow" in grid with following data:
+      | Active                  | Yes              |
+      | Exclusive Active Groups | quote_management |
 
   Scenario: Sales Rep creates Opportunity
-    Given I login as "SalesMan" user
+    Given I login as "charlie" user
     And I go to Sales/Opportunities
     When I click "Create Opportunity"
-    And I fill in the following:
-      | Opportunity Name | Account       | Status | Probability (%) |
-      | Europe Oppo 2x1  | Commerce John | Open   | 2               |
-    And I save setting
+    And I fill form with:
+      | Opportunity Name | Europe Oppo 2x1  |
+      | Account          | Commerce John (Customer) |
+      | Probability (%)  | 2             |
+    And I save and close form
     Then I should see "Open" green status
-    And there should be following buttons:
-    | Button Name   |
-    | Develop       |
-    | Close As Won  |
-    | Close As Lost |
-    | Create Quote  |
+    And I should see following buttons:
+      | Develop       |
+      | Close as Won  |
+      | Close as Lost |
+      | Create Quote  |
 
   Scenario: Sales Rep develops Opportunity
     Given I click "Develop"
-    When I fill in the following:
-      | Status         | Probability (%) |
-      | Needs Analysis | 52              |
-    And click "Submit"
-    Then I should see "Open" green status
-    And there should be following buttons:
-      | Button Name   |
+    When I fill form with:
+      | Status          | Needs Analysis  |
+      | Probability (%) | 52              |
+    And I press "Submit"
+    Then I should see "Needs Analysis" green status
+    And I should see following buttons:
       | Develop       |
-      | Close As Won  |
-      | Close As Lost |
+      | Close as Won  |
+      | Close as Lost |
       | Create Quote  |
 
   Scenario: Sales Rep creates Quote for Opportunity
     Given I click "Create Quote"
-    When I fill in the following:
-      | Website  | Product       | Unit Price |
-      | SaleSite | Prod1 - Table | 100        |
-    And I save setting
-    Then I should see "Quote Created" green status
-    And there should be following buttons:
-      | Button Name   |
+    When I fill form with:
+      | Website | SaleSite |
+    And fill "Quote Line Items" with:
+      | Product    | SKU123 |
+      | Unit Price | 100    |
+    And I save and close form
+    And agree that shipping cost may have changed
+    Then I should see "Quote Created"
+    And I should see following buttons:
       | Develop       |
-      | Close As Won  |
-      | Close As Lost |
+      | Close as Won  |
+      | Close as Lost |
       | Create Quote  |
 
   Scenario: Sales Rep closes Opportunity as Lost
-    Given I click "Close As Lost"
-    When I submit form
-    Then I should see "Lost" green status
-    And there should be following buttons:
-      | Button Name |
+    Given I click "Close as Lost"
+    When I press "Submit"
+    Then I should see "Closed Lost" gray status
+    And I should see following buttons:
       | Reopen      |
 
   Scenario: Sales Rep reopens Opportunity
     Given I click "Reopen"
-    When I fill in the following:
-      | Status | Probability (%) |
-      | Open   | 3               |
-    And I submit form
+    When I fill form with:
+      | Status          | Open |
+      | Probability (%) | 3 |
+    And I press "Submit"
     Then I should see "Open" green status
-    And there should be following buttons:
-      | Button Name   |
+    And I should see following buttons:
       | Develop       |
-      | Close As Won  |
-      | Close As Lost |
+      | Close as Won  |
+      | Close as Lost |
       | Create Quote  |
 
   Scenario: Sales Rep creates Quote for Opportunity and closes as Won
     Given I click "Create Quote"
-    When I fill in the following:
-      | Website  | Product       | Unit Price |
-      | SaleSite | Prod1 - Table | 90         |
-    And I save setting
-    Then I should see "Quote Created" green status
-    And there should be following buttons:
-      | Button Name   |
+    When I fill form with:
+      | Website  | SaleSite |
+    And fill "Quote Line Items" with:
+      | Product    | SKU123 |
+      | Unit Price | 90     |
+    And I save and close form
+    And agree that shipping cost may have changed
+    Then I should see "Quote Created"
+    And I should see following buttons:
       | Develop       |
-      | Close As Won  |
-      | Close As Lost |
+      | Close as Won  |
+      | Close as Lost |
       | Create Quote  |
-    But I click "Close As Won"
-    And I fill in "Close Revenue" with "12000"
-    And I submit form
-    Then I should see "Won" green status
-    And there should be following buttons:
-      | Button Name |
+    But I click "Close as Won"
+    And I fill "Workflow Transition Form" with:
+      | Close Revenue | 12000 |
+    And press "Submit"
+    Then I should see "Closed Won" green status
+    And I should see following buttons:
       | Reopen      |
 
   Scenario: Sales Rep reopens and closes Opportunity and as Lost
     Given I click "Reopen"
-    When I fill in the following:
-      | Status | Probability (%) |
-      | Open   | 4               |
-    And I submit form
+    When I fill form with:
+      | Status          | Open   |
+      | Probability (%) | 4               |
+    And press "Submit"
     Then I should see "Open" green status
-    And there should be following buttons:
-      | Button Name   |
+    And I should see following buttons:
       | Develop       |
-      | Close As Won  |
-      | Close As Lost |
+      | Close as Won  |
+      | Close as Lost |
       | Create Quote  |
-    But I click "Close As Lost"
-    And I submit form
-    Then I should see "Lost" green status
-    And there should be following buttons:
-      | Button Name |
+    But I click "Close as Lost"
+    And press "Submit"
+    Then I should see "Closed Lost" gray status
+    And I should see following buttons:
       | Reopen      |
 
   Scenario: Sales Rep reopens and closes Opportunity and as Won
     Given I click "Reopen"
-    When I fill in the following:
-      | Status | Probability (%) |
-      | Open   | 5               |
-    And I submit form
+    When I fill form with:
+      | Status          | Open |
+      | Probability (%) | 5    |
+    And press "Submit"
     Then I should see "Open" green status
-    And there should be following buttons:
-      | Button Name   |
+    And I should see following buttons:
       | Develop       |
-      | Close As Won  |
-      | Close As Lost |
+      | Close as Won  |
+      | Close as Lost |
       | Create Quote  |
-    But I click "Close As Won"
-    And I fill in "Close Revenue" with "13000"
-    And I submit form
-    Then I should see "Won" green status
-    And there should be following buttons:
-      | Button Name |
+    But I click "Close as Won"
+    And I fill "Workflow Transition Form" with:
+      | Close Revenue | 13000 |
+    And press "Submit"
+    Then I should see "Closed Won" green status
+    And I should see following buttons:
       | Reopen      |

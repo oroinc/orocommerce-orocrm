@@ -1,3 +1,5 @@
+@ticket-BB-7843
+@automatically-ticket-tagged
 @fixture-ExportCustomerFixture.yml
 Feature: Export Customers
   In order to export list of customers
@@ -11,11 +13,11 @@ Feature: Export Customers
     Then I should see "Export started successfully. You will receive email notification upon completion." flash message
     And Email should contains the following "Export performed successfully. 6 customers were exported. Download" text
     And Exported file for "Customers" contains the following data:
-      | Id  | Name                       |  Parent Name |  Group Name         | Tax code   | Account                    | Internal rating Id | Payment term Label |
-      |  1  | Company A                  |              | All Customers       | Tax_code_1 | Company A                  | 2_of_5             |        net 30      |
-      |  2  | Company A - East Division  |  Company A   | All Customers       | Tax_code_1 | Company A - East Division  | 1_of_5             |        net 90      |
-      |  3  | Company A - West Division  |  Company A   | All Customers       | Tax_code_1 | Company A - West Division  | 1_of_5             |        net 60      |
-      |  4  | Wholesaler B               |              | All Customers       | Tax_code_2 | Wholesaler B               | 4_of_5             |        net 60      |
-      |  5  | Partner C                  |              | Partners            | Tax_code_3 | Partner C                  | 4_of_5             |        net 30      |
-      |  6  | Customer G                 |              | Wholesale Customers | Tax_code_3 | Customer G                 | 3_of_5             |        net 60      |
+      | Id  | Name                       |  Parent Id   |  Group Name         |Owner Id| Tax code   | Account Id  | Internal rating Id | Payment term Label |
+      |  1  | Company A                  |              | All Customers       | 1      | Tax_code_1 | 1           | 2_of_5             |        net 30      |
+      |  2  | Company A - East Division  |  1           | All Customers       | 1      | Tax_code_1 | 2           | 1_of_5             |        net 90      |
+      |  3  | Company A - West Division  |  1           | All Customers       | 1      | Tax_code_1 | 3           | 1_of_5             |        net 60      |
+      |  4  | Customer G                 |              | Wholesale Customers | 2      | Tax_code_3 | 4           | 3_of_5             |        net 60      |
+      |  5  | Partner C                  |              | Partners            | 2      | Tax_code_3 | 5           | 4_of_5             |        net 30      |
+      |  6  | Wholesaler B               |              | All Customers       | 2      | Tax_code_2 | 6           | 4_of_5             |        net 60      |
     And I click Logout in user menu
