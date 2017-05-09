@@ -30,6 +30,7 @@ class ContactRequestType extends AbstractType
 
     /**
      * @param SecurityFacade $securityFacade
+     * @param WebsiteManager $websiteManager
      */
     public function __construct(SecurityFacade $securityFacade, WebsiteManager $websiteManager)
     {
