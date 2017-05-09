@@ -52,8 +52,6 @@ class CustomerAccountContext extends OroFeatureContext implements MessageQueueIs
     public function iImportCustomersFile()
     {
         $this->importExportContext->iImportFile();
-        $flashMessage = 'Import started successfully. You will receive email notification upon completion.';
-        $this->mainContext->iShouldSeeFlashMessage($flashMessage);
         // need to wait for so long because of postpone processing of customers rows. See PostponeRowsHandler consts
         $this->messageQueueIsolator->waitWhileProcessingMessages(600);
     }
