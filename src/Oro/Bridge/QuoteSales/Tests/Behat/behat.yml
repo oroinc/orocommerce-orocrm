@@ -17,6 +17,7 @@ oro_behat_extension:
         - Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\OroMainContext
         - Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\FixturesContext
         - OroDataGridBundle::GridContext
+        - OroFormBundle::FormContext
         - OroSalesBundle::SalesContext
         - OroSalesBundle::FeatureContext
         - OroQuoteSalesBridgeBundle::FeatureContext
