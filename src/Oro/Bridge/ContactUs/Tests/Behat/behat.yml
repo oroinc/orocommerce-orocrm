@@ -1,0 +1,4 @@
+oro_behat_extension:
+    elements:
+        CMS Page Content:
+            selector: "textarea[name='oro_cms_page[content]']"

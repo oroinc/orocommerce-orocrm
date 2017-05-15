@@ -30,6 +30,7 @@ class ContactRequestType extends AbstractType
 
     /**
      * @param SecurityFacade $securityFacade
+     * @param WebsiteManager $websiteManager
      */
     public function __construct(SecurityFacade $securityFacade, WebsiteManager $websiteManager)
     {
@@ -52,16 +53,17 @@ class ContactRequestType extends AbstractType
             function (FormEvent $event) {
                 $contactRequest = $event->getData();
 
+                // update data only for new contact requests
+                if (!$contactRequest instanceof ContactRequest || null !== $contactRequest->getId()) {
+                    return;
+                }
+
                 $loggedUser = $this->securityFacade->getLoggedUser();
                 if (null === $loggedUser) { // todo remove in scope of BB-9269
                     $website = $this->websiteManager->getCurrentWebsite();
                     $contactRequest->setOwner($website->getOrganization());
                 }
                 if (!$loggedUser instanceof CustomerUser) {
-                    return;
-                }
-                // update data only for new contact requests
-                if (!$contactRequest instanceof ContactRequest || null !== $contactRequest->getId()) {
                     return;
                 }
                 $contactRequest->setEmailAddress($loggedUser->getEmail());

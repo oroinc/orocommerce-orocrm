@@ -48,18 +48,16 @@ class ContactRequestController extends Controller
             null,
             null,
             function ($entity, FormInterface $form) {
-                $this->addFlash('error', $this->formatErrors($form->getErrors(true)));
+                $errors = $form->getErrors(true);
+                if (count($errors) > 0) {
+                    $this->addFlash('error', $this->renderErrors($errors));
+                }
 
                 return [];
             }
         );
 
-        return new RedirectResponse(
-            $request->query->get(
-                'requestUri',
-                $this->generateUrl('oro_frontend_root')
-            )
-        );
+        return $this->redirect($request->query->get('requestUri', $this->generateUrl('oro_frontend_root')));
     }
 
     /**
@@ -97,17 +95,8 @@ class ContactRequestController extends Controller
      * @param FormErrorIterator $errors
      * @return string
      */
-    private function formatErrors(FormErrorIterator $errors)
+    private function renderErrors(FormErrorIterator $errors)
     {
-        if (count($errors) > 0) {
-            return $this->renderView(
-                '@OroContactUsBridge/validation.html.twig',
-                [
-                    'errors' => $errors,
-                ]
-            );
-        }
-
-        return '';
+        return $this->renderView('@OroContactUsBridge/validation.html.twig', ['errors' => $errors]);
     }
 }
