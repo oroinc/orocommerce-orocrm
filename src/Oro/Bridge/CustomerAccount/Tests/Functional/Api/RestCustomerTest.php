@@ -1,11 +1,11 @@
 <?php
 
-namespace Oro\Bundle\CustomerAccountBundle\Tests\Functional\API;
+namespace Oro\Bundle\CustomerAccountBundle\Tests\Functional\Api;
 
 use Oro\Bundle\ChannelBundle\Entity\Channel;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
-use Oro\Bundle\CustomerBundle\Tests\Functional\API\AbstractRestTest;
-use Oro\Bundle\CustomerBundle\Tests\Functional\API\DataFixtures\LoadCustomerData;
+use Oro\Bundle\CustomerBundle\Tests\Functional\Api\AbstractRestTest;
+use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadGroups;
 use Oro\Bundle\UserBundle\Tests\Functional\DataFixtures\LoadUserData;
 use Symfony\Component\HttpFoundation\Response;
