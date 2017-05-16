@@ -2,7 +2,6 @@
 
 namespace Oro\Bridge\ContactUs\Form\Type;
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -96,7 +95,7 @@ class ContactRequestType extends AbstractType
         );
         $builder->add(
             'contactReason',
-            EntityType::class,
+            'entity',
             [
                 'class' => 'OroContactUsBundle:ContactReason',
                 'property' => 'label',
