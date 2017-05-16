@@ -22,12 +22,10 @@ class LoadDataFixturesCommand extends BaseDataFixturesCommand
     {
         if ($input->getOption('fixtures-type') === self::DEMO_FIXTURES_TYPE) {
             $exclude = $input->getOption('exclude') ?: [];
-
-            $exclude = array_merge(
-                $exclude,
+            if (empty($exclude)) {
                 // exclude Demo data loading for Magento and related Bundles
-                ['OroMagentoBundle', 'OroAbandonedCartBundle', 'OroMarketingCRMBridgeBundle']
-            );
+                $exclude = ['OroMagentoBundle', 'OroAbandonedCartBundle', 'OroMarketingCRMBridgeBundle'];
+            }
             $input->setOption('exclude', $exclude);
         }
 
