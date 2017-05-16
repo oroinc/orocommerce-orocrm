@@ -2,6 +2,7 @@
 
 namespace Oro\Bridge\ContactUs\Form\Type;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -15,6 +16,7 @@ use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Oro\Bundle\ContactUsBundle\Form\Type\ContactRequestType as BaseContactRequestType;
+use Oro\Bundle\ContactUsBundle\Entity\Repository\ContactReasonRepository;
 
 class ContactRequestType extends AbstractType
 {
@@ -94,13 +96,16 @@ class ContactRequestType extends AbstractType
         );
         $builder->add(
             'contactReason',
-            'entity',
+            EntityType::class,
             [
                 'class' => 'OroContactUsBundle:ContactReason',
                 'property' => 'label',
                 'empty_value' => 'oro.contactus.contactrequest.choose_contact_reason.label',
                 'required' => false,
                 'label' => 'oro.contactus.contactrequest.contact_reason.label',
+                'query_builder' => function (ContactReasonRepository $er) {
+                    return $er->getExistedContactReasonsQB();
+                },
             ]
         );
     }
