@@ -14,4 +14,7 @@ oro.contact_us_bridge:
         fields:
             contact_requests:
                 label: Allow Contact Requests
-                tooltip: Allow Access to "Contact Us" page on a Store Front.
+                tooltip: |
+                    Controls showing the Contact Us page in the OroCommerce Front Store menu.
+                    When disabled, the Contact Us page is hidden.
+                    You can still use the Contact Us widget in your web catalog pages.
