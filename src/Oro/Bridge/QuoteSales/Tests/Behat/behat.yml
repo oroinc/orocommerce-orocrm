@@ -4,7 +4,7 @@ oro_behat_extension:
       selector: '.badge'
       class: Oro\Bridge\QuoteSales\Tests\Behat\Element\EntityStatus
 
-    Workflow Transition Form:
+    Opportunity Transition Form:
       selector: '[name="oro_workflow_transition"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
       options:
