@@ -9,8 +9,10 @@ Feature: Switch off contact us page
     And I click "Commerce" on configuration sidebar
     And I click "Customer" on configuration sidebar
     And I click "Contact Requests" on configuration sidebar
-    # Fix it after BAP-14749
+    # todo fix checkbox label after BAP-14749
     And I uncheck "contact_requests[oro_contact_us_bridge___enable_contact_request][value]"
     And I click "Save settings"
     When I am on the homepage
     Then I should not see "Contact Us"
+    And I go to "/contact-us"
+    Then I should see "404 Not Found"
