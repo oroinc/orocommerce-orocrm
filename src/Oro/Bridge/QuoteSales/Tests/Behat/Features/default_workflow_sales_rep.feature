@@ -123,7 +123,7 @@ Feature: Default workflow for Commerce Sales Rep
       | Close as Lost |
       | Create Quote  |
     But I click "Close as Won"
-    And I fill "Workflow Transition Form" with:
+    And I fill "Opportunity Transition Form" with:
       | Close Revenue | 12000 |
     And press "Submit"
     Then I should see "Closed Won" green status
@@ -161,7 +161,7 @@ Feature: Default workflow for Commerce Sales Rep
       | Close as Lost |
       | Create Quote  |
     But I click "Close as Won"
-    And I fill "Workflow Transition Form" with:
+    And I fill "Opportunity Transition Form" with:
       | Close Revenue | 13000 |
     And press "Submit"
     Then I should see "Closed Won" green status
