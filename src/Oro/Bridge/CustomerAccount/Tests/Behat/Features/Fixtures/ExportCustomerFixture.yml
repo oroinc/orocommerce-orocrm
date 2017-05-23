@@ -20,19 +20,10 @@ Oro\Bundle\PaymentTermBundle\Entity\PaymentTerm:
 Oro\Bundle\TaxBundle\Entity\CustomerTaxCode:
     tax_code_1:
         code: 'Tax_code_1'
-        customers:
-            - '@company_A'
-            - '@company_A_east'
-            - '@company_A_west'
     tax_code_2:
         code: 'Tax_code_2'
-        customers:
-            - '@wholesaler_B'
     tax_code_3:
         code: 'Tax_code_3'
-        customers:
-            - '@partner_C'
-            - '@customer_G'
 
 Oro\Bundle\AccountBundle\Entity\Account:
     acc_company_A:
@@ -117,6 +108,7 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
         group: '@all_customers'
         internal_rating: '@2_of_5'
         payment_term_7c4f1e8e: '@net_30'
+        taxCode: '@tax_code_1'
     company_A_east:
         name: 'Company A - East Division'
         organization: '@organization'
@@ -125,6 +117,7 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
         group: '@all_customers'
         internal_rating: '@1_of_5'
         payment_term_7c4f1e8e: '@net_90'
+        taxCode: '@tax_code_1'
     company_A_west:
         name: 'Company A - West Division'
         organization: '@organization'
@@ -133,6 +126,7 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
         group: '@all_customers'
         internal_rating: '@1_of_5'
         payment_term_7c4f1e8e: '@net_60'
+        taxCode: '@tax_code_1'
     customer_G:
         name: 'Customer G'
         organization: '@organization'
@@ -140,6 +134,7 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
         group: '@wholesale_customers'
         internal_rating: '@3_of_5'
         payment_term_7c4f1e8e: '@net_60'
+        taxCode: '@tax_code_3'
     partner_C:
         name: 'Partner C'
         organization: '@organization'
@@ -147,6 +142,7 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
         group: '@partners'
         internal_rating: '@4_of_5'
         payment_term_7c4f1e8e: '@net_30'
+        taxCode: '@tax_code_3'
     wholesaler_B:
         name: 'Wholesaler B'
         organization: '@organization'
@@ -154,3 +150,4 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
         group: '@all_customers'
         internal_rating: '@4_of_5'
         payment_term_7c4f1e8e: '@net_60'
+        taxCode: '@tax_code_2'
