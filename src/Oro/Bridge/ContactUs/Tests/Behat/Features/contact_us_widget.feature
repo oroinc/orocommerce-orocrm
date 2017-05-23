@@ -4,17 +4,17 @@ Feature: Contact us widget
   I want be able to use "Contact Us" widget for insertion into CMS pages
   So that, we need to implement Contact Us widget, which should be easily inserted into content in any CMS page via Landing pages functionality.
 
-  Scenario: Enable widget for contact us page
+  Scenario: Enable widget for about page
     Given I login as administrator
     And go to Marketing/ Landing Pages
-    And I click edit "1" in grid
+    And I click edit "About" in grid
     And I fill in "CMS Page Content" with "{{widget('contact_us_form')}}"
     When I save and close form
     Then I should see "Page has been saved" flash message
     And I click logout in user menu
 
   Scenario:Fill contact us form as unauthorized user
-    Given I go to "/contact-us"
+    Given I go to "/about"
     And fill form with:
       |First Name              |Test              |
       |Last Name               |Tester            |
@@ -38,7 +38,7 @@ Feature: Contact us widget
 
   Scenario:Fill contact us form as authorized user
     Given I signed in as AmandaRCole@example.org on the store frontend
-    And go to "/contact-us"
+    And go to "/about"
     And fill form with:
       |Preferred contact method|Email             |
       |Contact Reason          |Other             |
@@ -58,7 +58,7 @@ Feature: Contact us widget
     And I click logout in user menu
 
   Scenario:Check validation messages
-    Given I go to "/contact-us"
+    Given I go to "/about"
     When I press "Submit"
     Then I should see validation errors:
       |First name |This value should not be blank. |
