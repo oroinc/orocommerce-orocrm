@@ -1,2 +1,3 @@
 bundles:
+    # needs to be loaded after OroSaleBundle's priority: 60
     - { name: Oro\Bridge\QuoteSales\OroQuoteSalesBridgeBundle, priority: 70 }
