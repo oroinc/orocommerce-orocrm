@@ -15,12 +15,12 @@
         }
     },
     "require": {
-        "oro/crm": "2.x-dev",
-        "oro/commerce": "1.x-dev"
+        "oro/crm": "2.2.*",
+        "oro/commerce": "1.2.*"
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.x-dev"
+            "dev-master": "1.2.x-dev"
         }
     }
 }
