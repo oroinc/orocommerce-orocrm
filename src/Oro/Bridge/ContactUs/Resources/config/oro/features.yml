@@ -1,0 +1,7 @@
+features:
+    enable_contact_request:
+        label: oro.contact_us_bridge.system_configuration.fields.contact_requests.label
+        description: oro.contact_us_bridge.system_configuration.fields.contact_requests.tooltip
+        toggle: oro_contact_us_bridge.enable_contact_request
+        routes:
+            - 'oro_contactus_bridge_contact_us_page'

@@ -1,0 +1,29 @@
+system_configuration:
+    groups:
+        contact_requests:
+            title: oro.contact_us_bridge.system_configuration.groups.contact_requests.label
+            icon: 'fa-book'
+        contact_requests_check:
+            title: oro.contact_us_bridge.system_configuration.groups.contact_requests.label
+    fields:
+        oro_contact_us_bridge.enable_contact_request:
+            data_type: boolean
+            type: oro_config_checkbox
+            options:
+                label: oro.contact_us_bridge.system_configuration.fields.contact_requests.label
+                tooltip: oro.contact_us_bridge.system_configuration.fields.contact_requests.tooltip
+                resettable: false
+                required: false
+    tree:
+        system_configuration:
+            commerce:
+                children:
+                    customer:
+                        priority: 1000
+                        children:
+                            contact_requests:
+                                priority: 100
+                                children:
+                                    contact_requests_check:
+                                        children:
+                                            - oro_contact_us_bridge.enable_contact_request

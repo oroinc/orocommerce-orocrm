@@ -1,0 +1,27 @@
+navigation:
+    menu_config:
+        items:
+            live_chat:
+                label: 'oro.contact_us_bridge.frontend.navigation.items.live_chat.label'
+                uri: '/contact-us'
+                extras:
+                    position: 15
+            contact_us:
+                label: 'oro.contact_us_bridge.frontend.navigation.items.contact_us.label'
+                route: 'oro_contactus_bridge_contact_us_page'
+        tree:
+            commerce_top_nav:
+                children:
+                    live_chat: ~
+
+            commerce_main_menu:
+                children:
+                    contact_us: ~
+
+            commerce_footer_links:
+                children:
+                    information:
+                        children:
+                            contact_us: ~
+    titles:
+        oro_contactus_bridge_contact_us_page: 'oro.contactus.title'

@@ -10,9 +10,11 @@ use Symfony\Component\Form\FormErrorIterator;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 use Oro\Bridge\ContactUs\Form\Type\ContactRequestType;
 use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
+use Oro\Bundle\LayoutBundle\Annotation\Layout;
 
 class ContactRequestController extends Controller
 {
@@ -56,6 +58,37 @@ class ContactRequestController extends Controller
         );
 
         return $this->redirect($request->query->get('requestUri', $this->generateUrl('oro_frontend_root')));
+    }
+
+    /**
+     * @Route(
+     *      "/",
+     *      name="oro_contactus_bridge_contact_us_page"
+     * )
+     * @Layout
+     *
+     * @return array|RedirectResponse
+     */
+    public function contactUsPageAction()
+    {
+        $contactRequest = new ContactRequest();
+
+        $form = $this->createForm(
+            ContactRequestType::class,
+            $contactRequest
+        );
+
+        $result =  $this->get('oro_form.update_handler')->update(
+            $contactRequest,
+            $form,
+            $this->get('translator')->trans('oro.contactus.form.contactrequest.sent')
+        );
+
+        if ($result instanceof Response) {
+            return $result;
+        }
+
+        return ['data' => ['contact_us_request_form' => $form->createView()]];
     }
 
     /**

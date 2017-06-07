@@ -1,20 +1,13 @@
 @fixture-CustomerUserFixture.yml
-Feature: Contact us widget
-  As an Administrator
-  I want be able to use "Contact Us" widget for insertion into CMS pages
-  So that, we need to implement Contact Us widget, which should be easily inserted into content in any CMS page via Landing pages functionality.
+Feature: Contact us page fill form
+  As a Customer User
+  I want be able to contact Seller via Contact form on the website
+  So that, we need to add additional page with Contact Us form in it.
 
-  Scenario: Enable widget for about page
-    Given I login as administrator
-    And go to Marketing/ Landing Pages
-    And I click edit "About" in grid
-    And I fill in "CMS Page Content" with "{{widget('contact_us_form')}}"
-    When I save and close form
-    Then I should see "Page has been saved" flash message
-    And I click logout in user menu
-
-  Scenario:Fill contact us form as unauthorized user
-    Given I go to "/about"
+  Scenario: Fill contact us form as unauthorized user
+    Given I am on the homepage
+    When I follow "Contact Us"
+    Then Page title equals to "Contact Us"
     And fill form with:
       |First Name              |Test              |
       |Last Name               |Tester            |
@@ -31,14 +24,14 @@ Feature: Contact us widget
       | Last Name   | Tester       |
       | Step        | Open         |
       | Email       | qa@oroinc.com|
-      | Website     | Default      |
     And I click view "qa@oroinc.com" in grid
     And I should see "Test Comment"
     And I click logout in user menu
 
-  Scenario:Fill contact us form as authorized user
+  Scenario: Fill contact us form as authorized user
     Given I signed in as AmandaRCole@example.org on the store frontend
-    And go to "/about"
+    When I follow "Contact Us"
+    Then Page title equals to "Contact Us"
     And fill form with:
       |Preferred contact method|Email             |
       |Contact Reason          |Other             |
@@ -52,13 +45,14 @@ Feature: Contact us widget
       | First Name  | Amanda                  |
       | Last Name   | Cole                    |
       | Email       | AmandaRCole@example.org |
-      | Website     | Default                 |
     And I click view "AmandaRCole@example.org" in grid
     And I should see "Testers Comment"
     And I click logout in user menu
 
-  Scenario:Check validation messages
-    Given I go to "/about"
+  Scenario: Check validation messages
+    Given I am on the homepage
+    When I follow "Contact Us"
+    Then Page title equals to "Contact Us"
     When I press "Submit"
     Then I should see validation errors:
       |First name |This value should not be blank. |
