@@ -10,32 +10,28 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Oro\Bundle\ContactUsBundle\Form\Type\ContactRequestType as BaseContactRequestType;
 use Oro\Bundle\ContactUsBundle\Entity\Repository\ContactReasonRepository;
 
 class ContactRequestType extends AbstractType
 {
-    /**
-     * @var SecurityFacade
-     */
-    protected $securityFacade;
+    /** @var TokenAccessorInterface */
+    protected $tokenAccessor;
 
-    /**
-     * @var WebsiteManager
-     */
+    /** @var WebsiteManager */
     protected $websiteManager;
 
     /**
-     * @param SecurityFacade $securityFacade
-     * @param WebsiteManager $websiteManager
+     * @param TokenAccessorInterface $tokenAccessor
+     * @param WebsiteManager         $websiteManager
      */
-    public function __construct(SecurityFacade $securityFacade, WebsiteManager $websiteManager)
+    public function __construct(TokenAccessorInterface $tokenAccessor, WebsiteManager $websiteManager)
     {
-        $this->securityFacade = $securityFacade;
+        $this->tokenAccessor = $tokenAccessor;
         $this->websiteManager = $websiteManager;
     }
 
@@ -59,7 +55,7 @@ class ContactRequestType extends AbstractType
                     return;
                 }
 
-                $loggedUser = $this->securityFacade->getLoggedUser();
+                $loggedUser = $this->tokenAccessor->getUser();
                 if (null === $loggedUser) { // todo remove in scope of BB-9269
                     $website = $this->websiteManager->getCurrentWebsite();
                     $contactRequest->setOwner($website->getOrganization());

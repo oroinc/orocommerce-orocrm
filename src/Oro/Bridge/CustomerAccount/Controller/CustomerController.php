@@ -9,7 +9,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Oro\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\ChannelBundle\Entity\Channel;
 use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
@@ -54,7 +53,7 @@ class CustomerController extends Controller
         $customers = array_filter(
             $customers,
             function ($item) {
-                return $this->getSecurityFacade()->isGranted('VIEW', $item);
+                return $this->isGranted('VIEW', $item);
             }
         );
 
@@ -206,13 +205,5 @@ class CustomerController extends Controller
         return [
             'customer' => $customer
         ];
-    }
-
-    /**
-     * @return SecurityFacade
-     */
-    protected function getSecurityFacade()
-    {
-        return $this->get('oro_security.security_facade');
     }
 }

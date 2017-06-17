@@ -11,7 +11,7 @@ use Oro\Bundle\ContactUsBundle\Form\Type\ContactRequestType as BaseContactReques
 use Oro\Bridge\ContactUs\Form\Type\ContactRequestType;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 
@@ -28,9 +28,9 @@ class ContactRequestTypeTest extends TypeTestCase
     protected $type;
 
     /**
-     * @var SecurityFacade|\PHPUnit_Framework_MockObject_MockObject
+     * @var TokenAccessorInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $securityFacade;
+    protected $tokenAccessor;
 
     /**
      * @var WebsiteManager|\PHPUnit_Framework_MockObject_MockObject
@@ -42,17 +42,18 @@ class ContactRequestTypeTest extends TypeTestCase
      */
     protected function setUp()
     {
-        $this->securityFacade = $this->createMock(SecurityFacade::class);
+        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $this->websiteManager  = $this->createMock(WebsiteManager::class);
-        $this->type = new ContactRequestType($this->securityFacade, $this->websiteManager);
+
+        $this->type = new ContactRequestType($this->tokenAccessor, $this->websiteManager);
 
         parent::setUp();
     }
 
     public function testSubmit()
     {
-        $this->securityFacade->expects($this->once())
-            ->method('getLoggedUser')
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
             ->willReturn(null);
 
         $organization = $this->createMock(Organization::class);
@@ -105,8 +106,8 @@ class ContactRequestTypeTest extends TypeTestCase
                 'organization' => $organization,
             ]
         );
-        $this->securityFacade->expects($this->once())
-            ->method('getLoggedUser')
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
             ->willReturn($customerUser);
         $contactRequest = $this->getEntity(ContactRequestStub::class);
         $form = $this->factory->create(
@@ -135,8 +136,8 @@ class ContactRequestTypeTest extends TypeTestCase
         $organization = new Organization();
         $organization->setName('OroCRM');
         $customerUser = new \stdClass;
-        $this->securityFacade->expects($this->once())
-            ->method('getLoggedUser')
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
             ->willReturn($customerUser);
         $contactRequest = $this->getEntity(ContactRequestStub::class);
         $form = $this->factory->create(
