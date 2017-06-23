@@ -53,7 +53,7 @@ class CustomerAccountContext extends OroFeatureContext implements MessageQueueIs
     {
         $this->importExportContext->iImportFile();
         // need to wait for so long because of postpone processing of customers rows. See PostponeRowsHandler consts
-        $this->messageQueueIsolator->waitWhileProcessingMessages(600);
+        $this->messageQueueIsolator->waitWhileProcessingMessages();
     }
 
     /**
