@@ -60,6 +60,7 @@ class OpportunityQuotesListenerTest extends AbstractDatagridTestCase
     public function testGrid($requestData)
     {
         $this->manager->deactivateWorkflow('b2b_quote_backoffice_approvals');
+        $this->manager->deactivateWorkflow('b2b_quote_backoffice_default');
 
         $requestData['gridParameters'] = array_replace(
             $requestData['gridParameters'],
