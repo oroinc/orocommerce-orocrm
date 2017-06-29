@@ -15,7 +15,6 @@ use Oro\Bundle\AnalyticsBundle\Async\Topics;
  */
 class CalculateAllChannelsAnalyticsProcessorTest extends BaseCalculateAllChannelsAnalyticsProcessorTest
 {
-
     public function testShouldSendCalculateAnalyticsMessageForEachChannel()
     {
         /** @var CalculateAllChannelsAnalyticsProcessor $processor */
