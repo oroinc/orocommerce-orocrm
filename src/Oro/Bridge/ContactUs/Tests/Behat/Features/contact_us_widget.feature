@@ -1,4 +1,4 @@
-@fixture-CustomerUserFixture.yml
+@fixture-OroContactUsBridgeBundle:CustomerUserFixture.yml
 Feature: Contact us widget
   As an Administrator
   I want be able to use "Contact Us" widget for insertion into CMS pages

@@ -1,4 +1,4 @@
-@fixture-CustomerUserFixture.yml
+@fixture-OroContactUsBridgeBundle:CustomerUserFixture.yml
 Feature: Contact us page fill form
   As a Customer User
   I want be able to contact Seller via Contact form on the website
