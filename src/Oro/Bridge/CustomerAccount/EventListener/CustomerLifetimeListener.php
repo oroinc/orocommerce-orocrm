@@ -181,11 +181,11 @@ class CustomerLifetimeListener
     }
 
     /**
-     * @param Customer $customer
+     * @param Customer|null $customer
      */
-    protected function scheduleUpdate(Customer $customer)
+    protected function scheduleUpdate(Customer $customer = null)
     {
-        if ($this->uow->isScheduledForDelete($customer)) {
+        if ($customer !== null || $this->uow->isScheduledForDelete($customer)) {
             return;
         }
 
