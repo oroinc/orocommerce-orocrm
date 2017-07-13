@@ -27,7 +27,7 @@ Feature: Import Customers
       |     | Customer G                 |              | Wholesale Customers | Tax_code_3 | 4           | 3_of_5             |        net 60      |        |
       |     | Partner C                  |              | Partners            | Tax_code_3 | 5           | 4_of_5             |        net 30      |1       |
       |     | Wholesaler B               |              | All Customers       | Tax_code_2 | 6           | 4_of_5             |        net 60      |2       |
-    When I import customers file
+    When I import file
     And reload the page
     And Email should contains the following "Errors: 0 processed: 6, read: 6, added: 6, updated: 0, replaced: 0" text
     And I should see following grid:
@@ -58,7 +58,7 @@ Feature: Import Customers
       |  2  | Customer G                 |              | Wholesale Customers | Tax_code_3 | 4           | 3_of_5             |        net 90      |
       |  3  | Partner C                  |              | Partners            | Tax_code_3 | 5           | 1_of_5             |        net 30      |
       |  4  | Wholesaler B               |  3           | All Customers       | Tax_code_1 | 6           | 1_of_5             |        net 60      |
-    When I import customers file
+    When I import file
     And reload the page
     And Email should contains the following "Errors: 1 processed: 5, read: 6, added: 0, updated: 5, replaced: 0" text
     And I should see following grid:
@@ -94,7 +94,7 @@ Feature: Import Customers
       | Id  | Name                       |  Parent Id   |  Group Name         | Tax code   | Account Id  | Internal rating Id | Payment term Label |
       |  1  | Company A - 1 circular     |  6           | All Customers       | Tax_code_1 | 1           | 2_of_5             |        net 30      |
       |     | XX - Customer w/o circular |  6           | All Customers       | Tax_code_1 | 1           | 2_of_5             |        net 30      |
-    When I import customers file
+    When I import file
     And reload the page
     And Email should contains the following "Errors: 1 processed: 2, read: 2, added: 1, updated: 0, replaced: 0" text
       | Name                       | Group               |Parent Customer             | Internal rating| Payment term | Tax code   | Account                    |
@@ -130,7 +130,7 @@ Feature: Import Customers
     And I fill template with data:
       | Id  | Name    |  Parent Id |  Group Name  | Tax code   | Account | Internal rating Id | Payment term Label |Owner ID|
       |  8  | NewUser |            | All Customers| Tax_code_2 | NewUser | 4_of_5             |        net 60      |   1    |
-    When I import customers file
+    When I import file
     And reload the page
     And Email should contains the following "Errors: 1 processed: 0, read: 1, added: 0, updated: 0, replaced: 0" text
     And there is no records in grid
@@ -146,7 +146,7 @@ Feature: Import Customers
     And I fill template with data:
       | Id  | Name    |  Parent Name |  Group Name  | Tax code   | Account Id | Internal rating Id | Payment term Label |Owner ID|
       | 8   | NewUser |              | All Customers| Tax_code_2 | 7          | 4_of_5             |        net 60      | 2      |
-    When I import customers file
+    When I import file
     And reload the page
     And Email should contains the following "Errors: 0 processed: 1, read: 1, added: 1, updated: 0, replaced: 0" text
     And I should see following grid:
@@ -161,7 +161,7 @@ Feature: Import Customers
     And I fill template with data:
       | Id  | Name       |
       | 8   | NewUserXXX |
-    When I import customers file
+    When I import file
     And reload the page
     And Email should contains the following "Errors: 0 processed: 1, read: 1, added: 0, updated: 1, replaced: 0" text
     And I should see following grid:
