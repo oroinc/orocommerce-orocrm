@@ -1,5 +1,3 @@
-parameters:
-
 services:
     oro_customer_account.form.event_listener.change_config_option:
         class: 'Oro\Bridge\CustomerAccount\EventListener\ChangeConfigOptionListener'
