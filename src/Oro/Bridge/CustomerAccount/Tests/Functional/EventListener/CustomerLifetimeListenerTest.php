@@ -77,6 +77,16 @@ class CustomerLifetimeListenerTest extends WebTestCase
         self::assertEquals(500, $customer->getLifetime());
     }
 
+    public function testDeleteOrderWithoutCustomer()
+    {
+        /** @var Order $order */
+        $order = $this->getReference('simple_order');
+        $order->setCustomer(null);
+        $em = $this->getEntityManager();
+        $em->flush($order);
+        $em->remove($order);
+    }
+
     /**
      * @return EntityManager
      */
