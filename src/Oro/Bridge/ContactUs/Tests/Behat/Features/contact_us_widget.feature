@@ -1,3 +1,4 @@
+@skip
 @fixture-OroContactUsBridgeBundle:CustomerUserFixture.yml
 Feature: Contact us widget
   As an Administrator
