@@ -1,4 +1,3 @@
-@skip
 @fixture-OroContactUsBridgeBundle:CustomerUserFixture.yml
 Feature: Contact us widget
   As an Administrator
@@ -15,7 +14,8 @@ Feature: Contact us widget
     And I click logout in user menu
 
   Scenario:Fill contact us form as unauthorized user
-    Given I go to "/about"
+    Given I am on the homepage
+    And I click "About"
     And fill form with:
       |First Name              |Test              |
       |Last Name               |Tester            |
@@ -39,7 +39,7 @@ Feature: Contact us widget
 
   Scenario:Fill contact us form as authorized user
     Given I signed in as AmandaRCole@example.org on the store frontend
-    And go to "/about"
+    And I click "About"
     And fill form with:
       |Preferred contact method|Email             |
       |Contact Reason          |Other             |
@@ -59,7 +59,8 @@ Feature: Contact us widget
     And I click logout in user menu
 
   Scenario:Check validation messages
-    Given I go to "/about"
+    Given I am on the homepage
+    And I click "About"
     When I press "Submit"
     Then I should see validation errors:
       |First name |This value should not be blank. |
