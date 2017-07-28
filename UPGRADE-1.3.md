@@ -1,3 +1,6 @@
+UPGRADE FROM 1.2 to 1.3
+=======================
+
 ContactUs
 ---------
 * The `ContactRequestType::__construct(SecurityFacade $securityFacade, WebsiteManager $websiteManager)`<sup>[[?]](https://github.com/orocommerce/orocommerce-orocrm/tree/1.2.0/src/Oro/Bridge/ContactUs/Form/Type/ContactRequestType.php#L35 "Oro\Bridge\ContactUs\Form\Type\ContactRequestType")</sup> method was changed to `ContactRequestType::__construct(TokenAccessorInterface $tokenAccessor, WebsiteManager $websiteManager)`<sup>[[?]](https://github.com/orocommerce/orocommerce-orocrm/tree/1.3.0/src/Oro/Bridge/ContactUs/Form/Type/ContactRequestType.php#L32 "Oro\Bridge\ContactUs\Form\Type\ContactRequestType")</sup>
