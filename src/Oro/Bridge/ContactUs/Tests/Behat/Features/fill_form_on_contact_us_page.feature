@@ -1,3 +1,4 @@
+@regression
 @fixture-OroContactUsBridgeBundle:CustomerUserFixture.yml
 Feature: Contact us page fill form
   As a Customer User
