@@ -10,7 +10,7 @@ Feature: Switch off contact us page
     And I click "Commerce" on configuration sidebar
     And I click "Customer" on configuration sidebar
     And I click "Contact Requests" on configuration sidebar
-    And uncheck Use Default for "Allow Contact Requests" field
+    And uncheck "Use default" for "Allow Contact Requests" field
     # @todo fix checkbox label after BAP-14749
     And I uncheck "contact_requests[oro_contact_us_bridge___enable_contact_request][value]"
     And I click "Save settings"
