@@ -19,7 +19,7 @@ class ReassingCustomerProcessorTest extends \PHPUnit_Framework_TestCase
         $logger
             ->expects($this->once())
             ->method('critical')
-            ->with('[ReassingCustomerProcessor] Got invalid message: "{"test":true}"');
+            ->with('Got invalid message');
 
         $processor = new ReassingCustomerProcessor(
             $this->createAccountManagerMock(),
