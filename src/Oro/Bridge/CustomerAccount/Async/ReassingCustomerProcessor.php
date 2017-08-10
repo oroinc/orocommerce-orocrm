@@ -46,15 +46,7 @@ class ReassingCustomerProcessor implements MessageProcessorInterface, TopicSubsc
             $type = $data['type'];
         }
         if (null === $type) {
-            $this->logger->critical(
-                sprintf(
-                    '[ReassingCustomerProcessor] Got invalid message: "%s"',
-                    $message->getBody()
-                ),
-                [
-                    'message' => $message,
-                ]
-            );
+            $this->logger->critical('Got invalid message');
 
             return self::REJECT;
         }
