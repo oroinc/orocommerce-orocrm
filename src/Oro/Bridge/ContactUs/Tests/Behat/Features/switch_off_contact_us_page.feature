@@ -7,9 +7,7 @@ Feature: Switch off contact us page
   Scenario: Disable contact us page on System level
     Given I login as administrator
     And I go to System/ Configuration
-    And I click "Commerce" on configuration sidebar
-    And I click "Customer" on configuration sidebar
-    And I click "Contact Requests" on configuration sidebar
+    And I follow "Commerce/Customer/Contact Requests" on configuration sidebar
     And uncheck Use Default for "Allow Contact Requests" field
     # @todo fix checkbox label after BAP-14749
     And I uncheck "contact_requests[oro_contact_us_bridge___enable_contact_request][value]"
