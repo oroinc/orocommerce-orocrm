@@ -21,6 +21,7 @@ oro_behat_extension:
         - OroSalesBundle::SalesContext
         - OroSalesBundle::FeatureContext
         - OroQuoteSalesBridgeBundle::FeatureContext
+        - OroShippingBundle::FeatureContext
       paths:
         - '@OroQuoteSalesBridgeBundle/Tests/Behat/Features'
 
