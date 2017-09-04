@@ -33,19 +33,13 @@ class ContactRequestTypeTest extends TypeTestCase
     protected $tokenAccessor;
 
     /**
-     * @var WebsiteManager|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $websiteManager;
-
-    /**
      * {@inheritDoc}
      */
     protected function setUp()
     {
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
-        $this->websiteManager  = $this->createMock(WebsiteManager::class);
 
-        $this->type = new ContactRequestType($this->tokenAccessor, $this->websiteManager);
+        $this->type = new ContactRequestType($this->tokenAccessor);
 
         parent::setUp();
     }
@@ -56,13 +50,6 @@ class ContactRequestTypeTest extends TypeTestCase
             ->method('getUser')
             ->willReturn(null);
 
-        $organization = $this->createMock(Organization::class);
-        $website = new Website();
-        $website->setOrganization($organization);
-
-        $this->websiteManager->expects($this->once())
-            ->method('getCurrentWebsite')
-            ->willReturn($website);
         $contactRequest = $this->getEntity(ContactRequestStub::class);
         $form = $this->factory->create(
             ContactRequestType::class,
@@ -85,7 +72,6 @@ class ContactRequestTypeTest extends TypeTestCase
         $expected->setLastName('Cole');
         $expected->setEmailAddress('AmandaRCole@example.org');
         $expected->setOrganizationName('OroCRM');
-        $expected->setOwner($organization);
         $expected->setPreferredContactMethod('oro.contactus.contactrequest.method.phone');
         $expected->setContactReason($this->mockContactReason());
 

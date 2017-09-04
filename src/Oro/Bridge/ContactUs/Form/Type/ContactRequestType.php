@@ -22,17 +22,13 @@ class ContactRequestType extends AbstractType
     /** @var TokenAccessorInterface */
     protected $tokenAccessor;
 
-    /** @var WebsiteManager */
-    protected $websiteManager;
-
     /**
      * @param TokenAccessorInterface $tokenAccessor
      * @param WebsiteManager         $websiteManager
      */
-    public function __construct(TokenAccessorInterface $tokenAccessor, WebsiteManager $websiteManager)
+    public function __construct(TokenAccessorInterface $tokenAccessor)
     {
         $this->tokenAccessor = $tokenAccessor;
-        $this->websiteManager = $websiteManager;
     }
 
     /**
@@ -56,10 +52,6 @@ class ContactRequestType extends AbstractType
                 }
 
                 $loggedUser = $this->tokenAccessor->getUser();
-                if (null === $loggedUser) { // todo remove in scope of BB-9269
-                    $website = $this->websiteManager->getCurrentWebsite();
-                    $contactRequest->setOwner($website->getOrganization());
-                }
                 if (!$loggedUser instanceof CustomerUser) {
                     return;
                 }
