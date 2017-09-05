@@ -7,6 +7,7 @@ oro_behat_extension:
         - OroDataGridBundle::GridContext
         - OroSecurityBundle::ACLContext
         - OroSecurityBundle::PermissionContext
+        - OroEmailBundle::EmailContext
         - OroImportExportBundle::ImportExportContext:
             - '@oro_entity.entity_alias_resolver'
             - '@oro_importexport.processor.registry'

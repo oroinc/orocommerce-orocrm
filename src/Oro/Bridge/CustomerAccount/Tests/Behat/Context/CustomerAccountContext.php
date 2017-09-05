@@ -22,13 +22,4 @@ class CustomerAccountContext extends OroFeatureContext
         $environment = $scope->getEnvironment();
         $this->mainContext = $environment->getContext(OroMainContext::class);
     }
-
-    /**
-     * @Given /^Email should contains the following "([^"]*)" text$/
-     * @param string $text
-     */
-    public function emailShouldContainsTheFollowingText($text)
-    {
-        //todo: to be implemented in scope of CRM-7599. Consulted with Serhii Polishchuk
-    }
 }
