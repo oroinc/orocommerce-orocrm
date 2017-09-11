@@ -1,9 +1,8 @@
 {% block contact_request_widget %}
-    <div class="contact-us-form">
+    <div class="contact-us-form" data-focusable>
         {% set formAttr = {
             'id': form.vars.id,
             'novalidate': 'novalidate',
-
         } %}
 
         {% set fieldAttr = {
