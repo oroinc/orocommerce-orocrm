@@ -1,4 +1,4 @@
-## 1.4.0 (Unreleased)
+## 1.4.0 (2017-09-29)
 [Show detailed list of changes](incompatibilities-1-4.md)
 
 ## 1.3.0 (2017-07-28)
