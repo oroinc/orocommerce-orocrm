@@ -27,6 +27,7 @@ Feature: Contact us page fill form
       | Email       | qa@oroinc.com|
     And I click view "qa@oroinc.com" in grid
     And I should see "Test Comment"
+    And I should see "Customer User N/A"
     And I click logout in user menu
 
   Scenario: Fill contact us form as authorized user
@@ -48,6 +49,7 @@ Feature: Contact us page fill form
       | Email       | AmandaRCole@example.org |
     And I click view "AmandaRCole@example.org" in grid
     And I should see "Testers Comment"
+    And I should see "Customer User Amanda Cole"
     And I click logout in user menu
 
   Scenario: Check validation messages

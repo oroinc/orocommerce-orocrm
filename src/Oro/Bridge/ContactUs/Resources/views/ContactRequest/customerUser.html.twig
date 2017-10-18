@@ -1,4 +1,5 @@
 {% import 'OroUIBundle::macros.html.twig' as UI %}
+
 {% if customerUser %}
     {% if is_granted('oro_customer_customer_user_view') %}
         {% set customerUserData %}
@@ -11,6 +12,6 @@
             {{ customerUser.fullName }}
         {% endset %}
     {% endif %}
-{% else %}
-    {{ UI.renderHtmlProperty('oro.contactus.contactrequest.customer_user.label'|trans, customerUserData|default('N/A')) }}
 {% endif %}
+
+{{ UI.renderHtmlProperty('oro.contactus.contactrequest.customer_user.label'|trans, customerUserData|default('N/A')) }}
