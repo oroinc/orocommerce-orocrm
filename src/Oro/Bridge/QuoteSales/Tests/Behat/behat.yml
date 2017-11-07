@@ -1,9 +1,5 @@
 oro_behat_extension:
   elements:
-    Entity Status:
-      selector: '.badge'
-      class: Oro\Bridge\QuoteSales\Tests\Behat\Element\EntityStatus
-
     Opportunity Transition Form:
       selector: '[name="oro_workflow_transition"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
@@ -20,7 +16,6 @@ oro_behat_extension:
         - OroFormBundle::FormContext
         - OroSalesBundle::SalesContext
         - OroSalesBundle::FeatureContext
-        - OroQuoteSalesBridgeBundle::FeatureContext
         - OroShippingBundle::FeatureContext
       paths:
         - '@OroQuoteSalesBridgeBundle/Tests/Behat/Features'
