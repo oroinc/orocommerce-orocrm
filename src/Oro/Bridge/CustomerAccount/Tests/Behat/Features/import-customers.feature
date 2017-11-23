@@ -76,7 +76,7 @@ Feature: Import Customers
     Given I press "Export"
     And I should see "Export started successfully. You will receive email notification upon completion." flash message
     When I import exported file
-    Then I should see "Import started successfully. You will receive email notification upon completion." flash message
+    Then I should see "Import started successfully. You will receive an email notification upon completion." flash message
     And reload the page
     And Email should contains the following "Errors: 0 processed: 6, read: 6, added: 0, updated: 0, replaced: 6" text
     And I should see following grid:
