@@ -58,7 +58,7 @@
             </div>
         </div>
         <div class="contact-us-form-actions">
-            <button class="role-submit btn btn--info" type="submit">Submit</button>
+            <button class="role-submit btn btn--info" type="submit">{{ 'oro.contactus.form.submit'|trans }}</button>
         </div>
         {{ form_end(form) }}
         {{ oro_form_js_validation(form, js_validation_options|default({})) }}
