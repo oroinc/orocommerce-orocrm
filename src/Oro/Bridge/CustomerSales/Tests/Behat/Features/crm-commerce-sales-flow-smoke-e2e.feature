@@ -133,10 +133,10 @@ Feature: Sales Flow
 
   Scenario: Lead imported, qualified, lost – board
     Given go to System/ Channels
-    And click edit "Commerce channel" in grid
-    And fill "Channel Form" with:
-    |Entities Select|Business Customer|
-    And click "Add"
+    And click "Create Channel"
+    And fill form with:
+    |Name           |Business Chanel  |
+    |Channel type   |Sales            |
     And save and close form
     And go to Customers/ Business Customers
     And click "Create Business Customer"
