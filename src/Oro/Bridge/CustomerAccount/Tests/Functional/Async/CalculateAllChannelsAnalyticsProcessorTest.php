@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bridge\CustomerAccount\Tests\Functional\Functional\Async;
+namespace Oro\Bridge\CustomerAccount\Tests\Functional\Async;
 
 use Oro\Bundle\AnalyticsBundle\Async\CalculateAllChannelsAnalyticsProcessor;
 use Oro\Bundle\AnalyticsBundle\Tests\Functional\Async\CalculateAllChannelsAnalyticsProcessorTest

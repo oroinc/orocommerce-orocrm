@@ -1,14 +1,14 @@
 <?php
 
-namespace Oro\Bundle\CustomerAccountBundle\Tests\Functional\Api;
+namespace Oro\Bridge\CustomerAccount\Tests\Functional\Api;
 
-use Oro\Bundle\ChannelBundle\Entity\Channel;
+use Symfony\Component\HttpFoundation\Response;
+
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\AbstractRestTest;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadGroups;
 use Oro\Bundle\UserBundle\Tests\Functional\DataFixtures\LoadUserData;
-use Symfony\Component\HttpFoundation\Response;
 
 class RestCustomerTest extends AbstractRestTest
 {
@@ -39,7 +39,6 @@ class RestCustomerTest extends AbstractRestTest
         $defaultCustomer = $this->getDefaultCustomer();
         /** @var Customer $customer1 */
         $customer1 = $this->getReference('customer.1');
-        $channel = $this->getChannel();
 
         $owner = $defaultCustomer->getOwner();
         $organization = $defaultCustomer->getOrganization();
@@ -79,13 +78,6 @@ class RestCustomerTest extends AbstractRestTest
                         'salesRepresentatives' => ['data' => []],
                         'internal_rating' => ['data' => null],
                         'group' => ['data' => null],
-                        'previous_account' => ['data' => null],
-                        'dataChannel' => [
-                            'data' => [
-                                'type' => 'channels',
-                                'id' => (string)$channel->getId()
-                            ]
-                        ],
                     ],
                 ],
                 [
@@ -138,13 +130,6 @@ class RestCustomerTest extends AbstractRestTest
                                 'id' => (string)$this->getGroup(LoadGroups::GROUP1)->getId(),
                             ],
                         ],
-                        'previous_account' => ['data' => null],
-                        'dataChannel' => [
-                            'data' => [
-                                'type' => 'channels',
-                                'id' => (string)$channel->getId()
-                            ]
-                        ],
                     ],
                 ],
             ],
@@ -156,7 +141,6 @@ class RestCustomerTest extends AbstractRestTest
     {
         /** @var Customer $customer1 */
         $customer = $this->getReference('customer.1');
-        $channel = $this->getChannel();
         $uri = $this->getUrl(
             'oro_rest_api_get',
             [
@@ -223,13 +207,6 @@ class RestCustomerTest extends AbstractRestTest
                             'id' => (string)$this->getGroup(LoadGroups::GROUP1)->getId(),
                         ],
                     ],
-                    'previous_account' => ['data' => null],
-                    'dataChannel' => [
-                        'data' => [
-                            'type' => 'channels',
-                            'id' => (string)$channel->getId()
-                        ]
-                    ],
                 ],
             ],
         ];
@@ -243,7 +220,6 @@ class RestCustomerTest extends AbstractRestTest
         $parent = $customer->getParent();
         $owner = $customer->getOwner();
         $organization = $customer->getOrganization();
-        $channel = $this->getChannel();
 
         $uri = $this->getUrl(
             'oro_rest_api_get_subresource',
@@ -291,13 +267,6 @@ class RestCustomerTest extends AbstractRestTest
                     'salesRepresentatives' => ['data' => []],
                     'internal_rating' => ['data' => null],
                     'group' => ['data' => null],
-                    'previous_account' => ['data' => null],
-                    'dataChannel' => [
-                        'data' => [
-                            'type' => 'channels',
-                            'id' => (string)$channel->getId()
-                        ]
-                    ],
                 ],
             ],
         ];
@@ -308,7 +277,6 @@ class RestCustomerTest extends AbstractRestTest
     {
         /** @var Customer $customer */
         $customer = $this->getDefaultCustomer();
-        $channel = $this->getChannel();
 
         $uri = $this->getUrl(
             'oro_rest_api_get_subresource',
@@ -376,25 +344,10 @@ class RestCustomerTest extends AbstractRestTest
                                 'id' => (string)$this->getGroup(LoadGroups::GROUP1)->getId(),
                             ],
                         ],
-                        'previous_account' => ['data' => null],
-                        'dataChannel' => [
-                            'data' => [
-                                'type' => 'channels',
-                                'id' => (string)$channel->getId()
-                            ]
-                        ],
                     ],
                 ],
             ],
         ];
         $this->assertArraySubset($expected, $content);
-    }
-
-    /**
-     * @return null|object|Channel
-     */
-    private function getChannel()
-    {
-        return $this->getManager()->getRepository(Channel::class)->findOneBy(['channelType' => 'commerce']);
     }
 }

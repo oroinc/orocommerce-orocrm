@@ -24,3 +24,13 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         role: ['@buyer']
         owner: '@admin'
         website: '@website1'
+
+Oro\Bundle\AccountBundle\Entity\Account:
+  account:
+    name: 'mister customer 1'
+    organization: '@organization'
+
+Oro\Bundle\SalesBundle\Entity\Customer:
+  mrcustomer:
+    account: '@account'
+    customerTarget: '@company_a'
