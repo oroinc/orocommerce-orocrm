@@ -34,7 +34,7 @@ class ContactRequestController extends Controller
         $contactRequest = new ContactRequest();
 
         $form = $this->createForm(
-            ContactRequestType::class,
+            $this->get('oro_contact_us_bridge.contact_request_type'),
             $contactRequest,
             [
                 'action' => $this->generateUrl('oro_contactus_bridge_request_create'),
@@ -74,7 +74,7 @@ class ContactRequestController extends Controller
         $contactRequest = new ContactRequest();
 
         $form = $this->createForm(
-            ContactRequestType::class,
+            $this->get('oro_contact_us_bridge.contact_request_type'),
             $contactRequest
         );
 
