@@ -4,6 +4,7 @@ namespace Oro\Bridge\CustomerAccount\Tests\Functional\EventListener;
 
 use Doctrine\ORM\EntityManager;
 
+use Oro\Bundle\ChannelBundle\Entity\Channel;
 use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
@@ -35,6 +36,7 @@ class CustomerCreateListenerTest extends WebTestCase
         $account = $customerAssociation->getAccount();
 
         $this->assertEquals('Test Customer', $account->getName());
+        $this->assertInstanceOf(Channel::class, $customer->getDataChannel());
     }
 
     /**
@@ -62,6 +64,7 @@ class CustomerCreateListenerTest extends WebTestCase
         $account = $customerAssociation->getAccount();
 
         $this->assertEquals('Test Account', $account->getName());
+        $this->assertInstanceOf(Channel::class, $customer->getDataChannel());
     }
 
     /**

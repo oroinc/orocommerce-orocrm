@@ -8,6 +8,7 @@ oro_behat_extension:
         - OroSecurityBundle::ACLContext
         - OroSecurityBundle::PermissionContext
         - OroEmailBundle::EmailContext
+        - OroFormBundle::FormContext
         - OroImportExportBundle::ImportExportContext:
             - '@oro_entity.entity_alias_resolver'
             - '@oro_importexport.processor.registry'

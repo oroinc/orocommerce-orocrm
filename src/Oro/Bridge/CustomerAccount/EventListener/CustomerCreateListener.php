@@ -2,78 +2,46 @@
 
 namespace Oro\Bridge\CustomerAccount\EventListener;
 
-use Doctrine\ORM\Event\PostFlushEventArgs;
-use Doctrine\ORM\UnitOfWork;
-use Doctrine\ORM\EntityManager;
-use Doctrine\Common\Util\ClassUtils;
-use Doctrine\ORM\Event\OnFlushEventArgs;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 
-use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
-use Oro\Bundle\AccountBundle\Entity\Account;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 
 class CustomerCreateListener
 {
     const COMMERCE_CHANNEL_TYPE = 'commerce';
 
-    /** @var UnitOfWork */
-    protected $uow;
-
-    /** @var EntityManager */
-    protected $em;
-
-    /** @var Customer[] */
-    protected $queued = [];
-
     /**
-     * @param OnFlushEventArgs $args
+     * @param Customer $customer
+     * @param LifecycleEventArgs $args
      */
-    public function onFlush(OnFlushEventArgs $args)
+    public function postPersist(Customer $customer, LifecycleEventArgs $args)
     {
-        $this->initializeFromEventArgs($args);
-
-        foreach ($this->uow->getScheduledEntityInsertions() as $entity) {
-            if ($entity instanceof Customer) {
-                $this->queued[] = $entity;
-            }
-        }
+        $this->updateDataChannel($customer, $args);
     }
 
     /**
-     * @param PostFlushEventArgs $args
+     * @param Customer $customer
+     * @param LifecycleEventArgs $args
      */
-    public function postFlush(PostFlushEventArgs $args)
+    public function postUpdate(Customer $customer, LifecycleEventArgs $args)
     {
-        $this->initializeFromEventArgs($args);
-        if ($this->queued) {
-            foreach ($this->queued as $entity) {
-                if (!$entity->getAccount()) {
-                    $account = new Account();
-                    $account->setName($entity->getName());
-                    $account->setOrganization($entity->getOrganization());
-                    $account->setOwner($entity->getOwner());
-                    $this->em->persist($account);
-                    $entity->setAccount($account);
-                    $this->em->persist($entity);
-                }
-                if (!$entity->getDataChannel()) {
-                    $channels = $this->em->getRepository('OroChannelBundle:Channel')
-                        ->findBy(['channelType' => self::COMMERCE_CHANNEL_TYPE]);
-                    if (count($channels) === 1) {
-                        $entity->setDataChannel(reset($channels));
-                    }
-                }
-            }
-            $this->queued = [];
-            $this->em->flush();
-        }
+        $this->updateDataChannel($customer, $args);
     }
 
     /**
-     * @param OnFlushEventArgs|PostFlushEventArgs $args
+     * @param Customer $customer
+     * @param LifecycleEventArgs $args
      */
-    protected function initializeFromEventArgs($args)
+    private function updateDataChannel(Customer $customer, LifecycleEventArgs $args)
     {
-        $this->em  = $args->getEntityManager();
-        $this->uow = $this->em->getUnitOfWork();
+        $em = $args->getEntityManager();
+
+        if (!$customer->getDataChannel()) {
+            $channels = $em->getRepository('OroChannelBundle:Channel')
+                ->findBy(['channelType' => self::COMMERCE_CHANNEL_TYPE]);
+            if (count($channels) === 1) {
+                $customer->setDataChannel(reset($channels));
+            }
+        }
     }
 }
