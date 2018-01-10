@@ -10,6 +10,7 @@ system_configuration:
         oro_customer_account_bridge.customer_account_settings:
             data_type: string
             type: oro_config_customer_account_choice
+            search_type: choice
             options:
                 label: oro.customer_account_bridge.system_configuration.fields.strategy_creating_customers_account.label
                 tooltip: oro.customer_account_bridge.system_configuration.fields.strategy_creating_customers_account.tooltip
