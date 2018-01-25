@@ -1,3 +1,6 @@
+## 1.6.0 (Unreleased)
+[Show detailed list of changes](incompatibilities-1-6.md)
+
 ## 1.4.0 (2017-09-29)
 [Show detailed list of changes](incompatibilities-1-4.md)
 
