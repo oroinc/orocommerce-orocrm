@@ -15,8 +15,8 @@
         }
     },
     "require": {
-        "oro/crm": "2.6.x-dev",
-        "oro/commerce": "1.6.x-dev"
+        "oro/crm": "2.6.*",
+        "oro/commerce": "1.6.*"
     },
     "repositories": {
         "oro": {
