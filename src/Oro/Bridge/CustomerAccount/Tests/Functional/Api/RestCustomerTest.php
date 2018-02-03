@@ -31,11 +31,9 @@ class RestCustomerTest extends AbstractRestTest
      */
     public function testGetCustomers()
     {
-        $uri = $this->getUrl('oro_rest_api_cget', ['entity' => $this->getEntityType(Customer::class)]);
-        $response = $this->request('GET', $uri, []);
+        $response = $this->cget(['entity' => $this->getEntityType(Customer::class)]);
 
-        $this->assertApiResponseStatusCodeEquals($response, Response::HTTP_OK, Customer::class, 'get list');
-        $content = json_decode($response->getContent(), true);
+        $content = self::jsonToArray($response->getContent());
         $defaultCustomer = $this->getDefaultCustomer();
         /** @var Customer $customer1 */
         $customer1 = $this->getReference('customer.1');
@@ -141,17 +139,13 @@ class RestCustomerTest extends AbstractRestTest
     {
         /** @var Customer $customer1 */
         $customer = $this->getReference('customer.1');
-        $uri = $this->getUrl(
-            'oro_rest_api_get',
-            [
-                'entity' => $this->getEntityType(Customer::class),
-                'id' => (string)$customer->getId(),
-            ]
-        );
-        $response = $this->request('GET', $uri, []);
 
-        $this->assertApiResponseStatusCodeEquals($response, Response::HTTP_OK, Customer::class, 'get');
-        $content = json_decode($response->getContent(), true);
+        $response = $this->get([
+            'entity' => $this->getEntityType(Customer::class),
+            'id' => (string)$customer->getId()
+        ]);
+
+        $content = self::jsonToArray($response->getContent());
 
         $parent = $this->getDefaultCustomer();
         $owner = $parent->getOwner();
@@ -221,17 +215,12 @@ class RestCustomerTest extends AbstractRestTest
         $owner = $customer->getOwner();
         $organization = $customer->getOrganization();
 
-        $uri = $this->getUrl(
-            'oro_rest_api_get_subresource',
-            [
-                'entity' => $this->getEntityType(Customer::class),
-                'id' => $customer->getId(),
-                'association' => 'parent',
-            ]
-        );
-        $response = $this->request('GET', $uri, []);
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $content = json_decode($response->getContent(), true);
+        $response = $this->getSubresource([
+            'entity' => $this->getEntityType(Customer::class),
+            'id' => $customer->getId(),
+            'association' => 'parent'
+        ]);
+        $content = self::jsonToArray($response->getContent());
         $expected = [
             'data' => [
                 'type' => 'customers',
@@ -278,17 +267,12 @@ class RestCustomerTest extends AbstractRestTest
         /** @var Customer $customer */
         $customer = $this->getDefaultCustomer();
 
-        $uri = $this->getUrl(
-            'oro_rest_api_get_subresource',
-            [
-                'entity' => $this->getEntityType(Customer::class),
-                'id' => $customer->getId(),
-                'association' => 'children',
-            ]
-        );
-        $response = $this->request('GET', $uri, []);
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $content = json_decode($response->getContent(), true);
+        $response = $this->getSubresource([
+            'entity' => $this->getEntityType(Customer::class),
+            'id' => $customer->getId(),
+            'association' => 'children'
+        ]);
+        $content = self::jsonToArray($response->getContent());
 
         $owner = $customer->getOwner();
         $organization = $customer->getOrganization();
