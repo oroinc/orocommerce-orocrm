@@ -119,8 +119,6 @@ Feature: Import Customers
       | Edit   | Payment Term   | Global |
     And user has following entity permissions enabled
       | Import Entity Records |
-    # @todo remove step from scenario and step implementation in scope of BAP-14637
-    And I restart message consumer
     And I login to dashboard as "userWithoutAssign1" user
     And go to Customers/ Customers
     And check all records in grid
@@ -140,8 +138,6 @@ Feature: Import Customers
   Scenario: Import Customers by user with "Assign" permissions but not admin
     And user has following permissions
       | Assign | Customer | Global |
-    # @todo remove step from scenario and step implementation in scope of BAP-14637
-    And I restart message consumer
     Given I login to dashboard as "userWithAssign1" user
     And go to Customers/ Customers
     And I fill template with data:
