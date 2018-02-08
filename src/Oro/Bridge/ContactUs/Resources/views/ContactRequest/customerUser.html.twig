@@ -1,17 +1,6 @@
 {% import 'OroUIBundle::macros.html.twig' as UI %}
 
-{% if customerUser %}
-    {% if is_granted('oro_customer_customer_user_view') %}
-        {% set customerUserData %}
-            <a href="{{ path('oro_customer_customer_user_view', {id: customerUser.id}) }}">
-                {{ customerUser.fullName }}
-            </a>
-        {% endset %}
-    {% else %}
-        {% set customerUserData %}
-            {{ customerUser.fullName }}
-        {% endset %}
-    {% endif %}
-{% endif %}
-
-{{ UI.renderHtmlProperty('oro.contactus.contactrequest.customer_user.label'|trans, customerUserData|default('N/A')) }}
+{{ UI.renderHtmlProperty(
+    'oro.contactus.contactrequest.customer_user.label'|trans,
+    UI.entityViewLink(customerUser, customerUser.fullName, 'oro_customer_customer_user_view')
+) }}
