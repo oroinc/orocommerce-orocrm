@@ -3,3 +3,11 @@ services:
         class: Oro\Bridge\CustomerSales\Provider\Customer\CustomerIconProvider
         tags:
             - { name: oro_sales.customer_icon, priority: 10 }
+
+    oro_customer_sales.customer_virtual_relations.provider:
+        class: Oro\Bundle\SalesBundle\Provider\B2bCustomerVirtualRelationProvider
+        public: false
+        arguments:
+            - '%oro_customer.entity.customer.class%'
+        tags:
+           - { name: oro_entity.virtual_relation_provider, priority: 150 }
