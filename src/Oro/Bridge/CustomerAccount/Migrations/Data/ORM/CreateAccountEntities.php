@@ -4,12 +4,10 @@ namespace Oro\Bridge\CustomerAccount\Migrations\Data\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
-
-use Oro\Bundle\BatchBundle\ORM\Query\BufferedIdentityQueryResultIterator;
 use Oro\Bundle\AccountBundle\Entity\Account;
+use Oro\Bundle\BatchBundle\ORM\Query\BufferedIdentityQueryResultIterator;
 use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
 use Oro\Bundle\SalesBundle\Entity\Customer as CustomerAssociation;
-
 use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
 
 class CreateAccountEntities extends AbstractFixture

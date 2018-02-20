@@ -3,12 +3,12 @@
 namespace Oro\Bridge\CustomerAccount\Tests\Functional\Async;
 
 use Oro\Bundle\AnalyticsBundle\Async\CalculateAllChannelsAnalyticsProcessor;
+use Oro\Bundle\AnalyticsBundle\Async\Topics;
 use Oro\Bundle\AnalyticsBundle\Tests\Functional\Async\CalculateAllChannelsAnalyticsProcessorTest
     as BaseCalculateAllChannelsAnalyticsProcessorTest;
 use Oro\Bundle\ChannelBundle\Entity\Channel;
 use Oro\Component\MessageQueue\Transport\Null\NullMessage;
 use Oro\Component\MessageQueue\Transport\Null\NullSession;
-use Oro\Bundle\AnalyticsBundle\Async\Topics;
 
 /**
  * @dbIsolationPerTest

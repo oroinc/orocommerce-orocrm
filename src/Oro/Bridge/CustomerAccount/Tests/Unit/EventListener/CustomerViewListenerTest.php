@@ -2,14 +2,13 @@
 
 namespace Oro\Bridge\CustomerAccount\Tests\Unit\EventListener;
 
+use Oro\Bridge\CustomerAccount\EventListener\AccountViewListener;
+use Oro\Bundle\AccountBundle\Entity\Account;
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\UIBundle\Event\BeforeListRenderEvent;
+use Oro\Component\Testing\Unit\FormViewListenerTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-
-use Oro\Bundle\AccountBundle\Entity\Account;
-use Oro\Bridge\CustomerAccount\EventListener\AccountViewListener;
-use Oro\Bundle\UIBundle\Event\BeforeListRenderEvent;
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Component\Testing\Unit\FormViewListenerTestCase;
 
 class CustomerViewListenerTest extends FormViewListenerTestCase
 {

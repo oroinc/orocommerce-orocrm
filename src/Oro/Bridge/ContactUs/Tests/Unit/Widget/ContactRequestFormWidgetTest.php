@@ -2,6 +2,9 @@
 
 namespace Oro\Bridge\ContactUs\Tests\Unit\Twig;
 
+use Oro\Bridge\ContactUs\Form\Type\ContactRequestType;
+use Oro\Bridge\ContactUs\Widget\ContactRequestFormWidget;
+use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
 use Symfony\Bridge\Twig\Form\TwigRenderer;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
@@ -9,10 +12,6 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
-use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
-use Oro\Bridge\ContactUs\Form\Type\ContactRequestType;
-use Oro\Bridge\ContactUs\Widget\ContactRequestFormWidget;
 
 class ContactRequestFormWidgetTest extends \PHPUnit_Framework_TestCase
 {

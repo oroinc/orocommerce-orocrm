@@ -2,13 +2,12 @@
 
 namespace Oro\Bridge\CustomerSales\DependencyInjection\Compiler;
 
+use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\EntityExtendBundle\Tools\ExtendHelper;
+use Oro\Bundle\SalesBundle\Entity\Customer as SalesCustomer;
+use Oro\Bundle\SalesBundle\EntityConfig\CustomerScope;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-
-use Oro\Bundle\CustomerBundle\Entity\Customer;
-use Oro\Bundle\SalesBundle\Entity\Customer as SalesCustomer;
-use Oro\Bundle\EntityExtendBundle\Tools\ExtendHelper;
-use Oro\Bundle\SalesBundle\EntityConfig\CustomerScope;
 
 class CustomerAssignHelperPass implements CompilerPassInterface
 {

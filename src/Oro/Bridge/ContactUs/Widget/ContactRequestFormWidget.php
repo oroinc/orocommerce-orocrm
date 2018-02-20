@@ -2,14 +2,13 @@
 
 namespace Oro\Bridge\ContactUs\Widget;
 
+use Oro\Bridge\ContactUs\Form\Type\ContactRequestType;
+use Oro\Bundle\CMSBundle\Widget\WidgetInterface;
+use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
 use Symfony\Bridge\Twig\Form\TwigRenderer;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
-use Oro\Bundle\CMSBundle\Widget\WidgetInterface;
-use Oro\Bridge\ContactUs\Form\Type\ContactRequestType;
-use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
 
 class ContactRequestFormWidget implements WidgetInterface
 {

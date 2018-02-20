@@ -3,7 +3,6 @@
 namespace Oro\Bridge\CustomerAccount\Tests\Behat\Context;
 
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
-
 use Oro\Bundle\TestFrameworkBundle\Behat\Context\OroFeatureContext;
 use Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\OroMainContext;
 

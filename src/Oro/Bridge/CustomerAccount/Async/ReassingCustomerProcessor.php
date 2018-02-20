@@ -2,15 +2,14 @@
 
 namespace Oro\Bridge\CustomerAccount\Async;
 
-use Psr\Log\LoggerInterface;
-
 use Oro\Bridge\CustomerAccount\Manager\AccountManager;
-use Oro\Component\MessageQueue\Job\JobRunner;
 use Oro\Component\MessageQueue\Client\TopicSubscriberInterface;
 use Oro\Component\MessageQueue\Consumption\MessageProcessorInterface;
+use Oro\Component\MessageQueue\Job\JobRunner;
 use Oro\Component\MessageQueue\Transport\MessageInterface;
 use Oro\Component\MessageQueue\Transport\SessionInterface;
 use Oro\Component\MessageQueue\Util\JSON;
+use Psr\Log\LoggerInterface;
 
 class ReassingCustomerProcessor implements MessageProcessorInterface, TopicSubscriberInterface
 {

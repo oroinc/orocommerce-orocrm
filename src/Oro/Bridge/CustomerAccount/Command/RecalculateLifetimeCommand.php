@@ -4,7 +4,6 @@ namespace Oro\Bridge\CustomerAccount\Command;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
-
 use Oro\Bundle\ChannelBundle\Command\RecalculateLifetimeCommand as AbstractRecalculateLifetimeCommand;
 use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
 

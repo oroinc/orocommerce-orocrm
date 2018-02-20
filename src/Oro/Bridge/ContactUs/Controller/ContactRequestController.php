@@ -2,19 +2,17 @@
 
 namespace Oro\Bridge\ContactUs\Controller;
 
+use Oro\Bridge\ContactUs\Form\Type\ContactRequestType;
+use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
+use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormErrorIterator;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
-use Oro\Bridge\ContactUs\Form\Type\ContactRequestType;
-use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
-use Oro\Bundle\LayoutBundle\Annotation\Layout;
 
 class ContactRequestController extends Controller
 {

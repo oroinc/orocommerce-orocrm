@@ -3,7 +3,6 @@
 namespace Oro\Bridge\CustomerAccount\Provider\Customer;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-
 use Oro\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;

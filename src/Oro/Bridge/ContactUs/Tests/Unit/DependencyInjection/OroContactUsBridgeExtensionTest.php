@@ -2,8 +2,8 @@
 
 namespace Oro\Bridge\ContactUs\Tests\Unit\DependencyInjection;
 
-use Oro\Bundle\TestFrameworkBundle\Test\DependencyInjection\ExtensionTestCase;
 use Oro\Bridge\ContactUs\DependencyInjection\OroContactUsBridgeExtension;
+use Oro\Bundle\TestFrameworkBundle\Test\DependencyInjection\ExtensionTestCase;
 
 class OroContactUsBridgeExtensionTest extends ExtensionTestCase
 {

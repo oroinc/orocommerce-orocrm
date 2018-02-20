@@ -3,7 +3,6 @@
 namespace Oro\Bridge\CustomerAccount\EventListener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
-
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 
 class CustomerCreateListener

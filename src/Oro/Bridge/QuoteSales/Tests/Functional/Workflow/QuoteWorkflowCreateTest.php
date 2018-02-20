@@ -2,13 +2,12 @@
 
 namespace Oro\Bridge\QuoteSales\Tests\Functional\Workflow;
 
-use Symfony\Component\DomCrawler\Form;
-
-use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-use Oro\Bundle\CustomerBundle\Entity\Customer;
-use Oro\Bundle\SalesBundle\Entity\Opportunity;
 use Oro\Bridge\QuoteSales\Tests\Functional\Fixture\CreateDefaultAccountFixture;
 use Oro\Bridge\QuoteSales\Tests\Functional\Fixture\OpportunityQuotesListenerFixture;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\SalesBundle\Entity\Opportunity;
+use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DomCrawler\Form;
 
 /**
  * @dbIsolationPerTest

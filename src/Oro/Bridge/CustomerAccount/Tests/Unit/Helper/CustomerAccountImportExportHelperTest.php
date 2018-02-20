@@ -4,7 +4,6 @@ namespace Oro\Bridge\CustomerAccount\Tests\Unit\Helper;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-
 use Oro\Bridge\CustomerAccount\Helper\CustomerAccountImportExportHelper;
 use Oro\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
@@ -13,7 +12,6 @@ use Oro\Bundle\SalesBundle\Entity\Customer as SalesCustomer;
 use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
 use Oro\Bundle\SalesBundle\Entity\Repository\CustomerRepository as SalesCustomerRepository;
 use Oro\Bundle\SalesBundle\Tests\Unit\Fixture\CustomerStub as SalesCustomerStub;
-
 use Oro\Component\Testing\Unit\EntityTrait;
 
 class CustomerAccountImportExportHelperTest extends \PHPUnit_Framework_TestCase

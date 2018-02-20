@@ -1,15 +1,14 @@
 <?php
 namespace Oro\Bridge\CustomerAccount\Tests\Unit\Async;
 
-use Psr\Log\LoggerInterface;
-
-use Oro\Component\MessageQueue\Job\JobRunner;
-use Oro\Bridge\CustomerAccount\Manager\AccountManager;
 use Oro\Bridge\CustomerAccount\Async\ReassingCustomerProcessor;
 use Oro\Bridge\CustomerAccount\Async\Topics;
+use Oro\Bridge\CustomerAccount\Manager\AccountManager;
 use Oro\Component\MessageQueue\Consumption\MessageProcessorInterface;
+use Oro\Component\MessageQueue\Job\JobRunner;
 use Oro\Component\MessageQueue\Transport\Null\NullMessage;
 use Oro\Component\MessageQueue\Transport\SessionInterface;
+use Psr\Log\LoggerInterface;
 
 class ReassingCustomerProcessorTest extends \PHPUnit_Framework_TestCase
 {

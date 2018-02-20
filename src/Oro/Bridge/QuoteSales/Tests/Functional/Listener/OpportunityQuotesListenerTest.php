@@ -2,9 +2,9 @@
 
 namespace Oro\Bridge\QuoteSales\Tests\Functional\Listener;
 
-use Oro\Bundle\DataGridBundle\Tests\Functional\AbstractDatagridTestCase;
 use Oro\Bridge\QuoteSales\Tests\Functional\Fixture\CreateDefaultAccountFixture;
 use Oro\Bridge\QuoteSales\Tests\Functional\Fixture\OpportunityQuotesListenerFixture;
+use Oro\Bundle\DataGridBundle\Tests\Functional\AbstractDatagridTestCase;
 use Oro\Bundle\WorkflowBundle\Model\WorkflowManager;
 
 /**

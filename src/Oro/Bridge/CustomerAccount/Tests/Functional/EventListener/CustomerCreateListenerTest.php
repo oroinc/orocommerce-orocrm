@@ -3,13 +3,12 @@
 namespace Oro\Bridge\CustomerAccount\Tests\Functional\EventListener;
 
 use Doctrine\ORM\EntityManager;
-
+use Oro\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\ChannelBundle\Entity\Channel;
-use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
-use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
 use Oro\Bundle\SalesBundle\Entity\Customer as CustomerAssociation;
-use Oro\Bundle\AccountBundle\Entity\Account;
+use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
+use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class CustomerCreateListenerTest extends WebTestCase
 {

@@ -2,10 +2,9 @@
 
 namespace Oro\Bridge\CustomerSales;
 
+use Oro\Bridge\CustomerSales\DependencyInjection\Compiler\CustomerAssignHelperPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-
-use Oro\Bridge\CustomerSales\DependencyInjection\Compiler\CustomerAssignHelperPass;
 
 class OroCustomerSalesBridgeBundle extends Bundle
 {

@@ -2,9 +2,9 @@
 
 namespace Oro\Bridge\QuoteSales\Tests\Unit\Storage;
 
-use Oro\Bundle\ProductBundle\Storage\DataStorageInterface;
 use Oro\Bridge\QuoteSales\Storage\OpportunityToRouteDataStorage;
 use Oro\Bridge\QuoteSales\Tests\Unit\Fixture\DataStorageStub;
+use Oro\Bundle\ProductBundle\Storage\DataStorageInterface;
 use Oro\Bundle\SalesBundle\Tests\Unit\Fixture\OpportunityStub;
 
 class OpportunityToRouteDataStorageTest extends \PHPUnit_Framework_TestCase

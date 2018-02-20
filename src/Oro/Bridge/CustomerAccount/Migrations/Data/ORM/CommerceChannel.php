@@ -3,9 +3,8 @@
 namespace Oro\Bridge\CustomerAccount\Migrations\Data\ORM;
 
 use Doctrine\Common\Persistence\ObjectManager;
-
-use Oro\Bundle\ChannelBundle\Entity\Channel;
 use Oro\Bundle\ChannelBundle\Builder\BuilderFactory;
+use Oro\Bundle\ChannelBundle\Entity\Channel;
 use Oro\Bundle\ChannelBundle\Migrations\Data\ORM\AbstractDefaultChannelDataFixture;
 
 class CommerceChannel extends AbstractDefaultChannelDataFixture

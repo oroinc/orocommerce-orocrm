@@ -3,7 +3,6 @@
 namespace Oro\Bridge\CustomerAccount\Tests\Functional\EventListener;
 
 use Doctrine\ORM\EntityManager;
-
 use Oro\Bridge\CustomerAccount\Async\Topics;
 use Oro\Bridge\CustomerAccount\EventListener\ChangeConfigOptionListener;
 use Oro\Bundle\ConfigBundle\Event\ConfigUpdateEvent;

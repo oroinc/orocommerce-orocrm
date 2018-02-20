@@ -2,9 +2,9 @@
 
 namespace Oro\Bridge\CustomerAccount\Tests\Unit\Manager\Strategy;
 
+use Oro\Bridge\CustomerAccount\Manager\AccountBuilder;
 use Oro\Bridge\CustomerAccount\Manager\LifetimeProcessor;
 use Oro\Bridge\CustomerAccount\Manager\Strategy\AssignEachStrategy;
-use Oro\Bridge\CustomerAccount\Manager\AccountBuilder;
 use Oro\Bridge\CustomerAccount\Tests\Unit\Fixtures\Customer;
 use Oro\Bridge\CustomerAccount\Tests\Unit\Fixtures\CustomerAssociation;
 use Oro\Bundle\AccountBundle\Entity\Account;

@@ -3,14 +3,13 @@
 namespace Oro\Bridge\CustomerAccount\Migrations\Data\ORM;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ORM\QueryBuilder;
-use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Connection;
-
+use Doctrine\DBAL\Types\Type;
+use Doctrine\ORM\QueryBuilder;
 use Oro\Bundle\ChannelBundle\Entity\Channel;
 use Oro\Bundle\ChannelBundle\Migrations\Data\ORM\AbstractDefaultChannelDataFixture;
-use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
 use Oro\Bundle\SalesBundle\Entity\Customer as CustomerAssociation;
+use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
 
 class CommerceChannelData extends AbstractDefaultChannelDataFixture
 {

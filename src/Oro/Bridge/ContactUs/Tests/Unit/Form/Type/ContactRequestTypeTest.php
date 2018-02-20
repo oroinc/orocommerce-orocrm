@@ -2,21 +2,19 @@
 
 namespace Oro\Bridge\ContactUs\Tests\Unit\Form\Extension;
 
-use Symfony\Component\Form\PreloadedExtension;
-use Symfony\Component\Form\Test\TypeTestCase;
-
-use Oro\Bundle\ContactUsBundle\Entity\ContactReason;
-use Oro\Bridge\ContactUs\Tests\Unit\Stub\ContactRequestStub;
-use Oro\Bundle\ContactUsBundle\Form\Type\ContactRequestType as BaseContactRequestType;
 use Oro\Bridge\ContactUs\Form\Type\ContactRequestType;
+use Oro\Bridge\ContactUs\Tests\Unit\Stub\ContactRequestStub;
+use Oro\Bundle\ContactUsBundle\Entity\ContactReason;
+use Oro\Bundle\ContactUsBundle\Form\Type\ContactRequestType as BaseContactRequestType;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
-
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
 use Oro\Component\Testing\Unit\EntityTrait;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
+use Symfony\Component\Form\PreloadedExtension;
+use Symfony\Component\Form\Test\TypeTestCase;
 
 class ContactRequestTypeTest extends TypeTestCase
 {

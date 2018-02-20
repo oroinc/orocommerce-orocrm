@@ -2,16 +2,14 @@
 
 namespace Oro\Bridge\CustomerAccount\Manager;
 
-use Psr\Log\LoggerInterface;
-
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ManagerRegistry;
-
+use Doctrine\Common\Persistence\ObjectManager;
 use Oro\Bridge\CustomerAccount\Manager\Strategy\AssignStrategyInterface;
-use Oro\Bundle\CustomerBundle\Entity\Repository\AccountRepository;
 use Oro\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
+use Oro\Bundle\CustomerBundle\Entity\Repository\AccountRepository;
 use Oro\Bundle\SalesBundle\Entity\Customer as CustomerAssociation;
+use Psr\Log\LoggerInterface;
 
 class AccountManager
 {
