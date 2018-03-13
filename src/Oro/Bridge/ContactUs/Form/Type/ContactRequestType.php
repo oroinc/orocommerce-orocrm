@@ -86,7 +86,7 @@ class ContactRequestType extends AbstractType
             [
                 'class' => 'OroContactUsBundle:ContactReason',
                 'property' => 'label',
-                'empty_value' => 'oro.contactus.contactrequest.choose_contact_reason.label',
+                'placeholder' => 'oro.contactus.contactrequest.choose_contact_reason.label',
                 'required' => false,
                 'label' => 'oro.contactus.contactrequest.contact_reason.label',
                 'query_builder' => function (ContactReasonRepository $er) {

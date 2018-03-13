@@ -63,7 +63,9 @@ class OroQuoteSalesBridgeBundleInstaller implements Installation, ExtendExtensio
                     'is_enabled' => true,
                     'form_type' => 'oro_sales_opportunity_select',
                     'form_options' => [
-                        'read_only' => true,
+                        'attr' => [
+                            'readonly' => true
+                        ]
                     ]
                 ],
                 'view' => ['is_displayable' => true],
