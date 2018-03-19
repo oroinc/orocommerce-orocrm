@@ -11,6 +11,13 @@ define(function(require) {
             'change input[type="checkbox"]': '_handleChangeUseDefault'
         },
 
+        /**
+         * @inheritDoc
+         */
+        constructor: function UseSefaultView() {
+            UseSefaultView.__super__.constructor.apply(this, arguments);
+        },
+
         _handleChangeUseDefault: function(e) {
             mediator.trigger('strategy-creation-account:changeUseDefault', $(e.target).is(':checked'));
         }

@@ -24,6 +24,13 @@ define(function(require) {
         /**
          * @inheritDoc
          */
+        constructor: function WarningSettingsView() {
+            WarningSettingsView.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             this.$messageContainer = this.$el.find(options.warningContainer);
             this.$selectStrategy = this.$el.find('select');
