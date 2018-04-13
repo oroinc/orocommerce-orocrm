@@ -25,5 +25,15 @@ class UpdateOpportunityRelationFormType implements Migration
                 OpportunitySelectType::class
             )
         );
+
+        $queries->addQuery(
+            new UpdateEntityConfigFieldValueQuery(
+                Quote::class,
+                'opportunity',
+                'form',
+                'form_options',
+                ['attr' => ['readonly' => true]]
+            )
+        );
     }
 }
