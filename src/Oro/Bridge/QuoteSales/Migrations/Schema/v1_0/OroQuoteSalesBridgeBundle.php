@@ -9,7 +9,6 @@ use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtension;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterface;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
-use Oro\Bundle\SalesBundle\Form\Type\OpportunitySelectType;
 
 class OroQuoteSalesBridgeBundle implements Migration, ExtendExtensionAwareInterface
 {
@@ -54,7 +53,7 @@ class OroQuoteSalesBridgeBundle implements Migration, ExtendExtensionAwareInterf
                 ],
                 'form' => [
                     'is_enabled' => true,
-                    'form_type' => OpportunitySelectType::class,
+                    'form_type' => 'oro_sales_opportunity_select',
                     'form_options' => [
                         'attr' => [
                             'readonly' => true
