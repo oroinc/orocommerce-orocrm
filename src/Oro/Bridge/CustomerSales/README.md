@@ -1,7 +1,5 @@
-CustomerSales
-=============
+# OroCustomerSalesBridgeBundle
 
-What is CustomerSales?
-----------------------
+OroCustomerSalesBridgeBundle allows to use OroCommerce customers with OroCRM opportunities.
 
-CustomerSales is a bridge that integrates certain commerce related features of the OroCustomerBundle into CommerceCRM applications.
+The bundle provides [Behat](http://behat.org/en/latest/) features for testing customer-related functionality in the OroCommerce applications.
