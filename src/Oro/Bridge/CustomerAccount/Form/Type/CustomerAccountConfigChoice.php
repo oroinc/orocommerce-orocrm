@@ -3,6 +3,7 @@
 namespace Oro\Bridge\CustomerAccount\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class CustomerAccountConfigChoice extends AbstractType
 {
@@ -11,7 +12,7 @@ class CustomerAccountConfigChoice extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return self::NAME;
     }
@@ -21,6 +22,6 @@ class CustomerAccountConfigChoice extends AbstractType
      */
     public function getParent()
     {
-        return 'choice';
+        return ChoiceType::class;
     }
 }
