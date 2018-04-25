@@ -8,7 +8,7 @@ system_configuration:
     fields:
         oro_contact_us_bridge.enable_contact_request:
             data_type: boolean
-            type: oro_config_checkbox
+            type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
             options:
                 label: oro.contact_us_bridge.system_configuration.fields.contact_requests.label
                 tooltip: oro.contact_us_bridge.system_configuration.fields.contact_requests.tooltip
