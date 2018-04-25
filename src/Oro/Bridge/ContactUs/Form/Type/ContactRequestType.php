@@ -8,6 +8,7 @@ use Oro\Bundle\ContactUsBundle\Form\Type\ContactRequestType as BaseContactReques
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -82,10 +83,10 @@ class ContactRequestType extends AbstractType
         );
         $builder->add(
             'contactReason',
-            'entity',
+            EntityType::class,
             [
                 'class' => 'OroContactUsBundle:ContactReason',
-                'property' => 'label',
+                'choice_label' => 'label',
                 'placeholder' => 'oro.contactus.contactrequest.choose_contact_reason.label',
                 'required' => false,
                 'label' => 'oro.contactus.contactrequest.contact_reason.label',
