@@ -14,9 +14,11 @@ system_configuration:
             options:
                 label: oro.customer_account_bridge.system_configuration.fields.strategy_creating_customers_account.label
                 tooltip: oro.customer_account_bridge.system_configuration.fields.strategy_creating_customers_account.tooltip
+                # TODO: remove 'choices_as_values' option below in scope of BAP-15236
+                choices_as_values: true
                 choices:
-                    each: oro.customer_account_bridge.system_configuration.fields.strategy_creating_customers_account.choices.each
-                    root: oro.customer_account_bridge.system_configuration.fields.strategy_creating_customers_account.choices.root
+                    oro.customer_account_bridge.system_configuration.fields.strategy_creating_customers_account.choices.each: each
+                    oro.customer_account_bridge.system_configuration.fields.strategy_creating_customers_account.choices.root: root
                 constraints:
                     - NotBlank: ~
 
