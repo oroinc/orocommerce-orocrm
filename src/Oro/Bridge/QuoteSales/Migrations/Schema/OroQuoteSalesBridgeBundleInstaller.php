@@ -9,6 +9,7 @@ use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtension;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterface;
 use Oro\Bundle\MigrationBundle\Migration\Installation;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
+use Oro\Bundle\SalesBundle\Form\Type\OpportunitySelectType;
 
 class OroQuoteSalesBridgeBundleInstaller implements Installation, ExtendExtensionAwareInterface
 {
@@ -20,7 +21,7 @@ class OroQuoteSalesBridgeBundleInstaller implements Installation, ExtendExtensio
      */
     public function getMigrationVersion()
     {
-        return 'v1_0';
+        return 'v1_1';
     }
 
     /**
@@ -61,7 +62,7 @@ class OroQuoteSalesBridgeBundleInstaller implements Installation, ExtendExtensio
                 ],
                 'form' => [
                     'is_enabled' => true,
-                    'form_type' => 'oro_sales_opportunity_select',
+                    'form_type' => OpportunitySelectType::class,
                     'form_options' => [
                         'attr' => [
                             'readonly' => true
