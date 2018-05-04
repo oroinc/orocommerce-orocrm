@@ -5,9 +5,9 @@ namespace Oro\Bridge\ContactUs\Tests\Unit\Twig;
 use Oro\Bridge\ContactUs\Form\Type\ContactRequestType;
 use Oro\Bridge\ContactUs\Widget\ContactRequestFormWidget;
 use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
-use Symfony\Bridge\Twig\Form\TwigRenderer;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormRendererInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -24,8 +24,8 @@ class ContactRequestFormWidgetTest extends \PHPUnit_Framework_TestCase
     /** @var FormFactoryInterface|\PHPUnit_Framework_MockObject_MockObject */
     private $formFactory;
 
-    /** @var TwigRenderer|\PHPUnit_Framework_MockObject_MockObject */
-    private $twigRenderer;
+    /** @var FormRendererInterface|\PHPUnit_Framework_MockObject_MockObject */
+    private $formRenderer;
 
     /** @var RequestStack|\PHPUnit_Framework_MockObject_MockObject */
     private $requestStack;
@@ -34,13 +34,13 @@ class ContactRequestFormWidgetTest extends \PHPUnit_Framework_TestCase
     {
         $this->urlGenerator = $this->createMock(UrlGeneratorInterface::class);
         $this->formFactory = $this->createMock(FormFactoryInterface::class);
-        $this->twigRenderer = $this->createMock(TwigRenderer::class);
+        $this->formRenderer = $this->createMock(FormRendererInterface::class);
         $this->requestStack = $this->createMock(RequestStack::class);
 
         $this->widget = new ContactRequestFormWidget(
             $this->formFactory,
             $this->urlGenerator,
-            $this->twigRenderer,
+            $this->formRenderer,
             $this->requestStack
         );
     }
@@ -78,7 +78,7 @@ class ContactRequestFormWidgetTest extends \PHPUnit_Framework_TestCase
             ->willReturn($request);
 
         $renderedForm = '<form>Rendered form</form>';
-        $this->twigRenderer->expects($this->once())
+        $this->formRenderer->expects($this->once())
             ->method('searchAndRenderBlock')
             ->with($formView, 'widget')
             ->willReturn($renderedForm);

@@ -5,8 +5,8 @@ namespace Oro\Bridge\ContactUs\Widget;
 use Oro\Bridge\ContactUs\Form\Type\ContactRequestType;
 use Oro\Bundle\CMSBundle\Widget\WidgetInterface;
 use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
-use Symfony\Bridge\Twig\Form\TwigRenderer;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormRendererInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -18,7 +18,7 @@ class ContactRequestFormWidget implements WidgetInterface
     /** @var FormFactoryInterface */
     protected $formFactory;
 
-    /** @var TwigRenderer */
+    /** @var FormRendererInterface */
     protected $twigRenderer;
 
     /** @var RequestStack */
@@ -27,13 +27,13 @@ class ContactRequestFormWidget implements WidgetInterface
     /**
      * @param FormFactoryInterface  $formFactory
      * @param UrlGeneratorInterface $urlGenerator
-     * @param TwigRenderer          $twigRenderer
+     * @param FormRendererInterface $twigRenderer
      * @param RequestStack          $requestStack
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         UrlGeneratorInterface $urlGenerator,
-        TwigRenderer $twigRenderer,
+        FormRendererInterface $twigRenderer,
         RequestStack $requestStack
     ) {
         $this->formFactory = $formFactory;
