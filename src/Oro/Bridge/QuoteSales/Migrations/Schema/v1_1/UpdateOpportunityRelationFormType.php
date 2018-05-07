@@ -22,7 +22,8 @@ class UpdateOpportunityRelationFormType implements Migration
                 'opportunity',
                 'form',
                 'form_type',
-                OpportunitySelectType::class
+                OpportunitySelectType::class,
+                'oro_sales_opportunity_select'
             )
         );
 
@@ -32,7 +33,8 @@ class UpdateOpportunityRelationFormType implements Migration
                 'opportunity',
                 'form',
                 'form_options',
-                ['attr' => ['readonly' => true]]
+                ['attr' => ['readonly' => true]],
+                ['read_only' => true]
             )
         );
     }
