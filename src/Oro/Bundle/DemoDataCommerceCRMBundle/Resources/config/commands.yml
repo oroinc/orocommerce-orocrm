@@ -1,0 +1,6 @@
+services:
+    Oro\Bundle\DemoDataCommerceCRMBundle\Command\LoadDataFixturesCommand:
+        public: false
+        class: Oro\Bundle\DemoDataCommerceCRMBundle\Command\LoadDataFixturesCommand
+        tags:
+            - { name: console.command }

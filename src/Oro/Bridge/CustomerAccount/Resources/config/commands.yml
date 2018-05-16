@@ -1,0 +1,6 @@
+services:
+    Oro\Bridge\CustomerAccount\Command\RecalculateLifetimeCommand:
+        public: false
+        class: Oro\Bridge\CustomerAccount\Command\RecalculateLifetimeCommand
+        tags:
+            - { name: console.command }
