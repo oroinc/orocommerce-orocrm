@@ -7,10 +7,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-class DemoDataCommerceCRMExtension extends Extension
+class OroDemoDataCommerceCRMExtension extends Extension
 {
-    const ALIAS = 'demo_data_commerce_crm';
-
     /**
      * {@inheritdoc}
      */
@@ -18,13 +16,5 @@ class DemoDataCommerceCRMExtension extends Extension
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('commands.yml');
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getAlias()
-    {
-        return self::ALIAS;
     }
 }
