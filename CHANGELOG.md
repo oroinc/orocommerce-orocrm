@@ -1,3 +1,6 @@
+## 3.0.0-rc
+[Show detailed list of changes](incompatibilities-3-0-rc.md)
+
 ## 1.6.0 (2018-01-31)
 [Show detailed list of changes](incompatibilities-1-6.md)
 
