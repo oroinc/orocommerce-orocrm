@@ -19,7 +19,7 @@ Feature: Sales Flow
     And there is no records in grid
 
   Scenario: Lead disqualified – workflow
-    Given go to System/ Workflow
+    Given go to System/ Workflows
     And click activate "Unqualified Sales Lead" in grid
     And click "Activate"
     And go to Sales/ Leads
@@ -31,7 +31,7 @@ Feature: Sales Flow
     Then should see "Disqualified"
     And go to Sales/ Leads
     And there is no records in grid
-    And go to System/ Workflow
+    And go to System/ Workflows
     And click deactivate "Unqualified Sales Lead" in grid
     And click "Yes, Deactivate"
 
