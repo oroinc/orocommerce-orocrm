@@ -20,10 +20,16 @@ Oro\Bundle\PaymentTermBundle\Entity\PaymentTerm:
 Oro\Bundle\TaxBundle\Entity\CustomerTaxCode:
     tax_code_1:
         code: 'Tax_code_1'
+        organization: '@organization'
+        owner: '@admin'
     tax_code_2:
         code: 'Tax_code_2'
+        organization: '@organization'
+        owner: '@admin'
     tax_code_3:
         code: 'Tax_code_3'
+        organization: '@organization'
+        owner: '@admin'
 
 Oro\Bundle\AccountBundle\Entity\Account:
     acc_company_A:
@@ -95,10 +101,16 @@ Extend\Entity\EV_Acc_Internal_Rating:
 Oro\Bundle\CustomerBundle\Entity\CustomerGroup:
     all_customers:
         name: 'All Customers'
+        owner: '@admin'
+        organization: '@organization'
     partners:
         name: 'Partners'
+        owner: '@admin'
+        organization: '@organization'
     wholesale_customers:
         name: 'Wholesale Customers'
+        owner: '@admin'
+        organization: '@organization'
 
 Oro\Bundle\CustomerBundle\Entity\Customer:
     company_A:
