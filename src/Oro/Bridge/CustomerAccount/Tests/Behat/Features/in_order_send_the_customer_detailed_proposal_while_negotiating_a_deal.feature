@@ -104,7 +104,7 @@ Feature: In order send the customer detailed proposal while negotiating a deal
 
   Scenario: Check quote appearing in buyer account
     Given I operate as the Buyer
-    When open Customer Quotes List page
+    When I click "Quotes"
     Then records in "Customer Quotes Grid" should be 1
     When I click "View"
     Then I should see SKU123 in Quote View Grid with following data:
@@ -144,7 +144,7 @@ Feature: In order send the customer detailed proposal while negotiating a deal
 
   Scenario: Check edited quote from buyer account
     Given I operate as the Buyer
-    When I open Customer Quotes List page
+    When I click "Quotes"
     Then records in "Customer Quotes Grid" should be 1
     And I should see 1 in Customer Quotes Grid with following data:
 #    @todo Uncomment when bug will resolved. BAP-12124.
@@ -165,5 +165,5 @@ Feature: In order send the customer detailed proposal while negotiating a deal
 
   Scenario: Check deleted quote from buyer account
     Given I operate as the Buyer
-    When open Customer Quotes List page
+    When I click "Quotes"
     Then there is no records in "Customer Quotes Grid"
