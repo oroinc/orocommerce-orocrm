@@ -8,7 +8,7 @@ use Oro\Bundle\ProductBundle\Storage\DataStorageInterface;
 use Oro\Bundle\SalesBundle\Tests\Unit\Fixture\CustomerStub;
 use Oro\Bundle\SalesBundle\Tests\Unit\Fixture\OpportunityStub;
 
-class OpportunityToQuoteDataStorageTest extends \PHPUnit_Framework_TestCase
+class OpportunityToQuoteDataStorageTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var OpportunityToQuoteDataStorage

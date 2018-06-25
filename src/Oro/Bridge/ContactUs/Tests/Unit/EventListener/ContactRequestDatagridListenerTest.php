@@ -7,7 +7,7 @@ use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datasource\Orm\OrmQueryConfiguration;
 use Oro\Bundle\DataGridBundle\Event\BuildBefore;
 
-class ContactRequestDatagridListenerTest extends \PHPUnit_Framework_TestCase
+class ContactRequestDatagridListenerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ContactRequestDatagridListener */
     private $listener;

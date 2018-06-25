@@ -14,7 +14,7 @@ use Oro\Bundle\SalesBundle\Entity\Repository\CustomerRepository as SalesCustomer
 use Oro\Bundle\SalesBundle\Tests\Unit\Fixture\CustomerStub as SalesCustomerStub;
 use Oro\Component\Testing\Unit\EntityTrait;
 
-class CustomerAccountImportExportHelperTest extends \PHPUnit_Framework_TestCase
+class CustomerAccountImportExportHelperTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
@@ -24,22 +24,22 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit_Framework_TestCase
     private $customerAccountImportExportHelper;
 
     /**
-     * @var DoctrineHelper|\PHPUnit_Framework_MockObject_MockObject
+     * @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject
      */
     private $doctrineHelper;
 
     /**
-     * @var SalesCustomerRepository|\PHPUnit_Framework_MockObject_MockObject
+     * @var SalesCustomerRepository|\PHPUnit\Framework\MockObject\MockObject
      */
     private $salesCustomerRepository;
 
     /**
-     * @var EntityRepository|\PHPUnit_Framework_MockObject_MockObject
+     * @var EntityRepository|\PHPUnit\Framework\MockObject\MockObject
      */
     private $accountRepository;
 
     /**
-     * @var EntityManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var EntityManager|\PHPUnit\Framework\MockObject\MockObject
      */
     private $entityManager;
 

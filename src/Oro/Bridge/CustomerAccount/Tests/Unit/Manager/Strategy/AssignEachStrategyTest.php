@@ -12,7 +12,7 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
 use Oro\Bundle\UserBundle\Entity\User;
 
-class AssignEachStrategyTest extends \PHPUnit_Framework_TestCase
+class AssignEachStrategyTest extends \PHPUnit\Framework\TestCase
 {
     /** @var AccountBuilder */
     protected $accountBuilder;
@@ -152,7 +152,7 @@ class AssignEachStrategyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|AccountCustomerManager
+     * @return \PHPUnit\Framework\MockObject\MockObject|AccountCustomerManager
      */
     private function getAccountCustomerManager()
     {
@@ -164,7 +164,7 @@ class AssignEachStrategyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|LifetimeProcessor
+     * @return \PHPUnit\Framework\MockObject\MockObject|LifetimeProcessor
      */
     private function getLifetimeProcessor()
     {

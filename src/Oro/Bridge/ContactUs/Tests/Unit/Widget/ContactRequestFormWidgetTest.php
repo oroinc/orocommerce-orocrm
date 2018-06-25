@@ -13,21 +13,21 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class ContactRequestFormWidgetTest extends \PHPUnit_Framework_TestCase
+class ContactRequestFormWidgetTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ContactRequestFormWidget */
     private $widget;
 
-    /** @var UrlGeneratorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var UrlGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $urlGenerator;
 
-    /** @var FormFactoryInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var FormFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $formFactory;
 
-    /** @var FormRendererInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var FormRendererInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $formRenderer;
 
-    /** @var RequestStack|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */
     private $requestStack;
 
     protected function setUp()

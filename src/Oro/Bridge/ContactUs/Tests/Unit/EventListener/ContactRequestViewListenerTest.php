@@ -8,7 +8,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\UIBundle\Event\BeforeListRenderEvent;
 use Oro\Bundle\UIBundle\View\ScrollData;
 
-class ContactRequestViewListenerTest extends \PHPUnit_Framework_TestCase
+class ContactRequestViewListenerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ContactRequestViewListener */
     private $listener;

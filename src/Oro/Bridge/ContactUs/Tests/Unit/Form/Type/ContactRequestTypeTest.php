@@ -27,7 +27,7 @@ class ContactRequestTypeTest extends TypeTestCase
     protected $type;
 
     /**
-     * @var TokenAccessorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $tokenAccessor;
 
@@ -165,7 +165,7 @@ class ContactRequestTypeTest extends TypeTestCase
     }
 
     /**
-     * @return ContactReason|\PHPUnit_Framework_MockObject_MockObject
+     * @return ContactReason|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function mockContactReason()
     {

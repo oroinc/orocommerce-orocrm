@@ -6,7 +6,7 @@ use Oro\Bridge\CustomerSales\Provider\Customer\CustomerIconProvider;
 use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
 use Oro\Bundle\UIBundle\Model\Image;
 
-class CustomerIconProviderTest extends \PHPUnit_Framework_TestCase
+class CustomerIconProviderTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CustomerIconProvider */
     protected $customerIconProvider;

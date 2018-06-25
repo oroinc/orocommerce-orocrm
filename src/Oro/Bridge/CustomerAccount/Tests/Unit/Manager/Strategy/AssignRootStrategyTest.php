@@ -10,7 +10,7 @@ use Oro\Bridge\CustomerAccount\Tests\Unit\Fixtures\CustomerAssociation;
 use Oro\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
 
-class AssignRootStrategyTest extends \PHPUnit_Framework_TestCase
+class AssignRootStrategyTest extends \PHPUnit\Framework\TestCase
 {
     /** @var AssignRootStrategy */
     protected $strategy;
@@ -138,7 +138,7 @@ class AssignRootStrategyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|AccountBuilder
+     * @return \PHPUnit\Framework\MockObject\MockObject|AccountBuilder
      */
     private function createAccountBuilderMock()
     {
@@ -146,7 +146,7 @@ class AssignRootStrategyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|AccountCustomerManager
+     * @return \PHPUnit\Framework\MockObject\MockObject|AccountCustomerManager
      */
     private function getAccountCustomerManager()
     {
@@ -158,7 +158,7 @@ class AssignRootStrategyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|LifetimeProcessor
+     * @return \PHPUnit\Framework\MockObject\MockObject|LifetimeProcessor
      */
     private function getLifetimeProcessor()
     {

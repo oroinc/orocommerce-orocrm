@@ -8,7 +8,7 @@ use Oro\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
 
-class AccountBuilderTest extends \PHPUnit_Framework_TestCase
+class AccountBuilderTest extends \PHPUnit\Framework\TestCase
 {
     /** @var AccountBuilder */
     protected $accountBuilder;

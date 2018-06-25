@@ -4,15 +4,15 @@ namespace Oro\Bridge\QuoteSales\Tests;
 
 use Oro\Bridge\QuoteSales\EventListener\OpportunityQuotesListener;
 
-class OpportunityQuotesListenerTest extends \PHPUnit_Framework_TestCase
+class OpportunityQuotesListenerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var  OpportunityQuotesListener */
     protected $opportunityQuotesListener;
 
-    /** @var  \PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit\Framework\MockObject\MockObject */
     protected $opportunityQuotesProvider;
 
-    /** @var  \PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit\Framework\MockObject\MockObject */
     protected $translator;
 
     public function setUp()

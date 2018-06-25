@@ -5,7 +5,7 @@ namespace Oro\Bridge\ContactUs\Tests\Unit\DependencyInjection;
 use Oro\Bridge\ContactUs\DependencyInjection\Configuration;
 use Symfony\Component\Config\Definition\Processor;
 
-class ConfigurationTest extends \PHPUnit_Framework_TestCase
+class ConfigurationTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetConfigTreeBuilder()
     {

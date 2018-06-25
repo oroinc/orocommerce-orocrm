@@ -10,7 +10,7 @@ use Oro\Component\MessageQueue\Transport\Null\NullMessage;
 use Oro\Component\MessageQueue\Transport\SessionInterface;
 use Psr\Log\LoggerInterface;
 
-class ReassingCustomerProcessorTest extends \PHPUnit_Framework_TestCase
+class ReassingCustomerProcessorTest extends \PHPUnit\Framework\TestCase
 {
     public function testShouldRejectMessageIfTypePropertyIsNotSet()
     {
@@ -69,7 +69,7 @@ class ReassingCustomerProcessorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|SessionInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|SessionInterface
      */
     private function createSessionMock()
     {
@@ -77,7 +77,7 @@ class ReassingCustomerProcessorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|LoggerInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|LoggerInterface
      */
     private function createLoggerMock()
     {
@@ -85,7 +85,7 @@ class ReassingCustomerProcessorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|AccountManager
+     * @return \PHPUnit\Framework\MockObject\MockObject|AccountManager
      */
     private function createAccountManagerMock()
     {
@@ -93,7 +93,7 @@ class ReassingCustomerProcessorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|JobRunner
+     * @return \PHPUnit\Framework\MockObject\MockObject|JobRunner
      */
     private function createJobRunnerMock()
     {
