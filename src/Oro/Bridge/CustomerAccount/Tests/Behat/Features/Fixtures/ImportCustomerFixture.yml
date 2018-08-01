@@ -8,6 +8,8 @@ Oro\Bundle\UserBundle\Entity\User:
         salt: salt
         organization: '@organization'
         owner: '@business_unit'
+        roles: ['@adminRole']
+        businessUnits: ['@business_unit']
     user_with_assign:
         username: userWithAssign1
         email: userWithAssign1@example.com
