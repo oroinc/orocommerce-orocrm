@@ -48,8 +48,10 @@ Feature: Default workflow for Commerce Sales Rep
     When I click "Create Opportunity"
     And I fill form with:
       | Opportunity Name | Europe Oppo 2x1  |
-      | Account          | Commerce John (Customer) |
       | Probability (%)  | 2             |
+    And I type "Commerce John" in "Account"
+    And I should see "Commerce John (Customer)"
+    And I click on "Customer Related Account"
     And I save and close form
     Then I should see "Open" green status
     And I should see following buttons:

@@ -7,7 +7,7 @@ workflows:
                    '@and':
                        - '@neq':  [$status.id, 'lost']
                        - '@neq':  [$status.id, 'won']
-                       - '@type': [$customer.getTarget, 'Oro\Bundle\CustomerBundle\Entity\Customer']
+                       - '@type': [$customer.target, 'Oro\Bundle\CustomerBundle\Entity\Customer']
                 actions:
                        - '@call_service_method':
                            service: oro_quote_sales.opportunity_to_quote_data_storage
