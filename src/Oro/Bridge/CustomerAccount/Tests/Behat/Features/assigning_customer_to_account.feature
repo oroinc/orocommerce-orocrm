@@ -8,7 +8,7 @@ Feature: Assigning Customer to Account
   Scenario: Export Customers
     Given I login as administrator
     And I go to Customers / Customers
-    When I press "Create Customer"
+    When I click "Create Customer"
     And I fill form with:
       | Name    | Testing Customer |
       | Account | Account A        |

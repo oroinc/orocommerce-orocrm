@@ -10,7 +10,7 @@ Feature: Create Opportunity from Customers entity view
     Given I login as "Johnconnor8" user
     When I go to Customers/Customers
     And click View CommSkyNet in grid
-    And press "Create Opportunity"
+    And click "Create Opportunity"
     And I fill in "Opportunity name" with "Fourth Invasion"
     And I save and close form
     Then I should see Fourth Invasion with:
