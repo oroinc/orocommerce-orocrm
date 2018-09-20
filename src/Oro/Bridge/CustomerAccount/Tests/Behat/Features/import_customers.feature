@@ -77,7 +77,7 @@ Feature: Import Customers
     And number of records should be 6
 
   Scenario: Export - Import Customers
-    Given I press "Export"
+    Given I click "Export"
     And I should see "Export started successfully. You will receive email notification upon completion." flash message
     When I import exported file
     Then I should see "Import started successfully. You will receive an email notification upon completion." flash message
