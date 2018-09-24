@@ -23,7 +23,7 @@ Feature: Contact us widget
       |Email                   |qa@oroinc.com     |
       |Contact Reason          |Other             |
       |Comment                 |Test Comment      |
-    And press "Submit"
+    And click "Submit"
     And I should see "Thank you for your Request!" flash message
     And I login as administrator
     And go to Activities/ Contact Requests
@@ -44,9 +44,9 @@ Feature: Contact us widget
       |Preferred contact method|Email             |
       |Contact Reason          |Other             |
       |Comment                 |Testers Comment   |
-    And press "Submit"
+    And click "Submit"
     And I should see "Thank you for your Request!" flash message
-    And I press "Sign Out"
+    And I click "Sign Out"
     And I login as administrator
     And go to Activities/ Contact Requests
     And I should see Amanda in grid with following data:
@@ -61,7 +61,7 @@ Feature: Contact us widget
   Scenario:Check validation messages
     Given I am on the homepage
     And I click "About"
-    When I press "Submit"
+    When I click "Submit"
     Then I should see validation errors:
       |First name |This value should not be blank. |
       |Last name  |This value should not be blank. |
@@ -69,7 +69,7 @@ Feature: Contact us widget
       |Comment    |This value should not be blank. |
     And fill form with:
       |Preferred contact method|Phone    |
-    When I press "Submit"
+    When I click "Submit"
     Then I should see validation errors:
       |First name |This value should not be blank. |
       |Last name  |This value should not be blank. |
@@ -77,7 +77,7 @@ Feature: Contact us widget
       |Comment    |This value should not be blank. |
     And fill form with:
       |Preferred contact method|Both phone & email   |
-    When I press "Submit"
+    When I click "Submit"
     Then I should see validation errors:
       |First name |This value should not be blank. |
       |Last name  |This value should not be blank. |
