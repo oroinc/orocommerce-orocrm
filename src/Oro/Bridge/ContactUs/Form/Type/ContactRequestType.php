@@ -2,6 +2,8 @@
 
 namespace Oro\Bridge\ContactUs\Form\Type;
 
+use Oro\Bundle\ContactUsBundle\Entity\ContactReason;
+use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -11,24 +13,36 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
-use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\ContactUsBundle\Form\Type\ContactRequestType as BaseContactRequestType;
 use Oro\Bundle\ContactUsBundle\Entity\Repository\ContactReasonRepository;
 
+/**
+ *  Represents ContactRequest type
+ */
 class ContactRequestType extends AbstractType
 {
     /** @var TokenAccessorInterface */
     protected $tokenAccessor;
 
+    /** @var LocalizationHelper */
+    protected $localizationHelper;
+
     /**
      * @param TokenAccessorInterface $tokenAccessor
-     * @param WebsiteManager         $websiteManager
      */
     public function __construct(TokenAccessorInterface $tokenAccessor)
     {
         $this->tokenAccessor = $tokenAccessor;
+    }
+
+    /**
+     * @param LocalizationHelper $localizationHelper
+     */
+    public function setLocalizationHelper(LocalizationHelper $localizationHelper)
+    {
+        $this->localizationHelper = $localizationHelper;
     }
 
     /**
@@ -86,12 +100,16 @@ class ContactRequestType extends AbstractType
             'entity',
             [
                 'class' => 'OroContactUsBundle:ContactReason',
-                'property' => 'label',
+                'choice_label' => function (ContactReason $entity) {
+                    return $this->getLocalizationHelper()->getLocalizedValue($entity->getTitles());
+                },
                 'empty_value' => 'oro.contactus.contactrequest.choose_contact_reason.label',
                 'required' => false,
                 'label' => 'oro.contactus.contactrequest.contact_reason.label',
                 'query_builder' => function (ContactReasonRepository $er) {
-                    return $er->getExistedContactReasonsQB();
+                    return $er->getExistedContactReasonsQB()
+                        ->addSelect('titles')
+                        ->leftJoin('cr.titles', 'titles');
                 },
             ]
         );
@@ -116,5 +134,17 @@ class ContactRequestType extends AbstractType
     public function getParent()
     {
         return BaseContactRequestType::class;
+    }
+
+    /**
+     * @return LocalizationHelper
+     */
+    private function getLocalizationHelper()
+    {
+        if (!$this->localizationHelper) {
+            throw new \LogicException(sprintf('No localization helper set for %s type', get_class($this)));
+        }
+
+        return $this->localizationHelper;
     }
 }
