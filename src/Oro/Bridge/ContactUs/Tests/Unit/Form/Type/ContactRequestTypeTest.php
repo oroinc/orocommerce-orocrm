@@ -1,16 +1,17 @@
 <?php
 
-namespace Oro\Bridge\ContactUs\Tests\Unit\Form\Extension;
+namespace Oro\Bridge\ContactUs\Tests\Unit\Form\Type;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bridge\ContactUs\Form\Type\ContactRequestType;
+use Oro\Bridge\ContactUs\Tests\Unit\Stub\ContactReasonStub;
 use Oro\Bridge\ContactUs\Tests\Unit\Stub\ContactRequestStub;
 use Oro\Bundle\ContactUsBundle\Entity\ContactReason;
 use Oro\Bundle\ContactUsBundle\Form\Type\ContactRequestType as BaseContactRequestType;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
-use Oro\Bundle\WebsiteBundle\Entity\Website;
-use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as EntityTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
@@ -32,13 +33,19 @@ class ContactRequestTypeTest extends TypeTestCase
     protected $tokenAccessor;
 
     /**
+     * @var LocalizationHelper|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $localizationHelper;
+
+    /**
      * {@inheritDoc}
      */
     protected function setUp()
     {
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
+        $this->localizationHelper = $this->createMock(LocalizationHelper::class);
 
-        $this->type = new ContactRequestType($this->tokenAccessor);
+        $this->type = new ContactRequestType($this->tokenAccessor, $this->localizationHelper);
 
         parent::setUp();
     }
@@ -72,7 +79,7 @@ class ContactRequestTypeTest extends TypeTestCase
         $expected->setEmailAddress('AmandaRCole@example.org');
         $expected->setOrganizationName('OroCRM');
         $expected->setPreferredContactMethod('oro.contactus.contactrequest.method.phone');
-        $expected->setContactReason($this->mockContactReason());
+        $expected->setContactReason($this->getContactReason());
 
         $this->assertEquals($expected, $contactRequest);
     }
@@ -94,7 +101,13 @@ class ContactRequestTypeTest extends TypeTestCase
         $this->tokenAccessor->expects($this->once())
             ->method('getUser')
             ->willReturn($customerUser);
+
+        $this->localizationHelper->expects($this->once())
+            ->method('getLocalizedValue')
+            ->with(new ArrayCollection())
+            ->willReturn('Some title');
         $contactRequest = $this->getEntity(ContactRequestStub::class);
+
         $form = $this->factory->create(
             ContactRequestType::class,
             $contactRequest
@@ -151,7 +164,7 @@ class ContactRequestTypeTest extends TypeTestCase
      */
     protected function getExtensions()
     {
-        $entityType = new EntityTypeStub(['test_contact_reason' => $this->mockContactReason()]);
+        $entityType = new EntityTypeStub(['test_contact_reason' => $this->getContactReason()]);
 
         return [
             new PreloadedExtension(
@@ -167,8 +180,11 @@ class ContactRequestTypeTest extends TypeTestCase
     /**
      * @return ContactReason|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function mockContactReason()
+    protected function getContactReason()
     {
-        return $this->createMock(ContactReason::class);
+        $contactReason = new ContactReasonStub('Some title');
+        $contactReason->setTitles(new ArrayCollection());
+
+        return $contactReason;
     }
 }
