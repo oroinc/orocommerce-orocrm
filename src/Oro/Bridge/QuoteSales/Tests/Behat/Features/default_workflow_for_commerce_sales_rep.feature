@@ -24,7 +24,7 @@ Feature: Default workflow for Commerce Sales Rep
       | Active                  | No                     |
       | Exclusive Active Groups | opportunity_management |
     When I click Activate Opportunity Management Flow in grid
-    And I press "Activate"
+    And I click "Activate"
     Then I should see "Workflow activated" flash message
     And I should see "Opportunity Management Flow" in grid with following data:
       | Active                  | Yes                    |
@@ -36,7 +36,7 @@ Feature: Default workflow for Commerce Sales Rep
       | Active                  | No               |
       | Exclusive Active Groups | quote_management |
     When I click Activate Quote flow in grid
-    And I press "Activate"
+    And I click "Activate"
     Then I should see "Workflow activated" flash message
     And I should see "Quote flow" in grid with following data:
       | Active                  | Yes              |
@@ -65,7 +65,7 @@ Feature: Default workflow for Commerce Sales Rep
     When I fill form with:
       | Status          | Needs Analysis  |
       | Probability (%) | 52              |
-    And I press "Submit"
+    And I click "Submit"
     Then I should see "Needs Analysis" green status
     And I should see following buttons:
       | Develop       |
@@ -91,7 +91,7 @@ Feature: Default workflow for Commerce Sales Rep
 
   Scenario: Sales Rep closes Opportunity as Lost
     Given I click "Close as Lost"
-    When I press "Submit"
+    When I click "Submit"
     Then I should see "Closed Lost" gray status
     And I should see following buttons:
       | Reopen      |
@@ -101,7 +101,7 @@ Feature: Default workflow for Commerce Sales Rep
     When I fill form with:
       | Status          | Open |
       | Probability (%) | 3 |
-    And I press "Submit"
+    And I click "Submit"
     Then I should see "Open" green status
     And I should see following buttons:
       | Develop       |
@@ -127,7 +127,7 @@ Feature: Default workflow for Commerce Sales Rep
     But I click "Close as Won"
     And I fill "Opportunity Transition Form" with:
       | Close Revenue | 12000 |
-    And press "Submit"
+    And click "Submit"
     Then I should see "Closed Won" green status
     And I should see following buttons:
       | Reopen      |
@@ -137,7 +137,7 @@ Feature: Default workflow for Commerce Sales Rep
     When I fill form with:
       | Status          | Open   |
       | Probability (%) | 4               |
-    And press "Submit"
+    And click "Submit"
     Then I should see "Open" green status
     And I should see following buttons:
       | Develop       |
@@ -145,7 +145,7 @@ Feature: Default workflow for Commerce Sales Rep
       | Close as Lost |
       | Create Quote  |
     But I click "Close as Lost"
-    And press "Submit"
+    And click "Submit"
     Then I should see "Closed Lost" gray status
     And I should see following buttons:
       | Reopen      |
@@ -155,7 +155,7 @@ Feature: Default workflow for Commerce Sales Rep
     When I fill form with:
       | Status          | Open |
       | Probability (%) | 5    |
-    And press "Submit"
+    And click "Submit"
     Then I should see "Open" green status
     And I should see following buttons:
       | Develop       |
@@ -165,7 +165,7 @@ Feature: Default workflow for Commerce Sales Rep
     But I click "Close as Won"
     And I fill "Opportunity Transition Form" with:
       | Close Revenue | 13000 |
-    And press "Submit"
+    And click "Submit"
     Then I should see "Closed Won" green status
     And I should see following buttons:
       | Reopen      |

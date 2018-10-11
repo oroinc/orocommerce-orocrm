@@ -17,7 +17,7 @@ Feature: In order send the customer detailed proposal while negotiating a deal
       | Active                  | No               |
       | Exclusive Active Groups | quote_management |
     When I click Activate Quote flow in grid
-    And I press "Activate"
+    And I click "Activate"
     Then I should see "Workflow activated" flash message
     And I should see "Quote flow" in grid with following data:
       | Active                  | Yes              |
@@ -48,7 +48,7 @@ Feature: In order send the customer detailed proposal while negotiating a deal
     And I should see "Create Quote"
 
   Scenario: Create Quote
-    Given I press "Create Quote"
+    Given I click "Create Quote"
     When fill "Quote Line Items" with:
       | Product    | SKU123 |
       | Unit Price | 10     |
@@ -85,7 +85,7 @@ Feature: In order send the customer detailed proposal while negotiating a deal
     And I click View John Doe in grid
     And click "Send to Customer"
     And I fill in "To" with "Amanda Cole"
-    And press "Send"
+    And click "Send"
     Then I should see Quote with:
       | Opportunity     | Testing opportunity1 |
       | Internal Status | Sent to Customer     |

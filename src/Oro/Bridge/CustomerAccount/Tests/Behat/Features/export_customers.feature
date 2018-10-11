@@ -10,7 +10,7 @@ Feature: Export Customers
   Scenario: Export Customers
     Given I login as administrator
     And I go to Customers/Customers
-    When I press "Export"
+    When I click "Export"
     Then I should see "Export started successfully. You will receive email notification upon completion." flash message
     And Email should contains the following "Export performed successfully. 6 customers were exported. Download" text
     And Exported file for "Customers" contains at least the following columns:
