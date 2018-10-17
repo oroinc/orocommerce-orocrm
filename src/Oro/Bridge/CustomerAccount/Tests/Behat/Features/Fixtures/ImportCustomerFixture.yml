@@ -1,9 +1,21 @@
 Oro\Bundle\UserBundle\Entity\User:
-    second_user:
-        username: user2
-        email: user2@example.com
-        firstName: New
-        lastName: Owner
+    first_user:
+        username: user1
+        email: viggo@example.com
+        firstName: Viggo
+        lastName: Mortensen
+        password: 'QmaXlIqI4mjWgrhmdzslFyICSaC4uK7A+ZpHj2SrUbmmy/y7AOgeciOc4m8g0RYRBymZ8mF1J/h165Op+dwE2g=='
+        salt: m0zv4fjgp7kgwkckskwkcs4wckc4g4w
+        organization: '@organization'
+        organizations: ['@organization']
+        owner: '@business_unit'
+        roles: ['@managerRole']
+        businessUnits: ['@business_unit']
+    user_without_access_to_main_organization:
+        username: userWithoutMainOrganization
+        email: billy@example.com
+        firstName: Billy
+        lastName: Boyd
         password: password
         salt: salt
         organization: '@organization'
