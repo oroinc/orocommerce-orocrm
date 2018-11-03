@@ -121,6 +121,12 @@ class OroCustomerAccountBridgeBundleInstaller implements
      */
     protected function createFields(Schema $schema)
     {
+        /**
+         * The previous_account association is used to remember customer's account during changing of
+         * "Creation New Account" option at System Configuration / Integrations / CRM and Commerce
+         * from "For each Commerce Customer" to "Only for root Commerce Customer" and to restore the account
+         * when this option is switched from "Only for root Commerce Customer" to "For each Commerce Customer".
+         */
         $this->extendExtension->addManyToOneRelation(
             $schema,
             'oro_customer',
