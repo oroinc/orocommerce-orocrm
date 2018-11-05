@@ -30,7 +30,7 @@ Feature: Import Customers
       |    | Wholesaler B              |           | All Customers       | Tax_code_2 | 6          | 4_of_5             | net 60             | 3        |
     When I import file
     And reload the page
-    Then Email should contains the following "Errors: 1 processed: 5, read: 8, added: 5, updated: 0, replaced: 0" text
+    Then Email should contains the following "Errors: 1 processed: 5, read: 6, added: 5, updated: 0, replaced: 0" text
     And I should see following grid:
       | Name                      | Group               | Parent Customer | Internal rating | Payment term | Tax code   | Account                   |
       | Company A                 | All Customers       |                 | 2_of_5          | net 30       | Tax_code_1 | Company A                 |
@@ -57,7 +57,7 @@ Feature: Import Customers
       | 3  | Partner C                 |           | Partners            | Tax_code_3 | 5          | 1_of_5             | net 30             |
     And I import file
     And reload the page
-    Then Email should contains the following "Errors: 1 processed: 4, read: 35, added: 0, updated: 0, replaced: 4" text
+    Then Email should contains the following "Errors: 1 processed: 4, read: 5, added: 0, updated: 0, replaced: 4" text
     And I should see following grid:
       | Name                      | Group               | Parent Customer   | Internal rating | Payment term | Tax code   | Account                   |
       | Company A - 1 new         | All Customers       |                   | 2_of_5          | net 30       | Tax_code_1 | Company A                 |
@@ -92,7 +92,7 @@ Feature: Import Customers
       |    | XX - Customer w/o circular | 1         | All Customers | Tax_code_1 | 1          | 2_of_5             | net 30             |
     And I import file
     And reload the page
-    Then Email should contains the following "Errors: 1 processed: 1, read: 3, added: 1, updated: 0, replaced: 0" text
+    Then Email should contains the following "Errors: 1 processed: 1, read: 2, added: 1, updated: 0, replaced: 0" text
     And I should see following grid:
       | Name                       | Group               | Parent Customer   | Internal rating | Payment term | Tax code   | Account                   |
       | Company A - 1 new          | All Customers       |                   | 2_of_5          | net 30       | Tax_code_1 | Company A                 |

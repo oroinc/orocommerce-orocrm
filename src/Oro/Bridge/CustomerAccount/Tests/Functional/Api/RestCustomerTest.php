@@ -2,14 +2,13 @@
 
 namespace Oro\Bridge\CustomerAccount\Tests\Functional\Api;
 
+use Oro\Bundle\ApiBundle\Tests\Functional\RestJsonApiTestCase;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
-use Oro\Bundle\CustomerBundle\Tests\Functional\Api\AbstractRestTest;
+use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadGroups;
-use Oro\Bundle\UserBundle\Tests\Functional\DataFixtures\LoadUserData;
-use Symfony\Component\HttpFoundation\Response;
 
-class RestCustomerTest extends AbstractRestTest
+class RestCustomerTest extends RestJsonApiTestCase
 {
     /**
      * {@inheritdoc}
@@ -17,12 +16,29 @@ class RestCustomerTest extends AbstractRestTest
     protected function setUp()
     {
         parent::setUp();
-        $this->loadFixtures(
-            [
-                LoadCustomerData::class,
-                LoadUserData::class,
-            ]
-        );
+        $this->loadFixtures([LoadCustomerData::class]);
+    }
+
+    /**
+     * @return Customer|null
+     */
+    private function getDefaultCustomer()
+    {
+        return $this->getEntityManager()
+            ->getRepository(Customer::class)
+            ->findOneByName('CustomerUser CustomerUser');
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return CustomerGroup|null
+     */
+    private function getGroup($name)
+    {
+        return $this->getEntityManager()
+            ->getRepository(CustomerGroup::class)
+            ->findOneByName($name);
     }
 
     /**
@@ -61,7 +77,7 @@ class RestCustomerTest extends AbstractRestTest
                         'users' => [
                             'data' => [
                                 [
-                                    'type' => 'customer_users',
+                                    'type' => 'customerusers',
                                     'id' => $defaultCustomer->getUsers()->first()->getId(),
                                 ],
                             ],
@@ -117,13 +133,13 @@ class RestCustomerTest extends AbstractRestTest
                         'internal_rating' => [
                             'data' =>
                                 [
-                                    'type' => 'customer_rating',
+                                    'type' => 'customerratings',
                                     'id' => 'internal_rating.1_of_5',
                                 ],
                         ],
                         'group' => [
                             'data' => [
-                                'type' => 'customer_groups',
+                                'type' => 'customergroups',
                                 'id' => (string)$this->getGroup(LoadGroups::GROUP1)->getId(),
                             ],
                         ],
@@ -190,13 +206,13 @@ class RestCustomerTest extends AbstractRestTest
                     'internal_rating' => [
                         'data' =>
                             [
-                                'type' => 'customer_rating',
+                                'type' => 'customerratings',
                                 'id' => 'internal_rating.1_of_5',
                             ],
                     ],
                     'group' => [
                         'data' => [
-                            'type' => 'customer_groups',
+                            'type' => 'customergroups',
                             'id' => (string)$this->getGroup(LoadGroups::GROUP1)->getId(),
                         ],
                     ],
@@ -241,7 +257,7 @@ class RestCustomerTest extends AbstractRestTest
                     'users' => [
                         'data' => [
                             [
-                                'type' => 'customer_users',
+                                'type' => 'customerusers',
                                 'id' => '1',
                             ],
                         ],
@@ -317,13 +333,13 @@ class RestCustomerTest extends AbstractRestTest
                         'internal_rating' => [
                             'data' =>
                                 [
-                                    'type' => 'customer_rating',
+                                    'type' => 'customerratings',
                                     'id' => 'internal_rating.1_of_5',
                                 ],
                         ],
                         'group' => [
                             'data' => [
-                                'type' => 'customer_groups',
+                                'type' => 'customergroups',
                                 'id' => (string)$this->getGroup(LoadGroups::GROUP1)->getId(),
                             ],
                         ],
