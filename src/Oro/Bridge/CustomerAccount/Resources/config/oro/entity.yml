@@ -1,0 +1,3 @@
+oro_entity:
+    exclusions:
+        - { entity: Oro\Bundle\CustomerBundle\Entity\Customer, field: previous_account }
