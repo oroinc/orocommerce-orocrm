@@ -98,7 +98,7 @@ Feature: Sales Flow
       | Description   | Flow Event desc     |
       | Guests        | John Doe            |
       | Color         | Cornflower Blue     |
-      | Context       | FirstN LastN (Lead) |
+      | Context       | FirstN LastN        |
     And set Reminders with:
       | Method        | Interval unit | Interval number |
       | Email         | days          | 1               |
