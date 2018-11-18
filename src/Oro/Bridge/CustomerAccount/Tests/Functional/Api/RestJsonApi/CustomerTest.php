@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bridge\CustomerAccount\Tests\Functional\Api;
+namespace Oro\Bridge\CustomerAccount\Tests\Functional\Api\RestJsonApi;
 
 use Oro\Bundle\ApiBundle\Tests\Functional\RestJsonApiTestCase;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
@@ -8,7 +8,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadGroups;
 
-class RestCustomerTest extends RestJsonApiTestCase
+class CustomerTest extends RestJsonApiTestCase
 {
     /**
      * {@inheritdoc}

@@ -1,8 +1,8 @@
 <?php
 
-namespace Oro\Bridge\CustomerAccount\Tests\Functional\Functional\Controller;
+namespace Oro\Bridge\CustomerAccount\Tests\Functional\Functional\Controller\Rest;
 
-use Oro\Bundle\AccountBundle\Tests\Functional\API\RestAccountTest as BaseRestAccountTest;
+use Oro\Bundle\AccountBundle\Tests\Functional\Api\Rest\RestAccountTest as BaseRestAccountTest;
 
 class RestAccountTest extends BaseRestAccountTest
 {
