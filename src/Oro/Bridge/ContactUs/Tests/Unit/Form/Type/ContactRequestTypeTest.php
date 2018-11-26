@@ -4,10 +4,10 @@ namespace Oro\Bridge\ContactUs\Tests\Unit\Form\Type;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bridge\ContactUs\Form\Type\ContactRequestType;
-use Oro\Bridge\ContactUs\Tests\Unit\Stub\ContactReasonStub;
 use Oro\Bridge\ContactUs\Tests\Unit\Stub\ContactRequestStub;
 use Oro\Bundle\ContactUsBundle\Entity\ContactReason;
 use Oro\Bundle\ContactUsBundle\Form\Type\ContactRequestType as BaseContactRequestType;
+use Oro\Bundle\ContactUsBundle\Tests\Unit\Stub\ContactReasonStub;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
