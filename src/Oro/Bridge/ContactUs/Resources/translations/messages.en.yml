@@ -19,3 +19,6 @@ oro.contact_us_bridge:
                     Controls showing the Contact Us page in the OroCommerce Front Store menu.
                     When disabled, the Contact Us page is hidden.
                     You can still use the Contact Us widget in your web catalog pages.
+            consent:
+                consent_contact_reason.label: Сontact Reason
+                consent_contact_reason.tooltip: Contact Reason which is used for declined consent notification
