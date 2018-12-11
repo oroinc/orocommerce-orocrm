@@ -28,16 +28,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: oro_ui.scroll_data.before.contactRequestView, method: onView }
 
-    oro_contact_us_bridge.event_listener.create_contact_request:
-        class: 'Oro\Bridge\ContactUs\EventListener\CreateContactRequestListener'
-        public: false
-        arguments:
-            - '@oro_contact_us_bridge.helper.contact_request'
-            - '@oro_featuretoggle.checker.feature_checker'
-        tags:
-            - { name: doctrine.event_listener, event: onFlush }
-            - { name: doctrine.event_listener, event: postFlush }
-
     oro_contact_us_bridge.event_listener.system_config:
         class: 'Oro\Bridge\ContactUs\EventListener\SystemConfigListener'
         arguments:

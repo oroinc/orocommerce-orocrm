@@ -30,6 +30,7 @@ class CreateContactRequestListenerTest extends WebTestCase
      */
     public function setUp()
     {
+        $this->markTestSkipped('Will be removed in scope of BB-15811');
         $this->initClient([], $this->generateBasicAuthHeader());
         $this->client->useHashNavigation(true);
 

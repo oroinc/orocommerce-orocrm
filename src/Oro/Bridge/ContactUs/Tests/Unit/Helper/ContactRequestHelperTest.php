@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use Oro\Bridge\ContactUs\Helper\ContactRequestHelper;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\ConsentBundle\Entity\Consent;
-use Oro\Bundle\ConsentBundle\Entity\ConsentAcceptance;
+use Oro\Bundle\ConsentBundle\Tests\Unit\Stub\ConsentAcceptanceStub;
 use Oro\Bundle\ContactUsBundle\Entity\ContactReason;
 use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
 use Oro\Bundle\ContactUsBundle\Tests\Unit\Stub\ContactReasonStub;
@@ -57,7 +57,7 @@ class ContactRequestHelperTest extends \PHPUnit\Framework\TestCase
     public function testCreateContactRequest(): void
     {
         $consent = new Consent();
-        $consentAcceptance = new ConsentAcceptance();
+        $consentAcceptance = new ConsentAcceptanceStub();
         $customerUser = new CustomerUser();
         $contactReason = new ContactReasonStub('default title');
         $contactRequest = $this->getMockBuilder(ContactRequest::class)
