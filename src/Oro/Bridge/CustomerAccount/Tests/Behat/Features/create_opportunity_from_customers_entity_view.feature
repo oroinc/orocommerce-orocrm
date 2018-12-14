@@ -18,14 +18,3 @@ Feature: Create Opportunity from Customers entity view
       | Status           | Open           |
       | Account          | SkyNet         |
       | Probability      | 0%             |
-
-  @skip
-  # TODO: Magento customers check skipped until integration
-  Scenario: Sales Rep creates Opportunity for Magento Customers
-    Given I go to Magento Customers
-    And I open "Mr. Robot" entity
-    When I go to More Actions/Create Opportunity
-    And I fill in "Opportunity name" with "Second Invasion"
-    And I save and close form
-    Then I should see "Opportunity" view page
-    And "Account" should be filled with "Mr. Robot"

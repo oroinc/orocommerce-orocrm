@@ -16,7 +16,7 @@ class CustomerIconProviderTest extends \PHPUnit\Framework\TestCase
         $this->customerIconProvider = new CustomerIconProvider();
     }
 
-    public function testShouldReturnIconForMagentoCustomer()
+    public function testShouldReturnIconForCustomer()
     {
         $icon = $this->customerIconProvider->getIcon(new Customer());
         $this->assertEquals(
