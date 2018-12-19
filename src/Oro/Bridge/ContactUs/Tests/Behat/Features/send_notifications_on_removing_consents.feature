@@ -1,0 +1,110 @@
+@feature-BB-13768
+@fixture-OroContactUsBridgeBundle:CustomerUserFixture.yml
+@fixture-OroConsentBundle:ConsentLandingPagesFixture.yml
+Feature: Send notifications on removing consents
+  In order to be able to manage consents in OroCommerce
+  As an Administrator
+  I should see Contact Requests with declined Consents
+
+  Scenario: Create two sessions
+    Given sessions active:
+      | Admin | first_session  |
+      | User  | second_session |
+
+  Scenario: Create Content Node in Web Catalog
+    Given I proceed as the Admin
+    And I login as administrator
+    And go to Marketing/ Web Catalogs
+    And click "Create Web Catalog"
+    And fill form with:
+      | Name | Store and Process |
+    When I click "Save and Close"
+    Then I should see "Web Catalog has been saved" flash message
+    And I click "Edit Content Tree"
+    And I fill "Content Node Form" with:
+      | Titles | Home page |
+    And I click "Add System Page"
+    And I save form
+    And I click "Create Content Node"
+    And I click on "Show Variants Dropdown"
+    And I click "Add Landing Page"
+    And I fill "Content Node Form" with:
+      | Titles       | Store and Process Node |
+      | Url Slug     | store-and-process-node |
+      | Landing Page | Test CMS Page          |
+    When I save form
+    Then I should see "Content Node has been saved" flash message
+    And I set "Store and Process" as default web catalog
+
+  Scenario: Enable consent functionality via feature toggle
+    Given go to System/ Configuration
+    Then follow "Commerce/Customer/Consents" on configuration sidebar
+    And I should not see a "Sortable Consent List" element
+    And fill form with:
+      | Use Default                  | false |
+      | Enable User Consents Feature | true  |
+    And click "Save settings"
+
+  Scenario: Create Consent
+    Given I go to System/ Consent Management
+    And click "Create Consent"
+    And fill "Consent Form" with:
+      | Name        | Collecting and storing personal data |
+      | Type        | Mandatory                            |
+      | Web Catalog | Store and Process                    |
+    And click "Store and Process Node"
+    When save form
+    Then should see "Consent has been created" flash message
+    And go to System/ Consent Management
+    And I should see following grid:
+      | Name                                 | Type      | Content Node           | Content Source |
+      | Collecting and storing personal data | Mandatory | Store and Process Node | Test CMS Page  |
+
+  Scenario: Enable Consent on the system level
+    Given go to System/ Configuration
+    When follow "Commerce/Customer/Consents" on configuration sidebar
+    And fill "Consent Settings Form" with:
+      | Enabled User Consents Use Default | false |
+    And click "Save settings"
+    Then I should see "Configuration saved" flash message
+    When click "Add Consent"
+    And I choose Consent "Collecting and storing personal data" in 1 row
+    And click "Save settings"
+    Then I should see "Configuration saved" flash message
+
+  Scenario: Decline accepted consent from My profile page
+    Given I proceed as the User
+    And I signed in as AmandaRCole@example.org on the store frontend
+    And click "Account"
+    And I click "Edit Profile Button"
+    And I click "Collecting and storing personal data"
+    And click "Agree"
+    And I save form
+    And I click "Edit Profile Button"
+    And the "Collecting and storing personal data" checkbox should be checked
+    And fill form with:
+      | Collecting and storing personal data | false |
+    When I save form
+    Then I should see "UiWindow" with elements:
+      | Title        | Data Protection                                                 |
+      | Content      | Are you sure you want to decline the consents accepted earlier? |
+      | okButton     | Yes, Decline                                                    |
+      | cancelButton | No, Cancel                                                      |
+    When click "Yes, Decline"
+    Then should see "Customer User profile updated" flash message
+
+  @skip
+  Scenario: Send notifications on removing consents
+    Given I proceed as the Admin
+    When I go to Activities/ Contact Requests
+    And I should see following grid:
+      | First Name | Last Name | Email                     | Contact Reason                             | Website |
+      | Amanda     | Cole      | AmandaRCole1@example.org  | General Data Protection Regulation details | Default |
+    And click view "General Data Protection Regulation details" in grid
+    Then I should see Contact Request with:
+      | First Name     | Amanda                                                            |
+      | Last Name      | Cole                                                              |
+      | Email          | AmandaRCole1@example.org                                          |
+      | Contact Reason | General Data Protection Regulation details                        |
+      | Comment        | Consent Collecting and storing personal data declined by customer |
+      | Customer User  | Amanda Cole                                                       |
