@@ -93,18 +93,77 @@ Feature: Send notifications on removing consents
     When click "Yes, Decline"
     Then should see "Customer User profile updated" flash message
 
-  @skip
-  Scenario: Send notifications on removing consents
+  Scenario: Check notifications on removing consents
     Given I proceed as the Admin
     When I go to Activities/ Contact Requests
     And I should see following grid:
-      | First Name | Last Name | Email                     | Contact Reason                             | Website |
-      | Amanda     | Cole      | AmandaRCole1@example.org  | General Data Protection Regulation details | Default |
+      | First Name | Last Name | Email                   | Contact Reason                             | Website |
+      | Amanda     | Cole      | AmandaRCole@example.org | General Data Protection Regulation details | Default |
     And click view "General Data Protection Regulation details" in grid
     Then I should see Contact Request with:
       | First Name     | Amanda                                                            |
       | Last Name      | Cole                                                              |
-      | Email          | AmandaRCole1@example.org                                          |
+      | Email          | AmandaRCole@example.org                                           |
       | Contact Reason | General Data Protection Regulation details                        |
       | Comment        | Consent Collecting and storing personal data declined by customer |
       | Customer User  | Amanda Cole                                                       |
+
+  Scenario: Change Contact Reason
+    Given go to System/ Configuration
+    And follow "Commerce/Customer/Consents" on configuration sidebar
+    And I fill form with:
+      | Сontact Reason | Other |
+    When click "Save settings"
+    Then I should see "Configuration saved" flash message
+
+  Scenario: Decline accepted consent from My profile page
+    Given I proceed as the User
+    And I click "Edit Profile Button"
+    And I click "Collecting and storing personal data"
+    And click "Agree"
+    And I save form
+    And I click "Edit Profile Button"
+    And the "Collecting and storing personal data" checkbox should be checked
+    And fill form with:
+      | Collecting and storing personal data | false |
+    And I save form
+    When click "Yes, Decline"
+    Then should see "Customer User profile updated" flash message
+
+  Scenario: Check notifications on removing consents
+    Given I proceed as the Admin
+    When I go to Activities/ Contact Requests
+    And I should see following grid:
+      | First Name | Last Name | Email                   | Contact Reason                             | Website |
+      | Amanda     | Cole      | AmandaRCole@example.org | Other                                      | Default |
+      | Amanda     | Cole      | AmandaRCole@example.org | General Data Protection Regulation details | Default |
+
+  Scenario: Remove Contact Reason
+    Given go to System/ Contact Reasons
+    And I click delete "Other" in grid
+    And I should see "Delete Confirmation"
+    When I click "Yes"
+    Then should see "Item deleted" flash message
+
+  Scenario: Decline accepted consent from My profile page
+    Given I proceed as the User
+    And I click "Edit Profile Button"
+    And I click "Collecting and storing personal data"
+    And click "Agree"
+    And I save form
+    And I click "Edit Profile Button"
+    And the "Collecting and storing personal data" checkbox should be checked
+    And fill form with:
+      | Collecting and storing personal data | false |
+    And I save form
+    When click "Yes, Decline"
+    Then should see "Customer User profile updated" flash message
+
+  Scenario: Check notifications on removing consents
+    Given I proceed as the Admin
+    And I go to Activities/ Contact Requests
+    And I should see following grid:
+      | First Name | Last Name | Email                   | Contact Reason                             | Website |
+      | Amanda     | Cole      | AmandaRCole@example.org |                                            | Default |
+      | Amanda     | Cole      | AmandaRCole@example.org | Other                                      | Default |
+      | Amanda     | Cole      | AmandaRCole@example.org | General Data Protection Regulation details | Default |

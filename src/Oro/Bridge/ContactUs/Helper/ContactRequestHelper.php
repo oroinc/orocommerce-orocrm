@@ -8,6 +8,7 @@ use Oro\Bundle\ConsentBundle\Entity\Consent;
 use Oro\Bundle\ConsentBundle\Entity\ConsentAcceptance;
 use Oro\Bundle\ContactUsBundle\Entity\ContactReason;
 use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -57,12 +58,12 @@ class ContactRequestHelper
 
     /**
      * @param ConsentAcceptance $acceptance
+     * @param CustomerUser $customerUser
      *
      * @return ContactRequest
      */
-    public function createContactRequest(ConsentAcceptance $acceptance)
+    public function createContactRequest(ConsentAcceptance $acceptance, CustomerUser $customerUser): ContactRequest
     {
-        $customerUser = $acceptance->getCustomerUser();
         $contactReason = $this->getContactReason();
 
         /** @var ContactRequest $contactRequest */
@@ -87,7 +88,7 @@ class ContactRequestHelper
      *
      * @return string
      */
-    protected function prepareComment(Consent $consent)
+    protected function prepareComment(Consent $consent): string
     {
         $comment = $this->translator->trans(
             'oro.consent.declined.message',

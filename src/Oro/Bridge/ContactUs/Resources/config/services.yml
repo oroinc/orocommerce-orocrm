@@ -46,3 +46,11 @@ services:
             - '@oro_locale.helper.localization'
             - '@translator'
 
+    oro_contact_us_bridge.event_listener.declined_consents:
+        class: 'Oro\Bridge\ContactUs\EventListener\DeclinedConsentsEventListener'
+        arguments:
+            - '@oro_contact_us_bridge.helper.contact_request'
+            - '@doctrine'
+        tags:
+            - { name: kernel.event_listener, event: oro_consent.event.consents_declined, method: onDecline }
+

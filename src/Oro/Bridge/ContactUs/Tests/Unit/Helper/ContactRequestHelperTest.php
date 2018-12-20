@@ -76,7 +76,6 @@ class ContactRequestHelperTest extends \PHPUnit\Framework\TestCase
 
         $consentAcceptance->setConsent($consent);
 
-        $consentAcceptance->setCustomerUser($customerUser);
         $customerUser->setFirstName('firstName');
         $customerUser->setLastName('lastName');
         $customerUser->setEmail('email');
@@ -140,7 +139,7 @@ class ContactRequestHelperTest extends \PHPUnit\Framework\TestCase
 
         $this->assertSame(
             $contactRequest,
-            $this->helper->createContactRequest($consentAcceptance)
+            $this->helper->createContactRequest($consentAcceptance, $customerUser)
         );
     }
 }
