@@ -1,4 +1,3 @@
-assets:
-    css:
-        inputs:
-          - 'bundles/orocustomeraccountbridge/css/scss/main.scss'
+css:
+    inputs:
+      - 'bundles/orocustomeraccountbridge/css/scss/main.scss'
