@@ -9,6 +9,8 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class OroContactUsBridgeExtension extends Extension
 {
+    const ALIAS = 'oro_contact_us_bridge';
+
     /**
      * {@inheritdoc}
      */
@@ -28,6 +30,6 @@ class OroContactUsBridgeExtension extends Extension
      */
     public function getAlias()
     {
-        return 'oro_contact_us_bridge';
+        return self::ALIAS;
     }
 }

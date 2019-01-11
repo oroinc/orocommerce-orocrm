@@ -13,6 +13,14 @@ system_configuration:
                 label: oro.contact_us_bridge.system_configuration.fields.contact_requests.label
                 tooltip: oro.contact_us_bridge.system_configuration.fields.contact_requests.tooltip
                 required: false
+        oro_contact_us_bridge.consent_contact_reason:
+            data_type: integer
+            type: Oro\Bundle\ContactUsBundle\Form\Type\ContactReasonSelectType
+            options:
+                label: oro.contact_us_bridge.system_configuration.fields.consent.consent_contact_reason.label
+                required: false
+                create_enabled: false
+                tooltip: oro.contact_us_bridge.system_configuration.fields.consent.consent_contact_reason.tooltip
     tree:
         system_configuration:
             commerce:
@@ -26,3 +34,10 @@ system_configuration:
                                     contact_requests_check:
                                         children:
                                             - oro_contact_us_bridge.enable_contact_request
+                            consents:
+                                children:
+                                    consents:
+                                        children:
+                                            - oro_consent.consent_feature_enabled
+                                            - oro_contact_us_bridge.consent_contact_reason
+                                            - oro_consent.enabled_consents

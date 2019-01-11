@@ -29,6 +29,10 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
                 'enable_contact_request' => [
                     'value' => true,
                     'scope' => 'app'
+                ],
+                'consent_contact_reason' => [
+                    'value' => null,
+                    'scope' => 'app'
                 ]
             ]
         ];

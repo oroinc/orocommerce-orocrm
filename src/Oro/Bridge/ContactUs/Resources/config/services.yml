@@ -27,3 +27,30 @@ services:
         class: 'Oro\Bridge\ContactUs\EventListener\ContactRequestViewListener'
         tags:
             - { name: kernel.event_listener, event: oro_ui.scroll_data.before.contactRequestView, method: onView }
+
+    oro_contact_us_bridge.event_listener.system_config:
+        class: 'Oro\Bridge\ContactUs\EventListener\SystemConfigListener'
+        arguments:
+            - '@oro_entity.doctrine_helper'
+            - '@oro_config.global'
+        tags:
+            - { name: kernel.event_listener, event: oro_config.settings_form_preset, method: onFormPreSetData }
+            - { name: kernel.event_listener, event: oro_config.settings_before_save.oro_contact_us_bridge.consent_contact_reason, method: onSettingsSaveBefore }
+            - { name: doctrine.orm.entity_listener, entity: '%oro_contact_us.contactreason.entity.class%', event: preRemove, method: onPreRemove}
+
+    oro_contact_us_bridge.helper.contact_request:
+        class: 'Oro\Bridge\ContactUs\Helper\ContactRequestHelper'
+        arguments:
+            - '@oro_entity.doctrine_helper'
+            - '@oro_config.manager'
+            - '@oro_locale.helper.localization'
+            - '@translator'
+
+    oro_contact_us_bridge.event_listener.declined_consents:
+        class: 'Oro\Bridge\ContactUs\EventListener\DeclinedConsentsEventListener'
+        arguments:
+            - '@oro_contact_us_bridge.helper.contact_request'
+            - '@doctrine'
+        tags:
+            - { name: kernel.event_listener, event: oro_consent.event.consents_declined, method: onDecline }
+
