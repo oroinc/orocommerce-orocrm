@@ -4,36 +4,33 @@ namespace Oro\Bridge\CustomerAccount\Provider\Customer;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Oro\Bundle\AccountBundle\Entity\Account;
+use Oro\Bundle\ChannelBundle\Entity\Channel;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\SalesBundle\Provider\Customer\AccountCreation\AccountProviderInterface;
 use Oro\Bundle\UserBundle\Entity\User;
-use Oro\Bundle\UserBundle\Entity\UserManager;
 
+/**
+ * Creates new Account entity to be associated with Customer entity.
+ */
 class AccountProvider implements AccountProviderInterface
 {
     /** @var ConfigManager */
-    protected $configManager;
-
-    /** @var UserManager */
-    protected $userManager;
+    private $configManager;
 
     /** @var ManagerRegistry */
-    protected $registry;
+    private $doctrine;
 
     /**
      * @param ConfigManager   $configManager
-     * @param UserManager     $userManager
-     * @param ManagerRegistry $registry
+     * @param ManagerRegistry $doctrine
      */
     public function __construct(
         ConfigManager $configManager,
-        UserManager $userManager,
-        ManagerRegistry $registry
+        ManagerRegistry $doctrine
     ) {
         $this->configManager = $configManager;
-        $this->userManager = $userManager;
-        $this->registry = $registry;
+        $this->doctrine = $doctrine;
     }
 
     /**
@@ -47,24 +44,22 @@ class AccountProvider implements AccountProviderInterface
 
         $account = new Account();
         $account->setName($targetCustomer->getName());
-        $owner = $targetCustomer->getOwner();
         $organization = $targetCustomer->getOrganization();
-        if ($owner === null) {
+        $owner = $targetCustomer->getOwner();
+        if (null === $owner) {
             $userId = $this->configManager->get('oro_customer.default_customer_owner');
-
-            /** @var User $user */
-            $owner = $this->userManager->getRepository()->find($userId);
+            $owner = $this->doctrine->getManagerForClass(User::class)->find(User::class, $userId);
         }
-
-        if ($owner) {
+        if (null !== $owner) {
             $account->setOwner($owner);
             $organization = $owner->getOrganization();
         }
         $account->setOrganization($organization);
 
         if (!$targetCustomer->getDataChannel()) {
-            $channels = $this->registry->getManagerForClass('OroChannelBundle:Channel')
-                ->getRepository('OroChannelBundle:Channel')->findBy(['channelType' => 'commerce']);
+            $channels = $this->doctrine->getManagerForClass(Channel::class)
+                ->getRepository(Channel::class)
+                ->findBy(['channelType' => 'commerce']);
             if (count($channels) > 0) {
                 $targetCustomer->setDataChannel(reset($channels));
             }
