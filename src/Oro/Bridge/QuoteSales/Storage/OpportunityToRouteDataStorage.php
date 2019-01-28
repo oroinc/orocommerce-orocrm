@@ -3,7 +3,6 @@
 namespace Oro\Bridge\QuoteSales\Storage;
 
 use Oro\Bundle\ProductBundle\Storage\DataStorageInterface;
-use Oro\Bundle\ProductBundle\Storage\ProductDataStorage;
 use Oro\Bundle\SalesBundle\Entity\Opportunity;
 
 class OpportunityToRouteDataStorage
