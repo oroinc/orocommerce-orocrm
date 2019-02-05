@@ -17,6 +17,7 @@ system_configuration:
                 choices:
                     oro.customer_account_bridge.system_configuration.fields.strategy_creating_customers_account.choices.each: each
                     oro.customer_account_bridge.system_configuration.fields.strategy_creating_customers_account.choices.root: root
+                required: true
                 constraints:
                     - NotBlank: ~
 
