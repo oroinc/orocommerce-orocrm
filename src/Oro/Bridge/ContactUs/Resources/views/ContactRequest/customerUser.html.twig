@@ -2,5 +2,5 @@
 
 {{ UI.renderHtmlProperty(
     'oro.contactus.contactrequest.customer_user.label'|trans,
-    UI.entityViewLink(customerUser, customerUser.fullName, 'oro_customer_customer_user_view')
+    UI.entityViewLink(customerUser, customerUser|oro_format_name, 'oro_customer_customer_user_view')
 ) }}
