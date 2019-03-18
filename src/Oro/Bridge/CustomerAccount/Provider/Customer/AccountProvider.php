@@ -52,7 +52,9 @@ class AccountProvider implements AccountProviderInterface
         }
         if (null !== $owner) {
             $account->setOwner($owner);
-            $organization = $owner->getOrganization();
+            if (!$organization) {
+                $organization = $owner->getOrganization();
+            }
         }
         $account->setOrganization($organization);
 
