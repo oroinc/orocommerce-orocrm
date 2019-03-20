@@ -18,7 +18,7 @@ class CustomerControllerTest extends WebTestCase
 
     protected function setUp()
     {
-        $this->initClient([], array_merge($this->generateBasicAuthHeader(), ['HTTP_X-CSRF-Header' => 1]));
+        $this->initClient([], $this->generateBasicAuthHeader());
 
         $this->loadFixtures(
             [

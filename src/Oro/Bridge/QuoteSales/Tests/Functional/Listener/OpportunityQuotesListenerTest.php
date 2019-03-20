@@ -22,7 +22,7 @@ class OpportunityQuotesListenerTest extends AbstractDatagridTestCase
     {
         $this->initClient(
             ['debug' => false],
-            array_merge($this->generateBasicAuthHeader(), array('HTTP_X-CSRF-Header' => 1))
+            $this->generateBasicAuthHeader()
         );
 
         $this->manager = $this->getContainer()->get('oro_workflow.manager');
