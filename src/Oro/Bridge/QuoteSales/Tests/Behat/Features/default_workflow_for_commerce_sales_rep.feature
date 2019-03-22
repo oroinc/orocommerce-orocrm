@@ -42,6 +42,14 @@ Feature: Default workflow for Commerce Sales Rep
       | Active                  | Yes              |
       | Exclusive Active Groups | quote_management |
 
+  Scenario: Check workflow permissions for user
+    Given I go to System/User Management/Roles
+    And I filter Label as is equal to "Sales Rep"
+    And I click Edit Sales Rep in grid
+    And I check "Override quote prices" entity permission
+    And I save and close form
+    Then I should see "Role saved" flash message
+
   Scenario: Sales Rep creates Opportunity
     Given I login as "charlie" user
     And I go to Sales/Opportunities
@@ -80,6 +88,7 @@ Feature: Default workflow for Commerce Sales Rep
     And fill "Quote Line Items" with:
       | Product    | SKU123 |
       | Unit Price | 100    |
+      | Quantity   | 6      |
     And I save and close form
     And agree that shipping cost may have changed
     Then I should see "Quote Created"
@@ -116,6 +125,7 @@ Feature: Default workflow for Commerce Sales Rep
     And fill "Quote Line Items" with:
       | Product    | SKU123 |
       | Unit Price | 90     |
+      | Quantity   | 6      |
     And I save and close form
     And agree that shipping cost may have changed
     Then I should see "Quote Created"

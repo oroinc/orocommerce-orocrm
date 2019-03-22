@@ -7,6 +7,7 @@ use Oro\Bridge\QuoteSales\Tests\Functional\Fixture\OpportunityQuotesListenerFixt
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\SalesBundle\Entity\Opportunity;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Oro\Bundle\WorkflowBundle\Model\WorkflowManager;
 use Symfony\Component\DomCrawler\Form;
 
 /**
@@ -39,8 +40,8 @@ class QuoteWorkflowCreateTest extends WebTestCase
         /** @var Customer $customer */
         $customer = $this->getReference('customer');
 
-        $this->client->request(
-            'GET',
+        $this->ajaxRequest(
+            'POST',
             $this->getUrl('oro_workflow_api_rest_workflow_start', [
                 'workflowName' => 'quote_flow',
                 'transitionName' => 'quote_create',

@@ -84,7 +84,6 @@ Feature: In order send the customer detailed proposal while negotiating a deal
     When I click View Testing opportunity1 in grid
     And I click View John Doe in grid
     And click "Send to Customer"
-    And I fill in "To" with "Amanda Cole"
     And click "Send"
     Then I should see Quote with:
       | Opportunity     | Testing opportunity1 |
@@ -123,8 +122,6 @@ Feature: In order send the customer detailed proposal while negotiating a deal
     And save and close form
     Then I should see Quote with:
       | Customer    | Company A     |
-#    @todo Uncomment when bug will resolved. BAP-12124.
-#      | Valid Until | Dec 20, 2018, 11:00 AM |
       | Valid Until | Dec 20, 2018  |
       | Valid Until | 11:00 AM      |
       | PO Number   | 123123        |
@@ -147,8 +144,6 @@ Feature: In order send the customer detailed proposal while negotiating a deal
     When I click "Quotes"
     Then records in "Customer Quotes Grid" should be 1
     And I should see 1 in Customer Quotes Grid with following data:
-#    @todo Uncomment when bug will resolved. BAP-12124.
-#      | Valid Until | Dec 20, 2018, 11:00 AM |
       | PO Number   | 123123                 |
 
   Scenario: Check expired quote from buyer account
