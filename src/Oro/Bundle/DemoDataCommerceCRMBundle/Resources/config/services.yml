@@ -1,0 +1,5 @@
+services:
+    oro_demo_data_commerce_crm.event_listener.command.data_fixtures:
+        class: 'Oro\Bundle\DemoDataCommerceCRMBundle\EventListener\DataFixturesCommandListener'
+        tags:
+            - { name: kernel.event_listener, event: console.command, method: onConsoleCommand }
