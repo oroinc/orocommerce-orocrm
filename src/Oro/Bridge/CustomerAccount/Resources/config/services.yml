@@ -129,3 +129,12 @@ services:
             - '%oro_customer.entity.customer.class%'
         tags:
             - { name: kernel.event_subscriber }
+
+    oro_customer_account.event_listener.organization_persist:
+        class: 'Oro\Bridge\CustomerAccount\EventListener\OrganizationPersistListener'
+        arguments:
+            - '@oro_entity.doctrine_helper'
+            - '@oro_channel.builder.factory'
+        public: false
+        tags:
+            - { name: doctrine.orm.entity_listener, entity: '%oro_organization.organization.entity.class%', event: prePersist }
