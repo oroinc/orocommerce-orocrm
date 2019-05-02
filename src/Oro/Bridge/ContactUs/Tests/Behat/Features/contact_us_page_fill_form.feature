@@ -32,12 +32,12 @@ Feature: Contact us page fill form
     When I follow "Contact Us"
     Then Page title equals to "Contact Us"
     And fill form with:
-      |First Name              |Test              |
-      |Last Name               |Tester            |
-      |Preferred contact method|Email             |
-      |Email                   |qa@oroinc.com     |
-      |Contact Reason          |Other             |
-      |Comment                 |Test Comment      |
+      | First Name               | Test                  |
+      | Last Name                | Tester                |
+      | Preferred contact method | Email                 |
+      | Email                    | qa@oroinc.com         |
+      | Contact Reason           | Other                 |
+      | Comment                  | <h1>Test Comment</h1> |
     And click "Submit"
     And I should see "Thank you for your Request!" flash message
 
@@ -60,16 +60,20 @@ Feature: Contact us page fill form
     Given I proceed as the Admin
     And go to Activities/ Contact Requests
     When I should see Tester in grid with following data:
-      | First Name  | Test         |
-      | Last Name   | Tester       |
-      | Step        | Open         |
-      | Email       | qa@oroinc.com|
+      | First Name | Test          |
+      | Last Name  | Tester        |
+      | Step       | Open          |
+      | Email      | qa@oroinc.com |
     And I should see Smith in grid with following data:
       | First Name     | Branda                              |
       | Email          | branda@oroinc.com                   |
       | Contact Reason | Want to know more about the product |
     And I click view "qa@oroinc.com" in grid
-    Then I should see "Test Comment"
+    Then I should see Contact Request with:
+      | First Name | Test                  |
+      | Last Name  | Tester                |
+      | Email      | qa@oroinc.com         |
+      | Comment    | <h1>Test Comment</h1> |
     And I should see "Customer User N/A"
 
   Scenario: Fill contact us form as authorized user
@@ -78,18 +82,18 @@ Feature: Contact us page fill form
     When I follow "Contact Us"
     Then Page title equals to "Contact Us"
     When fill form with:
-      |Preferred contact method|Email             |
-      |Contact Reason          |Other             |
-      |Comment                 |Testers Comment   |
+      | Preferred contact method | Email           |
+      | Contact Reason           | Other           |
+      | Comment                  | Testers Comment |
     And click "Submit"
     Then I should see "Thank you for your Request!" flash message
     And I click "Sign Out"
     And I proceed as the Admin
     When go to Activities/ Contact Requests
     Then I should see Amanda in grid with following data:
-      | First Name  | Amanda                  |
-      | Last Name   | Cole                    |
-      | Email       | AmandaRCole@example.org |
+      | First Name | Amanda                  |
+      | Last Name  | Cole                    |
+      | Email      | AmandaRCole@example.org |
     When I click view "AmandaRCole@example.org" in grid
     Then I should see "Testers Comment"
     And I should see "Customer User Amanda Cole"
@@ -101,24 +105,24 @@ Feature: Contact us page fill form
     Then Page title equals to "Contact Us"
     When I click "Submit"
     Then I should see validation errors:
-      |First name |This value should not be blank. |
-      |Last name  |This value should not be blank. |
-      |Email      |This value should not be blank. |
-      |Comment    |This value should not be blank. |
+      | First name | This value should not be blank. |
+      | Last name  | This value should not be blank. |
+      | Email      | This value should not be blank. |
+      | Comment    | This value should not be blank. |
     And fill form with:
-      |Preferred contact method|Phone    |
+      | Preferred contact method | Phone |
     When I click "Submit"
     Then I should see validation errors:
-      |First name |This value should not be blank. |
-      |Last name  |This value should not be blank. |
-      |Phone      |This value should not be blank. |
-      |Comment    |This value should not be blank. |
+      | First name | This value should not be blank. |
+      | Last name  | This value should not be blank. |
+      | Phone      | This value should not be blank. |
+      | Comment    | This value should not be blank. |
     And fill form with:
-      |Preferred contact method|Both phone & email   |
+      | Preferred contact method | Both phone & email |
     When I click "Submit"
     Then I should see validation errors:
-      |First name |This value should not be blank. |
-      |Last name  |This value should not be blank. |
-      |Email      |This value should not be blank. |
-      |Phone      |This value should not be blank. |
-      |Comment    |This value should not be blank. |
+      | First name | This value should not be blank. |
+      | Last name  | This value should not be blank. |
+      | Email      | This value should not be blank. |
+      | Phone      | This value should not be blank. |
+      | Comment    | This value should not be blank. |
