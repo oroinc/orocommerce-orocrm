@@ -91,9 +91,8 @@
     }
 ]) %}
 
-{% set tabPanelOptions = {
-    useDropdown: isMobileVersion()
-} %}
+{% set tabPanelOptions = {} %}
+
 {% if activeTab %}
     {% set tabPanelOptions = tabPanelOptions|merge({
         activeTabAlias: 'oro_account_customer_' ~ activeTab ~ uniqueSuffix
