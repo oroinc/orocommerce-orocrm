@@ -1,6 +1,11 @@
 services:
-    Oro\Bridge\CustomerAccount\Command\RecalculateLifetimeCommand:
+    _defaults:
         public: false
-        class: Oro\Bridge\CustomerAccount\Command\RecalculateLifetimeCommand
+
+    Oro\Bridge\CustomerAccount\Command\RecalculateLifetimeCommand:
+        arguments:
+            - '@doctrine'
+            - '@oro_channel.provider.settings_provider'
+            - '@oro_customer_account.manager.lifetime_processor'
         tags:
             - { name: console.command }
