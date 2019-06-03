@@ -21,8 +21,6 @@ oro_behat_extension:
   elements:
     Next opportunity icon:
       selector: 'i.fa-chevron-right'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
 
     Opportunity Title:
       selector: 'div.top-row'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element

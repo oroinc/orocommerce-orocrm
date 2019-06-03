@@ -7,7 +7,6 @@ oro_behat_extension:
         mapping:
           Close Revenue: "oro_workflow_transition[close_revenue][value]"
     Customer Related Account:
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
       selector:
         locator: '//div[@class="select2-result-label"]/span[contains(text(),"Customer")]'
         type: xpath
