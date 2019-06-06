@@ -1,3 +1,5 @@
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+
 {% if is_granted('oro_customer_customer_view') and customers|length > 0 %}
     {% set subtitle = 'oro.sales.customer.entity_plural_label'|trans %}
     {% set tabs = [] %}

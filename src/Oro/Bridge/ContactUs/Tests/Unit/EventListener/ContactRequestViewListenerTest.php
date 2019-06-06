@@ -7,6 +7,7 @@ use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\UIBundle\Event\BeforeListRenderEvent;
 use Oro\Bundle\UIBundle\View\ScrollData;
+use Twig\Environment;
 
 class ContactRequestViewListenerTest extends \PHPUnit\Framework\TestCase
 {
@@ -32,7 +33,7 @@ class ContactRequestViewListenerTest extends \PHPUnit\Framework\TestCase
             ->method('getEntity')
             ->willReturn($entity);
 
-        $twig = $this->createMock(\Twig_Environment::class);
+        $twig = $this->createMock(Environment::class);
         $template = 'rendered_template';
         $twig->expects($this->once())
             ->method('render')
