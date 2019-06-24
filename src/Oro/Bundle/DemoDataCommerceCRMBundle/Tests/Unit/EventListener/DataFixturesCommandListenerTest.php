@@ -43,7 +43,7 @@ class DataFixturesCommandListenerTest extends \PHPUnit\Framework\TestCase
         $command = $this->createMock(Command::class);
         $command->expects($this->once())
             ->method('getName')
-            ->willReturn(LoadDataFixturesCommand::COMMAND_NAME);
+            ->willReturn(LoadDataFixturesCommand::getDefaultName());
         $command->expects($this->once())
             ->method('getDefinition')
             ->willReturn($definition);
@@ -79,7 +79,7 @@ class DataFixturesCommandListenerTest extends \PHPUnit\Framework\TestCase
         $command = $this->createMock(Command::class);
         $command->expects($this->once())
             ->method('getName')
-            ->willReturn(LoadDataFixturesCommand::COMMAND_NAME);
+            ->willReturn(LoadDataFixturesCommand::getDefaultName());
         $command->expects($this->never())
             ->method('getDefinition');
 
@@ -105,7 +105,7 @@ class DataFixturesCommandListenerTest extends \PHPUnit\Framework\TestCase
         $command = $this->createMock(Command::class);
         $command->expects($this->once())
             ->method('getName')
-            ->willReturn(LoadDataFixturesCommand::COMMAND_NAME);
+            ->willReturn(LoadDataFixturesCommand::getDefaultName());
         $command->expects($this->once())
             ->method('getDefinition')
             ->willReturn($definition);
