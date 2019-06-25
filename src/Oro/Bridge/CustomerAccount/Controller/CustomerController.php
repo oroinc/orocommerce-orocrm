@@ -11,15 +11,27 @@ use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
+ * Provides customer account info actions
  * @Route("/account-customer")
  */
-class CustomerController extends Controller
+class CustomerController extends AbstractController
 {
     /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return array_merge(parent::getSubscribedServices(), [
+            AccountCustomerManager::class,
+        ]);
+    }
+
+    /**
      * @param Account $account
+     * @param Channel $channel
      * @return array
      *
      * @Route(
@@ -76,7 +88,7 @@ class CustomerController extends Controller
      */
     public function customerInfoAction(Customer $customer)
     {
-        $accountCustomerManager = $this->get('oro_sales.manager.account_customer');
+        $accountCustomerManager = $this->get(AccountCustomerManager::class);
         return [
             'customer' => $customer,
             'account' => $accountCustomerManager->getAccountCustomerByTarget($customer)->getAccount(),
