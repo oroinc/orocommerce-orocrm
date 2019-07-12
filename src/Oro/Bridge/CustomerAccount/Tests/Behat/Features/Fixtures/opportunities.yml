@@ -14,7 +14,8 @@ Oro\Bundle\ProductBundle\Entity\Product:
     product1:
         sku: 'AA1'
         primaryUnitPrecision: '@precision1'
-        addName: ['@locvalue1']
+        __calls:
+            - addName: ['@locvalue1']
         inventoryStatus: '@enumInventoryStatuses'
         status: 'enabled'
 
@@ -58,33 +59,33 @@ Oro\Bundle\SalesBundle\Entity\Opportunity:
   opportunity1:
     name: 'Testing opportunity1'
     customerAssociation: '@mrcustomer'
-    status: in_progress
+    status: '@opportunity_status_in_progress'
     organization: '@organization'
     owner: '@admin'
   opportunity2:
     name: 'Testing opportunity_2'
     customerAssociation: '@mrcustomer'
-    status: won
+    status: '@opportunity_status_won'
     organization: '@organization'
   opportunity21:
     name: 'Testing opportunity21'
     customerAssociation: '@mrcustomer'
-    status: lost
+    status: '@opportunity_status_lost'
     organization: '@organization'
   opportunity3:
     name: 'Testing opportunity3'
     customerAssociation: '@mrcustomer'
-    status: needs_analysis
+    status: '@opportunity_status_needs_analysis'
     organization: '@organization'
   opportunity4:
     name: 'Testing opportunity4'
     customerAssociation: '@mrcustomer2'
-    status: solution_development
+    status: '@opportunity_status_solution_development'
     organization: '@organization'
   opportunity5:
     name: 'Testing opportunity5'
     customerAssociation: '@mrcustomer2'
-    status: negotiation
+    status: '@opportunity_status_negotiation'
     organization: '@organization'
 
 Oro\Bundle\SaleBundle\Entity\Quote:
@@ -96,7 +97,7 @@ Oro\Bundle\SaleBundle\Entity\Quote:
         qid: '<current()>'
         website: '@website1'
         opportunity: '@opportunity1'
-        internal_status: draft
+        internal_status: '@quote_internal_status_draft'
 
 Oro\Bundle\CustomerBundle\Entity\CustomerUser:
     lucy:
@@ -110,6 +111,6 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         confirmed: '1'
         customer: '@customer'
         organization: '@organization'
-        role: ['@buyer']
+        roles: ['@buyer']
         owner: '@admin'
         website: '@website1'
