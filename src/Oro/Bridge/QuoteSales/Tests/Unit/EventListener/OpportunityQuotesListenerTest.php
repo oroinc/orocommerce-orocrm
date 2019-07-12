@@ -23,7 +23,7 @@ class OpportunityQuotesListenerTest extends \PHPUnit\Framework\TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->translator = $this->createMock('Symfony\Component\Translation\TranslatorInterface');
+        $this->translator = $this->createMock('Symfony\Contracts\Translation\TranslatorInterface');
 
         $this->opportunityQuotesListener = new OpportunityQuotesListener(
             $this->opportunityQuotesProvider,

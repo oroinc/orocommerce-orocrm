@@ -6,7 +6,7 @@ use Oro\Bridge\QuoteSales\Provider\OpportunityQuotesProvider;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\SalesBundle\Entity\Opportunity;
 use Oro\Bundle\UIBundle\Event\BeforeViewRenderEvent;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class OpportunityQuotesListener
 {

@@ -12,7 +12,7 @@ use Oro\Bundle\ImportExportBundle\Event\LoadTemplateFixturesEvent;
 use Oro\Bundle\ImportExportBundle\Event\NormalizeEntityEvent;
 use Oro\Bundle\ImportExportBundle\Event\StrategyEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CustomerAccountImportExportSubscriber implements EventSubscriberInterface
 {
