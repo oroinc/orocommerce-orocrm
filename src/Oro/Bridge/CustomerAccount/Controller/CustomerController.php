@@ -2,6 +2,7 @@
 
 namespace Oro\Bridge\CustomerAccount\Controller;
 
+use Doctrine\ORM\QueryBuilder;
 use Oro\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\ChannelBundle\Entity\Channel;
 use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
@@ -48,10 +49,11 @@ class CustomerController extends AbstractController
     {
         $field = AccountCustomerManager::getCustomerTargetField(Customer::class);
 
-        $customers = $this->getDoctrine()
+        /** @var QueryBuilder $qb */
+        $qb = $this->getDoctrine()
             ->getRepository('OroCustomerBundle:Customer')
-            ->createQueryBuilder('c')
-            ->join(CustomerAssociation::class, 'ca', 'WITH', sprintf('ca.%s = c', $field))
+            ->createQueryBuilder('c');
+        $customers = $qb->join(CustomerAssociation::class, 'ca', 'WITH', sprintf('ca.%s = c', $field))
             ->where('ca.account = :account')
             ->andWhere('c.dataChannel = :dataChannel')
             ->setParameter('account', $account)
@@ -89,6 +91,7 @@ class CustomerController extends AbstractController
     public function customerInfoAction(Customer $customer)
     {
         $accountCustomerManager = $this->get(AccountCustomerManager::class);
+
         return [
             'customer' => $customer,
             'account' => $accountCustomerManager->getAccountCustomerByTarget($customer)->getAccount(),
