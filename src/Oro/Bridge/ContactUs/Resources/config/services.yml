@@ -7,17 +7,6 @@ services:
         tags:
             - { name: form.type}
 
-    oro_contact_us_bridge.contact_request_form_widget:
-        class: 'Oro\Bridge\ContactUs\Widget\ContactRequestFormWidget'
-        lazy: true
-        arguments:
-            - '@form.factory'
-            - '@router'
-            - '@twig.form.renderer'
-            - '@request_stack'
-        tags:
-            - {name: oro_cms.widget, alias: contact_us_form}
-
     oro_contact_us_bridge.event_listener.contact_request_datagrid:
         class: 'Oro\Bridge\ContactUs\EventListener\ContactRequestDatagridListener'
         tags:
@@ -54,3 +43,11 @@ services:
         tags:
             - { name: kernel.event_listener, event: oro_consent.event.consents_declined, method: onDecline }
 
+    oro_contact_us.content_widget.contact_us_form:
+        class: 'Oro\Bridge\ContactUs\ContentWidget\ContactUsFormContentWidgetType'
+        arguments:
+            - '@form.factory'
+            - '@router'
+            - '@request_stack'
+        tags:
+            - { name: oro_cms.content_widget.type }

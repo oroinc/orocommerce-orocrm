@@ -1,51 +1,62 @@
 <?php
 
-namespace Oro\Bridge\ContactUs\Widget;
+namespace Oro\Bridge\ContactUs\ContentWidget;
 
 use Oro\Bridge\ContactUs\Form\Type\ContactRequestType;
-use Oro\Bundle\CMSBundle\Widget\WidgetInterface;
+use Oro\Bundle\CMSBundle\ContentWidget\AbstractContentWidgetType;
+use Oro\Bundle\CMSBundle\Entity\ContentWidget;
 use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\Form\FormRendererInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class ContactRequestFormWidget implements WidgetInterface
+/**
+ * Content widget type for Contact Us form.
+ */
+class ContactUsFormContentWidgetType extends AbstractContentWidgetType
 {
-    /** @var UrlGeneratorInterface */
-    protected $urlGenerator;
-
     /** @var FormFactoryInterface */
-    protected $formFactory;
+    private $formFactory;
 
-    /** @var FormRendererInterface */
-    protected $twigRenderer;
+    /** @var UrlGeneratorInterface */
+    private $urlGenerator;
 
     /** @var RequestStack */
-    protected $requestStack;
+    private $requestStack;
 
     /**
-     * @param FormFactoryInterface  $formFactory
+     * @param FormFactoryInterface $formFactory
      * @param UrlGeneratorInterface $urlGenerator
-     * @param FormRendererInterface $twigRenderer
-     * @param RequestStack          $requestStack
+     * @param RequestStack $requestStack
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         UrlGeneratorInterface $urlGenerator,
-        FormRendererInterface $twigRenderer,
         RequestStack $requestStack
     ) {
         $this->formFactory = $formFactory;
         $this->urlGenerator = $urlGenerator;
-        $this->twigRenderer = $twigRenderer;
         $this->requestStack = $requestStack;
     }
 
+    /** {@inheritdoc} */
+    public static function getName(): string
+    {
+        return 'contact_us_form';
+    }
+
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function render(array $options = [])
+    public function getLabel(): string
+    {
+        return 'oro.contactus.content_widget.contact_us_form.label';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getWidgetData(ContentWidget $contentWidget): array
     {
         $form = $this->formFactory->create(
             ContactRequestType::class,
@@ -58,8 +69,6 @@ class ContactRequestFormWidget implements WidgetInterface
             ]
         );
 
-        $formView = $form->createView();
-
-        return $this->twigRenderer->searchAndRenderBlock($formView, 'widget');
+        return ['form' => $form->createView()];
     }
 }

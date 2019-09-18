@@ -1,6 +1,9 @@
 oro.contactus:
     contactrequest:
         customer_user.label: Customer User
+    content_widget:
+        contact_us_form:
+            label: "Contact Us Form"
     form:
         contactrequest.sent: "Thank you for your Request!"
         submit: "Submit"
