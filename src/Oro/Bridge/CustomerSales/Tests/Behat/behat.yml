@@ -6,6 +6,7 @@ oro_behat_extension:
         - Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\FixturesContext
         - OroDataGridBundle::GridContext
         - OroFormBundle::FormContext
+        - OroEmailBundle::EmailContext
         - OroImportExportBundle::ImportExportContext:
           - '@oro_entity.entity_alias_resolver'
           - '@oro_importexport.processor.registry'
