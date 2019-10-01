@@ -23,6 +23,7 @@ oro.customer:
     customer:
         lifetime.label: Lifetime sales value
         data_channel.label: Channel
+    account.label: Account
 
 oro.account:
     import_export:

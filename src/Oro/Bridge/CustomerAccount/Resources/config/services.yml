@@ -17,16 +17,12 @@ services:
         tags:
             - { name: form.type, alias: oro_config_customer_account_choice }
 
-    oro_customer_account.event_listener.account_view:
-        class: 'Oro\Bridge\CustomerAccount\EventListener\AccountViewListener'
+    oro_customer_account.event_listener.account_customer_view:
+        class: Oro\Bridge\CustomerAccount\EventListener\AccountCustomerViewListener
         arguments:
-            - '%oro_customer.entity.customer.class%'
-            - "@oro_entity.doctrine_helper"
-            - "@request_stack"
-            - '@translator'
-            - '@oro_config.manager'
+            - '@oro_sales.manager.account_customer'
         tags:
-            - { name: kernel.event_listener, event: oro_ui.scroll_data.before.account-stats-view, method: onView }
+            - { name: kernel.event_listener, event: oro_ui.scroll_data.before.customer-view, method: onView }
 
     oro_customer_account.event_listener.customer_account_view:
         class: 'Oro\Bundle\SalesBundle\EventListener\AccountViewListener'

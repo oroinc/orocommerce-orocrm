@@ -1,0 +1,4 @@
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+
+{{ UI.renderHtmlProperty('oro.customer.account.label'|trans, salesCustomer ? UI.entityViewLink(salesCustomer.account, salesCustomer.account.name, 'oro_account_view') : 'N/A'|trans) }}
+
