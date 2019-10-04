@@ -14,8 +14,8 @@ Feature: Contact us widget
     Given I proceed as the Admin
     When I login as administrator
     And go to Marketing/ Landing Pages
-    And I click edit "About" in grid
-    And I fill in "CMS Page Content" with "{{widget('contact_us_form')}}"
+    And I click "edit" on row "About" in grid
+    And I fill in WYSIWYG "CMS Page Content" with "{{widget('contact_us_form')}}"
     And I save and close form
     Then I should see "Page has been saved" flash message
 
@@ -44,7 +44,7 @@ Feature: Contact us widget
       | Step           | Open         |
       | Phone          |              |
       | Customer User  |              |
-    When I click view "qa@oroinc.com" in grid
+    When I click "view" on row "qa@oroinc.com" in grid
     Then I should see "Customer User N/A"
     And I should see "Comment Test Comment"
 

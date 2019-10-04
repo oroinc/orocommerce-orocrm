@@ -14,5 +14,6 @@ oro_behat_extension:
                 - OroFrontendLocalizationBundle::LocalizationSwitcherContext
                 - OroFormBundle::FeatureContext
                 - OroWebCatalogBundle::FeatureContext
+                - OroCMSBundle::FeatureContext
             paths:
                 - '@OroContactUsBridgeBundle/Tests/Behat/Features'
