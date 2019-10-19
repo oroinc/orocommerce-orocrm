@@ -1,0 +1,4 @@
+dynamic-imports:
+    orocustomeraccountbridge:
+        - orocustomeraccountbridge/js/app/account-creating-strategy/view/use-default-view
+        - orocustomeraccountbridge/js/app/account-creating-strategy/view/warning-view

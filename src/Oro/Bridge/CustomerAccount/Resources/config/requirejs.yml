@@ -1,4 +1,0 @@
-config:
-    paths:
-        'orocustomeraccountbridge/js/app/account-creating-strategy/view/warning-view': 'bundles/orocustomeraccountbridge/js/app/account-creating-strategy/view/warning-view.js'
-        'orocustomeraccountbridge/js/app/account-creating-strategy/view/use-default-view': 'bundles/orocustomeraccountbridge/js/app/account-creating-strategy/view/use-default-view.js'
