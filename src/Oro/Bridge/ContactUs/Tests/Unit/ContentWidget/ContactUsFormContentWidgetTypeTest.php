@@ -52,6 +52,11 @@ class ContactUsFormContentWidgetTypeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('oro.contactus.content_widget.contact_us_form.label', $this->contentWidgetType->getLabel());
     }
 
+    public function testIsInline(): void
+    {
+        $this->assertFalse($this->contentWidgetType->isInline());
+    }
+
     public function testGetWidgetData(): void
     {
         $this->requestStack
