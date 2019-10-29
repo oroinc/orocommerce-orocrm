@@ -1,11 +1,10 @@
 define(function(require) {
     'use strict';
 
-    var WarningSettingsView;
-    var $ = require('jquery');
-    var BaseView = require('oroui/js/app/views/base/view');
+    const $ = require('jquery');
+    const BaseView = require('oroui/js/app/views/base/view');
 
-    WarningSettingsView = BaseView.extend({
+    const WarningSettingsView = BaseView.extend({
         $messageContainer: null,
         $selectStrategy: null,
         rootMessage: null,
@@ -24,8 +23,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function WarningSettingsView() {
-            WarningSettingsView.__super__.constructor.apply(this, arguments);
+        constructor: function WarningSettingsView(options) {
+            WarningSettingsView.__super__.constructor.call(this, options);
         },
 
         /**
@@ -44,7 +43,7 @@ define(function(require) {
         },
 
         _handleChangeSelect: function(e) {
-            var strategy = $(e.target).val();
+            const strategy = $(e.target).val();
             this._changeStrategy(strategy);
         },
 

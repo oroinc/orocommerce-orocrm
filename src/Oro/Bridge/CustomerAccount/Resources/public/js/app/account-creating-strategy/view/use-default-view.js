@@ -1,12 +1,11 @@
 define(function(require) {
     'use strict';
 
-    var UseSefaultView;
-    var $ = require('jquery');
-    var BaseView = require('oroui/js/app/views/base/view');
-    var mediator = require('oroui/js/mediator');
+    const $ = require('jquery');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const mediator = require('oroui/js/mediator');
 
-    UseSefaultView = BaseView.extend({
+    const UseSefaultView = BaseView.extend({
         events: {
             'change input[type="checkbox"]': '_handleChangeUseDefault'
         },
@@ -14,8 +13,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function UseSefaultView() {
-            UseSefaultView.__super__.constructor.apply(this, arguments);
+        constructor: function UseSefaultView(options) {
+            UseSefaultView.__super__.constructor.call(this, options);
         },
 
         _handleChangeUseDefault: function(e) {
