@@ -88,6 +88,7 @@ class ActionGroupTest extends ActionTestCase
 
     public function testOroSaleQuoteDuplicate()
     {
+        $this->markTestSkipped('BAP-19495');
         $quote = $this->getEntityAndSetContactFields(LoadQuoteData::QUOTE_DRAFT);
 
         $actionData = $this->executeActionGroup('oro_sale_quote_duplicate', ['quote' => $quote]);
