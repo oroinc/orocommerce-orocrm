@@ -2,18 +2,22 @@
 
 namespace Oro\Bridge\QuoteSales\Provider;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class OpportunityQuotesProvider
 {
-    /** @var RegistryInterface */
+    /** @var ManagerRegistry */
     protected $doctrine;
 
     /** @var AclHelper  */
     protected $aclHelper;
 
-    public function __construct(RegistryInterface $doctrine, AclHelper $aclHelper)
+    /**
+     * @param ManagerRegistry $doctrine
+     * @param AclHelper $aclHelper
+     */
+    public function __construct(ManagerRegistry $doctrine, AclHelper $aclHelper)
     {
         $this->doctrine = $doctrine;
         $this->aclHelper = $aclHelper;
