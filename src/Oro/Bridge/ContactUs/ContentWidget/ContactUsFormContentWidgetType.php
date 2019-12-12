@@ -9,6 +9,7 @@ use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Twig\Environment;
 
 /**
  * Content widget type for Contact Us form.
@@ -70,5 +71,16 @@ class ContactUsFormContentWidgetType extends AbstractContentWidgetType
         );
 
         return ['form' => $form->createView()];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDefaultTemplate(ContentWidget $contentWidget, Environment $twig): string
+    {
+        return $twig->render(
+            '@OroContactUsBridge/ContactUsFormContentWidget/widget.html.twig',
+            $this->getWidgetData($contentWidget)
+        );
     }
 }

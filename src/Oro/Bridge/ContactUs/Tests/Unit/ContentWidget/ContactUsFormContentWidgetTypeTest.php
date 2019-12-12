@@ -98,4 +98,40 @@ class ContactUsFormContentWidgetTypeTest extends \PHPUnit\Framework\TestCase
             $this->contentWidgetType->getBackOfficeViewSubBlocks(new ContentWidget(), $twig)
         );
     }
+
+    public function testGetDefaultTemplate(): void
+    {
+        $contentWidget = new ContentWidget();
+        $contentWidget->setSettings(['param' => 'value']);
+
+        $this->requestStack
+            ->method('getCurrentRequest')
+            ->willReturn($request = $this->createMock(Request::class));
+
+        $request
+            ->method('getRequestUri')
+            ->willReturn($requestUri = 'sample/uri');
+
+        $this->urlGenerator
+            ->method('generate')
+            ->with('oro_contactus_bridge_request_create', ['requestUri' => $requestUri])
+            ->willReturn($url = 'sample/url');
+
+        $this->formFactory
+            ->method('create')
+            ->with(ContactRequestType::class, new ContactRequest, ['action' => $url])
+            ->willReturn($form = $this->createMock(FormInterface::class));
+
+        $form
+            ->method('createView')
+            ->willReturn($formView = $this->createMock(FormView::class));
+
+        $twig = $this->createMock(Environment::class);
+        $twig->expects($this->once())
+            ->method('render')
+            ->with('@OroContactUsBridge/ContactUsFormContentWidget/widget.html.twig', ['form' => $formView])
+            ->willReturn('rendered template');
+
+        $this->assertEquals('rendered template', $this->contentWidgetType->getDefaultTemplate($contentWidget, $twig));
+    }
 }
