@@ -2,6 +2,8 @@ oro.customer_account_bridge:
     channel_type.label: Commerce
     previous_account:
         entity_label: Previous Account
+        entity_plural_label: Previous Accounts
+        entity_grid_all_view_label: All %entity_plural_label%
     system_configuration:
         groups:
             account_settings.title: CRM and Commerce
