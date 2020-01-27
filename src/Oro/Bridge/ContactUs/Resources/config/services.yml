@@ -25,7 +25,7 @@ services:
         tags:
             - { name: kernel.event_listener, event: oro_config.settings_form_preset, method: onFormPreSetData }
             - { name: kernel.event_listener, event: oro_config.settings_before_save.oro_contact_us_bridge.consent_contact_reason, method: onSettingsSaveBefore }
-            - { name: doctrine.orm.entity_listener, entity: '%oro_contact_us.contactreason.entity.class%', event: preRemove, method: onPreRemove}
+            - { name: doctrine.orm.entity_listener, entity: 'Oro\Bundle\ContactUsBundle\Entity\ContactReason', event: preRemove, method: onPreRemove}
 
     oro_contact_us_bridge.helper.contact_request:
         class: 'Oro\Bridge\ContactUs\Helper\ContactRequestHelper'
