@@ -1,3 +1,4 @@
+@ticket-BAP-19273
 @regression
 @fixture-OroCustomerAccountBridgeBundle:ImportCustomerFixture.yml
 Feature: Import Customers
@@ -31,7 +32,11 @@ Feature: Import Customers
     When I import file
     And reload the page
     Then Email should contains the following "Errors: 1 processed: 5, read: 6, added: 5, updated: 0, replaced: 0" text
-    And I should see following grid:
+    When I follow "Error log" link from the email
+    Then I should see "Error in row #6. You have no access to set given owner"
+    When I login as administrator
+    And go to Customers/ Customers
+    Then I should see following grid:
       | Name                      | Group               | Parent Customer | Internal rating | Payment term | Tax code   | Account                   |
       | Company A                 | All Customers       |                 | 2_of_5          | net 30       | Tax_code_1 | Company A                 |
       | Company A - East Division | All Customers       | Company A       | 1_of_5          | net 90       | Tax_code_1 | Company A - East Division |
@@ -39,8 +44,7 @@ Feature: Import Customers
       | Customer G                | Wholesale Customers |                 | 3_of_5          | net 60       | Tax_code_3 | Customer G                |
       | Partner C                 | Partners            |                 | 4_of_5          | net 30       | Tax_code_3 | Partner C                 |
     And number of records should be 5
-    When I go to Customers/ Customers
-    And I click view "Partner C" in grid
+    When I click view "Partner C" in grid
     Then I should see "Owner: John Doe"
     When I go to Customers/ Customers
     And I click view "Customer G" in grid
@@ -48,23 +52,28 @@ Feature: Import Customers
 
   Scenario: Update Customers
     Given I go to Customers/ Customers
-    When I fill template with data:
-      | Id | Name                      | Parent Id | Group Name          | Tax code   | Account Id | Internal rating Id | Payment term Label |
-      | 1  | Company A - 1 new         |           | All Customers       | Tax_code_1 | 1          | 2_of_5             | net 30             |
-      | 4  | Company A - East Division | 1         | All Customers       | Tax_code_1 | 2          | 1_of_5             | net 90             |
-      | 5  | Company A - West Division | 10        | Partners            | Tax_code_1 | 3          | 1_of_5             | net 60             |
-      | 2  | Customer G                |           | Wholesale Customers | Tax_code_3 | 4          | 3_of_5             | net 90             |
-      | 3  | Partner C                 |           | Partners            | Tax_code_3 | 5          | 1_of_5             | net 30             |
+    And I fill template with data:
+      | Id   | Name                      | Parent Id | Group Name          | Tax code   | Account Id | Internal rating Id | Payment term Label |
+      | test | Company A - 1 new         |           | All Customers       | Tax_code_1 | 1          | 2_of_5             | net 30             |
+      | 4    | Company A - East Division | 1         | All Customers       | Tax_code_1 | 2          | 1_of_5             | net 90             |
+      | 5    | Company A - West Division | 10        | Partners            | Tax_code_1 | 3          | 1_of_5             | net 60             |
+      | 2    | Customer G                |           | Wholesale Customers | Tax_code_3 | 4          | 3_of_5             | net 90             |
+      | 3    | Partner C                 |           | Partners            | Tax_code_3 | 5          | 1_of_5             | net 30             |
     And I import file
     And reload the page
-    Then Email should contains the following "Errors: 1 processed: 4, read: 5, added: 0, updated: 0, replaced: 4" text
+    Then Email should contains the following "Errors: 2 processed: 3, read: 5, added: 0, updated: 0, replaced: 3" text
+    When I follow "Error log" link from the email
+    Then I should see "1 rows could not be processed."
+    Then I should see "Error in row #1. Id: This value should contain only valid integer."
+    When I login as administrator
+    And go to Customers/ Customers
     And I should see following grid:
-      | Name                      | Group               | Parent Customer   | Internal rating | Payment term | Tax code   | Account                   |
-      | Company A - 1 new         | All Customers       |                   | 2_of_5          | net 30       | Tax_code_1 | Company A                 |
-      | Company A - East Division | All Customers       | Company A - 1 new | 1_of_5          | net 90       | Tax_code_1 | Company A - East Division |
-      | Company A - West Division | All Customers       | Company A - 1 new | 1_of_5          | net 60       | Tax_code_1 | Company A - West Division |
-      | Customer G                | Wholesale Customers |                   | 3_of_5          | net 90       | Tax_code_3 | Customer G                |
-      | Partner C                 | Partners            |                   | 1_of_5          | net 30       | Tax_code_3 | Partner C                 |
+      | Name                      | Group               | Parent Customer | Internal rating | Payment term | Tax code   | Account                   |
+      | Company A                 | All Customers       |                 | 2_of_5          | net 30       | Tax_code_1 | Company A                 |
+      | Company A - East Division | All Customers       | Company A       | 1_of_5          | net 90       | Tax_code_1 | Company A - East Division |
+      | Company A - West Division | All Customers       | Company A       | 1_of_5          | net 60       | Tax_code_1 | Company A - West Division |
+      | Customer G                | Wholesale Customers |                 | 3_of_5          | net 90       | Tax_code_3 | Customer G                |
+      | Partner C                 | Partners            |                 | 1_of_5          | net 30       | Tax_code_3 | Partner C                 |
     And number of records should be 5
 
   Scenario: Export - Import Customers
@@ -76,12 +85,12 @@ Feature: Import Customers
     When I reload the page
     Then Email should contains the following "Errors: 0 processed: 5, read: 5, added: 0, updated: 0, replaced: 5" text
     And I should see following grid:
-      | Name                      | Group               | Parent Customer   | Internal rating | Payment term | Tax code   | Account                   |
-      | Company A - 1 new         | All Customers       |                   | 2_of_5          | net 30       | Tax_code_1 | Company A                 |
-      | Company A - East Division | All Customers       | Company A - 1 new | 1_of_5          | net 90       | Tax_code_1 | Company A - East Division |
-      | Company A - West Division | All Customers       | Company A - 1 new | 1_of_5          | net 60       | Tax_code_1 | Company A - West Division |
-      | Customer G                | Wholesale Customers |                   | 3_of_5          | net 90       | Tax_code_3 | Customer G                |
-      | Partner C                 | Partners            |                   | 1_of_5          | net 30       | Tax_code_3 | Partner C                 |
+      | Name                      | Group               | Parent Customer | Internal rating | Payment term | Tax code   | Account                   |
+      | Company A                 | All Customers       |                 | 2_of_5          | net 30       | Tax_code_1 | Company A                 |
+      | Company A - East Division | All Customers       | Company A       | 1_of_5          | net 90       | Tax_code_1 | Company A - East Division |
+      | Company A - West Division | All Customers       | Company A       | 1_of_5          | net 60       | Tax_code_1 | Company A - West Division |
+      | Customer G                | Wholesale Customers |                 | 3_of_5          | net 90       | Tax_code_3 | Customer G                |
+      | Partner C                 | Partners            |                 | 1_of_5          | net 30       | Tax_code_3 | Partner C                 |
     And number of records should be 5
 
   Scenario: Import Customers with circular reference
@@ -94,13 +103,13 @@ Feature: Import Customers
     And reload the page
     Then Email should contains the following "Errors: 1 processed: 1, read: 2, added: 1, updated: 0, replaced: 0" text
     And I should see following grid:
-      | Name                       | Group               | Parent Customer   | Internal rating | Payment term | Tax code   | Account                   |
-      | Company A - 1 new          | All Customers       |                   | 2_of_5          | net 30       | Tax_code_1 | Company A                 |
-      | Company A - East Division  | All Customers       | Company A - 1 new | 1_of_5          | net 90       | Tax_code_1 | Company A - East Division |
-      | Company A - West Division  | All Customers       | Company A - 1 new | 1_of_5          | net 60       | Tax_code_1 | Company A - West Division |
-      | Customer G                 | Wholesale Customers |                   | 3_of_5          | net 90       | Tax_code_3 | Customer G                |
-      | Partner C                  | Partners            |                   | 1_of_5          | net 30       | Tax_code_3 | Partner C                 |
-      | XX - Customer w/o circular | All Customers       | Company A - 1 new | 2_of_5          | net 30       | Tax_code_1 | Company A                 |
+      | Name                       | Group               | Parent Customer | Internal rating | Payment term | Tax code   | Account                   |
+      | Company A                  | All Customers       |                 | 2_of_5          | net 30       | Tax_code_1 | Company A                 |
+      | Company A - East Division  | All Customers       | Company A       | 1_of_5          | net 90       | Tax_code_1 | Company A - East Division |
+      | Company A - West Division  | All Customers       | Company A       | 1_of_5          | net 60       | Tax_code_1 | Company A - West Division |
+      | Customer G                 | Wholesale Customers |                 | 3_of_5          | net 90       | Tax_code_3 | Customer G                |
+      | Partner C                  | Partners            |                 | 1_of_5          | net 30       | Tax_code_3 | Partner C                 |
+      | XX - Customer w/o circular | All Customers       | Company A       | 2_of_5          | net 30       | Tax_code_1 | Company A                 |
     And number of records should be 6
 
   Scenario: Import Customers by user without "Assign" permissions
