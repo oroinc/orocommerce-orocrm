@@ -8,6 +8,6 @@ services:
         class: Oro\Bundle\SalesBundle\Provider\CustomerAssignmentVirtualRelationProvider
         public: false
         arguments:
-            - '%oro_customer.entity.customer.class%'
+            - 'Oro\Bundle\CustomerBundle\Entity\Customer'
         tags:
            - { name: oro_entity.virtual_relation_provider, priority: 150 }

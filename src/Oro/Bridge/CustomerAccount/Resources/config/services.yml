@@ -2,8 +2,8 @@ services:
     oro_customer_account.event_listener.customer_create:
         class: 'Oro\Bridge\CustomerAccount\EventListener\CustomerCreateListener'
         tags:
-            - { name: doctrine.orm.entity_listener, entity: '%oro_customer.entity.customer.class%', event: postPersist }
-            - { name: doctrine.orm.entity_listener, entity: '%oro_customer.entity.customer.class%', event: postUpdate }
+            - { name: doctrine.orm.entity_listener, entity: 'Oro\Bundle\CustomerBundle\Entity\Customer', event: postPersist }
+            - { name: doctrine.orm.entity_listener, entity: 'Oro\Bundle\CustomerBundle\Entity\Customer', event: postUpdate }
 
     oro_customer_account.form.event_listener.change_config_option:
         class: 'Oro\Bridge\CustomerAccount\EventListener\ChangeConfigOptionListener'
@@ -121,6 +121,6 @@ services:
         arguments:
             - '@translator'
             - '@oro_sales.helper.import_export_account_helper'
-            - '%oro_customer.entity.customer.class%'
+            - 'Oro\Bundle\CustomerBundle\Entity\Customer'
         tags:
             - { name: kernel.event_subscriber }
