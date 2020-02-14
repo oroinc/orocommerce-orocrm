@@ -115,7 +115,7 @@ Feature: In order send the customer detailed proposal while negotiating a deal
     And go to Sales/Opportunities
     And I click View Testing opportunity1 in grid
     When I click Edit Sent to Customer in grid
-    And fill form with:
+    And fill "Quote Form" with:
       | Customer    | Company A                         |
       | Valid Until | <DateTime:Dec 20, 2018, 11:00 AM> |
       | PO Number   | 123123                            |
