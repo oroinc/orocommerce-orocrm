@@ -75,7 +75,7 @@ Feature: Send notifications on removing consents
   Scenario: Decline accepted consent from My profile page
     Given I proceed as the User
     And I signed in as AmandaRCole@example.org on the store frontend
-    And click "Account"
+    And follow "Account"
     And I click "Edit Profile Button"
     And I click "Collecting and storing personal data"
     And click "Agree"
