@@ -19,7 +19,7 @@ Feature: Contact Requests Activities
     And save and close form
     And should see "Contact request has been saved successfully" flash message
     And click "Log call"
-    And I fill form with:
+    And fill "Log Call Form" with:
       | Subject             | Call for contact request |
       | Additional comments | Offered                  |
       | Call date & time    | 2016-12-31 08:00:00      |
