@@ -15,8 +15,8 @@
         }
     },
     "require": {
-        "oro/crm": "4.1.*",
-        "oro/commerce": "4.1.*"
+        "oro/crm": "4.2.*",
+        "oro/commerce": "4.2.*"
     },
     "repositories": {
         "oro": {
@@ -28,7 +28,7 @@
     "prefer-stable": true,
     "extra": {
         "branch-alias": {
-            "dev-master": "4.1-dev"
+            "dev-master": "4.2-dev"
         }
     }
 }
