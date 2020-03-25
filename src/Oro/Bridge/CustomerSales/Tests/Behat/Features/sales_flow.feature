@@ -21,7 +21,7 @@ Feature: Sales Flow
   Scenario: Lead disqualified – workflow
     Given go to System/ Workflows
     And click activate "Unqualified Sales Lead" in grid
-    And click "Activate"
+    And click "Activate" in modal window
     And go to Sales/ Leads
     And click "Create Lead"
     And fill form with:

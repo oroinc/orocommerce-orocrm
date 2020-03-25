@@ -17,7 +17,7 @@ Feature: In order send the customer detailed proposal while negotiating a deal
       | Active                  | No               |
       | Exclusive Active Groups | quote_management |
     When I click Activate Quote flow in grid
-    And I click "Activate"
+    And I click "Activate" in modal window
     Then I should see "Workflow activated" flash message
     And I should see "Quote flow" in grid with following data:
       | Active                  | Yes              |

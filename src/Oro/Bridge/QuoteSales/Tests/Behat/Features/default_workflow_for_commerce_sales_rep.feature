@@ -24,7 +24,7 @@ Feature: Default workflow for Commerce Sales Rep
       | Active                  | No                     |
       | Exclusive Active Groups | opportunity_management |
     When I click Activate Opportunity Management Flow in grid
-    And I click "Activate"
+    And I click "Activate" in modal window
     Then I should see "Workflow activated" flash message
     And I should see "Opportunity Management Flow" in grid with following data:
       | Active                  | Yes                    |
@@ -36,7 +36,7 @@ Feature: Default workflow for Commerce Sales Rep
       | Active                  | No               |
       | Exclusive Active Groups | quote_management |
     When I click Activate Quote flow in grid
-    And I click "Activate"
+    And I click "Activate" in modal window
     Then I should see "Workflow activated" flash message
     And I should see "Quote flow" in grid with following data:
       | Active                  | Yes              |
