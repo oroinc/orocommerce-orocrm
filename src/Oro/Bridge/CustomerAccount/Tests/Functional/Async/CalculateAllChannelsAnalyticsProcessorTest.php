@@ -7,8 +7,8 @@ use Oro\Bundle\AnalyticsBundle\Async\Topics;
 use Oro\Bundle\AnalyticsBundle\Tests\Functional\Async\CalculateAllChannelsAnalyticsProcessorTest
     as BaseCalculateAllChannelsAnalyticsProcessorTest;
 use Oro\Bundle\ChannelBundle\Entity\Channel;
-use Oro\Component\MessageQueue\Transport\Null\NullMessage;
-use Oro\Component\MessageQueue\Transport\Null\NullSession;
+use Oro\Component\MessageQueue\Transport\ConnectionInterface;
+use Oro\Component\MessageQueue\Transport\Message;
 
 /**
  * @dbIsolationPerTest
@@ -19,8 +19,10 @@ class CalculateAllChannelsAnalyticsProcessorTest extends BaseCalculateAllChannel
     {
         /** @var CalculateAllChannelsAnalyticsProcessor $processor */
         $processor = $this->getContainer()->get('oro_analytics.async.calculate_all_channels_analytics_processor');
+        /** @var ConnectionInterface $connection */
+        $connection = $this->getContainer()->get('oro_message_queue.transport.connection');
 
-        $processor->process(new NullMessage(), new NullSession());
+        $processor->process(new Message(), $connection->createSession());
 
         self::assertMessagesCount(Topics::CALCULATE_CHANNEL_ANALYTICS, 3);
     }
@@ -36,8 +38,10 @@ class CalculateAllChannelsAnalyticsProcessorTest extends BaseCalculateAllChannel
 
         /** @var CalculateAllChannelsAnalyticsProcessor $processor */
         $processor = $this->getContainer()->get('oro_analytics.async.calculate_all_channels_analytics_processor');
+        /** @var ConnectionInterface $connection */
+        $connection = $this->getContainer()->get('oro_message_queue.transport.connection');
 
-        $processor->process(new NullMessage(), new NullSession());
+        $processor->process(new Message(), $connection->createSession());
 
         self::assertMessagesCount(Topics::CALCULATE_CHANNEL_ANALYTICS, 2);
     }

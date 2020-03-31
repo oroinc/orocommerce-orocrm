@@ -1,4 +1,5 @@
 <?php
+
 namespace Oro\Bridge\CustomerAccount\Tests\Unit\Async;
 
 use Oro\Bridge\CustomerAccount\Async\ReassingCustomerProcessor;
@@ -6,7 +7,7 @@ use Oro\Bridge\CustomerAccount\Async\Topics;
 use Oro\Bridge\CustomerAccount\Manager\AccountManager;
 use Oro\Component\MessageQueue\Consumption\MessageProcessorInterface;
 use Oro\Component\MessageQueue\Job\JobRunner;
-use Oro\Component\MessageQueue\Transport\Null\NullMessage;
+use Oro\Component\MessageQueue\Transport\Message;
 use Oro\Component\MessageQueue\Transport\SessionInterface;
 use Psr\Log\LoggerInterface;
 
@@ -26,7 +27,7 @@ class ReassingCustomerProcessorTest extends \PHPUnit\Framework\TestCase
             $logger
         );
 
-        $message = new NullMessage();
+        $message = new Message();
         $message->setBody(json_encode([
             'test' => true,
         ]));
@@ -49,7 +50,7 @@ class ReassingCustomerProcessorTest extends \PHPUnit\Framework\TestCase
                 return true;
             }));
 
-        $message = new NullMessage();
+        $message = new Message();
         $message->setMessageId('message-id');
         $message->setBody(json_encode(['type' => 'each']));
 
