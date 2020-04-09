@@ -112,10 +112,10 @@ Feature: Import Customers
       | XX - Customer w/o circular | All Customers       | Company A       | 2_of_5          | net 30       | Tax_code_1 | Company A                 |
     And number of records should be 6
 
-  Scenario: Import Customers by user without "Assign" permissions
+  Scenario: Import Customers by user without "Create" permissions
     Given user has following permissions
-      | Assign | Customer       | None   |
-      | Create | Customer       | Global |
+      | Assign | Customer       | Global |
+      | Create | Customer       | None   |
       | Delete | Customer       | Global |
       | Edit   | Customer       | Global |
       | Edit   | User           | Global |
@@ -140,9 +140,9 @@ Feature: Import Customers
     And there is no records in grid
     And I click Logout in user menu
 
-  Scenario: Import Customers by user with "Assign" permissions but not admin
+  Scenario: Import Customers by user with "Create" permissions but not admin
     Given user has following permissions
-      | Assign | Customer | Global |
+      | Create | Customer | Global |
     When I login to dashboard as "userWithAssign1" user
     And go to Customers/ Customers
     And I fill template with data:
@@ -151,6 +151,28 @@ Feature: Import Customers
     And I import file
     And reload the page
     Then Email should contains the following "Errors: 0 processed: 1, read: 1, added: 1, updated: 0, replaced: 0" text
+    And I should see following grid:
+      | Name    | Group         | Parent Customer | Internal rating | Payment term | Tax code   | Account |
+      | NewUser | All Customers |                 | 4_of_5          | net 60       | Tax_code_2 | NewUser |
+    And number of records should be 1
+    When click view "NewUser" in grid
+    Then should see "Owner: John Doe"
+
+  Scenario: Import Customers by user without "Assign" permissions
+    Given user has following permissions
+      | Assign | Customer | None |
+    When I login to dashboard as "userWithAssign1" user
+    And go to Customers/ Customers
+    And I fill template with data:
+      | Id | Name    | Parent Name | Group Name    | Tax code   | Account Id | Internal rating Id | Payment term Label | Owner Id |
+      | 7  | NewUser |             | All Customers | Tax_code_2 | 7          | 4_of_5             | net 60             | 2        |
+    And I import file
+    And reload the page
+    Then Email should contains the following "Errors: 1 processed: 0, read: 1, added: 0, updated: 0, replaced: 0" text
+    When I follow "Error log" link from the email
+    Then I should see "Error in row #1. You have no access to set given owner"
+    When I login to dashboard as "userWithAssign1" user
+    And go to Customers/ Customers
     And I should see following grid:
       | Name    | Group         | Parent Customer | Internal rating | Payment term | Tax code   | Account |
       | NewUser | All Customers |                 | 4_of_5          | net 60       | Tax_code_2 | NewUser |
