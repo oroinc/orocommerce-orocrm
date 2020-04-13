@@ -31,6 +31,8 @@ Feature: Contact us page fill form
     And I am on the homepage
     When I follow "Contact Us"
     Then Page title equals to "Contact Us"
+    And I should not see "Website"
+    And I should not see "Customer User"
     And fill form with:
       | First Name               | Test                  |
       | Last Name                | Tester                |

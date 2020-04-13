@@ -32,7 +32,7 @@ class OroContactUsBridgeBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_0';
+        return 'v1_1';
     }
 
     /**
@@ -54,7 +54,10 @@ class OroContactUsBridgeBundleInstaller implements
                 'datagrid' => [
                     'is_visible' => DatagridScope::IS_VISIBLE_FALSE,
                 ],
-                'view' => ['is_displayable' => false]
+                'view' => ['is_displayable' => false],
+                'frontend' => [
+                    'is_editable' => false,
+                ],
             ]
         );
     }
