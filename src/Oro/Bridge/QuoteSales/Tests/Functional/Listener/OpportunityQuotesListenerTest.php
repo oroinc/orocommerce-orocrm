@@ -49,7 +49,7 @@ class OpportunityQuotesListenerTest extends AbstractDatagridTestCase
         $response = $this->client->getResponse();
         $this->assertEquals($response->getStatusCode(), 200, 'Failed in getting widget view !');
         $this->assertNotEmpty($crawler->html());
-        $this->assertContains('Quotes', $crawler->html());
+        static::assertStringContainsString('Quotes', $crawler->html());
     }
 
     /**

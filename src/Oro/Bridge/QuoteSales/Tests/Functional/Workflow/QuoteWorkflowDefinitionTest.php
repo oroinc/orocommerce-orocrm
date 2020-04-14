@@ -43,7 +43,7 @@ class QuoteWorkflowDefinitionTest extends WebTestCase
 
         $btn = $crawler->filter('#transition-quote_flow-quote_create');
 
-        $this->assertContains(
+        static::assertStringContainsString(
             'Create Quote',
             $btn->text(),
             "Transition on opportunity that satisfies all the conditions is unavailable"

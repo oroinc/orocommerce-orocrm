@@ -59,15 +59,15 @@ class CustomerControllerTest extends WebTestCase
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
-        $this->assertContains('simple_customer', $crawler->filter('div.account-customer-title')->html());
+        static::assertStringContainsString('simple_customer', $crawler->filter('div.account-customer-title')->html());
 
         $tabs = $crawler->filter('div.oro-tabs')->html();
-        $this->assertContains('Customer Users', $tabs);
-        $this->assertContains('Shopping Lists', $tabs);
-        $this->assertContains('Requests For Quote', $tabs);
-        $this->assertContains('Quotes', $tabs);
-        $this->assertContains('Orders', $tabs);
-        $this->assertContains('Opportunities', $tabs);
+        static::assertStringContainsString('Customer Users', $tabs);
+        static::assertStringContainsString('Shopping Lists', $tabs);
+        static::assertStringContainsString('Requests For Quote', $tabs);
+        static::assertStringContainsString('Quotes', $tabs);
+        static::assertStringContainsString('Orders', $tabs);
+        static::assertStringContainsString('Opportunities', $tabs);
     }
 
     public function testCustomerInfoAction()
@@ -87,11 +87,11 @@ class CustomerControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
         $tabs = $crawler->filter('div.oro-tabs')->html();
-        $this->assertContains('Customer Users', $tabs);
-        $this->assertContains('Shopping Lists', $tabs);
-        $this->assertContains('Requests For Quote', $tabs);
-        $this->assertContains('Orders', $tabs);
-        $this->assertContains('Quotes', $tabs);
+        static::assertStringContainsString('Customer Users', $tabs);
+        static::assertStringContainsString('Shopping Lists', $tabs);
+        static::assertStringContainsString('Requests For Quote', $tabs);
+        static::assertStringContainsString('Orders', $tabs);
+        static::assertStringContainsString('Quotes', $tabs);
     }
 
     public function testCustomerUserAction()
