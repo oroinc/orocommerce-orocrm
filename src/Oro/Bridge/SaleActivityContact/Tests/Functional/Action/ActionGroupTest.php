@@ -23,7 +23,7 @@ class ActionGroupTest extends ActionTestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

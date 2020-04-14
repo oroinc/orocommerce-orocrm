@@ -13,7 +13,7 @@ class AccountBuilderTest extends \PHPUnit\Framework\TestCase
     /** @var AccountBuilder */
     protected $accountBuilder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->accountBuilder = new AccountBuilder();
     }

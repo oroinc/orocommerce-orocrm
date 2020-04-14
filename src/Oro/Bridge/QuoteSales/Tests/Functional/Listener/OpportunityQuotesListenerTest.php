@@ -18,7 +18,7 @@ class OpportunityQuotesListenerTest extends AbstractDatagridTestCase
     /**
      * {@inheritDoc}
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->initClient(
             ['debug' => false],

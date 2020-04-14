@@ -17,7 +17,7 @@ class CustomerLifetimeListenerTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->initClient();
 

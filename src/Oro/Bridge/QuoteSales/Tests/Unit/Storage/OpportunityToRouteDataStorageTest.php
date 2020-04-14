@@ -19,7 +19,7 @@ class OpportunityToRouteDataStorageTest extends \PHPUnit\Framework\TestCase
      */
     private $dataContainerStub;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->dataContainerStub = new DataStorageStub();
         $this->storage = new OpportunityToRouteDataStorage($this->dataContainerStub);

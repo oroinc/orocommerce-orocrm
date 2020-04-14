@@ -36,7 +36,7 @@ class DeclinedConsentsEventListenerTest extends \PHPUnit\Framework\TestCase
      */
     private $registry;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->contactRequestHelper = $this->createMock(ContactRequestHelper::class);
         $this->registry = $this->createMock(ManagerRegistry::class);

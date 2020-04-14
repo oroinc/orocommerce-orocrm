@@ -40,7 +40,7 @@ class ContactRequestTypeTest extends TypeTestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $this->localizationHelper = $this->createMock(LocalizationHelper::class);

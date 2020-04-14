@@ -18,7 +18,7 @@ class QuoteWorkflowCreateTest extends WebTestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient([], $this->generateWsseAuthHeader());
         $this->client->useHashNavigation(true);

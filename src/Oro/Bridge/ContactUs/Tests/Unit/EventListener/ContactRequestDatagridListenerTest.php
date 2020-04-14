@@ -12,7 +12,7 @@ class ContactRequestDatagridListenerTest extends \PHPUnit\Framework\TestCase
     /** @var ContactRequestDatagridListener */
     private $listener;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->listener = new ContactRequestDatagridListener();
     }

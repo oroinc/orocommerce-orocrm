@@ -24,7 +24,7 @@ class AssignRootStrategyTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->manager = $this->getAccountCustomerManager();
         $this->builder = $this->createAccountBuilderMock();

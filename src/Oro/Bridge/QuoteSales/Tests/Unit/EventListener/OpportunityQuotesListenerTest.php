@@ -15,7 +15,7 @@ class OpportunityQuotesListenerTest extends \PHPUnit\Framework\TestCase
     /** @var  \PHPUnit\Framework\MockObject\MockObject */
     protected $translator;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->opportunityQuotesProvider = $this
             ->getMockBuilder('Oro\Bridge\QuoteSales\Provider\OpportunityQuotesProvider')

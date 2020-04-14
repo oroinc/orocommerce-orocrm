@@ -23,7 +23,7 @@ class AssignEachStrategyTest extends \PHPUnit\Framework\TestCase
     /** @var AccountCustomerManager */
     protected $manager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->accountBuilder = new AccountBuilder();
         $this->manager = $this->getAccountCustomerManager();

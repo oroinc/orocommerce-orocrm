@@ -16,7 +16,7 @@ class CustomerControllerTest extends WebTestCase
     /** @var  Customer */
     protected $customer;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
 

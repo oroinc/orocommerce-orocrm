@@ -11,7 +11,7 @@ class CustomerIconProviderTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerIconProvider */
     protected $customerIconProvider;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->customerIconProvider = new CustomerIconProvider();
     }
