@@ -44,11 +44,6 @@ class ContactRequestType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($builder->has('customer_user')) {
-            $builder->remove('customer_user');
-        }
-        $builder->remove('submit');
-
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
             function (FormEvent $event) {
@@ -68,6 +63,20 @@ class ContactRequestType extends AbstractType
                 $contactRequest->setLastName($loggedUser->getLastName());
                 $contactRequest->setOrganizationName($loggedUser->getOrganization()->getName());
                 $contactRequest->setCustomerUser($loggedUser);
+            }
+        );
+
+        // CustomerUser field must be removed right after dynamic fields extension
+        // because his logic was executed after all PRE_SET_DATA events.
+        $builder->addEventListener(
+            FormEvents::POST_SET_DATA,
+            static function (FormEvent $event) {
+                $form = $event->getForm();
+
+                if ($form->has('customer_user')) {
+                    $form->remove('customer_user');
+                }
+                $form->remove('submit');
             }
         );
 

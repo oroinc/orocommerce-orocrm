@@ -16,6 +16,8 @@ use Oro\Component\Testing\Unit\EntityTrait;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as EntityTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractTypeExtension;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Test\TypeTestCase;
 
 class ContactRequestTypeTest extends TypeTestCase
@@ -40,7 +42,7 @@ class ContactRequestTypeTest extends TypeTestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $this->localizationHelper = $this->createMock(LocalizationHelper::class);
@@ -50,7 +52,7 @@ class ContactRequestTypeTest extends TypeTestCase
         parent::setUp();
     }
 
-    public function testSubmit()
+    public function testSubmit(): void
     {
         $this->tokenAccessor->expects($this->once())
             ->method('getUser')
@@ -84,7 +86,7 @@ class ContactRequestTypeTest extends TypeTestCase
         $this->assertEquals($expected, $contactRequest);
     }
 
-    public function testPreSetDataListener()
+    public function testPreSetDataListener(): void
     {
         $organization = new Organization();
         $organization->setName('OroCRM');
@@ -129,7 +131,7 @@ class ContactRequestTypeTest extends TypeTestCase
         $this->assertEquals('OroCRM', $view['organizationName']->vars['value']);
     }
 
-    public function testPreSetDataListenerWithWrongLoggedUser()
+    public function testPreSetDataListenerWithWrongLoggedUser(): void
     {
         $organization = new Organization();
         $organization->setName('OroCRM');
@@ -154,7 +156,17 @@ class ContactRequestTypeTest extends TypeTestCase
         $this->assertEmpty($view['organizationName']->vars['value']);
     }
 
-    public function testGetParent()
+    public function testPostSetDataListener(): void
+    {
+        $contactRequest = $this->getEntity(ContactRequestStub::class);
+
+        $form = $this->factory->create(ContactRequestType::class, $contactRequest);
+
+        $this->assertFalse($form->has('customer_user'));
+        $this->assertFalse($form->has('submit'));
+    }
+
+    public function testGetParent(): void
     {
         $this->assertEquals(BaseContactRequestType::class, $this->type->getParent());
     }
@@ -162,7 +174,7 @@ class ContactRequestTypeTest extends TypeTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         $entityType = new EntityTypeStub(['test_contact_reason' => $this->getContactReason()]);
 
@@ -172,7 +184,27 @@ class ContactRequestTypeTest extends TypeTestCase
                     $this->type,
                     EntityType::class => $entityType,
                 ],
-                []
+                [
+                    ContactRequestType::class => [
+                        new class() extends AbstractTypeExtension {
+                            /**
+                             * {@inheritdoc}
+                             */
+                            public function buildForm(FormBuilderInterface $builder, array $options)
+                            {
+                                $builder->add('customer_user', null, ['mapped' => false]);
+                            }
+
+                            /**
+                             * {@inheritdoc}
+                             */
+                            public static function getExtendedTypes(): iterable
+                            {
+                                return [ContactRequestType::class];
+                            }
+                        }
+                    ]
+                ]
             ),
         ];
     }
@@ -180,7 +212,7 @@ class ContactRequestTypeTest extends TypeTestCase
     /**
      * @return ContactReason|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getContactReason()
+    protected function getContactReason(): ContactReason
     {
         $contactReason = new ContactReasonStub('Some title');
         $contactReason->setTitles(new ArrayCollection());
