@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bridge\CustomerAccount\Tests\Functional\Functional\Controller\Rest;
+namespace Oro\Bridge\CustomerAccount\Tests\Functional\Controller\Api\Rest;
 
 use Oro\Bundle\AccountBundle\Tests\Functional\Api\Rest\RestAccountTest as BaseRestAccountTest;
 
