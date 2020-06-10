@@ -41,7 +41,7 @@ class QuoteWorkflowDefinitionTest extends WebTestCase
             $this->getUrl('oro_sales_opportunity_view', ['id' => $opportunity->getId()])
         );
 
-        $btn = $crawler->filter('#transition-quote_flow-quote_create');
+        $btn = $crawler->filter('[id^="transition-quote_flow-quote_create"]');
 
         static::assertStringContainsString(
             'Create Quote',
@@ -59,7 +59,7 @@ class QuoteWorkflowDefinitionTest extends WebTestCase
             $this->getUrl('oro_sales_opportunity_view', ['id' => $opportunity->getId()])
         );
 
-        $btn = $crawler->filter('#transition-quote_flow-quote_creating');
+        $btn = $crawler->filter('[id^="transition-quote_flow-quote_create"]');
 
         $this->assertEquals(
             0,
@@ -74,7 +74,7 @@ class QuoteWorkflowDefinitionTest extends WebTestCase
             $this->getUrl('oro_sales_opportunity_view', ['id' => $opportunity->getId()])
         );
 
-        $btn = $crawler->filter('#transition-quote_flow-quote_creating');
+        $btn = $crawler->filter('[id^="transition-quote_flow-quote_create"]');
 
         $this->assertEquals(
             0,
