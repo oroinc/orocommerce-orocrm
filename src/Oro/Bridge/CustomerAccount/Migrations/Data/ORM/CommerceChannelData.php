@@ -4,12 +4,16 @@ namespace Oro\Bridge\CustomerAccount\Migrations\Data\ORM;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\QueryBuilder;
 use Oro\Bundle\ChannelBundle\Entity\Channel;
 use Oro\Bundle\ChannelBundle\Migrations\Data\ORM\AbstractDefaultChannelDataFixture;
 use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
 
+/**
+ * Commerce channel ORM data fixture.
+ * Provides logic for lifetime value updating and filling channel to entity.
+ */
 class CommerceChannelData extends AbstractDefaultChannelDataFixture
 {
     /**
@@ -94,7 +98,7 @@ class CommerceChannelData extends AbstractDefaultChannelDataFixture
             'UPDATE orocrm_channel_lifetime_hist SET status = :status'
             . ' WHERE data_channel_id = :channel_id AND account_id IN (:account_ids)',
             ['status' => false, 'channel_id' => $channel->getId(), 'account_ids' => $accountIds],
-            ['status' => Type::BOOLEAN, 'channel_id' => Type::INTEGER, 'account_ids' => Connection::PARAM_INT_ARRAY]
+            ['status' => Types::BOOLEAN, 'channel_id' => Types::INTEGER, 'account_ids' => Connection::PARAM_INT_ARRAY]
         );
         $this->em->getConnection()->executeUpdate(
             'INSERT INTO orocrm_channel_lifetime_hist'
@@ -115,8 +119,8 @@ class CommerceChannelData extends AbstractDefaultChannelDataFixture
                 'account_ids' => $accountIds
             ],
             [
-                'created_at' => Type::DATETIME,
-                'channel_id' => Type::INTEGER,
+                'created_at' => Types::DATETIME_MUTABLE,
+                'channel_id' => Types::INTEGER,
                 'account_ids' => Connection::PARAM_INT_ARRAY
             ]
         );
