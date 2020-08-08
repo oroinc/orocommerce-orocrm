@@ -13,6 +13,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Storefront controller that displays "Contact Us" page, displayes and handles "Contact Us" form submission.
+ * @see \Oro\Bundle\ContactUsBundle\Entity\ContactRequest form type used on "Contact Us"
+ */
 class ContactRequestController extends Controller
 {
     /**
@@ -89,10 +93,9 @@ class ContactRequestController extends Controller
     }
 
     /**
-     * @param FormErrorIterator $errors
-     * @return string
+     * Renders errors using OroContactUsBridge/validation.html.twig template.
      */
-    private function renderErrors(FormErrorIterator $errors)
+    private function renderErrors(FormErrorIterator $errors): string
     {
         return $this->renderView('@OroContactUsBridge/validation.html.twig', ['errors' => $errors]);
     }

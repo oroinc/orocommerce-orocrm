@@ -5,7 +5,7 @@ services:
             - '@oro_security.token_accessor'
             - '@oro_locale.helper.localization'
         tags:
-            - { name: form.type}
+            - { name: form.type }
 
     oro_contact_us_bridge.event_listener.contact_request_datagrid:
         class: 'Oro\Bridge\ContactUs\EventListener\ContactRequestDatagridListener'

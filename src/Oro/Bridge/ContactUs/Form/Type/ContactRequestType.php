@@ -19,29 +19,24 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Represents ContactRequest type
+ * This form type is used on the storefront for "contact us" form show to customer users and guests.
+ * It extends \Oro\Bundle\ContactUsBundle\Form\Type\ContactRequestType form type.
+ * @see \Oro\Bundle\ContactUsBundle\Form\Type\ContactRequestType parent form type
+ * @see \Oro\Bridge\ContactUs\Controller\ContactRequestController usage in storefront controller
+ * @see \Oro\Bridge\ContactUs\ContentWidget\ContactUsFormContentWidgetType usage in storefront widget
  */
 class ContactRequestType extends AbstractType
 {
-    /** @var TokenAccessorInterface */
-    protected $tokenAccessor;
+    protected TokenAccessorInterface $tokenAccessor;
 
-    /** @var LocalizationHelper */
-    protected $localizationHelper;
+    protected LocalizationHelper $localizationHelper;
 
-    /**
-     * @param TokenAccessorInterface $tokenAccessor
-     * @param LocalizationHelper $localizationHelper
-     */
     public function __construct(TokenAccessorInterface $tokenAccessor, LocalizationHelper $localizationHelper)
     {
         $this->tokenAccessor = $tokenAccessor;
         $this->localizationHelper = $localizationHelper;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->remove('submit');
@@ -97,18 +92,11 @@ class ContactRequestType extends AbstractType
                 'placeholder' => 'oro.contactus.contactrequest.choose_contact_reason.label',
                 'required' => false,
                 'label' => 'oro.contactus.contactrequest.contact_reason.label',
-                'query_builder' => function (ContactReasonRepository $er) {
-                    return $er->getExistedContactReasonsQB()
-                        ->addSelect('titles')
-                        ->leftJoin('cr.titles', 'titles');
-                },
+                'query_builder' => fn (ContactReasonRepository $er) => $er->createExistingContactReasonsWithTitlesQB(),
             ]
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
@@ -119,9 +107,6 @@ class ContactRequestType extends AbstractType
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getParent()
     {
         return BaseContactRequestType::class;

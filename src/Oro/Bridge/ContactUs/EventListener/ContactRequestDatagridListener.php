@@ -4,14 +4,14 @@ namespace Oro\Bridge\ContactUs\EventListener;
 
 use Oro\Bundle\DataGridBundle\Event\BuildBefore;
 
+/**
+ * Adds "Customer User" column to "Contact Requests" grid in the back-office.
+ */
 class ContactRequestDatagridListener
 {
-    const CUSTOMER_USER_COLUMN = 'customerUserName';
+    private const CUSTOMER_USER_COLUMN = 'customerUserName';
 
-    /**
-     * @param BuildBefore $event
-     */
-    public function onBuildBefore(BuildBefore $event)
+    public function onBuildBefore(BuildBefore $event): void
     {
         $config = $event->getConfig();
 
@@ -27,6 +27,6 @@ class ContactRequestDatagridListener
         );
 
         $query = $config->getOrmQuery();
-        $query->addLeftJoin($query->getRootAlias().'.customer_user', 'customerUser');
+        $query->addLeftJoin($query->getRootAlias() . '.customer_user', 'customerUser');
     }
 }
