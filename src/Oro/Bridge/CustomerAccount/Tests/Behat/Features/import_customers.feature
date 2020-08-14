@@ -63,7 +63,7 @@ Feature: Import Customers
     And reload the page
     Then Email should contains the following "Errors: 2 processed: 3, read: 5, added: 0, updated: 0, replaced: 3" text
     When I follow "Error log" link from the email
-    Then I should see "1 rows could not be processed."
+    Then I should see "Error in row #1. Parent customer with ID \"10\" was not found"
     Then I should see "Error in row #1. Id: This value should contain only valid integer."
     When I login as administrator
     And go to Customers/ Customers
