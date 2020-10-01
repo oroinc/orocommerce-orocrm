@@ -1,4 +1,3 @@
-# @TODO update checkbox label in scope of BAP-15172
 Feature: Switch off contact us page
   As an Administrator
   I want be able to enable/disable ability of contacting Seller via Contact form on the website
@@ -9,8 +8,8 @@ Feature: Switch off contact us page
     And I go to System/ Configuration
     And I follow "Commerce/Customer/Contact Requests" on configuration sidebar
     And uncheck "Use default" for "Allow Contact Requests" field
-    # @todo fix checkbox label after BAP-14749
-    And I uncheck "contact_requests[oro_contact_us_bridge___enable_contact_request][value]"
+    And I fill form with:
+      | Allow Contact Requests | false |
     And I click "Save settings"
     When I am on the homepage
     Then I should not see "Contact Us"
