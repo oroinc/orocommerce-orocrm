@@ -63,6 +63,7 @@ class CustomerLifetimeListenerTest extends WebTestCase
 
     public function testChangeSubtotal()
     {
+        $this->markTestSkipped('Will be unskipped in BAP-20074');
         /** @var Order $order */
         $order = $this->getReference('my_order');
         $order->setSubtotal(500);
