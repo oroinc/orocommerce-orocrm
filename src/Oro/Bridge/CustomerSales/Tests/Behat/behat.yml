@@ -13,5 +13,6 @@ oro_behat_extension:
           - '@oro_importexport.processor.registry'
         - OroNavigationBundle::FeatureContext
         - OroQueryDesignerBundle::QueryDesignerContext
+        - OroConfigBundle::FeatureContext
       paths:
         - '@OroCustomerSalesBridgeBundle/Tests/Behat/Features'
