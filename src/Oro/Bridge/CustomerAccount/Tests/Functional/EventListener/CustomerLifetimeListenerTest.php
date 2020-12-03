@@ -4,7 +4,9 @@ namespace Oro\Bridge\CustomerAccount\Tests\Functional\EventListener;
 
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManager;
+use Oro\Bridge\CustomerAccount\Tests\Functional\DataFixtures\Lifetime\OrderPaymentTransactionAndStatus;
 use Oro\Bundle\OrderBundle\Entity\Order;
+use Oro\Bundle\OrderBundle\Tests\Functional\DataFixtures\LoadOrders;
 use Oro\Bundle\PaymentBundle\Entity\PaymentStatus;
 use Oro\Bundle\PaymentBundle\Provider\PaymentStatusProvider;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
@@ -22,9 +24,24 @@ class CustomerLifetimeListenerTest extends WebTestCase
         $this->initClient();
 
         $this->loadFixtures([
-            'Oro\Bundle\OrderBundle\Tests\Functional\DataFixtures\LoadOrders',
-            'Oro\Bridge\CustomerAccount\Tests\Functional\DataFixtures\Lifetime\OrderPaymentTransactionAndStatus'
+            LoadOrders::class,
+            OrderPaymentTransactionAndStatus::class,
         ]);
+    }
+
+    public function testChangeSubtotal()
+    {
+        /** @var Order $order */
+        $order = $this->getReference('my_order');
+        $order->setSubtotal(500);
+        $customer = $order->getCustomer();
+        $em = $this->getEntityManager();
+        self::assertEquals(1500.0, $customer->getLifetime());
+
+        $em->persist($order);
+        $em->flush();
+
+        self::assertEquals(500.0, $customer->getLifetime());
     }
 
     public function testCreatePaymentStatusFull()
@@ -59,22 +76,6 @@ class CustomerLifetimeListenerTest extends WebTestCase
         $em->flush();
 
         self::assertEquals(null, $customer->getLifetime());
-    }
-
-    public function testChangeSubtotal()
-    {
-        $this->markTestSkipped('Will be unskipped in CRM-9211');
-        /** @var Order $order */
-        $order = $this->getReference('my_order');
-        $order->setSubtotal(500);
-        $customer = $order->getCustomer();
-        $em = $this->getEntityManager();
-        self::assertEquals(1500, $customer->getLifetime());
-
-        $em->persist($order);
-        $em->flush();
-
-        self::assertEquals(500, $customer->getLifetime());
     }
 
     public function testDeleteOrderWithoutCustomer()
