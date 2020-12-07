@@ -101,6 +101,9 @@ services:
             - '@oro_currency.converter.rate.link'
             - '@oro_customer_account.manager.lifetime_processor'
             - '@oro_payment.provider.payment_status.link'
+        calls:
+            - ['setPaymentStatusManager', ['@oro_payment.manager.payment_status']]
+            - ['setDoctrineHelper', ['@oro_entity.doctrine_helper']]
         tags:
             - { name: doctrine.event_listener, event: onFlush, method: onFlush }
             - { name: doctrine.event_listener, event: postFlush, method: postFlush }

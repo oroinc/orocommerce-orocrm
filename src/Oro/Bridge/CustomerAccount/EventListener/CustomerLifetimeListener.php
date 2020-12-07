@@ -10,11 +10,16 @@ use Doctrine\ORM\UnitOfWork;
 use Oro\Bridge\CustomerAccount\Manager\LifetimeProcessor;
 use Oro\Bundle\CurrencyBundle\Converter\RateConverterInterface;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\OrderBundle\Entity\Order;
 use Oro\Bundle\PaymentBundle\Entity\PaymentStatus;
+use Oro\Bundle\PaymentBundle\Manager\PaymentStatusManager;
 use Oro\Bundle\PaymentBundle\Provider\PaymentStatusProvider;
 use Oro\Component\DependencyInjection\ServiceLink;
 
+/**
+ * Calculates and keeps actual customer lifetime value.
+ */
 class CustomerLifetimeListener
 {
     /** @var UnitOfWork */
@@ -41,6 +46,12 @@ class CustomerLifetimeListener
     /** @var PaymentStatusProvider */
     protected $paymentStatusProvider;
 
+    /** @var PaymentStatusManager|null */
+    private $paymentStatusManager;
+
+    /** @var DoctrineHelper|null */
+    private $doctrineHelper;
+
     /**
      * @param ServiceLink $rateConverterLink
      * @param LifetimeProcessor $lifetimeProcessor
@@ -57,6 +68,22 @@ class CustomerLifetimeListener
     }
 
     /**
+     * @param PaymentStatusManager|null $paymentStatusManager
+     */
+    public function setPaymentStatusManager(?PaymentStatusManager $paymentStatusManager): void
+    {
+        $this->paymentStatusManager = $paymentStatusManager;
+    }
+
+    /**
+     * @param DoctrineHelper|null $doctrineHelper
+     */
+    public function setDoctrineHelper(?DoctrineHelper $doctrineHelper): void
+    {
+        $this->doctrineHelper = $doctrineHelper;
+    }
+
+    /**
      * @param OnFlushEventArgs $args
      */
     public function onFlush(OnFlushEventArgs $args)
@@ -69,26 +96,27 @@ class CustomerLifetimeListener
             $this->uow->getScheduledEntityUpdates()
         );
 
-        /** @var Order[] $entitiesOrder */
-        $orders = array_filter(
-            $entities,
-            function ($entity) {
-                $paymentStatus = null;
-                if ('Oro\\Bundle\\OrderBundle\\Entity\\Order' === ClassUtils::getClass($entity)) {
-                    $paymentStatus = $this->getPaymentStatusProvider()->getPaymentStatus($entity);
+        $orders = $paymentStatuses = [];
+        foreach ($entities as $entity) {
+            if ($this->doctrineHelper) {
+                $entityClass = $this->doctrineHelper->getEntityClass($entity);
+            } else {
+                $entityClass = ClassUtils::getClass($entity);
+            }
+
+            if ($entityClass === Order::class && $entity->getId()) {
+                $paymentStatus = $this->getOrderPaymentStatus($entity);
+                if ($paymentStatus === PaymentStatusProvider::FULL) {
+                    $orders[] = $entity;
                 }
 
-                return PaymentStatusProvider::FULL === $paymentStatus;
+                continue;
             }
-        );
 
-        /** @var $paymentStatuses[] PaymentStatus */
-        $paymentStatuses = array_filter(
-            $entities,
-            function ($entity) {
-                return 'Oro\\Bundle\\PaymentBundle\\Entity\\PaymentStatus' === ClassUtils::getClass($entity);
+            if ($entityClass === PaymentStatus::class) {
+                $paymentStatuses[] = $entity;
             }
-        );
+        }
 
         if (count($orders) > 0) {
             $this->handleOrders($orders);
@@ -97,6 +125,23 @@ class CustomerLifetimeListener
         if (count($paymentStatuses) > 0) {
             $this->handlePaymentStatuses($paymentStatuses);
         }
+    }
+
+    /**
+     * @param Order $order
+     * @return string
+     */
+    private function getOrderPaymentStatus(Order $order): string
+    {
+        if ($this->paymentStatusManager) {
+            $paymentStatus = $this->paymentStatusManager
+                ->getPaymentStatusForEntity(Order::class, $order->getId())
+                ->getPaymentStatus();
+        } else {
+            $paymentStatus = $this->getPaymentStatusProvider()->getPaymentStatus($order);
+        }
+
+        return $paymentStatus;
     }
 
     /**
