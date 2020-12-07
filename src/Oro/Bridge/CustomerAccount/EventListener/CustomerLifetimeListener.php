@@ -10,11 +10,16 @@ use Doctrine\ORM\UnitOfWork;
 use Oro\Bridge\CustomerAccount\Manager\LifetimeProcessor;
 use Oro\Bundle\CurrencyBundle\Converter\RateConverterInterface;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\OrderBundle\Entity\Order;
 use Oro\Bundle\PaymentBundle\Entity\PaymentStatus;
+use Oro\Bundle\PaymentBundle\Manager\PaymentStatusManager;
 use Oro\Bundle\PaymentBundle\Provider\PaymentStatusProvider;
 use Oro\Component\DependencyInjection\ServiceLink;
 
+/**
+ * Calculates and keeps actual customer lifetime value.
+ */
 class CustomerLifetimeListener
 {
     /** @var UnitOfWork */
@@ -35,25 +40,28 @@ class CustomerLifetimeListener
     /** @var RateConverterInterface  */
     protected $rateConverter;
 
-    /** @var ServiceLink */
-    protected $paymentStatusProviderLink;
+    /** @var PaymentStatusManager */
+    private PaymentStatusManager $paymentStatusManager;
 
-    /** @var PaymentStatusProvider */
-    protected $paymentStatusProvider;
+    /** @var DoctrineHelper */
+    private $doctrineHelper;
 
     /**
      * @param ServiceLink $rateConverterLink
      * @param LifetimeProcessor $lifetimeProcessor
-     * @param ServiceLink $paymentStatusProviderLink
+     * @param PaymentStatusManager $paymentStatusManager
+     * @param DoctrineHelper $doctrineHelper
      */
     public function __construct(
         ServiceLink $rateConverterLink,
         LifetimeProcessor $lifetimeProcessor,
-        ServiceLink $paymentStatusProviderLink
+        PaymentStatusManager $paymentStatusManager,
+        DoctrineHelper $doctrineHelper
     ) {
         $this->rateConverter = $rateConverterLink->getService();
         $this->lifetimeProcessor = $lifetimeProcessor;
-        $this->paymentStatusProviderLink = $paymentStatusProviderLink;
+        $this->paymentStatusManager = $paymentStatusManager;
+        $this->doctrineHelper = $doctrineHelper;
     }
 
     /**
@@ -69,26 +77,26 @@ class CustomerLifetimeListener
             $this->uow->getScheduledEntityUpdates()
         );
 
-        /** @var Order[] $entitiesOrder */
-        $orders = array_filter(
-            $entities,
-            function ($entity) {
-                $paymentStatus = null;
-                if ('Oro\\Bundle\\OrderBundle\\Entity\\Order' === ClassUtils::getClass($entity)) {
-                    $paymentStatus = $this->getPaymentStatusProvider()->getPaymentStatus($entity);
+        $orders = $paymentStatuses = [];
+        foreach ($entities as $entity) {
+            $entityClass = $this->doctrineHelper->getEntityClass($entity);
+
+            if ($entityClass === Order::class && $entity->getId()) {
+                $paymentStatus = $this->paymentStatusManager
+                    ->getPaymentStatusForEntity(Order::class, $entity->getId())
+                    ->getPaymentStatus();
+
+                if ($paymentStatus === PaymentStatusProvider::FULL) {
+                    $orders[] = $entity;
                 }
 
-                return PaymentStatusProvider::FULL === $paymentStatus;
+                continue;
             }
-        );
 
-        /** @var $paymentStatuses[] PaymentStatus */
-        $paymentStatuses = array_filter(
-            $entities,
-            function ($entity) {
-                return 'Oro\\Bundle\\PaymentBundle\\Entity\\PaymentStatus' === ClassUtils::getClass($entity);
+            if ($entityClass === PaymentStatus::class) {
+                $paymentStatuses[] = $entity;
             }
-        );
+        }
 
         if (count($orders) > 0) {
             $this->handleOrders($orders);
@@ -210,17 +218,5 @@ class CustomerLifetimeListener
     {
         $this->em  = $args->getEntityManager();
         $this->uow = $this->em->getUnitOfWork();
-    }
-
-    /**
-     * @return object|PaymentStatusProvider
-     */
-    protected function getPaymentStatusProvider()
-    {
-        if (!$this->paymentStatusProvider) {
-            $this->paymentStatusProvider = $this->paymentStatusProviderLink->getService();
-        }
-
-        return $this->paymentStatusProvider;
     }
 }

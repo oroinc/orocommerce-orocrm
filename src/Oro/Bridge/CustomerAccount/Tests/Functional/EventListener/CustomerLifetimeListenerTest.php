@@ -4,7 +4,9 @@ namespace Oro\Bridge\CustomerAccount\Tests\Functional\EventListener;
 
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManager;
+use Oro\Bridge\CustomerAccount\Tests\Functional\DataFixtures\Lifetime\OrderPaymentTransactionAndStatus;
 use Oro\Bundle\OrderBundle\Entity\Order;
+use Oro\Bundle\OrderBundle\Tests\Functional\DataFixtures\LoadOrders;
 use Oro\Bundle\PaymentBundle\Entity\PaymentStatus;
 use Oro\Bundle\PaymentBundle\Provider\PaymentStatusProvider;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
@@ -21,10 +23,12 @@ class CustomerLifetimeListenerTest extends WebTestCase
     {
         $this->initClient();
 
-        $this->loadFixtures([
-            'Oro\Bundle\OrderBundle\Tests\Functional\DataFixtures\LoadOrders',
-            'Oro\Bridge\CustomerAccount\Tests\Functional\DataFixtures\Lifetime\OrderPaymentTransactionAndStatus'
-        ]);
+        $this->loadFixtures(
+            [
+                LoadOrders::class,
+                OrderPaymentTransactionAndStatus::class,
+            ]
+        );
     }
 
     public function testCreatePaymentStatusFull()
@@ -61,9 +65,8 @@ class CustomerLifetimeListenerTest extends WebTestCase
         self::assertEquals(null, $customer->getLifetime());
     }
 
-    public function testChangeSubtotal()
+    public function testChangeSubtotal(): void
     {
-        $this->markTestSkipped('Will be unskipped in CRM-9211');
         /** @var Order $order */
         $order = $this->getReference('my_order');
         $order->setSubtotal(500);
@@ -75,6 +78,11 @@ class CustomerLifetimeListenerTest extends WebTestCase
         $em->flush();
 
         self::assertEquals(500, $customer->getLifetime());
+
+        $em->remove($order);
+        $em->flush($order);
+
+        self::assertEquals(0, $customer->getLifetime());
     }
 
     public function testDeleteOrderWithoutCustomer()
