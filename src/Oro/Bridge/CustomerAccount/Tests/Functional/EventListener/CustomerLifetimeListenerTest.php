@@ -23,12 +23,30 @@ class CustomerLifetimeListenerTest extends WebTestCase
     {
         $this->initClient();
 
-        $this->loadFixtures(
-            [
-                LoadOrders::class,
-                OrderPaymentTransactionAndStatus::class,
-            ]
-        );
+        $this->loadFixtures([
+            LoadOrders::class,
+            OrderPaymentTransactionAndStatus::class,
+        ]);
+    }
+
+    public function testChangeSubtotal()
+    {
+        /** @var Order $order */
+        $order = $this->getReference('my_order');
+        $order->setSubtotal(500);
+        $customer = $order->getCustomer();
+        $em = $this->getEntityManager();
+        self::assertEquals(1500.0, $customer->getLifetime());
+
+        $em->persist($order);
+        $em->flush();
+
+        self::assertEquals(500.0, $customer->getLifetime());
+
+        $em->remove($order);
+        $em->flush($order);
+
+        self::assertEquals(0, $customer->getLifetime());
     }
 
     public function testCreatePaymentStatusFull()
@@ -63,26 +81,6 @@ class CustomerLifetimeListenerTest extends WebTestCase
         $em->flush();
 
         self::assertEquals(null, $customer->getLifetime());
-    }
-
-    public function testChangeSubtotal(): void
-    {
-        /** @var Order $order */
-        $order = $this->getReference('my_order');
-        $order->setSubtotal(500);
-        $customer = $order->getCustomer();
-        $em = $this->getEntityManager();
-        self::assertEquals(1500, $customer->getLifetime());
-
-        $em->persist($order);
-        $em->flush();
-
-        self::assertEquals(500, $customer->getLifetime());
-
-        $em->remove($order);
-        $em->flush($order);
-
-        self::assertEquals(0, $customer->getLifetime());
     }
 
     public function testDeleteOrderWithoutCustomer()
