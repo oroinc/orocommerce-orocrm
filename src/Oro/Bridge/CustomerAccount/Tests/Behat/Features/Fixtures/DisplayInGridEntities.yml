@@ -1,0 +1,76 @@
+Oro\Bundle\SegmentBundle\Entity\Segment:
+  segment_entity:
+    name: 'New Segment'
+    type: '@segment_dynamic_type'
+    entity: 'Oro\Bundle\CustomerBundle\Entity\CustomerUser'
+    definition: ''
+    organization: '@organization'
+    owner: '@business_unit'
+
+Oro\Bundle\MarketingListBundle\Entity\MarketingList:
+  marketinglist_entity:
+    owner: '@admin'
+    name: 'New Marketing List'
+    organization: '@organization'
+    type: '@marketing_list_dynamic_type'
+    entity: 'Oro\Bundle\CustomerBundle\Entity\CustomerUser'
+    segment: '@segment_entity'
+
+Oro\Bundle\TrackingBundle\Entity\TrackingWebsite:
+  tracking_website_entity:
+    identifier: 'new_tracking_website'
+    name: 'New Tracking Website'
+    url: ''
+    owner: '@admin'
+    organization: '@organization'
+
+Oro\Bundle\DotmailerBundle\Entity\DotmailerTransportSettings:
+  dotmailer_transport_settings_entity:
+    channel: '@dotmailer_channel_entity'
+
+Oro\Bundle\CampaignBundle\Entity\EmailCampaign:
+  email_campaign_entity:
+    name: 'New Email Campaign'
+    description: ''
+    sent: false
+    schedule: 'manual'
+    scheduledFor: '<dateTime()>'
+    senderEmail: 'sender@example.org'
+    senderName: 'Sender'
+    owner: '@admin'
+    organization: '@organization'
+    transport: 'dotmailer'
+    campaign: '@campaing_entity'
+    marketingList: '@marketinglist_entity'
+    transportSettings: '@dotmailer_transport_settings_entity'
+
+Oro\Bundle\CampaignBundle\Entity\Campaign:
+  campaing_entity:
+    name: 'New Campaign'
+    code: ''
+    reportPeriod: 'month'
+    owner: '@admin'
+    organization: '@organization'
+
+Oro\Bundle\RuleBundle\Entity\Rule:
+  rule_entity:
+    name: 'New Rule'
+    enabled: true
+    sortOrder: 1
+
+Oro\Bundle\DotmailerBundle\Entity\DotmailerTransport:
+  dotmailer_transport_entity:
+    username: 'New'
+    password: 'Dotmailer'
+    clientId: 'Transport'
+    clientKey: ''
+    customDomain: ''
+    channel: '@dotmailer_channel_entity'
+
+Oro\Bundle\IntegrationBundle\Entity\Channel:
+  dotmailer_channel_entity:
+    type: 'dotmailer'
+    name: 'New Dotmailer Channel'
+    enabled: true
+    organization: '@organization'
+    transport: '@dotmailer_transport_entity'

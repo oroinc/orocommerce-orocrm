@@ -12,5 +12,6 @@ oro_behat_extension:
                 - OroFormBundle::FeatureContext
                 - OroWebCatalogBundle::FeatureContext
                 - OroCMSBundle::FeatureContext
+                - OroConfigBundle::FeatureContext
             paths:
                 - '@OroContactUsBridgeBundle/Tests/Behat/Features'
