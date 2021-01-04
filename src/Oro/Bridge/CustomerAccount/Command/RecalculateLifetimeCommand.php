@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\Bridge\CustomerAccount\Command;
 
@@ -11,21 +12,15 @@ use Oro\Bundle\ChannelBundle\Provider\SettingsProvider;
 use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
 
 /**
- * Perform re-calculation of lifetime values for commerce customers.
+ * Recalculates lifetime value of eCommerce customers.
  */
 class RecalculateLifetimeCommand extends AbstractRecalculateLifetimeCommand
 {
     /** @var string */
     protected static $defaultName = 'oro:commerce:lifetime:recalculate';
 
-    /** @var LifetimeProcessor */
-    private $lifetimeProcessor;
+    private LifetimeProcessor $lifetimeProcessor;
 
-    /**
-     * @param ManagerRegistry $registry
-     * @param SettingsProvider $settingsProvider
-     * @param LifetimeProcessor $lifetimeProcessor
-     */
     public function __construct(
         ManagerRegistry $registry,
         SettingsProvider $settingsProvider,
@@ -36,53 +31,47 @@ class RecalculateLifetimeCommand extends AbstractRecalculateLifetimeCommand
         $this->lifetimeProcessor = $lifetimeProcessor;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configure()
     {
         parent::configure();
 
-        $this->setDescription('Perform re-calculation of lifetime values for commerce customers.');
+        $this->setDescription('Recalculates lifetime value of eCommerce customers.')
+            ->addUsage('--force');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getChannelType()
+    protected function getChannelType(): string
     {
         return 'commerce';
     }
 
     /**
-     * @param EntityManager $em
      * @param Customer $customer
-     *
-     * @return float
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function calculateCustomerLifetime(EntityManager $em, $customer)
+    protected function calculateCustomerLifetime(EntityManager $em, object $customer): float
     {
         return $this->lifetimeProcessor->calculateLifetimeValue($customer);
     }
 
     /**
-     * @param EntityManager $em
-     * @param string        $customerClass
-     * @param string        $channelType
-     *
-     * @return QueryBuilder
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    protected function getCustomersQueryBuilder(EntityManager $em, $customerClass, $channelType)
-    {
+    protected function getCustomersQueryBuilder(
+        EntityManager $em,
+        string $customerClass,
+        string $channelType
+    ): QueryBuilder {
         return $em->getRepository('OroCustomerBundle:Customer')->createQueryBuilder('customer')
             ->select(sprintf('customer.%s as customer_id', 'id'));
     }
 
     /**
-     * {@inheritdoc}
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    protected function getCustomerClass($channelSettings)
+    protected function getCustomerClass($channelSettings): string
     {
-        return 'Oro\Bundle\CustomerBundle\Entity\Customer';
+        return Customer::class;
     }
 }
