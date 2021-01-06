@@ -4,9 +4,8 @@ services:
         tags:
             - { name: oro_sales.customer_icon, priority: 10 }
 
-    oro_customer_sales.customer_virtual_relations.provider:
+    oro_customer_sales.virtual_relation_provider.customer:
         class: Oro\Bundle\SalesBundle\Provider\CustomerAssignmentVirtualRelationProvider
-        public: false
         arguments:
             - 'Oro\Bundle\CustomerBundle\Entity\Customer'
         tags:
