@@ -2,8 +2,8 @@
 
 namespace Oro\Bridge\CustomerAccount\Manager;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bridge\CustomerAccount\Manager\Strategy\AssignStrategyInterface;
 use Oro\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;

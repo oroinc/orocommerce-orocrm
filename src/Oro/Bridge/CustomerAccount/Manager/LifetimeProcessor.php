@@ -2,8 +2,9 @@
 
 namespace Oro\Bridge\CustomerAccount\Manager;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query\Expr\Join;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CurrencyBundle\Query\CurrencyQueryBuilderTransformerInterface;
 use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
 use Oro\Bundle\PaymentBundle\Provider\PaymentStatusProvider;
@@ -59,7 +60,7 @@ class LifetimeProcessor
     }
 
     /**
-     * @return \Doctrine\Common\Persistence\ObjectManager
+     * @return ObjectManager
      */
     protected function getEntityManager()
     {
