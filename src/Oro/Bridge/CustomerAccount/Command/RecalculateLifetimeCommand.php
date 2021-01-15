@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Oro\Bridge\CustomerAccount\Command;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bridge\CustomerAccount\Manager\LifetimeProcessor;
 use Oro\Bundle\ChannelBundle\Command\RecalculateLifetimeCommand as AbstractRecalculateLifetimeCommand;
 use Oro\Bundle\ChannelBundle\Provider\SettingsProvider;

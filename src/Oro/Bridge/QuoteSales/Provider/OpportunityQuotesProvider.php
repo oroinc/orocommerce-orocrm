@@ -2,7 +2,7 @@
 
 namespace Oro\Bridge\QuoteSales\Provider;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 
 class OpportunityQuotesProvider

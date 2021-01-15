@@ -2,7 +2,7 @@
 
 namespace Oro\Bridge\ContactUs\Tests\Unit\EventListener;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bridge\ContactUs\EventListener\SystemConfigListener;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\ConfigBundle\Event\ConfigSettingsUpdateEvent;

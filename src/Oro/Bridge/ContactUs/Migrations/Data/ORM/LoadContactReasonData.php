@@ -3,7 +3,7 @@
 namespace Oro\Bridge\ContactUs\Migrations\Data\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bridge\ContactUs\DependencyInjection\Configuration;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\ContactUsBundle\Entity\ContactReason;

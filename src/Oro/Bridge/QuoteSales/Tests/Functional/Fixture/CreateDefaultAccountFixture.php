@@ -3,7 +3,7 @@
 namespace Oro\Bridge\QuoteSales\Tests\Functional\Fixture;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 

@@ -2,8 +2,8 @@
 
 namespace Oro\Bridge\ContactUs\EventListener;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bridge\ContactUs\Helper\ContactRequestHelper;
 use Oro\Bundle\ConsentBundle\Event\DeclinedConsentsEvent;
 use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
