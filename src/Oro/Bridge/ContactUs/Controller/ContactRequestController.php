@@ -5,7 +5,7 @@ namespace Oro\Bridge\ContactUs\Controller;
 use Oro\Bridge\ContactUs\Form\Type\ContactRequestType;
 use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormErrorIterator;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Storefront controller that displays "Contact Us" page, displayes and handles "Contact Us" form submission.
  * @see \Oro\Bundle\ContactUsBundle\Entity\ContactRequest form type used on "Contact Us"
  */
-class ContactRequestController extends Controller
+class ContactRequestController extends AbstractController
 {
     /**
      * @Route(
