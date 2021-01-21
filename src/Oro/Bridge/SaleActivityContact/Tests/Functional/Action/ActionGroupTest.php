@@ -10,6 +10,7 @@ use Oro\Bundle\RFPBundle\Entity\RequestAdditionalNote;
 use Oro\Bundle\RFPBundle\Tests\Functional\DataFixtures\LoadRequestData;
 use Oro\Bundle\SaleBundle\Tests\Functional\DataFixtures\LoadQuoteData;
 use Oro\Bundle\UserBundle\Entity\User;
+use Oro\Bundle\WorkflowBundle\Model\WorkflowManager;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
@@ -88,12 +89,17 @@ class ActionGroupTest extends ActionTestCase
 
     public function testOroSaleQuoteDuplicate()
     {
-        $this->markTestSkipped('BAP-19495');
+        /** @var WorkflowManager $workflowManager */
+        $workflowManager = $this->client->getContainer()->get('oro_workflow.manager');
+        $workflowManager->activateWorkflow('quote_flow');
+
         $quote = $this->getEntityAndSetContactFields(LoadQuoteData::QUOTE_DRAFT);
 
         $actionData = $this->executeActionGroup('oro_sale_quote_duplicate', ['quote' => $quote]);
 
         $this->assertActivityContactFieldsEmpty($actionData->offsetGet('quoteCopy'));
+
+        $workflowManager->deactivateWorkflow('quote_flow');
     }
 
     /**
