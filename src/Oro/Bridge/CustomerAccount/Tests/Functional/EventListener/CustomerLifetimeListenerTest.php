@@ -42,6 +42,11 @@ class CustomerLifetimeListenerTest extends WebTestCase
         $em->flush();
 
         self::assertEquals(500.0, $customer->getLifetime());
+
+        $em->remove($order);
+        $em->flush($order);
+
+        self::assertEquals(0, $customer->getLifetime());
     }
 
     public function testCreatePaymentStatusFull()
