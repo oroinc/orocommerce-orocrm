@@ -10,10 +10,10 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class CustomerControllerTest extends WebTestCase
 {
-    /** @var  Account */
+    /** @var Account */
     protected $account;
 
-    /** @var  Customer */
+    /** @var Customer */
     protected $customer;
 
     protected function setUp(): void

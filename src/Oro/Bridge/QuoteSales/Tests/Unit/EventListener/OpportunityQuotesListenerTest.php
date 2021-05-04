@@ -6,13 +6,13 @@ use Oro\Bridge\QuoteSales\EventListener\OpportunityQuotesListener;
 
 class OpportunityQuotesListenerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var  OpportunityQuotesListener */
+    /** @var OpportunityQuotesListener */
     protected $opportunityQuotesListener;
 
-    /** @var  \PHPUnit\Framework\MockObject\MockObject */
+    /** @var \PHPUnit\Framework\MockObject\MockObject */
     protected $opportunityQuotesProvider;
 
-    /** @var  \PHPUnit\Framework\MockObject\MockObject */
+    /** @var \PHPUnit\Framework\MockObject\MockObject */
     protected $translator;
 
     protected function setUp(): void
