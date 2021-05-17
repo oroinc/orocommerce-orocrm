@@ -1,3 +1,5 @@
 styles:
     inputs:
+        - 'bundles/orocontactusbridge/default/scss/variables/contact-us-form-config.scss'
+
         - 'bundles/orocontactusbridge/default/scss/styles.scss'
