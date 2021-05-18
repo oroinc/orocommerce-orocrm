@@ -103,8 +103,8 @@ services:
             - '@oro_payment.manager.payment_status'
             - '@oro_entity.doctrine_helper'
         tags:
-            - { name: doctrine.event_listener, event: onFlush, method: onFlush }
-            - { name: doctrine.event_listener, event: postFlush, method: postFlush }
+            - { name: doctrine.event_listener, event: onFlush }
+            - { name: doctrine.event_listener, event: postFlush }
 
     oro_payment.provider.payment_status.link:
         tags:
