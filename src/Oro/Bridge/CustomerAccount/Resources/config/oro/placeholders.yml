@@ -6,4 +6,4 @@ placeholders:
 
     items:
         oro_account_customers_info:
-            action: OroCustomerAccountBridgeBundle:Customer:accountCustomersInfo
+            action: Oro\Bridge\CustomerAccount\Controller\CustomerController::accountCustomersInfoAction
