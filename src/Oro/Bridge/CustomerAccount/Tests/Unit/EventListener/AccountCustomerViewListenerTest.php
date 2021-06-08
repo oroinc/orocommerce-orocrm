@@ -62,7 +62,7 @@ class AccountCustomerViewListenerTest extends \PHPUnit\Framework\TestCase
         $env->expects($this->once())
             ->method('render')
             ->with(
-                'OroCustomerAccountBridgeBundle:Customer:accountView.html.twig',
+                '@OroCustomerAccountBridge/Customer/accountView.html.twig',
                 ['salesCustomer' => $salesCustomer]
             )
             ->willReturn($template);

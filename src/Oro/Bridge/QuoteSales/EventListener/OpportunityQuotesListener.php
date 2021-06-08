@@ -8,6 +8,9 @@ use Oro\Bundle\SalesBundle\Entity\Opportunity;
 use Oro\Bundle\UIBundle\Event\BeforeViewRenderEvent;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * Adds block with relevant opportunities grid on the Opportunity view.
+ */
 class OpportunityQuotesListener
 {
     // below activity block which have 1000
@@ -55,7 +58,7 @@ class OpportunityQuotesListener
         }
 
         $quotesData = $environment->render(
-            'OroQuoteSalesBridgeBundle:Opportunity:opportunityQuotes.html.twig',
+            '@OroQuoteSalesBridge/Opportunity/opportunityQuotes.html.twig',
             [
                 'gridParams' =>
                     [
