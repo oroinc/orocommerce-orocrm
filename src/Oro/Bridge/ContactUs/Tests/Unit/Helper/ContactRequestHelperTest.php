@@ -8,7 +8,6 @@ use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\ConsentBundle\Entity\Consent;
 use Oro\Bundle\ConsentBundle\Tests\Unit\Stub\ConsentAcceptanceStub;
 use Oro\Bundle\ContactUsBundle\Entity\ContactReason;
-use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
 use Oro\Bundle\ContactUsBundle\Tests\Unit\Stub\ContactReasonStub;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
@@ -60,17 +59,6 @@ class ContactRequestHelperTest extends \PHPUnit\Framework\TestCase
         $consentAcceptance = new ConsentAcceptanceStub();
         $customerUser = new CustomerUser();
         $contactReason = new ContactReasonStub('default title');
-        $contactRequest = $this->getMockBuilder(ContactRequest::class)
-            ->setMethods([
-                'setContactReason',
-                'setFirstName',
-                'setLastName',
-                'setEmailAddress',
-                'setCustomerUser',
-                'setWebsite',
-                'setComment',
-            ])
-            ->getMock();
         $repository = $this->createMock(EntityRepository::class);
         $website = new Website();
 
@@ -96,50 +84,15 @@ class ContactRequestHelperTest extends \PHPUnit\Framework\TestCase
             ->with(['id' => 12])
             ->willReturn($contactReason);
 
-        $this->doctrineHelper->expects($this->once())
-            ->method('createEntityInstance')
-            ->with(ContactRequest::class)
-            ->willReturn($contactRequest);
-
         $this->translator->expects($this->once())
             ->method('trans')
             ->willReturn('oro.consent.declined.message');
 
-        $contactRequest->expects($this->once())
-            ->method('setContactReason')
-            ->with($contactReason);
-
-        $contactRequest->expects($this->once())
-            ->method('setContactReason')
-            ->with();
-
-        $contactRequest->expects($this->once())
-            ->method('setFirstName')
-            ->with('firstName');
-
-        $contactRequest->expects($this->once())
-            ->method('setLastName')
-            ->with('lastName');
-
-        $contactRequest->expects($this->once())
-            ->method('setEmailAddress')
-            ->with('email');
-
-        $contactRequest->expects($this->once())
-            ->method('setCustomerUser')
-            ->with($customerUser);
-
-        $contactRequest->expects($this->once())
-            ->method('setWebsite')
-            ->with($website);
-
-        $contactRequest->expects($this->once())
-            ->method('setComment')
-            ->with('oro.consent.declined.message');
-
-        $this->assertSame(
-            $contactRequest,
-            $this->helper->createContactRequest($consentAcceptance, $customerUser)
-        );
+        $contactRequest = $this->helper->createContactRequest($consentAcceptance, $customerUser);
+        $this->assertEquals('firstName', $contactRequest->getFirstName());
+        $this->assertEquals('lastName', $contactRequest->getLastName());
+        $this->assertEquals('email', $contactRequest->getEmailAddress());
+        $this->assertEquals($contactReason, $contactRequest->getContactReason());
+        $this->assertEquals('oro.consent.declined.message', $contactRequest->getComment());
     }
 }
