@@ -4,6 +4,7 @@ namespace Oro\Bridge\ContactUs\Controller;
 
 use Oro\Bridge\ContactUs\Form\Type\ContactRequestType;
 use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
+use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormErrorIterator;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Storefront controller that displays "Contact Us" page, displayes and handles "Contact Us" form submission.
@@ -42,10 +44,10 @@ class ContactRequestController extends AbstractController
             ]
         );
 
-        $this->get('oro_form.update_handler')->update(
+        $this->get(UpdateHandlerFacade::class)->update(
             $contactRequest,
             $form,
-            $this->get('translator')->trans('oro.contactus.form.contactrequest.sent'),
+            $this->get(TranslatorInterface::class)->trans('oro.contactus.form.contactrequest.sent'),
             null,
             null,
             function ($entity, FormInterface $form) {
@@ -79,10 +81,10 @@ class ContactRequestController extends AbstractController
             $contactRequest
         );
 
-        $result =  $this->get('oro_form.update_handler')->update(
+        $result =  $this->get(UpdateHandlerFacade::class)->update(
             $contactRequest,
             $form,
-            $this->get('translator')->trans('oro.contactus.form.contactrequest.sent')
+            $this->get(TranslatorInterface::class)->trans('oro.contactus.form.contactrequest.sent')
         );
 
         if ($result instanceof Response) {
@@ -98,5 +100,19 @@ class ContactRequestController extends AbstractController
     private function renderErrors(FormErrorIterator $errors): string
     {
         return $this->renderView('@OroContactUsBridge/validation.html.twig', ['errors' => $errors]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            [
+                TranslatorInterface::class,
+                UpdateHandlerFacade::class,
+            ]
+        );
     }
 }

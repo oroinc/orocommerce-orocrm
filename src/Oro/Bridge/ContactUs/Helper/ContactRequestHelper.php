@@ -66,13 +66,14 @@ class ContactRequestHelper
     {
         $contactReason = $this->getContactReason();
 
-        /** @var ContactRequest $contactRequest */
-        $contactRequest = $this->doctrineHelper->createEntityInstance(ContactRequest::class);
+        $contactRequest = new ContactRequest();
         $contactRequest->setContactReason($contactReason);
         $contactRequest->setFirstName($customerUser->getFirstName());
         $contactRequest->setLastName($customerUser->getLastName());
         $contactRequest->setEmailAddress($customerUser->getEmail());
-        $contactRequest->setCustomerUser($customerUser);
+        if (method_exists($contactRequest, 'setCustomerUser')) {
+            $contactRequest->setCustomerUser($customerUser);
+        }
         if (method_exists($contactRequest, 'setWebsite')) {
             $contactRequest->setWebsite($customerUser->getWebsite());
         }
