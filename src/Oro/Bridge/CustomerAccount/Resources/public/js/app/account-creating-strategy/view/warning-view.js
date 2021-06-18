@@ -21,14 +21,14 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function WarningSettingsView(options) {
             WarningSettingsView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.$messageContainer = this.$el.find(options.warningContainer);
