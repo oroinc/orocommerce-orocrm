@@ -9,7 +9,7 @@ Oro\Bundle\UserBundle\Entity\User:
         organization: '@organization'
         organizations: ['@organization']
         owner: '@business_unit'
-        roles: ['@managerRole']
+        userRoles: ['@managerRole']
         businessUnits: ['@business_unit']
     user_without_access_to_main_organization:
         username: userWithoutMainOrganization
@@ -20,7 +20,7 @@ Oro\Bundle\UserBundle\Entity\User:
         salt: salt
         organization: '@organization'
         owner: '@business_unit'
-        roles: ['@adminRole']
+        userRoles: ['@adminRole']
         businessUnits: ['@business_unit']
     user_with_assign:
         username: userWithAssign1
@@ -32,7 +32,7 @@ Oro\Bundle\UserBundle\Entity\User:
         organization: '@organization'
         organizations: ['@organization']
         owner: '@business_unit'
-        roles: ['@userRole']
+        userRoles: ['@userRole']
         businessUnits: ['@business_unit']
     user_without_assign:
         username: userWithoutAssign1
@@ -44,7 +44,7 @@ Oro\Bundle\UserBundle\Entity\User:
         organization: '@organization'
         organizations: ['@organization']
         owner: '@business_unit'
-        roles: ['@userRole']
+        userRoles: ['@userRole']
         businessUnits: ['@business_unit']
 
 Oro\Bundle\PaymentTermBundle\Entity\PaymentTerm:
