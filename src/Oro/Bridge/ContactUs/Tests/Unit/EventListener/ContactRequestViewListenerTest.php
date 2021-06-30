@@ -23,7 +23,7 @@ class ContactRequestViewListenerTest extends \PHPUnit\Framework\TestCase
     {
         $customerUser = new CustomerUser();
         $entity = $this->getMockBuilder(ContactRequest::class)
-            ->setMethods(['getCustomerUser'])
+            ->addMethods(['getCustomerUser'])
             ->getMock();
         $entity->expects($this->once())
             ->method('getCustomerUser')

@@ -1,29 +1,28 @@
 <?php
 
-namespace Oro\Bridge\QuoteSales\Tests;
+namespace Oro\Bridge\QuoteSales\Tests\Unit\EventListener;
 
 use Oro\Bridge\QuoteSales\EventListener\OpportunityQuotesListener;
+use Oro\Bridge\QuoteSales\Provider\OpportunityQuotesProvider;
+use Oro\Bundle\SalesBundle\Entity\Opportunity;
+use Oro\Bundle\UIBundle\Event\BeforeViewRenderEvent;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class OpportunityQuotesListenerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var OpportunityQuotesListener */
-    protected $opportunityQuotesListener;
+    private $opportunityQuotesListener;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    protected $opportunityQuotesProvider;
+    private $opportunityQuotesProvider;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    protected $translator;
+    private $translator;
 
     protected function setUp(): void
     {
-        $this->opportunityQuotesProvider = $this
-            ->getMockBuilder('Oro\Bridge\QuoteSales\Provider\OpportunityQuotesProvider')
-            ->setMethods(['getQuotesByOpportunity'])
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->translator = $this->createMock('Symfony\Contracts\Translation\TranslatorInterface');
+        $this->opportunityQuotesProvider = $this->createMock(OpportunityQuotesProvider::class);
+        $this->translator = $this->createMock(TranslatorInterface::class);
 
         $this->opportunityQuotesListener = new OpportunityQuotesListener(
             $this->opportunityQuotesProvider,
@@ -33,29 +32,19 @@ class OpportunityQuotesListenerTest extends \PHPUnit\Framework\TestCase
 
     public function testNoQuotesInOpportunity()
     {
-        $this->opportunityQuotesProvider
-            ->expects($this->once())
+        $this->opportunityQuotesProvider->expects($this->once())
             ->method('getQuotesByOpportunity')
             ->willReturn([]);
 
-        $this->translator
-            ->expects($this->never())
+        $this->translator->expects($this->never())
             ->method('trans');
 
-        $event = $this
-            ->getMockBuilder('Oro\Bundle\UIBundle\Event\BeforeViewRenderEvent')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $entity = $this
-            ->getMockBuilder('Oro\Bundle\SalesBundle\Entity\Opportunity')
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $entity = $this->createMock(Opportunity::class);
         $entity->expects($this->once())
             ->method('getCustomerAssociation')
             ->willReturn(true);
 
+        $event = $this->createMock(BeforeViewRenderEvent::class);
         $event->expects($this->once())
             ->method('getEntity')
             ->willReturn($entity);
