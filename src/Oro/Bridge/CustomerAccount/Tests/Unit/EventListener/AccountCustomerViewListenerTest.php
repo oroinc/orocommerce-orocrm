@@ -8,18 +8,13 @@ use Oro\Bundle\SalesBundle\Entity\Customer as SalesCustomer;
 use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
 use Oro\Bundle\UIBundle\Event\BeforeListRenderEvent;
 use Oro\Bundle\UIBundle\View\ScrollData;
+use Twig\Environment;
 
 class AccountCustomerViewListenerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var AccountCustomerManager|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private $accountCustomerManager;
+    private AccountCustomerManager|\PHPUnit\Framework\MockObject\MockObject $accountCustomerManager;
 
-    /**
-     * @var AccountCustomerViewListener
-     */
-    private $listener;
+    private AccountCustomerViewListener $listener;
 
     /**
      * {@inheritdoc}
@@ -30,36 +25,34 @@ class AccountCustomerViewListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener = new AccountCustomerViewListener($this->accountCustomerManager);
     }
 
-    public function testOnViewWhenNoCustomer()
+    public function testOnViewWhenNoCustomer(): void
     {
-        /** @var \Twig_Environment|\PHPUnit\Framework\MockObject\MockObject $env */
-        $env = $this->createMock(\Twig_Environment::class);
+        $env = $this->createMock(Environment::class);
         $scrollData = new ScrollData();
         $entity = new \stdClass();
         $event = new BeforeListRenderEvent($env, $scrollData, $entity);
-        $this->accountCustomerManager->expects($this->never())
+        $this->accountCustomerManager->expects(self::never())
             ->method('getAccountCustomerByTarget');
-        $env->expects($this->never())
+        $env->expects(self::never())
             ->method('render');
 
         $this->listener->onView($event);
-        $this->assertEmpty($scrollData->getData());
+        self::assertEmpty($scrollData->getData());
     }
 
-    public function testOnView()
+    public function testOnView(): void
     {
-        /** @var \Twig_Environment|\PHPUnit\Framework\MockObject\MockObject $env */
-        $env = $this->createMock(\Twig_Environment::class);
+        $env = $this->createMock(Environment::class);
         $scrollData = new ScrollData([ScrollData::DATA_BLOCKS => [[ScrollData::SUB_BLOCKS => [[]]]]]);
         $entity = new Customer();
         $event = new BeforeListRenderEvent($env, $scrollData, $entity);
         $salesCustomer = new SalesCustomer();
-        $this->accountCustomerManager->expects($this->once())
+        $this->accountCustomerManager->expects(self::once())
             ->method('getAccountCustomerByTarget')
             ->with($entity)
             ->willReturn($salesCustomer);
         $template = '<div>SomeTemplate</div>';
-        $env->expects($this->once())
+        $env->expects(self::once())
             ->method('render')
             ->with(
                 '@OroCustomerAccountBridge/Customer/accountView.html.twig',
@@ -68,7 +61,7 @@ class AccountCustomerViewListenerTest extends \PHPUnit\Framework\TestCase
             ->willReturn($template);
 
         $this->listener->onView($event);
-        $this->assertEquals(
+        self::assertEquals(
             [
                 ScrollData::DATA_BLOCKS => [
                     [
