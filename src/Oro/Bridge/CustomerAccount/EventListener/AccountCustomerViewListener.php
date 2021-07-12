@@ -37,7 +37,7 @@ class AccountCustomerViewListener
 
         $salesCustomer = $this->accountCustomerManager->getAccountCustomerByTarget($customer, false);
         $template = $event->getEnvironment()->render(
-            'OroCustomerAccountBridgeBundle:Customer:accountView.html.twig',
+            '@OroCustomerAccountBridge/Customer/accountView.html.twig',
             ['salesCustomer' => $salesCustomer]
         );
         $event->getScrollData()->addSubBlockData(0, 0, $template);

@@ -1,4 +1,4 @@
 layout:
     actions:
         - '@setFormTheme':
-            themes: 'OroContactUsBridgeBundle:layouts:blank/contact_us_form.html.twig'
+            themes: '@OroContactUsBridge/layouts/blank/contact_us_form.html.twig'

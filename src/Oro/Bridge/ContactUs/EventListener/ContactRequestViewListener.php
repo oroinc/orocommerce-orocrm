@@ -8,13 +8,13 @@ use Oro\Bundle\UIBundle\Event\BeforeListRenderEvent;
 
 /**
  * Adds "Customer User" field to the contact request view page in the back-office.
- * @see OroContactUsBridgeBundle:ContactRequest:customerUser.html.twig
+ * @see @OroContactUsBridge/ContactRequest/customerUser.html.twig
  */
 class ContactRequestViewListener
 {
     /**
      * Adds "Customer User" field to the contact request view page in the back-office.
-     * @see OroContactUsBridgeBundle:ContactRequest:customerUser.html.twig
+     * @see @OroContactUsBridge/ContactRequest/customerUser.html.twig
      */
     public function onView(BeforeListRenderEvent $event): void
     {
@@ -27,7 +27,7 @@ class ContactRequestViewListener
         $customerUser = $contactRequest->getCustomerUser();
 
         $template = $event->getEnvironment()->render(
-            'OroContactUsBridgeBundle:ContactRequest:customerUser.html.twig',
+            '@OroContactUsBridge/ContactRequest/customerUser.html.twig',
             ['customerUser' => $customerUser]
         );
 

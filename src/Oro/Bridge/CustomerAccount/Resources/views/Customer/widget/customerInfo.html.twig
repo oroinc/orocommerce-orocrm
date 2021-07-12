@@ -1,4 +1,4 @@
-{% import 'OroUIBundle::macros.html.twig' as UI %}
+{% import '@OroUI/macros.html.twig' as UI %}
 
 {% set activeTab = app.request.get('_activeTab')|default(null) %}
 {% set uniqueSuffix = '_customer_' ~ customer.id %}

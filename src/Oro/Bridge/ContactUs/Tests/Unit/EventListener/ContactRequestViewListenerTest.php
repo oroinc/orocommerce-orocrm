@@ -38,7 +38,7 @@ class ContactRequestViewListenerTest extends \PHPUnit\Framework\TestCase
         $twig->expects($this->once())
             ->method('render')
             ->with(
-                'OroContactUsBridgeBundle:ContactRequest:customerUser.html.twig',
+                '@OroContactUsBridge/ContactRequest/customerUser.html.twig',
                 ['customerUser' => $customerUser]
             )
             ->willReturn($template);

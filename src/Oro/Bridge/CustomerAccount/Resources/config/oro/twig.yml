@@ -1,2 +1,2 @@
 bundles:
-    - OroCustomerAccountBridgeBundle:Form:fields.html.twig
+    - '@OroCustomerAccountBridge/Form/fields.html.twig'
