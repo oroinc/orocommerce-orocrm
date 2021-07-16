@@ -15,9 +15,6 @@ class ContactRequestStub extends ContactRequest
      */
     protected $customerUser;
 
-    /**
-     * @param CustomerUser $customerUser
-     */
     public function setCustomerUser(CustomerUser $customerUser)
     {
         $this->customerUser = $customerUser;

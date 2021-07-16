@@ -11,9 +11,6 @@ use Symfony\Component\Console\Event\ConsoleCommandEvent;
  */
 class DataFixturesCommandListener
 {
-    /**
-     * @param ConsoleCommandEvent $event
-     */
     public function onConsoleCommand(ConsoleCommandEvent $event): void
     {
         $command = $event->getCommand();

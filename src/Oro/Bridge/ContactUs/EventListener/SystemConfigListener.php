@@ -20,19 +20,12 @@ class SystemConfigListener
     /** @var ConfigManager */
     private $configManager;
 
-    /**
-     * @param DoctrineHelper $doctrineHelper
-     * @param ConfigManager $configManager
-     */
     public function __construct(DoctrineHelper $doctrineHelper, ConfigManager $configManager)
     {
         $this->doctrineHelper = $doctrineHelper;
         $this->configManager = $configManager;
     }
 
-    /**
-     * @param ConfigSettingsUpdateEvent $event
-     */
     public function onFormPreSetData(ConfigSettingsUpdateEvent $event)
     {
         $settingsKey = Configuration::getConfigKey(
@@ -47,9 +40,6 @@ class SystemConfigListener
         }
     }
 
-    /**
-     * @param ConfigSettingsUpdateEvent $event
-     */
     public function onSettingsSaveBefore(ConfigSettingsUpdateEvent $event)
     {
         $settings = $event->getSettings();
@@ -67,9 +57,6 @@ class SystemConfigListener
         $event->setSettings($settings);
     }
 
-    /**
-     * @param ContactReason $contactReason
-     */
     public function onPreRemove(ContactReason $contactReason)
     {
         $configKey = Configuration::getConfigKey(Configuration::CONSENT_CONTACT_REASON);

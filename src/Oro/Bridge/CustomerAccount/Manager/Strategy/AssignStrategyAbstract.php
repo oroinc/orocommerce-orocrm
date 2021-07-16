@@ -24,11 +24,6 @@ abstract class AssignStrategyAbstract implements AssignStrategyInterface
      */
     protected $lifetimeProcessor;
 
-    /**
-     * @param AccountBuilder         $builder
-     * @param AccountCustomerManager $accountCustomerManager
-     * @param LifetimeProcessor $lifetimeProcessor
-     */
     public function __construct(
         AccountBuilder $builder,
         AccountCustomerManager $accountCustomerManager,
@@ -55,9 +50,6 @@ abstract class AssignStrategyAbstract implements AssignStrategyInterface
         return $customer;
     }
 
-    /**
-     * @param Customer $customer
-     */
     protected function recalculateLifeTimeValue(Customer $customer)
     {
         $newLifetimeValue = $this->lifetimeProcessor->calculateLifetimeValue($customer);

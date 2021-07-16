@@ -64,9 +64,6 @@ class OroCustomerAccountBridgeBundleInstaller implements
         }
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function addInheritanceTargets(Schema $schema)
     {
         $customerPath = [
@@ -116,9 +113,6 @@ class OroCustomerAccountBridgeBundleInstaller implements
         );
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function createFields(Schema $schema)
     {
         /**
@@ -153,9 +147,6 @@ class OroCustomerAccountBridgeBundleInstaller implements
         );
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function createLifetimeFields(Schema $schema)
     {
         $table = $schema->getTable('oro_customer');
@@ -181,9 +172,6 @@ class OroCustomerAccountBridgeBundleInstaller implements
         );
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function createChannelFields(Schema $schema)
     {
         $this->extendExtension->addManyToOneRelation(
