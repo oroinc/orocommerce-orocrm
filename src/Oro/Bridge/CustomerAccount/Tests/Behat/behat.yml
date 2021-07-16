@@ -6,7 +6,6 @@ oro_behat_extension:
         - Oro\Bridge\CustomerAccount\Tests\Behat\Context\CustomerAccountContext
         - OroDataGridBundle::GridContext
         - OroSecurityBundle::ACLContext
-        - OroSecurityBundle::PermissionContext
         - OroEmailBundle::EmailContext
         - OroFormBundle::FormContext
         - OroImportExportBundle::ImportExportContext:
