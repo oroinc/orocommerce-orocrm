@@ -41,7 +41,6 @@ class OpportunityQuotesListenerFixture extends AbstractFixture implements Contai
         return $this->accountCustomerManager->getAccountCustomerByTarget($customer);
     }
 
-
     /**
      * @param Organization $organization
      * @return \Extend\Entity\EX_OroSalesBundle_Customer|Customer
@@ -70,10 +69,6 @@ class OpportunityQuotesListenerFixture extends AbstractFixture implements Contai
         return $this->em->getRepository($className)->find(ExtendHelper::buildEnumValueId($statusId));
     }
 
-    /**
-     * @param Opportunity $opportunity
-     * @param Website $website
-     */
     protected function createQuote(Opportunity $opportunity, Website $website)
     {
         $customer = $opportunity->getCustomerAssociation()->getTarget();
@@ -91,10 +86,6 @@ class OpportunityQuotesListenerFixture extends AbstractFixture implements Contai
         $this->em->flush();
     }
 
-    /**
-     * @param Organization $organization
-     * @param Website $website
-     */
     protected function createOpportunity(Organization $organization, Website $website)
     {
         $customer = $this->createCommerceCustomer();

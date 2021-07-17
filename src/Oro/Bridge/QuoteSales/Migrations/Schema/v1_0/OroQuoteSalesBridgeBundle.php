@@ -31,9 +31,6 @@ class OroQuoteSalesBridgeBundle implements Migration, ExtendExtensionAwareInterf
         $this->createFields($schema);
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function createFields(Schema $schema)
     {
         $this->extendExtension->addManyToOneRelation(

@@ -10,9 +10,6 @@ use Oro\Bundle\SalesBundle\EntityConfig\CustomerScope;
 
 class CustomerAccountGridListener
 {
-    /**
-     * @param BuildBefore $event
-     */
     public function onBuildBefore(BuildBefore $event)
     {
         $config = $event->getConfig();
@@ -20,9 +17,6 @@ class CustomerAccountGridListener
         $this->addWhere($config);
     }
 
-    /**
-     * @param DatagridConfiguration $config
-     */
     protected function addWhere(DatagridConfiguration $config)
     {
         $rootAlias = $config->getOrmQuery()->getRootAlias();

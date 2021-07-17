@@ -15,7 +15,6 @@ class OpportunityToQuoteDataStorage
 
     /**
      * OpportunityToQuoteDataStorage constructor.
-     * @param DataStorageInterface $attributeStorage
      */
     public function __construct(DataStorageInterface $attributeStorage)
     {
@@ -24,7 +23,6 @@ class OpportunityToQuoteDataStorage
 
     /**
      * Puts data to storage. This data will be used in some other place (for example QuoteController)
-     * @param Opportunity $opportunity
      */
     public function saveToStorage(Opportunity $opportunity)
     {

@@ -43,7 +43,6 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit\Framework\TestCase
      */
     private $entityManager;
 
-
     /**
      * @var Customer[]
      */
@@ -97,8 +96,6 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider denormalizeAccountWithProperArrayDataProvider
-     * @param array $data
-     * @param Account|null $expectedAccount
      */
     public function testDenormalizeAccountWithProperArray(array $data, Account $expectedAccount = null)
     {
@@ -261,9 +258,6 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit\Framework\TestCase
             ->willReturnMap($map);
     }
 
-    /**
-     * @param $howManyTimes
-     */
     private function andShouldFind($howManyTimes)
     {
         $map = [];

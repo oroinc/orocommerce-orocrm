@@ -28,19 +28,12 @@ class AccountManager
      */
     protected $strategies;
 
-    /**
-     * @param ManagerRegistry $registry
-     * @param LoggerInterface $logger
-     */
     public function __construct(ManagerRegistry $registry, LoggerInterface $logger)
     {
         $this->registry = $registry;
         $this->logger = $logger;
     }
 
-    /**
-     * @param AssignStrategyInterface $strategy
-     */
     public function addStrategy(AssignStrategyInterface $strategy)
     {
         $this->strategies[$strategy->getName()] = $strategy;
@@ -118,9 +111,6 @@ class AccountManager
         $this->getManager()->clear(CustomerAssociation::class);
     }
 
-    /**
-     * @param $objects
-     */
     protected function updateEntities($objects)
     {
         if ($objects) {

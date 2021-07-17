@@ -51,9 +51,6 @@ class OroCustomerAccountBridgeBundle implements
         }
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function addInheritanceTargets(Schema $schema)
     {
         $customerPath = [
@@ -103,9 +100,6 @@ class OroCustomerAccountBridgeBundle implements
         );
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function createFields(Schema $schema)
     {
         $this->extendExtension->addManyToOneRelation(

@@ -101,7 +101,6 @@ class OrderPaymentTransactionAndStatus extends AbstractFixture implements Depend
         $paymentStatus->setEntityIdentifier($order->getId());
         $paymentStatus->setPaymentStatus($paymentStatusData['value']);
 
-
         $manager->persist($paymentStatus);
         $this->addReference($paymentStatusData['referenceName'], $paymentStatus);
 

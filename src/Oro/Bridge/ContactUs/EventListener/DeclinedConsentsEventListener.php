@@ -24,19 +24,12 @@ class DeclinedConsentsEventListener
      */
     private $registry;
 
-    /**
-     * @param ContactRequestHelper $contactRequestHelper
-     * @param ManagerRegistry      $registry
-     */
     public function __construct(ContactRequestHelper $contactRequestHelper, ManagerRegistry $registry)
     {
         $this->contactRequestHelper = $contactRequestHelper;
         $this->registry = $registry;
     }
 
-    /**
-     * @param DeclinedConsentsEvent $event
-     */
     public function onDecline(DeclinedConsentsEvent $event): void
     {
         $declinedConsents = $event->getDeclinedConsents();
@@ -51,9 +44,6 @@ class DeclinedConsentsEventListener
         $entityManager->flush();
     }
 
-    /**
-     * @return ObjectManager
-     */
     private function getEntityManager(): ObjectManager
     {
         return $this->registry->getManagerForClass(ContactRequest::class);

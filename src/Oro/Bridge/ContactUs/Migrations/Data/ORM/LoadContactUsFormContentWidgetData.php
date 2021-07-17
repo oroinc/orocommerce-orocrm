@@ -12,9 +12,6 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
  */
 class LoadContactUsFormContentWidgetData extends AbstractFixture
 {
-    /**
-     * @param ObjectManager $manager
-     */
     public function load(ObjectManager $manager)
     {
         $organization = $manager->getRepository(Organization::class)->getFirst();
