@@ -1,19 +1,19 @@
 services:
     oro_customer_account.event_listener.customer_create:
-        class: 'Oro\Bridge\CustomerAccount\EventListener\CustomerCreateListener'
+        class: Oro\Bridge\CustomerAccount\EventListener\CustomerCreateListener
         tags:
             - { name: doctrine.orm.entity_listener, entity: 'Oro\Bundle\CustomerBundle\Entity\Customer', event: postPersist }
             - { name: doctrine.orm.entity_listener, entity: 'Oro\Bundle\CustomerBundle\Entity\Customer', event: postUpdate }
 
     oro_customer_account.form.event_listener.change_config_option:
-        class: 'Oro\Bridge\CustomerAccount\EventListener\ChangeConfigOptionListener'
+        class: Oro\Bridge\CustomerAccount\EventListener\ChangeConfigOptionListener
         tags:
             - { name: kernel.event_listener, event: oro_config.update_after, method: onConfigUpdate }
         arguments:
             - '@oro_message_queue.client.message_producer'
 
     oro_customer_account.form.type.customer_account_config_choice:
-        class: 'Oro\Bridge\CustomerAccount\Form\Type\CustomerAccountConfigChoice'
+        class: Oro\Bridge\CustomerAccount\Form\Type\CustomerAccountConfigChoice
         tags:
             - { name: form.type, alias: oro_config_customer_account_choice }
 
@@ -25,7 +25,7 @@ services:
             - { name: kernel.event_listener, event: oro_ui.scroll_data.before.customer-view, method: onView }
 
     oro_customer_account.event_listener.customer_account_view:
-        class: 'Oro\Bundle\SalesBundle\EventListener\AccountViewListener'
+        class: Oro\Bundle\SalesBundle\EventListener\AccountViewListener
         arguments:
             - '@oro_entity.doctrine_helper'
             - '@request_stack'
@@ -36,13 +36,13 @@ services:
             - { name: kernel.event_listener, event: oro_ui.scroll_data.before.account-view, method: onView }
 
     oro_customer_account.event_listener.datagrid.opportunity_accout_grid:
-        class: 'Oro\Bridge\CustomerAccount\EventListener\Datagrid\CustomerAccountGridListener'
+        class: Oro\Bridge\CustomerAccount\EventListener\Datagrid\CustomerAccountGridListener
         tags:
             - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.before.sales-opportunity-by-account-grid, method: onBuildBefore }
 
     # message queue
     oro_customer_account.async.reassign_customer_processor:
-        class: 'Oro\Bridge\CustomerAccount\Async\ReassingCustomerProcessor'
+        class: Oro\Bridge\CustomerAccount\Async\ReassingCustomerProcessor
         arguments:
             - '@oro_customer_account.manager.account_manager'
             - '@oro_message_queue.job.runner'
@@ -52,13 +52,13 @@ services:
 
     # manager
     oro_customer_account.manager.account_builder:
-        class: 'Oro\Bridge\CustomerAccount\Manager\AccountBuilder'
+        class: Oro\Bridge\CustomerAccount\Manager\AccountBuilder
         arguments:
             - '@doctrine'
             - '@logger'
 
     oro_customer_account.manager.account_manager:
-        class: 'Oro\Bridge\CustomerAccount\Manager\AccountManager'
+        class: Oro\Bridge\CustomerAccount\Manager\AccountManager
         arguments:
             - '@doctrine'
             - '@logger'
@@ -67,14 +67,14 @@ services:
             - [addStrategy, ['@oro_customer_account.manager.strategy.assign_root_strategy']]
 
     oro_customer_account.manager.strategy.assign_each_strategy:
-        class: 'Oro\Bridge\CustomerAccount\Manager\Strategy\AssignEachStrategy'
+        class: Oro\Bridge\CustomerAccount\Manager\Strategy\AssignEachStrategy
         arguments:
             - '@oro_customer_account.manager.account_builder'
             - '@oro_sales.manager.account_customer'
             - '@oro_customer_account.manager.lifetime_processor'
 
     oro_customer_account.manager.strategy.assign_root_strategy:
-        class: 'Oro\Bridge\CustomerAccount\Manager\Strategy\AssignRootStrategy'
+        class: Oro\Bridge\CustomerAccount\Manager\Strategy\AssignRootStrategy
         arguments:
             - '@oro_customer_account.manager.account_builder'
             - '@oro_sales.manager.account_customer'
@@ -90,21 +90,21 @@ services:
          - { name: oro_sales.provider.customer.account_creation, priority: 10 }
 
     oro_customer_account.manager.lifetime_processor:
-        class: 'Oro\Bridge\CustomerAccount\Manager\LifetimeProcessor'
+        class: Oro\Bridge\CustomerAccount\Manager\LifetimeProcessor
         arguments:
             - '@doctrine'
             - '@oro_currency.query.currency_transformer'
 
     oro_customer_account.event_listener.customer_lifetime_listener:
-        class: 'Oro\Bridge\CustomerAccount\EventListener\CustomerLifetimeListener'
+        class: Oro\Bridge\CustomerAccount\EventListener\CustomerLifetimeListener
         arguments:
-            - '@oro_currency.converter.rate.link'
-            - '@oro_customer_account.manager.lifetime_processor'
-            - '@oro_payment.manager.payment_status'
             - '@oro_entity.doctrine_helper'
+            - '@Psr\Container\ContainerInterface'
         tags:
             - { name: doctrine.event_listener, event: onFlush }
             - { name: doctrine.event_listener, event: postFlush }
+            - { name: container.service_subscriber, id: oro_customer_account.manager.lifetime_processor }
+            - { name: container.service_subscriber, id: oro_payment.manager.payment_status }
 
     oro_payment.provider.payment_status.link:
         tags:
