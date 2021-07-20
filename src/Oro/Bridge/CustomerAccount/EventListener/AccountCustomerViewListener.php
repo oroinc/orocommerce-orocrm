@@ -16,17 +16,11 @@ class AccountCustomerViewListener
      */
     protected $accountCustomerManager;
 
-    /**
-     * @param AccountCustomerManager $accountCustomerManager
-     */
     public function __construct(AccountCustomerManager $accountCustomerManager)
     {
         $this->accountCustomerManager = $accountCustomerManager;
     }
 
-    /**
-     * @param BeforeListRenderEvent $event
-     */
     public function onView(BeforeListRenderEvent $event)
     {
         /** @var Customer $customer */

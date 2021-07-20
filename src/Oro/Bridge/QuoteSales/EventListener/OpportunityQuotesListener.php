@@ -19,10 +19,6 @@ class OpportunityQuotesListener
     /** @var DoctrineHelper  */
     protected $doctrineHelper;
 
-    /**
-     * @param OpportunityQuotesProvider $opportunityQuotesProvider
-     * @param TranslatorInterface $translator
-     */
     public function __construct(
         OpportunityQuotesProvider $opportunityQuotesProvider,
         TranslatorInterface $translator
@@ -33,8 +29,6 @@ class OpportunityQuotesListener
 
     /**
      * Adds block with relevant opportunities grid on the Opportunity view
-     *
-     * @param BeforeViewRenderEvent $event
      */
     public function addRelatedQuotes(BeforeViewRenderEvent $event)
     {

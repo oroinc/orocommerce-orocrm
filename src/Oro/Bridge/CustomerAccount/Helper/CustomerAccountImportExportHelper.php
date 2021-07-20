@@ -63,10 +63,6 @@ class CustomerAccountImportExportHelper
         return $this->getAccountRepository()->find($id);
     }
 
-    /**
-     * @param Customer $customer
-     * @param Account $account
-     */
     public function assignAccount(Customer $customer, Account $account)
     {
         $field = AccountCustomerManager::getCustomerTargetField(Customer::class);
@@ -123,10 +119,6 @@ class CustomerAccountImportExportHelper
         return $this->doctrineHelper->getEntityManagerForClass(Customer::class);
     }
 
-    /**
-     * @param Customer $customer
-     * @param Account $account
-     */
     private function assignAccountToNewCustomer(Customer $customer, Account $account)
     {
         $salesCustomer = $this->createNewSalesCustomer()

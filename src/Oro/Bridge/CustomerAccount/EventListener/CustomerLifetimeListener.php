@@ -39,18 +39,11 @@ class CustomerLifetimeListener
     /** @var RateConverterInterface  */
     protected $rateConverter;
 
-    /** @var PaymentStatusManager */
     private PaymentStatusManager $paymentStatusManager;
 
     /** @var DoctrineHelper */
     private $doctrineHelper;
 
-    /**
-     * @param ServiceLink $rateConverterLink
-     * @param LifetimeProcessor $lifetimeProcessor
-     * @param PaymentStatusManager $paymentStatusManager
-     * @param DoctrineHelper $doctrineHelper
-     */
     public function __construct(
         ServiceLink $rateConverterLink,
         LifetimeProcessor $lifetimeProcessor,
@@ -63,9 +56,6 @@ class CustomerLifetimeListener
         $this->doctrineHelper = $doctrineHelper;
     }
 
-    /**
-     * @param OnFlushEventArgs $args
-     */
     public function onFlush(OnFlushEventArgs $args)
     {
         $this->initializeFromEventArgs($args);
@@ -135,9 +125,6 @@ class CustomerLifetimeListener
         }
     }
 
-    /**
-     * @param PostFlushEventArgs $args
-     */
     public function postFlush(PostFlushEventArgs $args)
     {
         if ($this->isInProgress || empty($this->queued)) {
@@ -186,9 +173,6 @@ class CustomerLifetimeListener
         }
     }
 
-    /**
-     * @param Customer|null $customer
-     */
     protected function scheduleUpdate(Customer $customer = null)
     {
         if ($customer == null || $this->uow->isScheduledForDelete($customer)) {

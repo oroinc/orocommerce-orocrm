@@ -14,16 +14,12 @@ class OpportunityToRouteDataStorage
 
     /**
      * OpportunityToQuoteDataStorage constructor.
-     * @param DataStorageInterface $returnRouteDataStorage
      */
     public function __construct(DataStorageInterface $returnRouteDataStorage)
     {
         $this->returnRouteDataStorage = $returnRouteDataStorage;
     }
 
-    /**
-     * @param Opportunity $opportunity
-     */
     public function saveToStorage(Opportunity $opportunity)
     {
         $this->returnRouteDataStorage->set([

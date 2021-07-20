@@ -33,7 +33,6 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
-
     /**
      * @param string $key
      * @param string $separator

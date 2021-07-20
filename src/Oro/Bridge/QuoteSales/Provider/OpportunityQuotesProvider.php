@@ -13,10 +13,6 @@ class OpportunityQuotesProvider
     /** @var AclHelper  */
     protected $aclHelper;
 
-    /**
-     * @param ManagerRegistry $doctrine
-     * @param AclHelper $aclHelper
-     */
     public function __construct(ManagerRegistry $doctrine, AclHelper $aclHelper)
     {
         $this->doctrine = $doctrine;

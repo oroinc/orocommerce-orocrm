@@ -22,11 +22,6 @@ class ReassingCustomerProcessor implements MessageProcessorInterface, TopicSubsc
     /** @var JobRunner */
     private $jobRunner;
 
-    /**
-     * @param AccountManager  $manager
-     * @param JobRunner       $jobRunner
-     * @param LoggerInterface $logger
-     */
     public function __construct(AccountManager $manager, JobRunner $jobRunner, LoggerInterface $logger)
     {
         $this->manager = $manager;
