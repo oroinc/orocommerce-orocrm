@@ -39,9 +39,6 @@ class OroCustomerLifetimeField implements
         }
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function createLifetimeFields(Schema $schema)
     {
         $table = $schema->getTable('oro_customer');
@@ -68,9 +65,6 @@ class OroCustomerLifetimeField implements
         );
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function createChannelFields(Schema $schema)
     {
         $this->extendExtension->addManyToOneRelation(

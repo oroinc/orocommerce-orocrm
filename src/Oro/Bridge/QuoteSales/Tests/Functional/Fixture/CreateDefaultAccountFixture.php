@@ -26,9 +26,6 @@ class CreateDefaultAccountFixture extends AbstractFixture
         return $account;
     }
 
-    /**
-     * @param ObjectManager $manager
-     */
     public function load(ObjectManager $manager)
     {
         $this->organization = $manager->getRepository('OroOrganizationBundle:Organization')->getFirst();

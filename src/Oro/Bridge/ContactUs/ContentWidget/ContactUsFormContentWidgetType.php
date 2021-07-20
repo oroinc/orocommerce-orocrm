@@ -25,11 +25,6 @@ class ContactUsFormContentWidgetType extends AbstractContentWidgetType
     /** @var RequestStack */
     private $requestStack;
 
-    /**
-     * @param FormFactoryInterface $formFactory
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param RequestStack $requestStack
-     */
     public function __construct(
         FormFactoryInterface $formFactory,
         UrlGeneratorInterface $urlGenerator,

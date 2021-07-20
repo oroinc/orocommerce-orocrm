@@ -88,7 +88,6 @@ class OpportunityQuotesListenerTest extends AbstractDatagridTestCase
         }
     }
 
-
     /**
      * @return array
      */

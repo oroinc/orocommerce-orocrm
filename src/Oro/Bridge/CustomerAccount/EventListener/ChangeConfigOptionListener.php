@@ -11,17 +11,11 @@ class ChangeConfigOptionListener
     /** @var MessageProducerInterface */
     protected $producer;
 
-    /**
-     * @param MessageProducerInterface $producer
-     */
     public function __construct(MessageProducerInterface $producer)
     {
         $this->producer = $producer;
     }
 
-    /**
-     * @param ConfigUpdateEvent $event
-     */
     public function onConfigUpdate(ConfigUpdateEvent $event)
     {
         if (!$event->isChanged('oro_customer_account_bridge.customer_account_settings')) {

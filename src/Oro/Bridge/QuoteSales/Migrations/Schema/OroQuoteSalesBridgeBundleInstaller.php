@@ -40,9 +40,6 @@ class OroQuoteSalesBridgeBundleInstaller implements Installation, ExtendExtensio
         $this->createFields($schema);
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function createFields(Schema $schema)
     {
         $this->extendExtension->addManyToOneRelation(

@@ -9,28 +9,16 @@ class CustomerCreateListener
 {
     const COMMERCE_CHANNEL_TYPE = 'commerce';
 
-    /**
-     * @param Customer $customer
-     * @param LifecycleEventArgs $args
-     */
     public function postPersist(Customer $customer, LifecycleEventArgs $args)
     {
         $this->updateDataChannel($customer, $args);
     }
 
-    /**
-     * @param Customer $customer
-     * @param LifecycleEventArgs $args
-     */
     public function postUpdate(Customer $customer, LifecycleEventArgs $args)
     {
         $this->updateDataChannel($customer, $args);
     }
 
-    /**
-     * @param Customer $customer
-     * @param LifecycleEventArgs $args
-     */
     private function updateDataChannel(Customer $customer, LifecycleEventArgs $args)
     {
         $em = $args->getEntityManager();

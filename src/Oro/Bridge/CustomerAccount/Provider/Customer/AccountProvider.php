@@ -21,10 +21,6 @@ class AccountProvider implements AccountProviderInterface
     /** @var ManagerRegistry */
     private $doctrine;
 
-    /**
-     * @param ConfigManager   $configManager
-     * @param ManagerRegistry $doctrine
-     */
     public function __construct(
         ConfigManager $configManager,
         ManagerRegistry $doctrine

@@ -38,12 +38,6 @@ class ContactRequestHelper
      */
     private $translator;
 
-    /**
-     * @param DoctrineHelper $doctrineHelper
-     * @param ConfigManager $configManager
-     * @param LocalizationHelper $localizationHelper
-     * @param TranslatorInterface $translator
-     */
     public function __construct(
         DoctrineHelper $doctrineHelper,
         ConfigManager $configManager,
@@ -56,12 +50,6 @@ class ContactRequestHelper
         $this->translator = $translator;
     }
 
-    /**
-     * @param ConsentAcceptance $acceptance
-     * @param CustomerUser $customerUser
-     *
-     * @return ContactRequest
-     */
     public function createContactRequest(ConsentAcceptance $acceptance, CustomerUser $customerUser): ContactRequest
     {
         $contactReason = $this->getContactReason();
@@ -84,11 +72,6 @@ class ContactRequestHelper
         return $contactRequest;
     }
 
-    /**
-     * @param Consent $consent
-     *
-     * @return string
-     */
     protected function prepareComment(Consent $consent): string
     {
         $comment = $this->translator->trans(

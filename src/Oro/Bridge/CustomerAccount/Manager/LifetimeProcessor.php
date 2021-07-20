@@ -21,10 +21,6 @@ class LifetimeProcessor
      */
     protected $qbTransformer;
 
-    /**
-     * @param ManagerRegistry $registry
-     * @param CurrencyQueryBuilderTransformerInterface $qbTransformer
-     */
     public function __construct(ManagerRegistry $registry, CurrencyQueryBuilderTransformerInterface $qbTransformer)
     {
         $this->registry = $registry;
