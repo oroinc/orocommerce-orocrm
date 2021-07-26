@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bridge\CustomerAccount\Tests\Functional\Functional\Controller;
+namespace Oro\Bridge\CustomerAccount\Tests\Functional\Controller;
 
 use Oro\Bundle\ChannelBundle\Tests\Functional\Controller\ChannelControllerTest as BaseChannelControllerTest;
 
