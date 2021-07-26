@@ -16,11 +16,11 @@ oro_behat_extension:
       contexts:
         - Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\OroMainContext
         - Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\FixturesContext
-        - OroDataGridBundle::GridContext
-        - OroFormBundle::FormContext
-        - OroSalesBundle::SalesContext
-        - OroSalesBundle::FeatureContext
-        - OroShippingBundle::FeatureContext
-        - OroSecurityBundle::ACLContext
+        - Oro\Bundle\DataGridBundle\Tests\Behat\Context\GridContext
+        - Oro\Bundle\FormBundle\Tests\Behat\Context\FormContext
+        - Oro\Bundle\SalesBundle\Tests\Behat\Context\SalesContext
+        - Oro\Bundle\SalesBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\ShippingBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\SecurityBundle\Tests\Behat\Context\ACLContext
       paths:
         - '@OroQuoteSalesBridgeBundle/Tests/Behat/Features'
