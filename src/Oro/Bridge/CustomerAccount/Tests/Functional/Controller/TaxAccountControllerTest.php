@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bridge\CustomerAccount\Tests\Functional\Functional\Controller;
+namespace Oro\Bridge\CustomerAccount\Tests\Functional\Controller;
 
 use Oro\Bridge\CustomerAccount\Tests\Functional\DataFixtures\LoadAccount;
 use Oro\Bundle\CustomerBundle\Entity\Customer;

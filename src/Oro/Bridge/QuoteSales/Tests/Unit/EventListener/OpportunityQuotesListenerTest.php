@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bridge\QuoteSales\Tests;
+namespace Oro\Bridge\QuoteSales\Tests\Unit\EventListener;
 
 use Oro\Bridge\QuoteSales\EventListener\OpportunityQuotesListener;
 

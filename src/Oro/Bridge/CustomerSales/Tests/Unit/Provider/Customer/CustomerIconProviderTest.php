@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bridge\CustomerSales\Tests\Unit\Provider;
+namespace Oro\Bridge\CustomerSales\Tests\Unit\Provider\Customer;
 
 use Oro\Bridge\CustomerSales\Provider\Customer\CustomerIconProvider;
 use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
