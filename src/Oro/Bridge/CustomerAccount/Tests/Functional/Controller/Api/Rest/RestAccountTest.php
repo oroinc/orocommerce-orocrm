@@ -13,7 +13,7 @@ class RestAccountTest extends BaseRestAccountTest
     public function testList($request)
     {
         static::markTestSkipped("This test never worked before.");
-        $this->client->request(
+        $this->client->jsonRequest(
             'GET',
             $this->getUrl('oro_api_get_accounts')
         );
