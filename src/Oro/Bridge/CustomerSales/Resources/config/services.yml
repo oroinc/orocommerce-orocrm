@@ -9,4 +9,4 @@ services:
         arguments:
             - 'Oro\Bundle\CustomerBundle\Entity\Customer'
         tags:
-           - { name: oro_entity.virtual_relation_provider, priority: 150 }
+           - { name: oro_entity.virtual_relation_provider, priority: -150 }
