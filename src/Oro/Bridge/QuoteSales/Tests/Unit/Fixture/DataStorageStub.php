@@ -6,28 +6,19 @@ use Oro\Bundle\ProductBundle\Storage\DataStorageInterface;
 
 class DataStorageStub implements DataStorageInterface
 {
-    /**
-     * @var array
-     */
-    private $data = [];
+    private array $data = [];
 
-    /**
-     * @inheritDoc
-     */
-    public function set(array $data)
+    public function set(array $data): void
     {
         $this->data = $data;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function get()
+    public function get(): array
     {
         return $this->data;
     }
 
-    public function remove()
+    public function remove(): void
     {
         // This method added just to implement interface
     }

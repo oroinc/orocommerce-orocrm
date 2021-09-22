@@ -31,6 +31,8 @@ class QuoteWorkflowCreateTest extends WebTestCase
         /** @var WorkflowManager $workflowManager */
         $workflowManager = $this->client->getContainer()->get('oro_workflow.manager');
         $workflowManager->activateWorkflow('quote_flow');
+
+        $this->ensureSessionIsAvailable();
     }
 
     public function testWorkflowWithOpportunityTrueCondition()
