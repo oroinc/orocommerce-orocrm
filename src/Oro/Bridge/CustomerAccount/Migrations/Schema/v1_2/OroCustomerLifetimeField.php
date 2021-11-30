@@ -51,7 +51,7 @@ class OroCustomerLifetimeField implements
                         'owner' => ExtendScope::OWNER_CUSTOM,
                         'is_extend' => true,
                     ],
-                    'datagrid' => ['is_visible' => false],
+                    'datagrid' => ['is_visible' => DatagridScope::IS_VISIBLE_FALSE],
                     'form' => ['is_enabled' => false,],
                     'view' => ['is_displayable' => false],
                     'merge' => ['display' => false],
