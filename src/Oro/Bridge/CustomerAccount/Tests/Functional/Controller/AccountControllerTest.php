@@ -5,38 +5,31 @@ namespace Oro\Bridge\CustomerAccount\Tests\Functional\Controller;
 use Oro\Bridge\CustomerAccount\Tests\Functional\DataFixtures\LoadAccount;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
-use Oro\Bundle\CustomerBundle\Tests\Functional\Controller\CustomerControllerTest as BaseAccountControllerTest;
+use Oro\Bundle\CustomerBundle\Tests\Functional\Controller\CustomerControllerTest;
 use Oro\Bundle\EntityExtendBundle\Entity\AbstractEnumValue;
 
-class AccountControllerTest extends BaseAccountControllerTest
+class AccountControllerTest extends CustomerControllerTest
 {
     /**
-     * @return array
+     * {@inheritDoc}
      */
-    protected function getFixtureList()
+    protected function getFixtureList(): array
     {
-        $values = parent::getFixtureList();
-        $values[] = 'Oro\Bridge\CustomerAccount\Tests\Functional\DataFixtures\LoadAccount';
-
-        return $values;
+        return array_merge(parent::getFixtureList(), [LoadAccount::class]);
     }
 
     /**
-     * @param $name
-     * @param Customer $parent
-     * @param CustomerGroup $group
-     * @param AbstractEnumValue $internalRating
-     * @return array
+     * {@inheritDoc}
      */
     protected function prepareFormValues(
-        $name,
+        string $name,
         Customer $parent,
         CustomerGroup $group,
         AbstractEnumValue $internalRating
-    ) {
+    ): array {
         $values = parent::prepareFormValues($name, $parent, $group, $internalRating);
-        $values['oro_customer_type[customer_association_account]'] = $this->getReference(LoadAccount::ACCOUNT_1)->getId(
-        );
+        $values['oro_customer_type[customer_association_account]'] = $this->getReference(LoadAccount::ACCOUNT_1)
+            ->getId();
 
         return $values;
     }

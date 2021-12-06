@@ -3,24 +3,23 @@
 namespace Oro\Bridge\CustomerAccount\Tests\Functional\Controller\Api\Rest;
 
 use Oro\Bundle\ChannelBundle\Entity\Channel;
-use Oro\Bundle\ChannelBundle\Tests\Functional\Controller\Api\Rest\ChannelApiControllerTest
-    as BaseChannelApiControllerTest;
+use Oro\Bundle\ChannelBundle\Tests\Functional\Controller\Api\Rest\ChannelApiControllerTest as BaseControllerTest;
 
-class ChannelApiControllerTest extends BaseChannelApiControllerTest
+class ChannelApiControllerTest extends BaseControllerTest
 {
-    protected function getExpectedCountForCget()
+    protected function getExpectedCountForCget(): int
     {
         return 3;
     }
 
-    protected function assertActiveChannels($channels)
+    protected function assertActiveChannels(array $channels): void
     {
         /** @var Channel $activeChannel */
         $activeChannel = $this->getReference('channel_1');
 
         $this->assertNotEmpty($channels);
         $this->assertCount(2, $channels);
-        $this->assertEquals($channels[0]['name'], 'Commerce channel');
-        $this->assertEquals($channels[1]['name'], $activeChannel->getName());
+        $this->assertEquals('Commerce channel', $channels[0]['name']);
+        $this->assertEquals($activeChannel->getName(), $channels[1]['name']);
     }
 }

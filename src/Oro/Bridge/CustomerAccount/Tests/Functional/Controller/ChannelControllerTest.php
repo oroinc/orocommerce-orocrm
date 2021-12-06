@@ -6,7 +6,7 @@ use Oro\Bundle\ChannelBundle\Tests\Functional\Controller\ChannelControllerTest a
 
 class ChannelControllerTest extends BaseChannelControllerTest
 {
-    public function gridProvider()
+    public function gridProvider(): array
     {
         $data = parent::gridProvider();
         $data['Channel grid'][0]['expectedResultCount'] = 2;

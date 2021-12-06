@@ -13,24 +13,17 @@ use Oro\Bundle\WorkflowBundle\Model\WorkflowManager;
 class OpportunityQuotesListenerTest extends AbstractDatagridTestCase
 {
     /** @var WorkflowManager */
-    protected $manager;
+    private $manager;
 
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
-        $this->initClient(
-            ['debug' => false],
-            $this->generateBasicAuthHeader()
-        );
-
-        $this->manager = $this->getContainer()->get('oro_workflow.manager');
-
+        $this->initClient(['debug' => false], $this->generateBasicAuthHeader());
         $this->loadFixtures([
             CreateDefaultAccountFixture::class,
             OpportunityQuotesListenerFixture::class
         ]);
+
+        $this->manager = $this->getContainer()->get('oro_workflow.manager');
     }
 
     public function testQuoteGridOnOpportunityView()
@@ -47,17 +40,15 @@ class OpportunityQuotesListenerTest extends AbstractDatagridTestCase
             )
         );
         $response = $this->client->getResponse();
-        $this->assertEquals($response->getStatusCode(), 200, 'Failed in getting widget view !');
+        $this->assertEquals(200, $response->getStatusCode(), 'Failed in getting widget view');
         $this->assertNotEmpty($crawler->html());
-        static::assertStringContainsString('Quotes', $crawler->html());
+        self::assertStringContainsString('Quotes', $crawler->html());
     }
 
     /**
      * @dataProvider gridProvider
-     *
-     * @param array $requestData
      */
-    public function testGrid($requestData)
+    public function testGrid(array $requestData)
     {
         $this->manager->deactivateWorkflow('b2b_quote_backoffice_approvals');
         $this->manager->deactivateWorkflow('b2b_quote_backoffice_default');
@@ -71,7 +62,7 @@ class OpportunityQuotesListenerTest extends AbstractDatagridTestCase
 
         parent::testGrid($requestData);
 
-        $result = static::jsonToArray($this->client->getResponse()->getContent());
+        $result = self::jsonToArray($this->client->getResponse()->getContent());
 
         if (!empty($requestData['assertRowActions'])) {
             foreach ($result['data'] as $row) {
@@ -89,9 +80,9 @@ class OpportunityQuotesListenerTest extends AbstractDatagridTestCase
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
-    public function gridProvider()
+    public function gridProvider(): array
     {
         return [
             'Quote grid CRUD + Expire actions available' => [
