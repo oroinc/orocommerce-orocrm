@@ -28,9 +28,9 @@ class ReassingCustomerProcessorTest extends \PHPUnit\Framework\TestCase
         );
 
         $message = new Message();
-        $message->setBody(json_encode([
+        $message->setBody([
             'test' => true,
-        ]));
+        ]);
 
         $result = $processor->process($message, $this->createSessionMock());
 
@@ -52,7 +52,7 @@ class ReassingCustomerProcessorTest extends \PHPUnit\Framework\TestCase
 
         $message = new Message();
         $message->setMessageId('message-id');
-        $message->setBody(json_encode(['type' => 'each']));
+        $message->setBody(['type' => 'each']);
 
         $processor = new ReassingCustomerProcessor(
             $this->createAccountManagerMock(),
