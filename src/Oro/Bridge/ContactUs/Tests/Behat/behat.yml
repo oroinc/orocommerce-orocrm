@@ -10,6 +10,7 @@ oro_behat_extension:
                 - OroLocaleBundle::LocalizationContext
                 - OroFrontendLocalizationBundle::LocalizationSwitcherContext
                 - OroFormBundle::FeatureContext
+                - OroFormBundle::WysiwygContext
                 - OroWebCatalogBundle::FeatureContext
                 - OroCMSBundle::FeatureContext
                 - OroConfigBundle::FeatureContext
