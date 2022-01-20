@@ -7,6 +7,7 @@ oro_behat_extension:
                 - Oro\Bundle\ConfigBundle\Tests\Behat\Context\FeatureContext
                 - Oro\Bundle\ApplicationBundle\Tests\Behat\Context\CommerceMainContext
                 - Oro\Bundle\FormBundle\Tests\Behat\Context\FormContext
+                - Oro\Bundle\FormBundle\Tests\Behat\Context\WysiwygContext
                 - Oro\Bundle\LocaleBundle\Tests\Behat\Context\LocalizationContext
                 - Oro\Bundle\FrontendLocalizationBundle\Tests\Behat\Context\LocalizationSwitcherContext
                 - Oro\Bundle\FormBundle\Tests\Behat\Context\FeatureContext
