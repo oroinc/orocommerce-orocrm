@@ -6,9 +6,9 @@ use Oro\Bridge\CustomerAccount\Manager\AccountBuilder;
 use Oro\Bridge\CustomerAccount\Manager\LifetimeProcessor;
 use Oro\Bridge\CustomerAccount\Manager\Strategy\AssignRootStrategy;
 use Oro\Bridge\CustomerAccount\Tests\Unit\Fixtures\Customer;
-use Oro\Bridge\CustomerAccount\Tests\Unit\Fixtures\CustomerAssociation;
 use Oro\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
+use Oro\Bundle\SalesBundle\Tests\Unit\Fixture\CustomerStub as CustomerAssociation;
 
 class AssignRootStrategyTest extends \PHPUnit\Framework\TestCase
 {
