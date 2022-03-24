@@ -6,7 +6,7 @@ Feature: Pagination by opportunities
   I want to be able to use pagination by Opportunities
 
   Scenario: Opportunities navigation (mobile version)
-    Given I set window size to 320x640
+    Given I set window size to 375x640
     And I login as administrator
     And I go to Sales/Opportunities
     And I should see "Testing opportunity3" in grid
