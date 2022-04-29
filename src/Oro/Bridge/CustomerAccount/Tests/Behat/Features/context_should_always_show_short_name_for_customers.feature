@@ -3,9 +3,7 @@
 @fixture-OroCustomerAccountBridgeBundle:CustomerContext.yml
 
 Feature: Context should always show short name for customers
-  In order to ...
-  As an ...
-  I should be able to ...
+
   Scenario: Prepare string field and enable Tasks for Customer entity
     Given I login as administrator
     And I go to System/ Entities/ Entity Management
