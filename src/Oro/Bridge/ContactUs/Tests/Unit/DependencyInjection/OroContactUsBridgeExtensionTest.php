@@ -16,10 +16,4 @@ class OroContactUsBridgeExtensionTest extends ExtensionTestCase
         ];
         $this->assertDefinitionsLoaded($expectedServices);
     }
-
-    public function testGetAlias()
-    {
-        $extension = new OroContactUsBridgeExtension();
-        $this->assertSame('oro_contact_us_bridge', $extension->getAlias());
-    }
 }
