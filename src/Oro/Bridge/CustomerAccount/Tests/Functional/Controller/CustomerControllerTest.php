@@ -10,37 +10,22 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class CustomerControllerTest extends WebTestCase
 {
-    /** @var Account */
-    protected $account;
-
-    /** @var Customer */
-    protected $customer;
+    private Account $account;
+    private Customer $customer;
 
     protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
 
-        $this->loadFixtures(
-            [
-                'Oro\Bridge\CustomerAccount\Tests\Functional\DataFixtures\LoadCustomer'
-            ]
-        );
+        $this->loadFixtures([LoadCustomer::class]);
 
-        $manager = $this->client->getContainer()->get('doctrine')->getManagerForClass(
-            'OroAccountBundle:Account'
-        );
+        $this->account = self::getContainer()->get('doctrine')
+            ->getRepository(Account::class)
+            ->findOneBy(['name' => LoadAccount::ACCOUNT_1]);
 
-        $this->account = $manager->getRepository('OroAccountBundle:Account')->findOneBy(
-            ['name' => LoadAccount::ACCOUNT_1]
-        );
-
-        $manager = $this->client->getContainer()->get('doctrine')->getManagerForClass(
-            'OroCustomerBundle:Customer'
-        );
-
-        $this->customer = $manager->getRepository('OroCustomerBundle:Customer')->findOneBy(
-            ['name' => LoadCustomer::CUSTOMER_1]
-        );
+        $this->customer = self::getContainer()->get('doctrine')
+            ->getRepository(Customer::class)
+            ->findOneBy(['name' => LoadCustomer::CUSTOMER_1]);
     }
 
     public function testAccountCustomersInfoAction()
@@ -59,15 +44,15 @@ class CustomerControllerTest extends WebTestCase
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
-        static::assertStringContainsString('simple_customer', $crawler->filter('div.account-customer-title')->html());
+        self::assertStringContainsString('simple_customer', $crawler->filter('div.account-customer-title')->html());
 
         $tabs = $crawler->filter('div.oro-tabs')->html();
-        static::assertStringContainsString('Customer Users', $tabs);
-        static::assertStringContainsString('Shopping Lists', $tabs);
-        static::assertStringContainsString('Requests For Quote', $tabs);
-        static::assertStringContainsString('Quotes', $tabs);
-        static::assertStringContainsString('Orders', $tabs);
-        static::assertStringContainsString('Opportunities', $tabs);
+        self::assertStringContainsString('Customer Users', $tabs);
+        self::assertStringContainsString('Shopping Lists', $tabs);
+        self::assertStringContainsString('Requests For Quote', $tabs);
+        self::assertStringContainsString('Quotes', $tabs);
+        self::assertStringContainsString('Orders', $tabs);
+        self::assertStringContainsString('Opportunities', $tabs);
     }
 
     public function testCustomerInfoAction()
@@ -87,11 +72,11 @@ class CustomerControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
         $tabs = $crawler->filter('div.oro-tabs')->html();
-        static::assertStringContainsString('Customer Users', $tabs);
-        static::assertStringContainsString('Shopping Lists', $tabs);
-        static::assertStringContainsString('Requests For Quote', $tabs);
-        static::assertStringContainsString('Orders', $tabs);
-        static::assertStringContainsString('Quotes', $tabs);
+        self::assertStringContainsString('Customer Users', $tabs);
+        self::assertStringContainsString('Shopping Lists', $tabs);
+        self::assertStringContainsString('Requests For Quote', $tabs);
+        self::assertStringContainsString('Orders', $tabs);
+        self::assertStringContainsString('Quotes', $tabs);
     }
 
     public function testCustomerUserAction()

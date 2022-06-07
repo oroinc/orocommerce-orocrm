@@ -72,7 +72,7 @@ class LoadCustomer extends AbstractFixture implements DependentFixtureInterface,
     public function load(ObjectManager $manager)
     {
         $this->em = $manager;
-        $this->organization = $manager->getRepository('OroOrganizationBundle:Organization')->getFirst();
+        $this->organization = $manager->getRepository(Organization::class)->getFirst();
         $this->createChannel();
 
         foreach ($this->customers as $name => $customer) {
