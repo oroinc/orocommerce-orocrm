@@ -82,6 +82,7 @@
     }
 ]) %}
 
+{% if feature_resource_enabled('Oro\\Bundle\\SalesBundle\\Entity\\Opportunity', 'entities') %}
 {% set tabs = tabs|merge([
     {
         'alias': 'oro_account_customer_opportunity' ~ uniqueSuffix,
@@ -90,6 +91,7 @@
         'url': path('oro_account_customer_widget_opportunities_info', {'id': customer.id})
     }
 ]) %}
+{% endif %}
 
 {% set tabPanelOptions = {} %}
 
