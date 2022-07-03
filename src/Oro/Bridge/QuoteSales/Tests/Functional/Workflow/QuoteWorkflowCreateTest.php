@@ -44,7 +44,7 @@ class QuoteWorkflowCreateTest extends WebTestCase
 
         $this->ajaxRequest(
             'POST',
-            $this->getUrl('oro_workflow_api_rest_workflow_start', [
+            $this->getUrl('oro_api_workflow_start', [
                 'workflowName' => 'quote_flow',
                 'transitionName' => 'quote_create',
                 'entityId' => $opportunity->getId()
