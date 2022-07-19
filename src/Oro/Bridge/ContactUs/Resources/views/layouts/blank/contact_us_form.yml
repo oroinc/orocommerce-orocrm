@@ -1,4 +1,0 @@
-layout:
-    actions:
-        - '@setFormTheme':
-            themes: '@OroContactUsBridge/layouts/blank/contact_us_form.html.twig'
