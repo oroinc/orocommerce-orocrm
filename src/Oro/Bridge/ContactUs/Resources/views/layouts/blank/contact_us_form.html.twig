@@ -20,45 +20,33 @@
 
         {{ form_start(form, {'attr': formAttr}) }}
         <div class="grid">
-            <div class="grid__row grid__row--offset-none">
-                <div class="grid__column grid__column--6">
-                    {{ form_row(form.firstName) }}
-                </div>
-                <div class="grid__column grid__column--6">
-                    {{ form_row(form.lastName) }}
-                </div>
+            <div class="grid-col-6 grid-col-mobile-landscape-12">
+                {{ form_row(form.firstName) }}
             </div>
-            <div class="grid__row grid__row--offset-none">
-                <div class="grid__column grid__column--12">
-                    {{ form_row(form.organizationName) }}
-                </div>
+            <div class="grid-col-6 grid-col-mobile-landscape-12">
+                {{ form_row(form.lastName) }}
             </div>
-            <div class="grid__row grid__row--offset-none">
-                <div class="grid__column grid__column--12">
-                    {{ form_row(form.preferredContactMethod, {'attr': preferredContactMethodAttr}) }}
-                </div>
+            <div class="grid-col-12">
+                {{ form_row(form.organizationName) }}
             </div>
-            <div class="grid__row grid__row--offset-none">
-                <div class="grid__column grid__column--6">
-                    {{ form_row(form.phone) }}
-                </div>
-                <div class="grid__column grid__column--6">
-                    {{ form_row(form.emailAddress) }}
-                </div>
+            <div class="grid-col-12">
+                {{ form_row(form.preferredContactMethod, {'attr': preferredContactMethodAttr}) }}
             </div>
-            <div class="grid__row grid__row--offset-none">
-                <div class="grid__column grid__column--12">
-                    {{ form_row(form.contactReason) }}
-                </div>
+            <div class="grid-col-6 grid-col-mobile-landscape-12">
+                {{ form_row(form.phone) }}
             </div>
-            <div class="grid__row grid__row--offset-none">
-                <div class="grid__column grid__column--12">
-                    {{ form_row(form.comment, {attr: {rows: 25}}) }}
-                </div>
+            <div class="grid-col-6 grid-col-mobile-landscape-12">
+                {{ form_row(form.emailAddress) }}
             </div>
-        </div>
-        <div class="contact-us-form-actions">
-            <button class="role-submit btn btn--info" type="submit">{{ 'oro.contactus.form.submit'|trans }}</button>
+            <div class="grid-col-12">
+                {{ form_row(form.contactReason) }}
+            </div>
+            <div class="grid-col-12">
+                {{ form_row(form.comment, {attr: {rows: 25}}) }}
+            </div>
+            <div class="grid-col-12">
+                <button class="role-submit btn btn--info" type="submit">{{ 'oro.contactus.form.submit'|trans }}</button>
+            </div>
         </div>
         {{ form_end(form) }}
         {{ oro_form_js_validation(form, js_validation_options|default({})) }}
