@@ -199,7 +199,7 @@ Oro\Bundle\EmbeddedFormBundle\Entity\EmbeddedForm:
 Oro\Bundle\TagBundle\Entity\Taxonomy:
     taxonomy_entity:
         name: 'Taxonomy'
-        backgroundColor: 'l7'
+        backgroundColor: '#ff0000'
         owner: '@admin'
         organization: '@organization'
 
