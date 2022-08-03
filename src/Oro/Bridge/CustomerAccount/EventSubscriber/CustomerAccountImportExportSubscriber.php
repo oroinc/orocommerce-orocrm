@@ -14,6 +14,9 @@ use Oro\Bundle\ImportExportBundle\Event\StrategyEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * Manages extra operations during import/export for customer account.
+ */
 class CustomerAccountImportExportSubscriber implements EventSubscriberInterface
 {
     /**
@@ -83,7 +86,7 @@ class CustomerAccountImportExportSubscriber implements EventSubscriberInterface
 
         /** @var Customer $customer */
         $customer = $event->getObject();
-        $event->setResultField(
+        $event->setResultFieldValue(
             'account',
             $this->normalizeCustomerAccount($customer)
         );
