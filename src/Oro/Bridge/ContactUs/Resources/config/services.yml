@@ -2,6 +2,7 @@ services:
     oro_contact_us_bridge.contact_request_type:
         class: 'Oro\Bridge\ContactUs\Form\Type\ContactRequestType'
         arguments:
+            - '@doctrine'
             - '@oro_security.token_accessor'
             - '@oro_locale.helper.localization'
         tags:

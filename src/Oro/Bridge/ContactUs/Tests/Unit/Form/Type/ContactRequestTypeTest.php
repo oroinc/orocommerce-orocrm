@@ -3,9 +3,13 @@
 namespace Oro\Bridge\ContactUs\Tests\Unit\Form\Type;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bridge\ContactUs\Form\Type\ContactRequestType;
 use Oro\Bridge\ContactUs\Tests\Unit\Stub\ContactRequestStub;
 use Oro\Bundle\ContactUsBundle\Entity\ContactReason;
+use Oro\Bundle\ContactUsBundle\Entity\Repository\ContactReasonRepository;
 use Oro\Bundle\ContactUsBundle\Form\Type\ContactRequestType as BaseContactRequestType;
 use Oro\Bundle\ContactUsBundle\Tests\Unit\Stub\ContactReasonStub;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
@@ -22,37 +26,25 @@ class ContactRequestTypeTest extends TypeTestCase
 {
     use EntityTrait;
 
-    /**
-     * @var ContactRequestType
-     */
-    protected $type;
+    private ContactRequestType $type;
 
-    /**
-     * @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $tokenAccessor;
+    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
+    private $registry;
 
-    /**
-     * @var LocalizationHelper|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $localizationHelper;
+    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $tokenAccessor;
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function setUp(): void
-    {
-        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
-        $this->localizationHelper = $this->createMock(LocalizationHelper::class);
-
-        $this->type = new ContactRequestType($this->tokenAccessor, $this->localizationHelper);
-
-        parent::setUp();
-    }
+    /** @var LocalizationHelper|\PHPUnit\Framework\MockObject\MockObject */
+    private $localizationHelper;
 
     public function testSubmit()
     {
-        $this->tokenAccessor->expects($this->once())
+        $this->registry->expects(self::once())
+            ->method('getRepository')
+            ->with(ContactReason::class)
+            ->willReturn($this->getContactReasonRepository());
+
+        $this->tokenAccessor->expects(self::once())
             ->method('getUser')
             ->willReturn(null);
 
@@ -84,8 +76,41 @@ class ContactRequestTypeTest extends TypeTestCase
         $this->assertEquals($expected, $contactRequest);
     }
 
+    private function getContactReasonRepository(): ContactReasonRepository
+    {
+        $query = $this->createMock(AbstractQuery::class);
+        $query->expects(self::once())
+            ->method('getResult')
+            ->willReturn($this->getContactReason());
+
+        $qb = $this->createMock(QueryBuilder::class);
+        $qb->expects(self::once())
+            ->method('getQuery')
+            ->willReturn($query);
+
+        $contactReasonRepository = $this->createMock(ContactReasonRepository::class);
+        $contactReasonRepository->expects(self::once())
+            ->method('createExistingContactReasonsQB')
+            ->willReturn($qb);
+
+        return $contactReasonRepository;
+    }
+
+    private function getContactReason(): ContactReason
+    {
+        $contactReason = new ContactReasonStub('Some title');
+        $contactReason->setTitles(new ArrayCollection());
+
+        return $contactReason;
+    }
+
     public function testPreSetDataListener()
     {
+        $this->registry->expects(self::once())
+            ->method('getRepository')
+            ->with(ContactReason::class)
+            ->willReturn($this->getContactReasonRepository());
+
         $organization = new Organization();
         $organization->setName('OroCRM');
         /** @var CustomerUser $customerUser */
@@ -98,11 +123,11 @@ class ContactRequestTypeTest extends TypeTestCase
                 'organization' => $organization,
             ]
         );
-        $this->tokenAccessor->expects($this->once())
+        $this->tokenAccessor->expects(self::once())
             ->method('getUser')
             ->willReturn($customerUser);
 
-        $this->localizationHelper->expects($this->once())
+        $this->localizationHelper->expects(self::once())
             ->method('getLocalizedValue')
             ->with(new ArrayCollection())
             ->willReturn('Some title');
@@ -131,10 +156,15 @@ class ContactRequestTypeTest extends TypeTestCase
 
     public function testPreSetDataListenerWithWrongLoggedUser()
     {
+        $this->registry->expects(self::once())
+            ->method('getRepository')
+            ->with(ContactReason::class)
+            ->willReturn($this->getContactReasonRepository());
+
         $organization = new Organization();
         $organization->setName('OroCRM');
         $customerUser = new \stdClass;
-        $this->tokenAccessor->expects($this->once())
+        $this->tokenAccessor->expects(self::once())
             ->method('getUser')
             ->willReturn($customerUser);
         $contactRequest = $this->getEntity(ContactRequestStub::class);
@@ -160,7 +190,25 @@ class ContactRequestTypeTest extends TypeTestCase
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     */
+    protected function setUp(): void
+    {
+        $this->registry = $this->createMock(ManagerRegistry::class);
+        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
+        $this->localizationHelper = $this->createMock(LocalizationHelper::class);
+
+        $this->type = new ContactRequestType(
+            $this->registry,
+            $this->tokenAccessor,
+            $this->localizationHelper
+        );
+
+        parent::setUp();
+    }
+
+    /**
+     * {@inheritDoc}
      */
     protected function getExtensions()
     {
@@ -175,16 +223,5 @@ class ContactRequestTypeTest extends TypeTestCase
                 []
             ),
         ];
-    }
-
-    /**
-     * @return ContactReason|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function getContactReason()
-    {
-        $contactReason = new ContactReasonStub('Some title');
-        $contactReason->setTitles(new ArrayCollection());
-
-        return $contactReason;
     }
 }

@@ -38,9 +38,11 @@
             <div class="grid-col-6 grid-col-mobile-landscape-12">
                 {{ form_row(form.emailAddress) }}
             </div>
+            {% if form.contactReason is defined %}
             <div class="grid-col-12">
                 {{ form_row(form.contactReason) }}
             </div>
+            {% endif %}
             <div class="grid-col-12">
                 {{ form_row(form.comment, {attr: {rows: 25}}) }}
             </div>

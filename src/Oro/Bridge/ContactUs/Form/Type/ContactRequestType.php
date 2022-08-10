@@ -2,6 +2,7 @@
 
 namespace Oro\Bridge\ContactUs\Form\Type;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\ContactUsBundle\Entity\ContactReason;
 use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
 use Oro\Bundle\ContactUsBundle\Entity\Repository\ContactReasonRepository;
@@ -27,16 +28,23 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class ContactRequestType extends AbstractType
 {
-    protected TokenAccessorInterface $tokenAccessor;
+    private ManagerRegistry $doctrine;
+    private TokenAccessorInterface $tokenAccessor;
+    private LocalizationHelper $localizationHelper;
 
-    protected LocalizationHelper $localizationHelper;
-
-    public function __construct(TokenAccessorInterface $tokenAccessor, LocalizationHelper $localizationHelper)
-    {
+    public function __construct(
+        ManagerRegistry $doctrine,
+        TokenAccessorInterface $tokenAccessor,
+        LocalizationHelper $localizationHelper
+    ) {
+        $this->doctrine = $doctrine;
         $this->tokenAccessor = $tokenAccessor;
         $this->localizationHelper = $localizationHelper;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->remove('submit');
@@ -81,10 +89,13 @@ class ContactRequestType extends AbstractType
                 'label' => 'oro.contactus.contactrequest.preferred_contact_method.label',
             ]
         );
-        $builder->add(
-            'contactReason',
-            EntityType::class,
-            [
+
+        $contactReasons = $this->doctrine->getRepository(ContactReason::class)
+            ->createExistingContactReasonsQB()
+            ->getQuery()
+            ->getResult();
+        if ($contactReasons) {
+            $builder->add('contactReason', EntityType::class, [
                 'class' => 'OroContactUsBundle:ContactReason',
                 'choice_label' => function (ContactReason $entity) {
                     return $this->localizationHelper->getLocalizedValue($entity->getTitles());
@@ -93,20 +104,24 @@ class ContactRequestType extends AbstractType
                 'required' => false,
                 'label' => 'oro.contactus.contactrequest.contact_reason.label',
                 'query_builder' => fn (ContactReasonRepository $er) => $er->createExistingContactReasonsWithTitlesQB(),
-            ]
-        );
+            ]);
+        }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(
-            [
-                'data_class' => ContactRequest::class,
-                'dataChannelField' => false,
-            ]
-        );
+        $resolver->setDefaults([
+            'data_class' => ContactRequest::class,
+            'dataChannelField' => false,
+        ]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getParent()
     {
         return BaseContactRequestType::class;

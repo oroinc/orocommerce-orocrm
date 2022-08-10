@@ -1,6 +1,10 @@
 oro.contactus:
     contactrequest:
         customer_user.label: Customer User
+        feature:
+            label: Contact Requests
+            description: Enables the Contact Us form in the storefront menu. When the form is disabled, the Contact Us widget can still be used in web catalog pages.
+
     content_widget:
         contact_us_form:
             label: "Contact Us Form"
@@ -8,6 +12,7 @@ oro.contactus:
         contactrequest.sent: "Thank you for your Request!"
         submit: "Submit"
     title: Contact Us
+
 oro.contact_us_bridge:
     frontend.navigation.items:
                 live_chat.label: 'Live Chat'
