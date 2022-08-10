@@ -11,7 +11,7 @@ oro.customer_account_bridge:
         fields:
             strategy_creating_customers_account:
                 label: Creation new Account
-                tooltip: An Account is created for every Commerce Customer. An Account is created only for the root Commerce Customer (one without a parent customer). All its children will be assigned to the same account.
+                tooltip: Select whether to create individual accounts for every Commerce customer or a single account for the root Commerce customer. All its children customers are then assigned to this root (parent) account.
                 choices:
                     each: For each Commerce Customer
                     root: Only for root Commerce Customer
