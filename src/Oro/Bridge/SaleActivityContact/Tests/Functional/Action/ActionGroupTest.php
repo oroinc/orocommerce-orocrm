@@ -3,7 +3,6 @@
 namespace Oro\Bridge\SaleActivityContact\Tests\Functional\Action;
 
 use Doctrine\Common\Util\ClassUtils;
-use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\ActionBundle\Tests\Functional\ActionTestCase;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\RFPBundle\Entity\RequestAdditionalNote;
@@ -11,7 +10,7 @@ use Oro\Bundle\RFPBundle\Tests\Functional\DataFixtures\LoadRequestData;
 use Oro\Bundle\SaleBundle\Tests\Functional\DataFixtures\LoadQuoteData;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\WorkflowBundle\Model\WorkflowManager;
-use Oro\Component\Testing\Unit\EntityTrait;
+use Oro\Component\Testing\ReflectionUtil;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 /**
@@ -19,11 +18,6 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
  */
 class ActionGroupTest extends ActionTestCase
 {
-    use EntityTrait;
-
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -46,7 +40,9 @@ class ActionGroupTest extends ActionTestCase
         $request = $this->getReference(LoadRequestData::REQUEST2);
         $this->assertActivityContactFieldsEmpty($request);
 
-        $token = new UsernamePasswordToken($this->getEntity(User::class, ['id' => 1]), 'admin', 'key');
+        $user = new User();
+        ReflectionUtil::setId($user, 1);
+        $token = new UsernamePasswordToken($user, 'admin', 'key');
         $this->client->getContainer()->get('security.token_storage')->setToken($token);
 
         $actionData = $this->executeActionGroup(
@@ -66,7 +62,9 @@ class ActionGroupTest extends ActionTestCase
         $this->assertEquals(1, $request->getAcContactCountOUt());
         $this->assertEquals(1, $request->getAcContactCount());
 
-        $token = new UsernamePasswordToken($this->getEntity(CustomerUser::class, ['id' => 2]), 'user', 'key');
+        $user = new CustomerUser();
+        ReflectionUtil::setId($user, 2);
+        $token = new UsernamePasswordToken($user, 'user', 'key');
         $this->client->getContainer()->get('security.token_storage')->setToken($token);
 
         $actionData = $this->executeActionGroup(
@@ -102,10 +100,7 @@ class ActionGroupTest extends ActionTestCase
         $workflowManager->deactivateWorkflow('quote_flow');
     }
 
-    /**
-     * @param object $entity
-     */
-    protected function assertActivityContactFieldsEmpty($entity)
+    protected function assertActivityContactFieldsEmpty(object $entity): void
     {
         $this->assertNull($entity->getAcLastContactDateIn());
         $this->assertNull($entity->getAcLastContactDateOut());
@@ -115,16 +110,12 @@ class ActionGroupTest extends ActionTestCase
         $this->assertEquals(0, $entity->getAcContactCount());
     }
 
-    /**
-     * @param string $reference
-     * @return object
-     */
-    private function getEntityAndSetContactFields($reference)
+    private function getEntityAndSetContactFields(string $reference): object
     {
         $entity = $this->getReference($reference);
         $this->assertNotNull($entity);
 
-        $em = $this->getManagerForEntity($entity);
+        $em = $this->getContainer()->get('doctrine')->getManagerForClass(ClassUtils::getClass($entity));
         $this->assertNotNull($em);
 
         $entity->setAcLastContactDate(new \DateTime());
@@ -137,14 +128,5 @@ class ActionGroupTest extends ActionTestCase
         $em->flush($entity);
 
         return $entity;
-    }
-
-    /**
-     * @param object $entity
-     * @return ObjectManager
-     */
-    private function getManagerForEntity($entity)
-    {
-        return $this->getContainer()->get('doctrine')->getManagerForClass(ClassUtils::getClass($entity));
     }
 }
