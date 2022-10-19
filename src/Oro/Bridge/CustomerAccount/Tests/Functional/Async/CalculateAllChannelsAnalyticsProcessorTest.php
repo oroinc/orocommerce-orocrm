@@ -3,7 +3,7 @@
 namespace Oro\Bridge\CustomerAccount\Tests\Functional\Async;
 
 use Oro\Bundle\AnalyticsBundle\Async\CalculateAllChannelsAnalyticsProcessor;
-use Oro\Bundle\AnalyticsBundle\Async\Topics;
+use Oro\Bundle\AnalyticsBundle\Async\Topic\CalculateChannelAnalyticsTopic;
 use Oro\Bundle\AnalyticsBundle\Tests\Functional\Async\CalculateAllChannelsAnalyticsProcessorTest
     as BaseCalculateAllChannelsAnalyticsProcessorTest;
 use Oro\Bundle\ChannelBundle\Entity\Channel;
@@ -15,19 +15,19 @@ use Oro\Component\MessageQueue\Transport\Message;
  */
 class CalculateAllChannelsAnalyticsProcessorTest extends BaseCalculateAllChannelsAnalyticsProcessorTest
 {
-    public function testShouldSendCalculateAnalyticsMessageForEachChannel()
+    public function testShouldSendCalculateAnalyticsMessageForEachChannel(): void
     {
         /** @var CalculateAllChannelsAnalyticsProcessor $processor */
-        $processor = $this->getContainer()->get('oro_analytics.async.calculate_all_channels_analytics_processor');
+        $processor = self::getContainer()->get('oro_analytics.async.calculate_all_channels_analytics_processor');
         /** @var ConnectionInterface $connection */
-        $connection = $this->getContainer()->get('oro_message_queue.transport.connection');
+        $connection = self::getContainer()->get('oro_message_queue.transport.connection');
 
         $processor->process(new Message(), $connection->createSession());
 
-        self::assertMessagesCount(Topics::CALCULATE_CHANNEL_ANALYTICS, 3);
+        self::assertMessagesCount(CalculateChannelAnalyticsTopic::getName(), 3);
     }
 
-    public function testShouldSendCalculateAnalyticsMessageOnlyForActiveChannels()
+    public function testShouldSendCalculateAnalyticsMessageOnlyForActiveChannels(): void
     {
         /** @var Channel $channel */
         $channel = $this->getReference('Channel.CustomerChannel');
@@ -37,12 +37,12 @@ class CalculateAllChannelsAnalyticsProcessorTest extends BaseCalculateAllChannel
         $this->getEntityManager()->flush();
 
         /** @var CalculateAllChannelsAnalyticsProcessor $processor */
-        $processor = $this->getContainer()->get('oro_analytics.async.calculate_all_channels_analytics_processor');
+        $processor = self::getContainer()->get('oro_analytics.async.calculate_all_channels_analytics_processor');
         /** @var ConnectionInterface $connection */
-        $connection = $this->getContainer()->get('oro_message_queue.transport.connection');
+        $connection = self::getContainer()->get('oro_message_queue.transport.connection');
 
         $processor->process(new Message(), $connection->createSession());
 
-        self::assertMessagesCount(Topics::CALCULATE_CHANNEL_ANALYTICS, 2);
+        self::assertMessagesCount(CalculateChannelAnalyticsTopic::getName(), 2);
     }
 }
