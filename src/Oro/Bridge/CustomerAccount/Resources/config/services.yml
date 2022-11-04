@@ -40,16 +40,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.before.sales-opportunity-by-account-grid, method: onBuildBefore }
 
-    # message queue
-    oro_customer_account.async.reassign_customer_processor:
-        class: Oro\Bridge\CustomerAccount\Async\ReassingCustomerProcessor
-        arguments:
-            - '@oro_customer_account.manager.account_manager'
-            - '@oro_message_queue.job.runner'
-            - '@logger'
-        tags:
-            - { name: 'oro_message_queue.client.message_processor' }
-
     # manager
     oro_customer_account.manager.account_builder:
         class: Oro\Bridge\CustomerAccount\Manager\AccountBuilder

@@ -2,10 +2,14 @@
 
 namespace Oro\Bridge\CustomerAccount\EventListener;
 
-use Oro\Bridge\CustomerAccount\Async\Topics;
+use Oro\Bridge\CustomerAccount\Async\Topic\ReassignCustomerAccountTopic;
 use Oro\Bundle\ConfigBundle\Event\ConfigUpdateEvent;
 use Oro\Component\MessageQueue\Client\MessageProducerInterface;
 
+/**
+ * Sends a {@see ReassignCustomerAccountTopic::getName()} message with
+ * new value of the "oro_customer_account_bridge.customer_account_settings" config option to MQ for processing
+ */
 class ChangeConfigOptionListener
 {
     /** @var MessageProducerInterface */
@@ -26,7 +30,7 @@ class ChangeConfigOptionListener
         $oldValue = $event->getOldValue('oro_customer_account_bridge.customer_account_settings');
 
         if ($newValue !== $oldValue) {
-            $this->producer->send(Topics::REASSIGN_CUSTOMER_ACCOUNT, ['type' => $newValue]);
+            $this->producer->send(ReassignCustomerAccountTopic::getName(), ['type' => $newValue]);
         }
     }
 }

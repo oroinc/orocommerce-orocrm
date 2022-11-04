@@ -1,0 +1,11 @@
+services:
+    _instanceof:
+        Oro\Component\MessageQueue\Client\TopicSubscriberInterface:
+            tags:
+                - { name: oro_message_queue.client.message_processor }
+
+    oro_customer_account.async.reassign_customer_processor:
+        class: Oro\Bridge\CustomerAccount\Async\ReassignCustomerProcessor
+        arguments:
+            - '@oro_customer_account.manager.account_manager'
+            - '@oro_message_queue.job.runner'

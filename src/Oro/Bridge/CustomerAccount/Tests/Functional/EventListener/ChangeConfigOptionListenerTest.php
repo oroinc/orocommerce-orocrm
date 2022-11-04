@@ -2,8 +2,7 @@
 
 namespace Oro\Bridge\CustomerAccount\Tests\Functional\EventListener;
 
-use Doctrine\ORM\EntityManager;
-use Oro\Bridge\CustomerAccount\Async\Topics;
+use Oro\Bridge\CustomerAccount\Async\Topic\ReassignCustomerAccountTopic;
 use Oro\Bridge\CustomerAccount\EventListener\ChangeConfigOptionListener;
 use Oro\Bundle\ConfigBundle\Event\ConfigUpdateEvent;
 use Oro\Bundle\MessageQueueBundle\Test\Functional\MessageQueueExtension;
@@ -18,7 +17,7 @@ class ChangeConfigOptionListenerTest extends WebTestCase
         $this->initClient();
     }
 
-    public function testShouldSendMessageIfOptionChanged()
+    public function testShouldSendMessageIfOptionChanged(): void
     {
         $service = $this->getService();
         $event = new ConfigUpdateEvent([
@@ -28,7 +27,7 @@ class ChangeConfigOptionListenerTest extends WebTestCase
             ]
         ]);
         $service->onConfigUpdate($event);
-        $this->assertMessageSent(Topics::REASSIGN_CUSTOMER_ACCOUNT);
+        self::assertMessageSent(ReassignCustomerAccountTopic::getName());
 
         $event = new ConfigUpdateEvent([
             'oro_customer_account_bridge.customer_account_settings' => [
@@ -36,30 +35,22 @@ class ChangeConfigOptionListenerTest extends WebTestCase
                 'new' => 'root'
             ]
         ]);
-        $this->assertMessageSent(Topics::REASSIGN_CUSTOMER_ACCOUNT);
+        self::assertMessageSent(ReassignCustomerAccountTopic::getName());
         $service->onConfigUpdate($event);
     }
 
-    public function testShouldNotSendMessageIfOptionNotChanged()
+    public function testShouldNotSendMessageIfOptionNotChanged(): void
     {
         $service = $this->getService();
         $event = new ConfigUpdateEvent([]);
-        $this->assertMessagesEmpty(Topics::REASSIGN_CUSTOMER_ACCOUNT);
+
+        $service->onConfigUpdate($event);
+
+        self::assertMessagesEmpty(ReassignCustomerAccountTopic::getName());
     }
 
-    /**
-     * @return EntityManager
-     */
-    protected function getEntityManager()
+    private function getService(): ChangeConfigOptionListener
     {
-        return $this->getContainer()->get('doctrine')->getManager();
-    }
-
-    /**
-     * @return ChangeConfigOptionListener
-     */
-    protected function getService()
-    {
-        return $this->getContainer()->get('oro_customer_account.form.event_listener.change_config_option');
+        return self::getContainer()->get('oro_customer_account.form.event_listener.change_config_option');
     }
 }
