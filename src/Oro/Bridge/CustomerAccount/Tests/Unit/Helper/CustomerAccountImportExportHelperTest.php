@@ -18,44 +18,28 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
-    /**
-     * @var CustomerAccountImportExportHelper
-     */
+    /** @var CustomerAccountImportExportHelper */
     private $customerAccountImportExportHelper;
 
-    /**
-     * @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
     private $doctrineHelper;
 
-    /**
-     * @var SalesCustomerRepository|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var SalesCustomerRepository|\PHPUnit\Framework\MockObject\MockObject */
     private $salesCustomerRepository;
 
-    /**
-     * @var EntityRepository|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var EntityRepository|\PHPUnit\Framework\MockObject\MockObject */
     private $accountRepository;
 
-    /**
-     * @var EntityManager|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var EntityManager|\PHPUnit\Framework\MockObject\MockObject */
     private $entityManager;
 
-    /**
-     * @var Customer[]
-     */
+    /** @var Customer[] */
     private $customers = [];
 
-    /**
-     * @var SalesCustomer[]
-     */
+    /** @var SalesCustomer[] */
     private $salesCustomers = [];
 
-    /**
-     * @var Account[]
-     */
+    /** @var Account[] */
     private $accounts = [];
 
     protected function setUp(): void
@@ -87,7 +71,7 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit\Framework\TestCase
 
         $result = $this->customerAccountImportExportHelper->loadCustomerAccounts($customers);
 
-        $this->assertSame(count($expectedResult), count($result));
+        $this->assertCount(count($expectedResult), $result);
         foreach ($expectedResult as $id => $account) {
             $this->assertArrayHasKey($id, $result);
             $this->assertEquals($account, $result[$id]);
@@ -148,10 +132,7 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit\Framework\TestCase
         $this->customerAccountImportExportHelper->assignAccount($customer, $this->accounts[1]);
     }
 
-    /**
-     * @return array
-     */
-    public function loadCustomerAccountsDataProvider()
+    public function loadCustomerAccountsDataProvider(): array
     {
         $this->createCustomers();
         $this->createAccounts();
@@ -179,10 +160,7 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function denormalizeAccountWithProperArrayDataProvider()
+    public function denormalizeAccountWithProperArrayDataProvider(): array
     {
         $this->createAccounts();
 
@@ -198,10 +176,7 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @param int $howManyTimes
-     */
-    private function shouldCallSalesCustomerRepository($howManyTimes)
+    private function shouldCallSalesCustomerRepository(int $howManyTimes)
     {
         $this->doctrineHelper
             ->expects($this->exactly($howManyTimes))
@@ -219,10 +194,7 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit\Framework\TestCase
             ->willReturn($this->accountRepository);
     }
 
-    /**
-     * @param int $howManyTimes
-     */
-    private function shouldCallEntityManager($howManyTimes)
+    private function shouldCallEntityManager(int $howManyTimes)
     {
         $this->doctrineHelper
             ->expects($this->exactly($howManyTimes))
@@ -237,10 +209,7 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit\Framework\TestCase
             ->method('persist');
     }
 
-    /**
-     * @param int $howManyTimes
-     */
-    private function andShouldGetCustomerByTarget($howManyTimes)
+    private function andShouldGetCustomerByTarget(int $howManyTimes)
     {
         $map = [];
 
@@ -248,7 +217,7 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit\Framework\TestCase
             $map[] = [
                 $customer->getId(),
                 $this->getCustomerTargetField(),
-                isset($this->salesCustomers[$customer->getId()]) ? $this->salesCustomers[$customer->getId()] : null,
+                $this->salesCustomers[$customer->getId()] ?? null,
             ];
         }
 
@@ -262,7 +231,7 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit\Framework\TestCase
     {
         $map = [];
 
-        foreach ($this->accounts as $i => $account) {
+        foreach ($this->accounts as $account) {
             $map[] = [$account->getId(), null, null, $account];
         }
 
@@ -290,7 +259,7 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit\Framework\TestCase
                 Account::class,
                 [
                     'id' => $i,
-                    'name' => "Account {$i}"
+                    'name' => 'Account ' . $i
                 ]
             );
         }
@@ -318,10 +287,7 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * @return string
-     */
-    private function getCustomerTargetField()
+    private function getCustomerTargetField(): string
     {
         return AccountCustomerManager::getCustomerTargetField(Customer::class);
     }
