@@ -12,26 +12,24 @@ use Oro\Bundle\SalesBundle\Tests\Unit\Fixture\CustomerStub as CustomerAssociatio
 
 class AssignRootStrategyTest extends \PHPUnit\Framework\TestCase
 {
+    /** @var AccountCustomerManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $manager;
+
+    /** @var AccountBuilder|\PHPUnit\Framework\MockObject\MockObject */
+    private $builder;
+
     /** @var AssignRootStrategy */
-    protected $strategy;
+    private $strategy;
 
-    /** @var AccountCustomerManager */
-    protected $manager;
-
-    /** @var AccountBuilder */
-    protected $builder;
-
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
-        $this->manager = $this->getAccountCustomerManager();
-        $this->builder = $this->createAccountBuilderMock();
+        $this->manager = $this->createMock(AccountCustomerManager::class);
+        $this->builder = $this->createMock(AccountBuilder::class);
+
         $this->strategy = new AssignRootStrategy(
             $this->builder,
             $this->manager,
-            $this->getLifetimeProcessor()
+            $this->createMock(LifetimeProcessor::class)
         );
     }
 
@@ -45,8 +43,12 @@ class AssignRootStrategyTest extends \PHPUnit\Framework\TestCase
     {
         $customerAssociation = new CustomerAssociation();
 
-        $this->manager->method('getAccountCustomerByTarget')->willReturn($customerAssociation);
-        $this->builder->method('build')->willReturn(new Account());
+        $this->manager->expects(self::any())
+            ->method('getAccountCustomerByTarget')
+            ->willReturn($customerAssociation);
+        $this->builder->expects(self::any())
+            ->method('build')
+            ->willReturn(new Account());
 
         $entity = new Customer();
         $results = $this->strategy->process($entity);
@@ -69,7 +71,7 @@ class AssignRootStrategyTest extends \PHPUnit\Framework\TestCase
 
         $customerAssociation = new CustomerAssociation();
 
-        $this->manager
+        $this->manager->expects(self::any())
             ->method('getAccountCustomerByTarget')
             ->willReturnOnConsecutiveCalls($rootCustomerAssociation, $customerAssociation);
 
@@ -92,8 +94,7 @@ class AssignRootStrategyTest extends \PHPUnit\Framework\TestCase
         $customerAssociation->setTarget($account);
         $rootCustomerAssociation = new CustomerAssociation();
 
-        $this->manager
-            ->expects($this->exactly(2))
+        $this->manager->expects($this->exactly(2))
             ->method('getAccountCustomerByTarget')
             ->willReturnOnConsecutiveCalls($rootCustomerAssociation, $customerAssociation);
 
@@ -125,8 +126,7 @@ class AssignRootStrategyTest extends \PHPUnit\Framework\TestCase
         $customerAssociation = new CustomerAssociation();
         $customerAssociation->setTarget($account);
 
-        $this->manager
-            ->expects($this->exactly(2))
+        $this->manager->expects($this->exactly(2))
             ->method('getAccountCustomerByTarget')
             ->willReturnOnConsecutiveCalls($rootCustomerAssociation, $customerAssociation);
 
@@ -135,37 +135,5 @@ class AssignRootStrategyTest extends \PHPUnit\Framework\TestCase
         $this->assertCount(2, $results);
         $this->assertEquals($account, $results[0]->getAccount());
         $this->assertEquals($previousAccount, $results[0]->getPreviousAccount());
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|AccountBuilder
-     */
-    private function createAccountBuilderMock()
-    {
-        return $this->createMock(AccountBuilder::class);
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|AccountCustomerManager
-     */
-    private function getAccountCustomerManager()
-    {
-        $manager = $this->getMockBuilder(AccountCustomerManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        return $manager;
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|LifetimeProcessor
-     */
-    private function getLifetimeProcessor()
-    {
-        $processor = $this->getMockBuilder(LifetimeProcessor::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        return $processor;
     }
 }

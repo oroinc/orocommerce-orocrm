@@ -14,24 +14,20 @@ use Oro\Bundle\UserBundle\Entity\User;
 
 class AssignEachStrategyTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var AccountBuilder */
-    protected $accountBuilder;
+    /** @var AccountCustomerManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $manager;
 
     /** @var AssignEachStrategy */
-    protected $assignEachStrategy;
-
-    /** @var AccountCustomerManager */
-    protected $manager;
+    private $assignEachStrategy;
 
     protected function setUp(): void
     {
-        $this->accountBuilder = new AccountBuilder();
-        $this->manager = $this->getAccountCustomerManager();
+        $this->manager = $this->createMock(AccountCustomerManager::class);
 
         $this->assignEachStrategy = new AssignEachStrategy(
-            $this->accountBuilder,
+            new AccountBuilder(),
             $this->manager,
-            $this->getLifetimeProcessor()
+            $this->createMock(LifetimeProcessor::class)
         );
     }
 
@@ -49,7 +45,9 @@ class AssignEachStrategyTest extends \PHPUnit\Framework\TestCase
         $expectedAccount = $this->initAccount('Test Customer', $user, $organization);
         $customerAssociation = new CustomerAssociation();
 
-        $this->manager->method('getAccountCustomerByTarget')->willReturn($customerAssociation);
+        $this->manager->expects(self::any())
+            ->method('getAccountCustomerByTarget')
+            ->willReturn($customerAssociation);
 
         self::assertEquals(
             [
@@ -74,7 +72,9 @@ class AssignEachStrategyTest extends \PHPUnit\Framework\TestCase
         $customerAssociation = new CustomerAssociation();
         $customerAssociation->setTarget($account);
 
-        $this->manager->method('getAccountCustomerByTarget')->willReturn($customerAssociation);
+        $this->manager->expects(self::any())
+            ->method('getAccountCustomerByTarget')
+            ->willReturn($customerAssociation);
 
         self::assertEquals(
             [
@@ -105,7 +105,8 @@ class AssignEachStrategyTest extends \PHPUnit\Framework\TestCase
         $rootCustomerAssociation = new CustomerAssociation();
         $rootCustomerAssociation->setTarget($parentAccount);
 
-        $this->manager->method('getAccountCustomerByTarget')
+        $this->manager->expects(self::any())
+            ->method('getAccountCustomerByTarget')
             ->willReturnOnConsecutiveCalls($customerAssociation, $rootCustomerAssociation);
 
         self::assertEquals(
@@ -119,13 +120,7 @@ class AssignEachStrategyTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($customer, $customerAssociation->getTarget());
     }
 
-    /**
-     * @param $name
-     * @param $owner
-     * @param $organization
-     * @return Account
-     */
-    protected function initAccount($name, $owner, $organization)
+    private function initAccount(string $name, User $owner, Organization $organization): Account
     {
         $account = new Account();
         $account->setOwner($owner);
@@ -135,13 +130,7 @@ class AssignEachStrategyTest extends \PHPUnit\Framework\TestCase
         return $account;
     }
 
-    /**
-     * @param $name
-     * @param $owner
-     * @param $organization
-     * @return Customer
-     */
-    protected function initCustomer($name, $owner, $organization)
+    private function initCustomer(string $name, User $owner, Organization $organization): Customer
     {
         $customer = new Customer();
         $customer->setOwner($owner);
@@ -149,29 +138,5 @@ class AssignEachStrategyTest extends \PHPUnit\Framework\TestCase
         $customer->setOrganization($organization);
 
         return $customer;
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|AccountCustomerManager
-     */
-    private function getAccountCustomerManager()
-    {
-        $manager = $this->getMockBuilder(AccountCustomerManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        return $manager;
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|LifetimeProcessor
-     */
-    private function getLifetimeProcessor()
-    {
-        $processor = $this->getMockBuilder(LifetimeProcessor::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        return $processor;
     }
 }
