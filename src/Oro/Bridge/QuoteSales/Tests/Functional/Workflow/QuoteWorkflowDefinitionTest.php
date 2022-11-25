@@ -5,15 +5,13 @@ namespace Oro\Bridge\QuoteSales\Tests\Functional\Workflow;
 use Oro\Bridge\QuoteSales\Tests\Functional\Fixture\CreateDefaultAccountFixture;
 use Oro\Bridge\QuoteSales\Tests\Functional\Fixture\OpportunityQuotesListenerFixture;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Oro\Bundle\WorkflowBundle\Model\WorkflowManager;
 
 /**
  * @dbIsolationPerTest
  */
 class QuoteWorkflowDefinitionTest extends WebTestCase
 {
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
         $this->initClient(
@@ -43,10 +41,10 @@ class QuoteWorkflowDefinitionTest extends WebTestCase
 
         $btn = $crawler->filter('[id^="transition-quote_flow-quote_create"]');
 
-        static::assertStringContainsString(
+        self::assertStringContainsString(
             'Create Quote',
             $btn->text(),
-            "Transition on opportunity that satisfies all the conditions is unavailable"
+            'Transition on opportunity that satisfies all the conditions is unavailable'
         );
     }
 
@@ -64,7 +62,7 @@ class QuoteWorkflowDefinitionTest extends WebTestCase
         $this->assertEquals(
             0,
             $btn->count(),
-            "Transition on opportunity that not satisfies all the conditions is available"
+            'Transition on opportunity that not satisfies all the conditions is available'
         );
 
         $opportunity = $this->getReference('opportunity_won');
@@ -79,7 +77,7 @@ class QuoteWorkflowDefinitionTest extends WebTestCase
         $this->assertEquals(
             0,
             $btn->count(),
-            "Transition on opportunity that not satisfies all the conditions is available"
+            'Transition on opportunity that not satisfies all the conditions is available'
         );
     }
 }
