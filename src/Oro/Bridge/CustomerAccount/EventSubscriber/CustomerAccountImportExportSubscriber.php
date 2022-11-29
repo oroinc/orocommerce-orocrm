@@ -11,6 +11,7 @@ use Oro\Bundle\ImportExportBundle\Event\LoadEntityRulesAndBackendHeadersEvent;
 use Oro\Bundle\ImportExportBundle\Event\LoadTemplateFixturesEvent;
 use Oro\Bundle\ImportExportBundle\Event\NormalizeEntityEvent;
 use Oro\Bundle\ImportExportBundle\Event\StrategyEvent;
+use Oro\Bundle\ImportExportBundle\EventListener\ImportExportHeaderModifier;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -127,15 +128,12 @@ class CustomerAccountImportExportSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $event->addHeader([
-            'value' => sprintf('account%sid', $event->getConvertDelimiter()),
-            'order' => 300,
-        ]);
-
-        $event->setRule('Account Id', [
-            'value' => sprintf('account%sid', $event->getConvertDelimiter()),
-            'order' => 300,
-        ]);
+        ImportExportHeaderModifier::addHeader(
+            $event,
+            sprintf('account%sid', $event->getConvertDelimiter()),
+            'Account Id',
+            300
+        );
     }
 
     public function addAccountToCustomers(LoadTemplateFixturesEvent $event)
