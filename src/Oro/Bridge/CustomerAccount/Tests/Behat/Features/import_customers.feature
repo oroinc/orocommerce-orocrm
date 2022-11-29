@@ -22,13 +22,13 @@ Feature: Import Customers
 
   Scenario: Import new Customers
     Given I fill template with data:
-      | Id | Name                      | Parent Id | Group Name          | Tax code   | Account Id | Internal rating Id | Payment term Label | Owner ID |
-      |    | Company A                 |           | All Customers       | Tax_code_1 | 1          | 2_of_5             | net 30             |          |
-      |    | Company A - East Division | 1         | All Customers       | Tax_code_1 | 2          | 1_of_5             | net 90             |          |
-      |    | Company A - West Division | 1         | All Customers       | Tax_code_1 | 3          | 1_of_5             | net 60             |          |
-      |    | Customer G                |           | Wholesale Customers | Tax_code_3 | 4          | 3_of_5             | net 60             | 2        |
-      |    | Partner C                 |           | Partners            | Tax_code_3 | 5          | 4_of_5             | net 30             | 1        |
-      |    | Wholesaler B              |           | All Customers       | Tax_code_2 | 6          | 4_of_5             | net 60             | 3        |
+      | Id | Name                      | Parent Name | Group Name          | Tax code   | Account Id | Internal rating Id | Payment term Label | Owner ID |
+      |    | Company A                 |             | All Customers       | Tax_code_1 | 1          | 2_of_5             | net 30             |          |
+      |    | Company A - East Division | Company A   | All Customers       | Tax_code_1 | 2          | 1_of_5             | net 90             |          |
+      |    | Company A - West Division | Company A   | All Customers       | Tax_code_1 | 3          | 1_of_5             | net 60             |          |
+      |    | Customer G                |             | Wholesale Customers | Tax_code_3 | 4          | 3_of_5             | net 60             | 2        |
+      |    | Partner C                 |             | Partners            | Tax_code_3 | 5          | 4_of_5             | net 30             | 1        |
+      |    | Wholesaler B              |             | All Customers       | Tax_code_2 | 6          | 4_of_5             | net 60             | 3        |
     When I import file
     And reload the page
     Then Email should contains the following "Errors: 1 processed: 5, read: 6, added: 5, updated: 0, replaced: 0" text
