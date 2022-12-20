@@ -10,6 +10,16 @@ Oro\Bundle\AccountBundle\Entity\Account:
     name: 'New Account'
     organization: '@organization'
 
+Oro\Bundle\CallBundle\Entity\CallStatus:
+  grid_call_status:
+    __construct: ['grid_status']
+    label: 'Grid Status'
+
+Oro\Bundle\CallBundle\Entity\CallDirection:
+  grid_call_direction:
+    __construct: ['grid_direction']
+    label: 'Grid Direction'
+
 Oro\Bundle\CallBundle\Entity\Call:
   call_entity:
     subject: 'New Call'
@@ -17,6 +27,8 @@ Oro\Bundle\CallBundle\Entity\Call:
     notes: ''
     organization: '@organization'
     owner: '@admin'
+    callStatus: '@grid_call_status'
+    direction: '@grid_call_direction'
 
 Oro\Bundle\TaskBundle\Entity\Task:
   task_entity:
@@ -50,11 +62,18 @@ Oro\Bundle\SalesBundle\Entity\Lead:
 
 Oro\Bundle\ChannelBundle\Entity\Channel:
   sales_channel_entity:
+    __calls:
+      - setEntities: [ [ '@channel-entity-b2bcustomer' ] ]
     owner: '@organization'
     name: 'Business Customers'
     channelType: 'b2b'
     status: 1
     customerIdentity: 'Oro\\Bundle\\SalesBundle\\Entity\\B2bCustomer'
+
+Oro\Bundle\ChannelBundle\Entity\EntityName:
+  channel-entity-b2bcustomer:
+    __construct: ['Oro\\Bundle\\SalesBundle\\Entity\\B2bCustomer']
+    channel: '@sales_channel_entity'
 
 Oro\Bundle\SalesBundle\Entity\B2bCustomer:
   b2b_customer_entity:
@@ -71,7 +90,24 @@ Oro\Bundle\ContactUsBundle\Entity\ContactRequest:
     emailAddress: 'new_contact_request@example.org'
     phone: ''
     owner: '@organization'
-    comment: ''
+    comment: 'Test comment message'
+
+Oro\Bundle\CaseBundle\Entity\CasePriority:
+  grid_case_priority:
+    __construct: [ 'grid_priority' ]
+    label: 'Grid Priority'
+    order: 1
+
+Oro\Bundle\CaseBundle\Entity\CaseStatus:
+  grid_case_status:
+    __construct: [ 'grid_status' ]
+    label: 'Grid Status'
+    order: 1
+
+Oro\Bundle\CaseBundle\Entity\CaseSource:
+  grid_case_source:
+    __construct: [ 'grid_source' ]
+    label: 'Grid Source'
 
 Oro\Bundle\CaseBundle\Entity\CaseEntity:
   case_entity:
@@ -79,6 +115,9 @@ Oro\Bundle\CaseBundle\Entity\CaseEntity:
     description: ''
     owner: '@admin'
     organization: '@organization'
+    source: '@grid_case_source'
+    priority: '@grid_case_priority'
+    status: '@grid_case_status'
 
 Oro\Bundle\PromotionBundle\Entity\DiscountConfiguration:
   discount_configuration_entity:

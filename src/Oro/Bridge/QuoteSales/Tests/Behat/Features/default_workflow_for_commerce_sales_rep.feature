@@ -14,8 +14,8 @@ Feature: Default workflow for Commerce Sales Rep
       | Commerce John |
     And two users charlie and samantha exists in the system
     And there is following Website:
-      | Name     |
-      | SaleSite |
+      | Name     | guest_role | default_role |
+      | SaleSite | @buyer     | @buyer       |
 
   Scenario: Administrator activates CRM Opportunity Management Flow
     Given I login as administrator

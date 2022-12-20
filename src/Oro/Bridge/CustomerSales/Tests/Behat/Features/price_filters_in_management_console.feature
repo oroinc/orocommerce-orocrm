@@ -1,6 +1,6 @@
-@fixture-OroPricingBundle:PriceListFilter.yml
 @fixture-OroSalesBundle:OpportunityWithBudgetFixture.yml
 @fixture-OroOrderBundle:OrderWithSubtotalAndTotal.yml
+@fixture-OroPricingBundle:PriceListFilter.yml
 @fixture-OroLocaleBundle:GermanLocalization.yml
 
 Feature: Price filters in management console

@@ -1,5 +1,6 @@
 @regression
 @ticket-BB-19210
+@fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
 @fixture-OroCustomerAccountBridgeBundle:NewFieldsInViewAndEditPage.yml
 
 Feature: New fields appear on the view and edit pages

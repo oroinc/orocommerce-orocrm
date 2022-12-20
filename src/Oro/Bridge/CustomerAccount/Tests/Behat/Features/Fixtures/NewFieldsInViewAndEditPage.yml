@@ -35,12 +35,6 @@ Oro\Bundle\RuleBundle\Entity\Rule:
         sortOrder: 1
 
 Oro\Bundle\IntegrationBundle\Entity\Channel:
-    flat_rate_integration:
-        type: '<{flat_rate_type}>'
-        name: '<{flat_rate_label}>'
-        enabled: true
-        organization: '@organization'
-        transport: '@flat_rate_settings'
     payment_term_integration:
         type: '<{payment_term_type}>'
         name: '<{payment_term_label}>'
@@ -57,20 +51,12 @@ Oro\Bundle\WebCatalogBundle\Entity\WebCatalog:
         owner: '@business_unit'
 
 # Landing page
-Oro\Bundle\RedirectBundle\Entity\Slug:
-    landing_page_slug:
-        url: 'landing_page'
-        slugPrototype: '@landing_page_slug_prototype'
-        routeName: 'oro_cms_frontend_page_view'
-        routeParameters: []
-
 Oro\Bundle\CMSBundle\Entity\Page:
     landing_page:
         __calls:
             - addTitle: ['@landing_page_title']
         organization: '@organization'
         slugPrototypes: ['@landing_page_slug_prototype']
-        slugs: ['@landing_page_slug']
 
 # Content block
 Oro\Bundle\CMSBundle\Entity\TextContentVariant:
@@ -101,6 +87,7 @@ Oro\Bundle\WebCatalogBundle\Entity\ContentVariant:
     content_variant:
         type: 'cms_page'
         cmsPage: '@landing_page'
+        scopes: [ '@default_scope' ]
 
 Oro\Bundle\ConsentBundle\Entity\Consent:
     consent_entity:
@@ -115,6 +102,7 @@ Oro\Bundle\WebCatalogBundle\Entity\ContentNode:
         __calls:
             - addTitle: ['@content_node_title']
             - addContentVariant: ['@content_variant']
+            - addScope: [ '@default_scope' ]
         webCatalog: '@web_catalog_entity'
 
 # Promotion
@@ -164,7 +152,7 @@ Oro\Bundle\ShippingBundle\Entity\ShippingMethodTypeConfig:
 
 Oro\Bundle\ShippingBundle\Entity\ShippingMethodConfig:
     shipping_method_config:
-        method: 'flat_rate_1'
+        method: '<("flat_rate_".@flatRateIntegration->getId())>'
         typeConfigs: ['@shipping_method_type_config']
 
 Oro\Bundle\ShippingBundle\Entity\ShippingMethodsConfigsRule:
