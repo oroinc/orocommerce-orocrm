@@ -1,3 +1,4 @@
+@ticket-BB-20600
 @fixture-OroContactUsBridgeBundle:CustomerUserFixture.yml
 Feature: Contact us widget
   As an Administrator
@@ -95,3 +96,14 @@ Feature: Contact us widget
       |Email      |This value should not be blank. |
       |Phone      |This value should not be blank. |
       |Comment    |This value should not be blank. |
+    When fill form with:
+      |First Name              |Test                                                                                                                                                                                                                                                                                                                                                                           |
+      |Last Name               |Tester                                                                                                                                                                                                                                                                                                                                                                         |
+      |Email                   |123412312321321321@fdsdfdsfdssfsdfdsfsdfsdfsdfsdfdsfsfsdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd.com                                                                                                                                                                                                            |
+      |Phone                   |Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. |
+      |Contact Reason          |Other                                                                                                                                                                                                                                                                                                                                                                          |
+      |Comment                 |Test Comment                                                                                                                                                                                                                                                                                                                                                                   |
+    And click "Submit"
+    Then I should see validation errors:
+      |Email      | This value is too long. It should have 100 characters or less. |
+      |Phone      | This value is too long. It should have 100 characters or less. |
