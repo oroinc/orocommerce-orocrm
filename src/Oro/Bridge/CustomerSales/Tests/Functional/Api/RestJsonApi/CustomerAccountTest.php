@@ -59,6 +59,96 @@ class CustomerAccountTest extends RestJsonApiTestCase
         );
     }
 
+    public function testGetAccountWithIncludedCustomers(): void
+    {
+        $response = $this->get(
+            ['entity' => 'accounts', 'id' => '<toString(@account1->id)>'],
+            ['include' => 'customers', 'fields[accounts]' => 'customers']
+        );
+        $this->assertResponseContains(
+            [
+                'data'     => [
+                    'type'          => 'accounts',
+                    'id'            => '<toString(@account1->id)>',
+                    'relationships' => [
+                        'customers' => [
+                            'data' => [
+                                ['type' => 'customers', 'id' => '<toString(@customer1->id)>'],
+                                ['type' => 'customers', 'id' => '<toString(@customer2->id)>']
+                            ]
+                        ]
+                    ]
+                ],
+                'included' => [
+                    [
+                        'type'          => 'customers',
+                        'id'            => '<toString(@customer1->id)>',
+                        'relationships' => [
+                            'account' => [
+                                'data' => ['type' => 'accounts', 'id' => '<toString(@account1->id)>']
+                            ]
+                        ]
+                    ],
+                    [
+                        'type'          => 'customers',
+                        'id'            => '<toString(@customer2->id)>',
+                        'relationships' => [
+                            'account' => [
+                                'data' => ['type' => 'accounts', 'id' => '<toString(@account1->id)>']
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            $response
+        );
+    }
+
+    public function testGetAccountWithIncludedCustomersWithOnlyAccountAssociation(): void
+    {
+        $response = $this->get(
+            ['entity' => 'accounts', 'id' => '<toString(@account1->id)>'],
+            ['include' => 'customers', 'fields[accounts]' => 'customers', 'fields[customers]' => 'account']
+        );
+        $this->assertResponseContains(
+            [
+                'data'     => [
+                    'type'          => 'accounts',
+                    'id'            => '<toString(@account1->id)>',
+                    'relationships' => [
+                        'customers' => [
+                            'data' => [
+                                ['type' => 'customers', 'id' => '<toString(@customer1->id)>'],
+                                ['type' => 'customers', 'id' => '<toString(@customer2->id)>']
+                            ]
+                        ]
+                    ]
+                ],
+                'included' => [
+                    [
+                        'type'          => 'customers',
+                        'id'            => '<toString(@customer1->id)>',
+                        'relationships' => [
+                            'account' => [
+                                'data' => ['type' => 'accounts', 'id' => '<toString(@account1->id)>']
+                            ]
+                        ]
+                    ],
+                    [
+                        'type'          => 'customers',
+                        'id'            => '<toString(@customer2->id)>',
+                        'relationships' => [
+                            'account' => [
+                                'data' => ['type' => 'accounts', 'id' => '<toString(@account1->id)>']
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            $response
+        );
+    }
+
     public function testGetCustomer(): void
     {
         $response = $this->get(
