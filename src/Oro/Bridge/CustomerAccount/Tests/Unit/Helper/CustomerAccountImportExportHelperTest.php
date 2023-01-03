@@ -61,8 +61,6 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider loadCustomerAccountsDataProvider
-     * @param Customer[] $customers
-     * @param Account[] $expectedResult
      */
     public function testLoadCustomerAccounts(array $customers, array $expectedResult)
     {
@@ -178,8 +176,7 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit\Framework\TestCase
 
     private function shouldCallSalesCustomerRepository(int $howManyTimes)
     {
-        $this->doctrineHelper
-            ->expects($this->exactly($howManyTimes))
+        $this->doctrineHelper->expects($this->exactly($howManyTimes))
             ->method('getEntityRepository')
             ->with(SalesCustomer::class)
             ->willReturn($this->salesCustomerRepository);
@@ -187,8 +184,7 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit\Framework\TestCase
 
     private function shouldCallAccountRepository($howManyTimes)
     {
-        $this->doctrineHelper
-            ->expects($this->exactly($howManyTimes))
+        $this->doctrineHelper->expects($this->exactly($howManyTimes))
             ->method('getEntityRepository')
             ->with(Account::class)
             ->willReturn($this->accountRepository);
@@ -196,16 +192,14 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit\Framework\TestCase
 
     private function shouldCallEntityManager(int $howManyTimes)
     {
-        $this->doctrineHelper
-            ->expects($this->exactly($howManyTimes))
+        $this->doctrineHelper->expects($this->exactly($howManyTimes))
             ->method('getEntityManagerForClass')
             ->willReturn($this->entityManager);
     }
 
     private function andShouldPersist($howManyTimes)
     {
-        $this->entityManager
-            ->expects($this->exactly($howManyTimes))
+        $this->entityManager->expects($this->exactly($howManyTimes))
             ->method('persist');
     }
 
@@ -221,8 +215,7 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit\Framework\TestCase
             ];
         }
 
-        $this->salesCustomerRepository
-            ->expects($this->exactly($howManyTimes))
+        $this->salesCustomerRepository->expects($this->exactly($howManyTimes))
             ->method('getCustomerByTarget')
             ->willReturnMap($map);
     }
@@ -235,8 +228,7 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit\Framework\TestCase
             $map[] = [$account->getId(), null, null, $account];
         }
 
-        $this->accountRepository
-            ->expects($this->exactly($howManyTimes))
+        $this->accountRepository->expects($this->exactly($howManyTimes))
             ->method('find')
             ->willReturnMap($map);
     }

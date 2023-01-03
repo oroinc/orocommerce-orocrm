@@ -3,13 +3,12 @@
 namespace Oro\Bridge\CustomerSales\Tests\Unit\Provider\Customer;
 
 use Oro\Bridge\CustomerSales\Provider\Customer\CustomerIconProvider;
-use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\UIBundle\Model\Image;
 
 class CustomerIconProviderTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var CustomerIconProvider */
-    protected $customerIconProvider;
+    private CustomerIconProvider $customerIconProvider;
 
     protected function setUp(): void
     {
@@ -27,10 +26,7 @@ class CustomerIconProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldReturnNullForOtherEntities()
     {
-        $icon = $this->customerIconProvider->getIcon(new \StdClass());
-        $this->assertEquals(
-            null,
-            $icon
-        );
+        $icon = $this->customerIconProvider->getIcon(new \stdClass());
+        $this->assertNull($icon);
     }
 }

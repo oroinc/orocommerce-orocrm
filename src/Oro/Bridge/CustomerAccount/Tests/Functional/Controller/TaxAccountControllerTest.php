@@ -12,35 +12,29 @@ use Oro\Bundle\TaxBundle\Tests\Functional\Controller\CustomerControllerTest as B
 class TaxAccountControllerTest extends BaseAccountControllerTest
 {
     /**
-     * @return array
+     * {@inheritDoc}
      */
-    protected function getFixtureList()
+    protected function getFixtureList(): array
     {
         $values = parent::getFixtureList();
-        $values[] = 'Oro\Bridge\CustomerAccount\Tests\Functional\DataFixtures\LoadAccount';
+        $values[] = LoadAccount::class;
 
         return $values;
     }
 
     /**
-     * @param $name
-     * @param Customer $parent
-     * @param CustomerGroup $group
-     * @param AbstractEnumValue $internalRating
-     * @param CustomerTaxCode $customerTaxCode
-     *
-     * @return array
+     * {@inheritDoc}
      */
     protected function getFormValues(
-        $name,
+        string $name,
         Customer $parent,
         CustomerGroup $group,
         AbstractEnumValue $internalRating,
         CustomerTaxCode $customerTaxCode
-    ) {
+    ): array {
         $values = parent::getFormValues($name, $parent, $group, $internalRating, $customerTaxCode);
-        $values['oro_customer_type[customer_association_account]'] = $this->getReference(LoadAccount::ACCOUNT_1)->getId(
-        );
+        $values['oro_customer_type[customer_association_account]'] = $this->getReference(LoadAccount::ACCOUNT_1)
+            ->getId();
 
         return $values;
     }

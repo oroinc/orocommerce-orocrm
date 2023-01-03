@@ -15,8 +15,7 @@ class ReassignCustomerProcessorTest extends \PHPUnit\Framework\TestCase
     public function testShouldSetRunUniqueJobIfTypeIsset(): void
     {
         $jobRunner = $this->createMock(JobRunner::class);
-        $jobRunner
-            ->expects(self::once())
+        $jobRunner->expects(self::once())
             ->method('runUnique')
             ->with('message-id', ReassignCustomerAccountTopic::getName())
             ->willReturnCallback(function ($ownerId, $name, $callback) use ($jobRunner) {
