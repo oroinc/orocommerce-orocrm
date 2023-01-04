@@ -1,6 +1,6 @@
 <ul>
     {% for error in errors %}
         {% set label = error.origin.config.getOption('label')|trans %}
-        <li>{{ label }}: {{ error.message }}</li>
+        <li>{% if label is not empty %} {{ label }}: {% endif %} {{ error.message }}</li>
     {% endfor %}
 </ul>
