@@ -35,39 +35,18 @@ class ContactRequestController extends AbstractController
     public function createAction(Request $request)
     {
         $contactRequest = new ContactRequest();
-
         $form = $this->createForm(
             ContactRequestType::class,
             $contactRequest,
-            [
-                'action' => $this->generateUrl('oro_contactus_bridge_request_create'),
-            ]
+            ['action' => $this->generateUrl('oro_contactus_bridge_request_create')]
         );
-
-        $this->get(UpdateHandlerFacade::class)->update(
-            $contactRequest,
-            $form,
-            $this->get(TranslatorInterface::class)->trans('oro.contactus.form.contactrequest.sent'),
-            null,
-            null,
-            function ($entity, FormInterface $form) {
-                $errors = $form->getErrors(true);
-                if (count($errors) > 0) {
-                    $this->addFlash('error', $this->renderErrors($errors));
-                }
-
-                return [];
-            }
-        );
+        $this->handleForm($form, $contactRequest);
 
         return $this->redirect($request->query->get('requestUri', $this->generateUrl('oro_frontend_root')));
     }
 
     /**
-     * @Route(
-     *      "/",
-     *      name="oro_contactus_bridge_contact_us_page"
-     * )
+     * @Route("/", name="oro_contactus_bridge_contact_us_page")
      * @Layout
      *
      * @return array|RedirectResponse
@@ -75,18 +54,8 @@ class ContactRequestController extends AbstractController
     public function contactUsPageAction()
     {
         $contactRequest = new ContactRequest();
-
-        $form = $this->createForm(
-            ContactRequestType::class,
-            $contactRequest
-        );
-
-        $result =  $this->get(UpdateHandlerFacade::class)->update(
-            $contactRequest,
-            $form,
-            $this->get(TranslatorInterface::class)->trans('oro.contactus.form.contactrequest.sent')
-        );
-
+        $form = $this->createForm(ContactRequestType::class, $contactRequest);
+        $result =  $this->handleForm($form, $contactRequest);
         if ($result instanceof Response) {
             return $result;
         }
@@ -100,6 +69,27 @@ class ContactRequestController extends AbstractController
     private function renderErrors(FormErrorIterator $errors): string
     {
         return $this->renderView('@OroContactUsBridge/validation.html.twig', ['errors' => $errors]);
+    }
+
+    private function handleForm(FormInterface $form, ContactRequest $request): array|RedirectResponse
+    {
+        $callback = function ($entity, FormInterface $form) {
+            $errors = $form->getErrors(true);
+            if (count($errors) > 0) {
+                $this->addFlash('error', $this->renderErrors($errors));
+            }
+
+            return [];
+        };
+
+        return $this->get(UpdateHandlerFacade::class)->update(
+            $request,
+            $form,
+            $this->get(TranslatorInterface::class)->trans('oro.contactus.form.contactrequest.sent'),
+            null,
+            null,
+            $callback
+        );
     }
 
     /**
