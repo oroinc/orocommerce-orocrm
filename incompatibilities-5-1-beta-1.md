@@ -1,3 +1,0 @@
-ContactUs
----------
-* The `ContactRequestType::__construct(TokenAccessorInterface $tokenAccessor, LocalizationHelper $localizationHelper)`<sup>[[?]](https://github.com/oroinc/orocommerce-orocrm/tree/5.0.0-alpha.2/src/Oro/Bridge/ContactUs/Form/Type/ContactRequestType.php#L34 "Oro\Bridge\ContactUs\Form\Type\ContactRequestType")</sup> method was changed to `ContactRequestType::__construct(ManagerRegistry $doctrine, TokenAccessorInterface $tokenAccessor, LocalizationHelper $localizationHelper)`<sup>[[?]](https://github.com/oroinc/orocommerce-orocrm/tree/5.1.0-beta.1/src/Oro/Bridge/ContactUs/Form/Type/ContactRequestType.php#L35 "Oro\Bridge\ContactUs\Form\Type\ContactRequestType")</sup>
