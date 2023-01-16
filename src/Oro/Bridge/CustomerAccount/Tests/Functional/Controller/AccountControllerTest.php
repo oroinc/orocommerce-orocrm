@@ -23,11 +23,11 @@ class AccountControllerTest extends CustomerControllerTest
      */
     protected function prepareFormValues(
         string $name,
-        Customer $parent,
-        CustomerGroup $group,
-        AbstractEnumValue $internalRating
+        ?CustomerGroup $group,
+        AbstractEnumValue $internalRating,
+        ?Customer $parent = null
     ): array {
-        $values = parent::prepareFormValues($name, $parent, $group, $internalRating);
+        $values = parent::prepareFormValues($name, $group, $internalRating, $parent);
         $values['oro_customer_type[customer_association_account]'] = $this->getReference(LoadAccount::ACCOUNT_1)
             ->getId();
 

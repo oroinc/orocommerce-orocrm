@@ -1,4 +1,5 @@
 @ticket-BAP-14250
+@feature-BB-21879
 @automatically-ticket-tagged
 @fixture-OroCustomerAccountBridgeBundle:opportunity_from_related.yml
 Feature: Create Opportunity from Customers entity view
@@ -10,6 +11,7 @@ Feature: Create Opportunity from Customers entity view
     Given I login as "Johnconnor8" user
     When I go to Customers/Customers
     And click View CommSkyNet in grid
+    And I click "More actions"
     And click "Create Opportunity"
     And I fill in "Opportunity name" with "Fourth Invasion"
     And I save and close form
