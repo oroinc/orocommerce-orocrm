@@ -1,3 +1,4 @@
+@regression
 @feature-BB-13768
 @fixture-OroContactUsBridgeBundle:CustomerUserFixture.yml
 @fixture-OroConsentBundle:ConsentLandingPagesFixture.yml
