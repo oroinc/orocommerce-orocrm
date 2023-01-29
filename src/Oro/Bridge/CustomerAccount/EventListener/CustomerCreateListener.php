@@ -2,9 +2,12 @@
 
 namespace Oro\Bridge\CustomerAccount\EventListener;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 
+/**
+ * Listens to Customer Entity events and updates DataChannel
+ */
 class CustomerCreateListener
 {
     const COMMERCE_CHANNEL_TYPE = 'commerce';
@@ -21,7 +24,7 @@ class CustomerCreateListener
 
     private function updateDataChannel(Customer $customer, LifecycleEventArgs $args)
     {
-        $em = $args->getEntityManager();
+        $em = $args->getObjectManager();
 
         if (!$customer->getDataChannel()) {
             $channels = $em->getRepository('OroChannelBundle:Channel')
