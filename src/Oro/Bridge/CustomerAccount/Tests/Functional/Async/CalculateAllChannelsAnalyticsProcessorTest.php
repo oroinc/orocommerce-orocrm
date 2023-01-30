@@ -5,7 +5,7 @@ namespace Oro\Bridge\CustomerAccount\Tests\Functional\Async;
 use Oro\Bundle\AnalyticsBundle\Async\CalculateAllChannelsAnalyticsProcessor;
 use Oro\Bundle\AnalyticsBundle\Async\Topic\CalculateChannelAnalyticsTopic;
 use Oro\Bundle\AnalyticsBundle\Tests\Functional\Async\CalculateAllChannelsAnalyticsProcessorTest
-    as BaseCalculateAllChannelsAnalyticsProcessorTest;
+as BaseCalculateAllChannelsAnalyticsProcessorTest;
 use Oro\Bundle\ChannelBundle\Entity\Channel;
 use Oro\Component\MessageQueue\Transport\ConnectionInterface;
 use Oro\Component\MessageQueue\Transport\Message;
