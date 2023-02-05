@@ -17,7 +17,7 @@ use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Component\Testing\Unit\EntityTrait;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as EntityTypeStub;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Test\TypeTestCase;
@@ -210,15 +210,15 @@ class ContactRequestTypeTest extends TypeTestCase
     /**
      * {@inheritDoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
-        $entityType = new EntityTypeStub(['test_contact_reason' => $this->getContactReason()]);
-
         return [
             new PreloadedExtension(
                 [
                     $this->type,
-                    EntityType::class => $entityType,
+                    EntityType::class => new EntityTypeStub([
+                        'test_contact_reason' => $this->getContactReason()
+                    ]),
                 ],
                 []
             ),
