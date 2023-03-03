@@ -25,7 +25,8 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
 Oro\Bundle\SalesBundle\Entity\Customer:
   customer{1..10}:
     account: '@account<current()>'
-    customerTarget: '@commerceCustomer<current()>'
+    __calls:
+      - setCustomerTarget: [ '@commerceCustomer<current()>' ]
 
 Oro\Bundle\SalesBundle\Entity\Opportunity:
   opportunity{1..5}:

@@ -43,7 +43,7 @@ class OpportunityQuotesListenerFixture extends AbstractFixture implements Contai
 
     /**
      * @param Organization $organization
-     * @return \Extend\Entity\EX_OroSalesBundle_Customer|Customer
+     * @return Customer
      */
     protected function createB2bCustomer(Organization $organization)
     {

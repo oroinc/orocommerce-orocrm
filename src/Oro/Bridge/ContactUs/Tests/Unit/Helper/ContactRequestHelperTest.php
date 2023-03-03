@@ -14,6 +14,7 @@ use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Component\Testing\Unit\EntityTrait;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ContactRequestHelperTest extends \PHPUnit\Framework\TestCase
@@ -44,12 +45,14 @@ class ContactRequestHelperTest extends \PHPUnit\Framework\TestCase
         $this->configManager = $this->createMock(ConfigManager::class);
         $this->localizationHelper = $this->createMock(LocalizationHelper::class);
         $this->translator = $this->createMock(TranslatorInterface::class);
+        $propertyAccessor = $this->createMock(PropertyAccessorInterface::class);
 
         $this->helper = new ContactRequestHelper(
             $this->doctrineHelper,
             $this->configManager,
             $this->localizationHelper,
-            $this->translator
+            $this->translator,
+            $propertyAccessor
         );
     }
 

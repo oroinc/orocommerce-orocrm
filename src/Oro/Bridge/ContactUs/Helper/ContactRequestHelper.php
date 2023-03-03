@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\Bridge\ContactUs\Helper;
 
@@ -11,6 +12,7 @@ use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -18,36 +20,24 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class ContactRequestHelper
 {
-    /**
-     * @var DoctrineHelper
-     */
-    private $doctrineHelper;
-
-    /**
-     * @var ConfigManager
-     */
-    private $configManager;
-
-    /**
-     * @var LocalizationHelper
-     */
-    private $localizationHelper;
-
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
+    private DoctrineHelper            $doctrineHelper;
+    private ConfigManager             $configManager;
+    private LocalizationHelper        $localizationHelper;
+    private TranslatorInterface       $translator;
+    private PropertyAccessorInterface $propertyAccessor;
 
     public function __construct(
         DoctrineHelper $doctrineHelper,
         ConfigManager $configManager,
         LocalizationHelper $localizationHelper,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        PropertyAccessorInterface $propertyAccessor
     ) {
-        $this->doctrineHelper = $doctrineHelper;
-        $this->configManager = $configManager;
+        $this->doctrineHelper     = $doctrineHelper;
+        $this->configManager      = $configManager;
         $this->localizationHelper = $localizationHelper;
-        $this->translator = $translator;
+        $this->translator         = $translator;
+        $this->propertyAccessor   = $propertyAccessor;
     }
 
     public function createContactRequest(ConsentAcceptance $acceptance, CustomerUser $customerUser): ContactRequest
@@ -59,11 +49,12 @@ class ContactRequestHelper
         $contactRequest->setFirstName($customerUser->getFirstName());
         $contactRequest->setLastName($customerUser->getLastName());
         $contactRequest->setEmailAddress($customerUser->getEmail());
-        if (method_exists($contactRequest, 'setCustomerUser')) {
-            $contactRequest->setCustomerUser($customerUser);
+
+        if ($this->propertyAccessor->isWritable($contactRequest, 'customer_user')) {
+            $this->propertyAccessor->setValue($contactRequest, 'customer_user', $customerUser);
         }
-        if (method_exists($contactRequest, 'setWebsite')) {
-            $contactRequest->setWebsite($customerUser->getWebsite());
+        if ($this->propertyAccessor->isWritable($contactRequest, 'website')) {
+            $this->propertyAccessor->setValue($contactRequest, 'website', $customerUser->getWebsite());
         }
 
         $comment = $this->prepareComment($acceptance->getConsent());
@@ -87,7 +78,7 @@ class ContactRequestHelper
      */
     private function getContactReason()
     {
-        $configKey = Configuration::getConfigKey(Configuration::CONSENT_CONTACT_REASON);
+        $configKey       = Configuration::getConfigKey(Configuration::CONSENT_CONTACT_REASON);
         $contactReasonId = $this->configManager->get($configKey);
         /** @var ContactReason $contactReason */
         $contactReason = $this->doctrineHelper->getEntityRepository(ContactReason::class)

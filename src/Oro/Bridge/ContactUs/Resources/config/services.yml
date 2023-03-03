@@ -42,6 +42,7 @@ services:
             - '@oro_config.manager'
             - '@oro_locale.helper.localization'
             - '@translator'
+            - '@property_accessor'
 
     oro_contact_us_bridge.event_listener.declined_consents:
         class: 'Oro\Bridge\ContactUs\EventListener\DeclinedConsentsEventListener'

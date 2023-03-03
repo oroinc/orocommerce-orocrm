@@ -33,4 +33,5 @@ Oro\Bundle\AccountBundle\Entity\Account:
 Oro\Bundle\SalesBundle\Entity\Customer:
   mrcustomer:
     account: '@account'
-    customerTarget: '@company_a'
+    __calls:
+        - setCustomerTarget: [ '@company_a' ]

@@ -59,7 +59,7 @@ class ActionGroupTest extends ActionTestCase
         $this->assertInstanceOf(\DateTime::class, $request->getAcLastContactDateOut());
         $this->assertInstanceOf(\DateTime::class, $request->getAcLastContactDate());
         $this->assertEquals(0, $request->getAcContactCountIn());
-        $this->assertEquals(1, $request->getAcContactCountOUt());
+        $this->assertEquals(1, $request->getAcContactCountOut());
         $this->assertEquals(1, $request->getAcContactCount());
 
         $user = new CustomerUser();
@@ -81,7 +81,7 @@ class ActionGroupTest extends ActionTestCase
         $this->assertInstanceOf(\DateTime::class, $request->getAcLastContactDateOut());
         $this->assertInstanceOf(\DateTime::class, $request->getAcLastContactDate());
         $this->assertEquals(1, $request->getAcContactCountIn());
-        $this->assertEquals(1, $request->getAcContactCountOUt());
+        $this->assertEquals(1, $request->getAcContactCountOut());
         $this->assertEquals(2, $request->getAcContactCount());
     }
 
@@ -106,7 +106,7 @@ class ActionGroupTest extends ActionTestCase
         $this->assertNull($entity->getAcLastContactDateOut());
         $this->assertNull($entity->getAcLastContactDate());
         $this->assertEquals(0, $entity->getAcContactCountIn());
-        $this->assertEquals(0, $entity->getAcContactCountOUt());
+        $this->assertEquals(0, $entity->getAcContactCountOut());
         $this->assertEquals(0, $entity->getAcContactCount());
     }
 
