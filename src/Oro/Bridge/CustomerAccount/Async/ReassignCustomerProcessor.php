@@ -34,10 +34,8 @@ class ReassignCustomerProcessor implements MessageProcessorInterface, TopicSubsc
     {
         $messageBody = $message->getBody();
         $type = $messageBody['type'];
-
-        $result = $this->jobRunner->runUnique(
-            $message->getMessageId(),
-            ReassignCustomerAccountTopic::getName(),
+        $result = $this->jobRunner->runUniqueByMessage(
+            $message,
             function () use ($type) {
                 return $this->manager->assignAccounts($type);
             }

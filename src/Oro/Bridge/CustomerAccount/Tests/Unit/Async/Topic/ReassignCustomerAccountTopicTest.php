@@ -50,4 +50,12 @@ class ReassignCustomerAccountTopicTest extends AbstractTopicTestCase
             ],
         ];
     }
+
+    public function testCreateJobName(): void
+    {
+        self::assertSame(
+            'oro.customer_account.reassign_customer_account',
+            $this->getTopic()->createJobName([])
+        );
+    }
 }
