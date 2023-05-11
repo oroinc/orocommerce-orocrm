@@ -5,6 +5,9 @@ namespace Oro\Bridge\CustomerAccount\Tests\Functional\EventListener;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManager;
 use Oro\Bridge\CustomerAccount\Tests\Functional\DataFixtures\Lifetime\OrderPaymentTransactionAndStatus;
+use Oro\Bundle\CustomerBundle\Entity\Audit;
+use Oro\Bundle\DataAuditBundle\Entity\AuditField;
+use Oro\Bundle\MessageQueueBundle\Test\Functional\MessageQueueExtension;
 use Oro\Bundle\OrderBundle\Entity\Order;
 use Oro\Bundle\OrderBundle\Tests\Functional\DataFixtures\LoadOrders;
 use Oro\Bundle\PaymentBundle\Entity\PaymentStatus;
@@ -16,6 +19,8 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
  */
 class CustomerLifetimeListenerTest extends WebTestCase
 {
+    use MessageQueueExtension;
+
     /**
      * {@inheritdoc}
      */
@@ -91,6 +96,34 @@ class CustomerLifetimeListenerTest extends WebTestCase
         $em = $this->getEntityManager();
         $em->flush($order);
         $em->remove($order);
+    }
+
+    public function testThatListenerNotProduceNewDataAuditRecordsInDatabase()
+    {
+        $this->getOptionalListenerManager()->enableListener(
+            'oro_dataaudit.listener.send_changed_entities_to_message_queue'
+        );
+
+        $manager = self::getDataFixturesExecutorEntityManager();
+
+        $orderReference = $this->getReference(LoadOrders::ORDER_1);
+
+        $paymentStatus = new PaymentStatus();
+        $paymentStatus->setEntityClass(Order::class);
+        $paymentStatus->setEntityIdentifier($orderReference->getId());
+        $paymentStatus->setPaymentStatus(PaymentStatusProvider::FULL);
+
+        $manager->persist($paymentStatus);
+        $manager->flush();
+
+        self::consumeAllMessages();
+
+        $this->assertEmpty($manager->getRepository(AuditField::class)->findAll());
+        $this->assertEmpty($manager->getRepository(Audit::class)->findAll());
+
+        $this->getOptionalListenerManager()->disableListener(
+            'oro_dataaudit.listener.send_changed_entities_to_message_queue'
+        );
     }
 
     /**

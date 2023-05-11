@@ -48,7 +48,7 @@ class OroCustomerAccountBridgeBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_3';
+        return 'v1_4';
     }
 
     /**
@@ -163,7 +163,7 @@ class OroCustomerAccountBridgeBundleInstaller implements
                     'form' => ['is_enabled' => false,],
                     'view' => ['is_displayable' => false],
                     'merge' => ['display' => false],
-                    'dataaudit' => ['auditable' => true],
+                    'dataaudit' => ['auditable' => false],
                     'importexport' => [
                         'excluded' => true,
                     ]
