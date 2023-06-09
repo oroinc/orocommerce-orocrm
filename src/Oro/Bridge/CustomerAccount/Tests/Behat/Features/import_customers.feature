@@ -114,14 +114,14 @@ Feature: Import Customers
 
   Scenario: Import Customers by user without "Create" permissions
     Given user has following permissions
-      | Assign | Customer       | Global |
       | Create | Customer       | None   |
-      | Delete | Customer       | Global |
       | Edit   | Customer       | Global |
-      | Edit   | User           | Global |
-      | Assign | User           | Global |
+      | Delete | Customer       | Global |
+      | Assign | Customer       | Global |
       | Edit   | Customer Group | Global |
       | Edit   | Payment Term   | Global |
+      | Edit   | User           | Global |
+      | Assign | User           | Global |
     And user has following entity permissions enabled
       | Import Entity Records |
     When I login to dashboard as "userWithoutAssign1" user
