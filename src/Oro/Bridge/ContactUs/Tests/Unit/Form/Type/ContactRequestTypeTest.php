@@ -163,7 +163,7 @@ class ContactRequestTypeTest extends TypeTestCase
 
         $organization = new Organization();
         $organization->setName('OroCRM');
-        $customerUser = new \stdClass;
+        $customerUser = new \stdClass();
         $this->tokenAccessor->expects(self::once())
             ->method('getUser')
             ->willReturn($customerUser);

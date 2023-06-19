@@ -56,7 +56,7 @@ class ContactUsFormContentWidgetType extends AbstractContentWidgetType
     {
         $form = $this->formFactory->create(
             ContactRequestType::class,
-            new ContactRequest,
+            new ContactRequest(),
             [
                 'action' => $this->urlGenerator->generate(
                     'oro_contactus_bridge_request_create',

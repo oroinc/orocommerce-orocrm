@@ -1,4 +1,5 @@
 <?php
+
 namespace Oro\Bridge\QuoteSales\Tests\Functional\Fixture;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;

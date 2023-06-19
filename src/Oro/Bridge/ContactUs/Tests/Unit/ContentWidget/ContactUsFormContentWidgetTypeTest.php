@@ -74,7 +74,7 @@ class ContactUsFormContentWidgetTypeTest extends \PHPUnit\Framework\TestCase
 
         $this->formFactory
             ->method('create')
-            ->with(ContactRequestType::class, new ContactRequest, ['action' => $url])
+            ->with(ContactRequestType::class, new ContactRequest(), ['action' => $url])
             ->willReturn($form = $this->createMock(FormInterface::class));
 
         $form
@@ -119,7 +119,7 @@ class ContactUsFormContentWidgetTypeTest extends \PHPUnit\Framework\TestCase
 
         $this->formFactory
             ->method('create')
-            ->with(ContactRequestType::class, new ContactRequest, ['action' => $url])
+            ->with(ContactRequestType::class, new ContactRequest(), ['action' => $url])
             ->willReturn($form = $this->createMock(FormInterface::class));
 
         $form
