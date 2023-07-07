@@ -76,8 +76,6 @@ Oro\Bundle\CMSBundle\Entity\Page:
 Oro\Bundle\CMSBundle\Entity\TextContentVariant:
     text_content_variant:
         contentBlock: '@content_block'
-        __calls:
-            - addScope: ['@default_scope']
         content: "Content"
 
 Oro\Bundle\CMSBundle\Entity\ContentBlock:
