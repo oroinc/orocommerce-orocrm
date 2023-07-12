@@ -46,7 +46,9 @@ class RecalculateLifetimeCommand extends AbstractRecalculateLifetimeCommand
     }
 
     /**
+     * @param EntityManager $em
      * @param Customer $customer
+     * @return float
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function calculateCustomerLifetime(EntityManager $em, object $customer): float
