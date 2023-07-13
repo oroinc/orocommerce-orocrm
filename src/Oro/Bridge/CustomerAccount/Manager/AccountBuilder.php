@@ -10,7 +10,7 @@ class AccountBuilder
     /**
      * Build new account for customer
      *
-     * @param $entity
+     * @param Customer $entity
      *
      * @return Account
      */
