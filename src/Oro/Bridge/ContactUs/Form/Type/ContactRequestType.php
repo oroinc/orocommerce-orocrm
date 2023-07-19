@@ -66,7 +66,7 @@ class ContactRequestType extends AbstractType
                 $contactRequest->setEmailAddress($loggedUser->getEmail());
                 $contactRequest->setFirstName($loggedUser->getFirstName());
                 $contactRequest->setLastName($loggedUser->getLastName());
-                $contactRequest->setOrganizationName($loggedUser->getOrganization()->getName());
+                $contactRequest->setOrganizationName($loggedUser->getCustomer()->getName());
                 $contactRequest->setCustomerUser($loggedUser);
             }
         );
