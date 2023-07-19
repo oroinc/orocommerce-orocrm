@@ -71,7 +71,7 @@ Feature: Sales Flow
     And fill form with:
       | First name               | FirstN           |
       | Last name                | LastN            |
-      | Organization name        | TestOrganozation |
+      | Company Name             | TestCompany      |
       | Preferred contact method | Email            |
       | Phone                    | 0504006666       |
       | Email                    | testFL@test.com  |

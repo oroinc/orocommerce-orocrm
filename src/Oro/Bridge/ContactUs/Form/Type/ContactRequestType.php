@@ -66,15 +66,15 @@ class ContactRequestType extends AbstractType
                 $contactRequest->setEmailAddress($loggedUser->getEmail());
                 $contactRequest->setFirstName($loggedUser->getFirstName());
                 $contactRequest->setLastName($loggedUser->getLastName());
-                $contactRequest->setOrganizationName($loggedUser->getOrganization()->getName());
+                $contactRequest->setCustomerName($loggedUser->getCustomer()->getName());
                 $contactRequest->setCustomerUser($loggedUser);
             }
         );
 
         $builder->add(
-            'organizationName',
+            'customerName',
             TextType::class,
-            ['required' => false, 'label' => 'oro.contactus.contactrequest.organization_name.label']
+            ['required' => false, 'label' => 'oro.contactus.contactrequest.customer_name.label']
         );
         $builder->add(
             'preferredContactMethod',
