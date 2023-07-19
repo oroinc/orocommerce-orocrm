@@ -8,6 +8,7 @@ use Oro\Bridge\ContactUs\Tests\Unit\Stub\ContactRequestStub;
 use Oro\Bundle\ContactUsBundle\Entity\ContactReason;
 use Oro\Bundle\ContactUsBundle\Form\Type\ContactRequestType as BaseContactRequestType;
 use Oro\Bundle\ContactUsBundle\Tests\Unit\Stub\ContactReasonStub;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
@@ -88,6 +89,10 @@ class ContactRequestTypeTest extends TypeTestCase
     {
         $organization = new Organization();
         $organization->setName('OroCRM');
+
+        $customer = new Customer();
+        $customer->setName('Customer Name');
+
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getEntity(
             CustomerUser::class,
@@ -96,6 +101,7 @@ class ContactRequestTypeTest extends TypeTestCase
                 'lastName' => 'Cole',
                 'email' => 'AmandaRCole@example.org',
                 'organization' => $organization,
+                'customer' => $customer,
             ]
         );
         $this->tokenAccessor->expects($this->once())
@@ -118,7 +124,7 @@ class ContactRequestTypeTest extends TypeTestCase
         $expected->setFirstName('Amanda');
         $expected->setLastName('Cole');
         $expected->setEmailAddress('AmandaRCole@example.org');
-        $expected->setOrganizationName('OroCRM');
+        $expected->setOrganizationName('Customer Name');
         $expected->setCustomerUser($customerUser);
 
         $this->assertEquals($expected, $contactRequest);
@@ -126,7 +132,7 @@ class ContactRequestTypeTest extends TypeTestCase
         $this->assertEquals('Amanda', $view['firstName']->vars['value']);
         $this->assertEquals('Cole', $view['lastName']->vars['value']);
         $this->assertEquals('AmandaRCole@example.org', $view['emailAddress']->vars['value']);
-        $this->assertEquals('OroCRM', $view['organizationName']->vars['value']);
+        $this->assertEquals('Customer Name', $view['organizationName']->vars['value']);
     }
 
     public function testPreSetDataListenerWithWrongLoggedUser()
