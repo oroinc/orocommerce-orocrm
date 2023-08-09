@@ -48,7 +48,7 @@ class OroCustomerAccountBridgeBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_4';
+        return 'v1_5';
     }
 
     /**
@@ -84,7 +84,7 @@ class OroCustomerAccountBridgeBundleInstaller implements
             $schema,
             'orocrm_account',
             'oro_order',
-            [$customerPath, 'account']
+            ['customer', $customerPath, 'account']
         );
         $this->activityListExtension->addInheritanceTargets(
             $schema,
