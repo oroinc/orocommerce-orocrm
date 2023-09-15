@@ -38,7 +38,7 @@ class CustomerLifetimeListener implements ServiceSubscriberInterface
     /**
      * {@inheritDoc}
      */
-    public static function getSubscribedServices()
+    public static function getSubscribedServices(): array
     {
         return [
             'oro_customer_account.manager.lifetime_processor' => LifetimeProcessor::class,

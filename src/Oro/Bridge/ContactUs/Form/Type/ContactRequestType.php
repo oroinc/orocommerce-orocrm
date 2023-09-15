@@ -122,7 +122,7 @@ class ContactRequestType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function getParent()
+    public function getParent(): ?string
     {
         return BaseContactRequestType::class;
     }
