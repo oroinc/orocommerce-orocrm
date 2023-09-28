@@ -41,7 +41,7 @@ Feature: Contact us page fill form
       | Contact Reason           | Other                 |
       | Comment                  | <h1>Test Comment</h1> |
     And click "Submit"
-    And I should see "Thank you for your Request!" flash message
+    And I should see "Thank you for your Request!" flash message and I close it
 
   Scenario: Fill contact us form with localized contact reason
     Given I click "Localization Switcher"
@@ -54,7 +54,7 @@ Feature: Contact us page fill form
       | Contact Reason           | Want to know more about the product (Localization 1) |
       | Comment                  | Test Comment                                         |
     And click "Submit"
-    Then I should see "Thank you for your Request!" flash message
+    Then I should see "Thank you for your Request!" flash message and I close it
     And I click "Localization Switcher"
     And I select "English" localization
 
@@ -88,7 +88,7 @@ Feature: Contact us page fill form
       | Contact Reason           | Other           |
       | Comment                  | Testers Comment |
     And click "Submit"
-    Then I should see "Thank you for your Request!" flash message
+    Then I should see "Thank you for your Request!" flash message and I close it
     And I click "Sign Out"
     And I proceed as the Admin
     When go to Activities/ Contact Requests
