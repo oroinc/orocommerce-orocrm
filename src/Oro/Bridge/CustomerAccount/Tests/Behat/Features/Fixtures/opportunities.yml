@@ -105,8 +105,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
     lucy:
         email: 'lucy@gg.org'
         username: 'lucy@gg.org'
-        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
-        salt: 'fgswya1kzw0sck8ck48kosowckwo0ws'
+        password: <userPassword(@lucy->username)>
         firstName: 'Lucy'
         lastName: 'Gjallarhorn'
         enabled: '1'
