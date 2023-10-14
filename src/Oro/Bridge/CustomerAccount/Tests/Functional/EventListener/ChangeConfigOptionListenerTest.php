@@ -25,7 +25,7 @@ class ChangeConfigOptionListenerTest extends WebTestCase
                 'old' => 'root',
                 'new' => 'each'
             ]
-        ]);
+        ], 'global', 0);
         $service->onConfigUpdate($event);
         self::assertMessageSent(ReassignCustomerAccountTopic::getName());
 
@@ -34,7 +34,7 @@ class ChangeConfigOptionListenerTest extends WebTestCase
                 'old' => 'each',
                 'new' => 'root'
             ]
-        ]);
+        ], 'global', 0);
         self::assertMessageSent(ReassignCustomerAccountTopic::getName());
         $service->onConfigUpdate($event);
     }
@@ -42,7 +42,7 @@ class ChangeConfigOptionListenerTest extends WebTestCase
     public function testShouldNotSendMessageIfOptionNotChanged(): void
     {
         $service = $this->getService();
-        $event = new ConfigUpdateEvent([]);
+        $event = new ConfigUpdateEvent([], 'global', 0);
 
         $service->onConfigUpdate($event);
 
