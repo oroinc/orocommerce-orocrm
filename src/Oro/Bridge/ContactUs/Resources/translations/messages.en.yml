@@ -15,7 +15,6 @@ oro.contactus:
 
 oro.contact_us_bridge:
     frontend.navigation.items:
-                live_chat.label: 'Live Chat'
                 contact_us.label: 'Contact Us'
     system_configuration:
         groups:

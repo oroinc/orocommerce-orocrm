@@ -1,9 +1,9 @@
 navigation:
     menu_config:
         items:
-            live_chat:
-                label: 'oro.contact_us_bridge.frontend.navigation.items.live_chat.label'
-                uri: '/contact-us'
+            contact_us_at_last:
+                label: 'oro.contact_us_bridge.frontend.navigation.items.contact_us.label'
+                route: 'oro_contactus_bridge_contact_us_page'
                 extras:
                     position: 15
             contact_us:
@@ -12,7 +12,7 @@ navigation:
         tree:
             commerce_top_nav:
                 children:
-                    live_chat: ~
+                    contact_us_at_last: ~
 
             commerce_main_menu:
                 children:
