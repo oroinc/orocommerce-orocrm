@@ -89,6 +89,7 @@ Feature: Contact us page fill form
       | Comment                  | Testers Comment |
     And click "Submit"
     Then I should see "Thank you for your Request!" flash message and I close it
+    And I click "Account Dropdown"
     And I click "Sign Out"
     And I proceed as the Admin
     When go to Activities/ Contact Requests
