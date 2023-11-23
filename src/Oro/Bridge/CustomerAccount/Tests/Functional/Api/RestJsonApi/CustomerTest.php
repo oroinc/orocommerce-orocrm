@@ -6,6 +6,9 @@ use Oro\Bundle\ApiBundle\Tests\Functional\RestJsonApiTestCase;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerData;
 
+/**
+ * @dbIsolationPerTest
+ */
 class CustomerTest extends RestJsonApiTestCase
 {
     /**
@@ -15,6 +18,33 @@ class CustomerTest extends RestJsonApiTestCase
     {
         parent::setUp();
         $this->loadFixtures([LoadCustomerData::class]);
+        $this->getReferenceRepository()->setReference('default_customer', $this->getDefaultCustomer());
+    }
+
+    public function testCreateCustomerWithEachStrategy(): void
+    {
+        $manager = $this->getContainer()->get('oro_sales.manager.account_customer');
+        $response = $this->post(['entity' => 'customers'], 'create_customer.yml');
+
+        $customer = $this->getEntityManager()->find(Customer::class, $this->getResourceId($response));
+        $association = $manager->getAccountCustomerByTarget($customer);
+
+        self::assertEquals($customer->getName(), $association->getAccount()->getName());
+    }
+
+    public function testCreateCustomerWithRootStrategy(): void
+    {
+        $configManager = self::getConfigManager();
+        $configManager->set('oro_customer_account_bridge.customer_account_settings', 'root');
+        $configManager->flush();
+
+        $manager = $this->getContainer()->get('oro_sales.manager.account_customer');
+        $response = $this->post(['entity' => 'customers'], 'create_customer.yml');
+
+        $customer = $this->getEntityManager()->find(Customer::class, $this->getResourceId($response));
+        $association = $manager->getAccountCustomerByTarget($customer);
+
+        self::assertEquals($customer->getParent()->getName(), $association->getAccount()->getName());
     }
 
     public function testGetListShouldNotReturnLifetimeAttribute()
@@ -112,5 +142,12 @@ class CustomerTest extends RestJsonApiTestCase
             ],
             $response
         );
+    }
+
+    private function getDefaultCustomer(): Customer
+    {
+        return $this->getEntityManager()
+            ->getRepository(Customer::class)
+            ->findOneByName('CustomerUser CustomerUser');
     }
 }

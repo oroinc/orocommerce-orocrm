@@ -3,6 +3,7 @@
 namespace Oro\Bridge\CustomerAccount\Tests\Unit\Fixtures;
 
 use Oro\Bundle\AccountBundle\Entity\Account;
+use Oro\Bundle\ChannelBundle\Entity\Channel;
 use Oro\Bundle\CustomerBundle\Entity\Customer as BaseCustomer;
 
 class Customer extends BaseCustomer
@@ -15,6 +16,9 @@ class Customer extends BaseCustomer
 
     /** @var int */
     protected $lifetime;
+
+    /** @var Channel */
+    protected $dataChannel;
 
     public function getAccount()
     {
@@ -34,6 +38,16 @@ class Customer extends BaseCustomer
     public function setPreviousAccount(Account $account = null)
     {
         $this->previousAccount = $account;
+    }
+
+    public function getDataChannel()
+    {
+        return $this->dataChannel;
+    }
+
+    public function setDataChannel(Channel $dataChannel): void
+    {
+        $this->dataChannel = $dataChannel;
     }
 
     /**
