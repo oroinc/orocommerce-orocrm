@@ -21,3 +21,11 @@ oro_behat_extension:
 
     Opportunity Title:
       selector: 'div.top-row'
+
+    Account and Customer Relation Configuration Form:
+      selector: 'form[name="account_settings"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Creation New Account Default: 'account_settings[oro_customer_account_bridge___customer_account_settings][use_parent_scope_value]'
+          Creation New Account : 'account_settings[oro_customer_account_bridge___customer_account_settings][value]'

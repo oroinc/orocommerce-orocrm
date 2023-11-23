@@ -7,6 +7,7 @@ use Oro\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\ChannelBundle\Entity\Channel;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
 use Oro\Bundle\SalesBundle\Provider\Customer\AccountCreation\AccountProviderInterface;
 use Oro\Bundle\UserBundle\Entity\User;
 
@@ -15,11 +16,16 @@ use Oro\Bundle\UserBundle\Entity\User;
  */
 class AccountProvider implements AccountProviderInterface
 {
+    private const CONFIG_KEY = 'oro_customer_account_bridge.customer_account_settings';
+
     /** @var ConfigManager */
     private $configManager;
 
     /** @var ManagerRegistry */
     private $doctrine;
+
+    /** @var AccountCustomerManager */
+    private $customerManager;
 
     public function __construct(
         ConfigManager $configManager,
@@ -27,6 +33,11 @@ class AccountProvider implements AccountProviderInterface
     ) {
         $this->configManager = $configManager;
         $this->doctrine = $doctrine;
+    }
+
+    public function setAccountCustomerManager(AccountCustomerManager $customerManager): void
+    {
+        $this->customerManager = $customerManager;
     }
 
     /**
@@ -38,31 +49,52 @@ class AccountProvider implements AccountProviderInterface
             return null;
         }
 
+        return match ($this->configManager->get(self::CONFIG_KEY)) {
+            'root' => $this->getRootAccount($targetCustomer),
+            'each' => $this->getEachAccount($targetCustomer)
+        };
+    }
+
+    private function getRootAccount(Customer $customer): ?Account
+    {
+        $rootCustomer = $this->getRootCustomer($customer);
+        $association = $this->customerManager->getAccountCustomerByTarget($rootCustomer, false);
+
+        return $association?->getAccount() ?? $this->getEachAccount($customer);
+    }
+
+    private function getEachAccount(Customer $customer): ?Account
+    {
         $account = new Account();
-        $account->setName($targetCustomer->getName());
-        $organization = $targetCustomer->getOrganization();
-        $owner = $targetCustomer->getOwner();
+        $account->setName($customer->getName());
+        $owner = $customer->getOwner();
         if (null === $owner) {
             $userId = $this->configManager->get('oro_customer.default_customer_owner');
             $owner = $this->doctrine->getManagerForClass(User::class)->find(User::class, $userId);
         }
-        if (null !== $owner) {
-            $account->setOwner($owner);
-            if (!$organization) {
-                $organization = $owner->getOrganization();
-            }
-        }
-        $account->setOrganization($organization);
 
-        if (!$targetCustomer->getDataChannel()) {
-            $channels = $this->doctrine->getManagerForClass(Channel::class)
-                ->getRepository(Channel::class)
-                ->findBy(['channelType' => 'commerce']);
-            if (count($channels) > 0) {
-                $targetCustomer->setDataChannel(reset($channels));
+        $account->setOwner($owner);
+        $account->setOrganization($customer->getOrganization() ?? $owner->getOrganization());
+        if (!$customer->getDataChannel()) {
+            $channel = $this->getDataChannel();
+            if ($channel) {
+                $customer->setDataChannel($channel);
             }
         }
 
         return $account;
+    }
+
+    private function getRootCustomer(Customer $customer): Customer
+    {
+        return $customer->getParent() ? $this->getRootCustomer($customer->getParent()) : $customer;
+    }
+
+    private function getDataChannel(): ?Channel
+    {
+        $repository = $this->doctrine->getManagerForClass(Channel::class)->getRepository(Channel::class);
+        $channels = $repository->findBy(['channelType' => 'commerce']);
+
+        return reset($channels);
     }
 }
