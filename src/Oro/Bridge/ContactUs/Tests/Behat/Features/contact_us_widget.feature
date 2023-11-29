@@ -23,7 +23,7 @@ Feature: Contact us widget
   Scenario: Fill contact us form as unauthorized user
     Given I proceed as the Guest
     And I am on the homepage
-    When I click "About"
+    When I click "About" in hamburger menu
     And fill form with:
       |First Name              |Test              |
       |Last Name               |Tester            |
@@ -52,7 +52,7 @@ Feature: Contact us widget
   Scenario: Fill contact us form as authorized user
     Given I proceed as the Buyer
     When I signed in as AmandaRCole@example.org on the store frontend
-    And I click "About"
+    And I click "About" in hamburger menu
     And fill form with:
       |Preferred contact method|Email             |
       |Contact Reason          |Other             |
@@ -72,7 +72,7 @@ Feature: Contact us widget
   Scenario: Check validation messages
     Given I proceed as the Guest
     And I am on the homepage
-    When I click "About"
+    When I click "About" in hamburger menu
     And I click "Submit"
     Then I should see validation errors:
       |First name |This value should not be blank. |

@@ -67,7 +67,7 @@ Feature: Sales Flow
 
   Scenario: Lead created via form, qualified, lost – edit
     Given I am on the homepage
-    And click "Contact Us"
+    And click "Contact Us" in hamburger menu
     And fill form with:
       | First name               | FirstN           |
       | Last name                | LastN            |

@@ -29,7 +29,7 @@ Feature: Contact us page fill form
   Scenario: Fill contact us form as unauthorized user
     Given I proceed as the Buyer
     And I am on the homepage
-    When I follow "Contact Us"
+    When I click "Contact Us" in hamburger menu
     Then Page title equals to "Contact Us"
     And I should not see "Website"
     And I should not see "Customer User"
@@ -81,7 +81,7 @@ Feature: Contact us page fill form
   Scenario: Fill contact us form as authorized user
     Given I proceed as the Buyer
     And I signed in as AmandaRCole@example.org on the store frontend
-    When I follow "Contact Us"
+    When I click "Contact Us" in hamburger menu
     Then Page title equals to "Contact Us"
     When fill form with:
       | Preferred contact method | Email           |
@@ -104,7 +104,7 @@ Feature: Contact us page fill form
   Scenario: Check validation messages
     Given I proceed as the Buyer
     And I am on the homepage
-    When I follow "Contact Us"
+    When I click "Contact Us" in hamburger menu
     Then Page title equals to "Contact Us"
     When I click "Submit"
     Then I should see validation errors:
