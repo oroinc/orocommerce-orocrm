@@ -3,12 +3,12 @@
 namespace Oro\Bridge\CustomerAccount\Migrations\Schema\v1_0;
 
 use Doctrine\DBAL\Schema\Schema;
-use Oro\Bundle\ActivityListBundle\Migration\Extension\ActivityListExtension;
 use Oro\Bundle\ActivityListBundle\Migration\Extension\ActivityListExtensionAwareInterface;
+use Oro\Bundle\ActivityListBundle\Migration\Extension\ActivityListExtensionAwareTrait;
 use Oro\Bundle\EntityBundle\EntityConfig\DatagridScope;
 use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
-use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtension;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterface;
+use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareTrait;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
@@ -18,27 +18,8 @@ class OroCustomerAccountBridgeBundle implements
     ExtendExtensionAwareInterface,
     ActivityListExtensionAwareInterface
 {
-    /** @var ActivityListExtension */
-    protected $activityListExtension;
-
-    /** @var ExtendExtension */
-    protected $extendExtension;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setActivityListExtension(ActivityListExtension $activityListExtension)
-    {
-        $this->activityListExtension = $activityListExtension;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setExtendExtension(ExtendExtension $extendExtension)
-    {
-        $this->extendExtension = $extendExtension;
-    }
+    use ExtendExtensionAwareTrait;
+    use ActivityListExtensionAwareTrait;
 
     /**
      * {@inheritdoc}

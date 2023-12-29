@@ -6,8 +6,8 @@ use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\ActivityListBundle\Helper\ActivityInheritanceTargetsHelper;
 use Oro\Bundle\EntityConfigBundle\Migration\UpdateEntityConfigEntityValueQuery;
-use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtension;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterface;
+use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareTrait;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
@@ -20,14 +20,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 class OroAccountInheritanceTarget implements Migration, ContainerAwareInterface, ExtendExtensionAwareInterface
 {
     use ContainerAwareTrait;
-
-    /** @var ExtendExtension */
-    protected $extendExtension;
-
-    public function setExtendExtension(ExtendExtension $extendExtension): void
-    {
-        $this->extendExtension = $extendExtension;
-    }
+    use ExtendExtensionAwareTrait;
 
     public function up(Schema $schema, QueryBag $queries): void
     {
