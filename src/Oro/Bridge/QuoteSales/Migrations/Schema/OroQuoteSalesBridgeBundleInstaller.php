@@ -16,22 +16,22 @@ class OroQuoteSalesBridgeBundleInstaller implements Installation, ExtendExtensio
     use ExtendExtensionAwareTrait;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getMigrationVersion()
+    public function getMigrationVersion(): string
     {
         return 'v1_1';
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function up(Schema $schema, QueryBag $queries)
+    public function up(Schema $schema, QueryBag $queries): void
     {
         $this->createFields($schema);
     }
 
-    protected function createFields(Schema $schema)
+    private function createFields(Schema $schema): void
     {
         $this->extendExtension->addManyToOneRelation(
             $schema,
