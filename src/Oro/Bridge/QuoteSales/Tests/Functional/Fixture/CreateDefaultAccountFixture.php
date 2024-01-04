@@ -9,32 +9,15 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
 
 class CreateDefaultAccountFixture extends AbstractFixture
 {
-    const DEFAULT_ACCOUNT_REF = 'default_account';
-
-    /** @var Organization */
-    protected $organization;
-
-    /**
-     * @return Account
-     */
-    protected function createAccount()
-    {
-        $account = new Account();
-        $account->setName('Default account');
-        $account->setOrganization($this->organization);
-
-        return $account;
-    }
+    public const DEFAULT_ACCOUNT_REF = 'default_account';
 
     public function load(ObjectManager $manager)
     {
-        $this->organization = $manager->getRepository('OroOrganizationBundle:Organization')->getFirst();
-
-        $account = $this->createAccount();
-
+        $account = new Account();
+        $account->setName('Default account');
+        $account->setOrganization($manager->getRepository(Organization::class)->getFirst());
         $manager->persist($account);
         $manager->flush();
-
         $this->setReference(self::DEFAULT_ACCOUNT_REF, $account);
     }
 }

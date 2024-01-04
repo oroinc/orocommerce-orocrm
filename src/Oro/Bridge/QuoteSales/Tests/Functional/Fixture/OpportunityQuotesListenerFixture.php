@@ -11,7 +11,6 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SaleBundle\Entity\Quote;
 use Oro\Bundle\SalesBundle\Entity\B2bCustomer;
 use Oro\Bundle\SalesBundle\Entity\Customer;
-use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
 use Oro\Bundle\SalesBundle\Entity\Opportunity;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -21,75 +20,21 @@ class OpportunityQuotesListenerFixture extends AbstractFixture implements Contai
 {
     use ContainerAwareTrait;
 
-    /** @var ObjectManager */
-    protected $em;
-
-    /** @var AccountCustomerManager */
-    protected $accountCustomerManager;
-
     /**
-     * @return Customer
+     * {@inheritDoc}
      */
-    protected function createCommerceCustomer()
+    public function load(ObjectManager $manager): void
     {
-        $customer = new CommerceCustomer();
-        $customer->setName('Default customer');
-
-        $this->em->persist($customer);
-        $this->em->flush();
-
-        $this->setReference('customer', $customer);
-        return $this->accountCustomerManager->getAccountCustomerByTarget($customer);
+        $this->createOpportunity(
+            $manager,
+            $manager->getRepository(Organization::class)->getFirst(),
+            $manager->getRepository(Website::class)->findOneBy(['name' => 'Default'])
+        );
     }
 
-    /**
-     * @param Organization $organization
-     * @return Customer
-     */
-    protected function createB2bCustomer(Organization $organization)
+    private function createOpportunity(ObjectManager $manager, Organization $organization, Website $website): void
     {
-        $customer = new B2bCustomer();
-        $customer->setAccount($this->getReference(CreateDefaultAccountFixture::DEFAULT_ACCOUNT_REF));
-        $customer->setName('B2BCustomer');
-        $customer->setOrganization($organization);
-
-        $this->em->persist($customer);
-        $this->em->flush();
-
-        return $this->accountCustomerManager->getAccountCustomerByTarget($customer);
-    }
-
-    /**
-     * @param string $statusId
-     * @return AbstractEnumValue
-     */
-    protected function getStatus($statusId)
-    {
-        $className = ExtendHelper::buildEnumValueClassName(Opportunity::INTERNAL_STATUS_CODE);
-
-        return $this->em->getRepository($className)->find(ExtendHelper::buildEnumValueId($statusId));
-    }
-
-    protected function createQuote(Opportunity $opportunity, Website $website)
-    {
-        $customer = $opportunity->getCustomerAssociation()->getTarget();
-
-        $quote = new Quote();
-        $quote
-            ->setOrganization($opportunity->getOrganization())
-            ->setCustomerUser(null)
-            ->setCustomer($customer)
-            ->setPoNumber('CA1000USD')
-            ->setWebsite($website)
-            ->setOpportunity($opportunity);
-
-        $this->em->persist($quote);
-        $this->em->flush();
-    }
-
-    protected function createOpportunity(Organization $organization, Website $website)
-    {
-        $customer = $this->createCommerceCustomer();
+        $customer = $this->createCommerceCustomer($manager);
         $opportunityData = [
             [
                 'status'            => 'in_progress',
@@ -99,7 +44,7 @@ class OpportunityQuotesListenerFixture extends AbstractFixture implements Contai
             ],
             [
                 'status'            => 'in_progress',
-                'customer'          => $this->createB2bCustomer($organization),
+                'customer'          => $this->createB2bCustomer($manager, $organization),
                 'reference_name'    => 'opportunity_won_b2b'
             ],
             [
@@ -110,36 +55,64 @@ class OpportunityQuotesListenerFixture extends AbstractFixture implements Contai
         ];
 
         foreach ($opportunityData as $data) {
-            $status = $this->getStatus($data['status']);
+            $status = $this->getStatus($manager, $data['status']);
             $customer = $data['customer'];
             $opportunity = new Opportunity();
-            $opportunity->setName(sprintf('Opportunity name_%d', mt_rand(1, 10)));
+            $opportunity->setName(sprintf('Opportunity name_%d', random_int(1, 10)));
             $opportunity->setStatus($status);
             $opportunity->setOrganization($organization);
             $opportunity->setCustomerAssociation($customer);
+            $manager->persist($opportunity);
+            $manager->flush();
 
-            $this->em->persist($opportunity);
-            $this->em->flush();
-
-            if (array_key_exists('create_quote', $data) && $data['create_quote']) {
-                $this->createQuote($opportunity, $website);
+            if (\array_key_exists('create_quote', $data) && $data['create_quote']) {
+                $this->createQuote($manager, $opportunity, $website);
             }
 
             $this->setReference($data['reference_name'], $opportunity);
         }
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function load(ObjectManager $manager)
+    private function createCommerceCustomer(ObjectManager $manager): Customer
     {
-        $this->em = $manager;
-        $this->accountCustomerManager = $this->container->get('oro_sales.manager.account_customer');
+        $customer = new CommerceCustomer();
+        $customer->setName('Default customer');
+        $manager->persist($customer);
+        $manager->flush();
 
-        $this->createOpportunity(
-            $manager->getRepository('OroOrganizationBundle:Organization')->getFirst(),
-            $manager->getRepository('OroWebsiteBundle:Website')->findOneBy(['name' => 'Default'])
-        );
+        $this->setReference('customer', $customer);
+
+        return $this->container->get('oro_sales.manager.account_customer')->getAccountCustomerByTarget($customer);
+    }
+
+    private function createB2bCustomer(ObjectManager $manager, Organization $organization): Customer
+    {
+        $customer = new B2bCustomer();
+        $customer->setAccount($this->getReference(CreateDefaultAccountFixture::DEFAULT_ACCOUNT_REF));
+        $customer->setName('B2BCustomer');
+        $customer->setOrganization($organization);
+        $manager->persist($customer);
+        $manager->flush();
+
+        return $this->container->get('oro_sales.manager.account_customer')->getAccountCustomerByTarget($customer);
+    }
+
+    private function getStatus(ObjectManager $manager, string $statusId): AbstractEnumValue
+    {
+        return $manager->getRepository(ExtendHelper::buildEnumValueClassName(Opportunity::INTERNAL_STATUS_CODE))
+            ->find(ExtendHelper::buildEnumValueId($statusId));
+    }
+
+    private function createQuote(ObjectManager $manager, Opportunity $opportunity, Website $website): void
+    {
+        $quote = new Quote();
+        $quote->setOrganization($opportunity->getOrganization());
+        $quote->setCustomerUser(null);
+        $quote->setCustomer($opportunity->getCustomerAssociation()->getTarget());
+        $quote->setPoNumber('CA1000USD');
+        $quote->setWebsite($website);
+        $quote->setOpportunity($opportunity);
+        $manager->persist($quote);
+        $manager->flush();
     }
 }
