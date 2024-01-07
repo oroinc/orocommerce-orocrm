@@ -17,90 +17,85 @@ use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
 class CommerceChannelData extends AbstractDefaultChannelDataFixture
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getDependencies()
+    public function getDependencies(): array
     {
-        $dependencies = parent::getDependencies() + [
-            'Oro\Bridge\CustomerAccount\Migrations\Data\ORM\CreateAccountEntities',
-            'Oro\Bridge\CustomerAccount\Migrations\Data\ORM\CommerceChannel'
-        ];
-
-        return $dependencies;
+        return array_merge(parent::getDependencies(), [CreateAccountEntities::class, CommerceChannel::class]);
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         /** @var Channel $channel */
         $channel = $this->getReference('commerce_channel');
         $entities = $channel->getEntities();
         $shouldBeCreated = false;
         foreach ($entities as $entity) {
-            $shouldBeCreated |= $this->getRowCount($entity);
+            $shouldBeCreated |= $this->getRowCount($manager, $entity);
             if ($shouldBeCreated) {
                 break;
             }
         }
 
         if ($shouldBeCreated) {
-            $this->em->persist($channel);
-            $this->em->flush();
+            $manager->persist($channel);
+            $manager->flush();
             // fill channel to all existing entities
             foreach ($entities as $entity) {
-                $this->fillChannelToEntity($channel, $entity);
+                $this->fillChannelToEntity($manager, $channel, $entity);
             }
-            $this->updateLifetimeForAccounts($channel);
+            $this->updateLifetimeForAccounts($manager, $channel);
         }
     }
 
     /**
-     * @param Channel $channel
-     * @param string  $entity
-     * @param array   $additionalParameters
+     * {@inheritDoc}
      */
-    protected function fillChannelToEntity(Channel $channel, $entity, $additionalParameters = [])
-    {
+    protected function fillChannelToEntity(
+        ObjectManager $manager,
+        Channel $channel,
+        string $entityClass,
+        array $additionalParameters = []
+    ): void {
         /** @var QueryBuilder $qb */
-        $qb = $this->em->createQueryBuilder()
-            ->update($entity, 'e')
+        $qb = $manager->createQueryBuilder()
+            ->update($entityClass, 'e')
             ->set('e.dataChannel', $channel->getId())
             ->where('e.dataChannel IS NULL');
         if (!empty($additionalParameters)) {
             foreach ($additionalParameters as $parameterName => $value) {
-                $qb->andWhere(
-                    sprintf(
-                        'e.%s = :%s',
-                        $parameterName,
-                        $parameterName
-                    )
-                )->setParameter($parameterName, $value);
+                $qb
+                    ->andWhere(sprintf('e.%s = :%s', $parameterName, $parameterName))
+                    ->setParameter($parameterName, $value);
             }
         }
         $qb->getQuery()->execute();
     }
 
     /**
-     * @param int[]   $accountIds
-     * @param Channel $channel
-     * @param string  $customerIdentity
-     * @param string  $lifetimeFieldName
+     * {@inheritDoc}
      */
-    protected function updateLifetime(array $accountIds, Channel $channel, $customerIdentity, $lifetimeFieldName)
-    {
-        $customerMetadata   = $this->em->getClassMetadata($customerIdentity);
+    protected function updateLifetime(
+        ObjectManager $manager,
+        array $accountIds,
+        Channel $channel,
+        string $customerIdentity,
+        string $lifetimeFieldName
+    ): void {
+        $customerMetadata = $manager->getClassMetadata($customerIdentity);
         $lifetimeColumnName = $customerMetadata->getColumnName($lifetimeFieldName);
         $field = AccountCustomerManager::getCustomerTargetField($customerIdentity);
 
-        $this->em->getConnection()->executeStatement(
+        $manager->getConnection()->executeStatement(
             'UPDATE orocrm_channel_lifetime_hist SET status = :status'
             . ' WHERE data_channel_id = :channel_id AND account_id IN (:account_ids)',
             ['status' => false, 'channel_id' => $channel->getId(), 'account_ids' => $accountIds],
             ['status' => Types::BOOLEAN, 'channel_id' => Types::INTEGER, 'account_ids' => Connection::PARAM_INT_ARRAY]
         );
-        $this->em->getConnection()->executeStatement(
+        $manager->getConnection()->executeStatement(
             'INSERT INTO orocrm_channel_lifetime_hist'
             . ' (account_id, data_channel_id, status, amount, created_at)'
             . sprintf(

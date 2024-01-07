@@ -2,32 +2,34 @@
 
 namespace Oro\Bridge\CustomerAccount\Migrations\Data\ORM;
 
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
-use Oro\Bundle\ChannelBundle\Builder\BuilderFactory;
 use Oro\Bundle\ChannelBundle\Entity\Channel;
-use Oro\Bundle\ChannelBundle\Migrations\Data\ORM\AbstractDefaultChannelDataFixture;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-class CommerceChannel extends AbstractDefaultChannelDataFixture
+/**
+ * Loads "commerce" default channel.
+ */
+class CommerceChannel extends AbstractFixture implements ContainerAwareInterface
 {
-    const COMMERCE_CHANNEL_TYPE = 'commerce';
+    use ContainerAwareTrait;
+
+    public const COMMERCE_CHANNEL_TYPE = 'commerce';
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        /** @var BuilderFactory $builderFactory */
-        $builderFactory = $this->container->get('oro_channel.builder.factory');
-        $channel        = $builderFactory
+        $channel = $this->container->get('oro_channel.builder.factory')
             ->createBuilder()
             ->setChannelType(self::COMMERCE_CHANNEL_TYPE)
             ->setStatus(Channel::STATUS_ACTIVE)
             ->setEntities()
             ->getChannel();
-
-        $this->em->persist($channel);
-        $this->em->flush();
-
         $this->setReference('commerce_channel', $channel);
+        $manager->persist($channel);
+        $manager->flush();
     }
 }
