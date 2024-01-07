@@ -3,6 +3,7 @@
 namespace Oro\Bridge\QuoteSales\Tests\Functional\Fixture;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer as CommerceCustomer;
 use Oro\Bundle\EntityExtendBundle\Entity\AbstractEnumValue;
@@ -12,13 +13,24 @@ use Oro\Bundle\SaleBundle\Entity\Quote;
 use Oro\Bundle\SalesBundle\Entity\B2bCustomer;
 use Oro\Bundle\SalesBundle\Entity\Customer;
 use Oro\Bundle\SalesBundle\Entity\Opportunity;
+use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-class OpportunityQuotesListenerFixture extends AbstractFixture implements ContainerAwareInterface
+class OpportunityQuotesListenerFixture extends AbstractFixture implements
+    ContainerAwareInterface,
+    DependentFixtureInterface
 {
     use ContainerAwareTrait;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDependencies(): array
+    {
+        return [LoadOrganization::class];
+    }
 
     /**
      * {@inheritDoc}
@@ -27,7 +39,7 @@ class OpportunityQuotesListenerFixture extends AbstractFixture implements Contai
     {
         $this->createOpportunity(
             $manager,
-            $manager->getRepository(Organization::class)->getFirst(),
+            $this->getReference(LoadOrganization::ORGANIZATION),
             $manager->getRepository(Website::class)->findOneBy(['name' => 'Default'])
         );
     }
