@@ -42,7 +42,7 @@ class ActionGroupTest extends ActionTestCase
 
         $user = new User();
         ReflectionUtil::setId($user, 1);
-        $token = new UsernamePasswordToken($user, 'admin', 'key');
+        $token = new UsernamePasswordToken($user, 'key');
         $this->client->getContainer()->get('security.token_storage')->setToken($token);
 
         $actionData = $this->executeActionGroup(
@@ -64,7 +64,7 @@ class ActionGroupTest extends ActionTestCase
 
         $user = new CustomerUser();
         ReflectionUtil::setId($user, 2);
-        $token = new UsernamePasswordToken($user, 'user', 'key');
+        $token = new UsernamePasswordToken($user, 'key');
         $this->client->getContainer()->get('security.token_storage')->setToken($token);
 
         $actionData = $this->executeActionGroup(

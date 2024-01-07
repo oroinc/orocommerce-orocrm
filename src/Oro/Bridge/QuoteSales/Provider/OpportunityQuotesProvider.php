@@ -3,8 +3,12 @@
 namespace Oro\Bridge\QuoteSales\Provider;
 
 use Doctrine\Persistence\ManagerRegistry;
+use Oro\Bundle\SaleBundle\Entity\Quote;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 
+/**
+ * Provides quotes by opportunity
+ */
 class OpportunityQuotesProvider
 {
     /** @var ManagerRegistry */
@@ -25,7 +29,7 @@ class OpportunityQuotesProvider
      */
     public function getQuotesByOpportunity($opportunity)
     {
-        $repo = $this->doctrine->getRepository('OroSaleBundle:Quote');
+        $repo = $this->doctrine->getRepository(Quote::class);
         $qb = $repo->createQueryBuilder('q');
         $qb->where('q.opportunity = :opportunity');
         $qb->setParameter('opportunity', $opportunity);

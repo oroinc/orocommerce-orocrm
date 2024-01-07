@@ -65,7 +65,7 @@ class RecalculateLifetimeCommand extends AbstractRecalculateLifetimeCommand
         string $customerClass,
         string $channelType
     ): QueryBuilder {
-        return $em->getRepository('OroCustomerBundle:Customer')->createQueryBuilder('customer')
+        return $em->getRepository(Customer::class)->createQueryBuilder('customer')
             ->select(sprintf('customer.%s as customer_id', 'id'));
     }
 

@@ -82,10 +82,10 @@ class ContactRequestController extends AbstractController
             return [];
         };
 
-        return $this->get(UpdateHandlerFacade::class)->update(
+        return $this->container->get(UpdateHandlerFacade::class)->update(
             $request,
             $form,
-            $this->get(TranslatorInterface::class)->trans('oro.contactus.form.contactrequest.sent'),
+            $this->container->get(TranslatorInterface::class)->trans('oro.contactus.form.contactrequest.sent'),
             null,
             null,
             $callback
