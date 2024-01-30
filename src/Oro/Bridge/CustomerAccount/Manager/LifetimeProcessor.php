@@ -7,8 +7,12 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CurrencyBundle\Query\CurrencyQueryBuilderTransformerInterface;
 use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
+use Oro\Bundle\OrderBundle\Entity\Order;
 use Oro\Bundle\PaymentBundle\Provider\PaymentStatusProvider;
 
+/**
+ * Calculates lifetime value for customer
+ */
 class LifetimeProcessor
 {
     /**
@@ -34,7 +38,7 @@ class LifetimeProcessor
      */
     public function calculateLifetimeValue(Customer $customer)
     {
-        $qb = $this->getEntityManager()->getRepository('OroOrderBundle:Order')
+        $qb = $this->getEntityManager()->getRepository(Order::class)
             ->createQueryBuilder('o');
         $subtotalValueQuery = $this->qbTransformer->getTransformSelectQuery('subtotal', $qb);
         $qb->select(sprintf('SUM(%s)', $subtotalValueQuery))

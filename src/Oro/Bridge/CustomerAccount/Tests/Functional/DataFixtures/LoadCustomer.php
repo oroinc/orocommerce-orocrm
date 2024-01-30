@@ -6,41 +6,23 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\AccountBundle\Entity\Account;
-use Oro\Bundle\ChannelBundle\Builder\BuilderFactory;
 use Oro\Bundle\ChannelBundle\Entity\Channel;
-use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
-use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\SalesBundle\Entity\Customer as CustomerAssociation;
-use Oro\Bundle\UserBundle\Entity\User;
+use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization;
 use Oro\Bundle\UserBundle\Tests\Functional\DataFixtures\LoadUserData;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 class LoadCustomer extends AbstractFixture implements DependentFixtureInterface, ContainerAwareInterface
 {
-    const CUSTOMER_1 = 'simple_customer';
-    const CHANNEL_TYPE  = 'commerce';
-    const CHANNEL_NAME  = 'Commerce Channel';
+    use ContainerAwareTrait;
 
-    /** @var ObjectManager */
-    protected $em;
+    public const CUSTOMER_1 = 'simple_customer';
+    public const CHANNEL_TYPE = 'commerce';
+    public const CHANNEL_NAME = 'Commerce Channel';
 
-    /** @var BuilderFactory */
-    protected $factory;
-
-    /** @var Channel */
-    protected $channel;
-
-    /** @var User */
-    protected $user;
-
-    /** @var Organization */
-    protected $organization;
-
-    /**
-     * @var array
-     */
-    protected $customers = [
+    private array $customers = [
         self::CUSTOMER_1 => [
             'user' => 'simple_user',
             'account' => 'simple_account'
@@ -48,58 +30,33 @@ class LoadCustomer extends AbstractFixture implements DependentFixtureInterface,
     ];
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getDependencies()
+    public function getDependencies(): array
     {
-        return [
-            LoadAccount::class,
-            LoadUserData::class
-        ];
+        return [LoadAccount::class, LoadUserData::class, LoadOrganization::class];
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setContainer(ContainerInterface $container = null)
+    public function load(ObjectManager $manager): void
     {
-        $this->factory = $container->get('oro_channel.builder.factory');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function load(ObjectManager $manager)
-    {
-        $this->em = $manager;
-        $this->organization = $manager->getRepository(Organization::class)->getFirst();
-        $this->createChannel();
-
+        $this->createChannel($manager);
         foreach ($this->customers as $name => $customer) {
             $this->createCustomer($manager, $name, $customer);
         }
-
         $manager->flush();
     }
 
-    /**
-     * @param ObjectManager $manager
-     * @param string $name
-     * @param array $orderData
-     *
-     * @return Customer
-     */
-    protected function createCustomer(ObjectManager $manager, $name, array $orderData)
+    private function createCustomer(ObjectManager $manager, string $name, array $orderData): void
     {
-        /** @var User $user */
-        $user = $this->getReference($orderData['user']);
-
         /** @var Account $account */
         $account = $this->getReference($orderData['account']);
 
         $customer = new Customer();
         $customer->setName($name);
-        $customer->setOwner($user);
+        $customer->setOwner($this->getReference($orderData['user']));
         $customer->setDataChannel($this->getReference('commerce_channel'));
 
         $customerAssociation = new CustomerAssociation();
@@ -109,30 +66,22 @@ class LoadCustomer extends AbstractFixture implements DependentFixtureInterface,
         $manager->persist($customerAssociation);
 
         $this->addReference($name, $customer);
-
-        return $customer;
     }
 
-    /**
-     * @return Channel
-     */
-    protected function createChannel()
+    private function createChannel(ObjectManager $manager): void
     {
-        $channel = $this
-            ->factory
+        $channel = $this->container->get('oro_channel.builder.factory')
             ->createBuilder()
             ->setName(self::CHANNEL_NAME)
             ->setChannelType(self::CHANNEL_TYPE)
             ->setStatus(Channel::STATUS_ACTIVE)
-            ->setOwner($this->organization)
+            ->setOwner($this->getReference(LoadOrganization::ORGANIZATION))
             ->setEntities()
             ->getChannel();
 
-        $this->em->persist($channel);
-        $this->em->flush();
+        $manager->persist($channel);
+        $manager->flush();
 
         $this->setReference('commerce_channel', $channel);
-
-        return $this;
     }
 }

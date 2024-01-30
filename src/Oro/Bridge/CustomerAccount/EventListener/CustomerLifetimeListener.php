@@ -48,7 +48,7 @@ class CustomerLifetimeListener implements ServiceSubscriberInterface
 
     public function onFlush(OnFlushEventArgs $args): void
     {
-        $em = $args->getEntityManager();
+        $em = $args->getObjectManager();
         $uow = $em->getUnitOfWork();
 
         $orders = [];
@@ -89,7 +89,7 @@ class CustomerLifetimeListener implements ServiceSubscriberInterface
             return;
         }
 
-        $em = $args->getEntityManager();
+        $em = $args->getObjectManager();
 
         $flushRequired = false;
         foreach ($this->queued as $customer) {

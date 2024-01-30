@@ -22,7 +22,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * This form type is used on the storefront for "contact us" form show to customer users and guests.
  * It extends \Oro\Bundle\ContactUsBundle\Form\Type\ContactRequestType form type.
- * @see \Oro\Bundle\ContactUsBundle\Form\Type\ContactRequestType parent form type
+ * @see BaseContactRequestType parent form type
  * @see \Oro\Bridge\ContactUs\Controller\ContactRequestController usage in storefront controller
  * @see \Oro\Bridge\ContactUs\ContentWidget\ContactUsFormContentWidgetType usage in storefront widget
  */
@@ -96,7 +96,7 @@ class ContactRequestType extends AbstractType
             ->getResult();
         if ($contactReasons) {
             $builder->add('contactReason', EntityType::class, [
-                'class' => 'OroContactUsBundle:ContactReason',
+                'class' => ContactReason::class,
                 'choice_label' => function (ContactReason $entity) {
                     return $this->localizationHelper->getLocalizedValue($entity->getTitles());
                 },
