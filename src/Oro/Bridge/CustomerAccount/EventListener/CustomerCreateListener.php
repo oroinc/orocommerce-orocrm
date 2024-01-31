@@ -3,6 +3,7 @@
 namespace Oro\Bridge\CustomerAccount\EventListener;
 
 use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Oro\Bundle\ChannelBundle\Entity\Channel;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 
 /**
@@ -27,7 +28,7 @@ class CustomerCreateListener
         $em = $args->getObjectManager();
 
         if (!$customer->getDataChannel()) {
-            $channels = $em->getRepository('OroChannelBundle:Channel')
+            $channels = $em->getRepository(Channel::class)
                 ->findBy(['channelType' => self::COMMERCE_CHANNEL_TYPE]);
             if (count($channels) === 1) {
                 $customer->setDataChannel(reset($channels));

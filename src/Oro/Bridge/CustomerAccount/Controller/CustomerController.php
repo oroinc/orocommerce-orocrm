@@ -3,6 +3,7 @@
 namespace Oro\Bridge\CustomerAccount\Controller;
 
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\ChannelBundle\Entity\Channel;
 use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
@@ -27,6 +28,7 @@ class CustomerController extends AbstractController
     {
         return array_merge(parent::getSubscribedServices(), [
             AccountCustomerManager::class,
+            'doctrine' => ManagerRegistry::class,
         ]);
     }
 
@@ -40,8 +42,8 @@ class CustomerController extends AbstractController
      *          name="oro_account_widget_customers_info",
      *          requirements={"accountId"="\d+"}
      * )
-     * @ParamConverter("account", class="OroAccountBundle:Account", options={"id" = "accountId"})
-     * @ParamConverter("channel", class="OroChannelBundle:Channel", options={"id" = "channelId"})
+     * @ParamConverter("account", class="Oro\Bundle\AccountBundle\Entity\Account", options={"id" = "accountId"})
+     * @ParamConverter("channel", class="Oro\Bundle\ChannelBundle\Entity\Channel", options={"id" = "channelId"})
      * @AclAncestor("oro_customer_account_view"))
      * @Template
      */
@@ -50,8 +52,8 @@ class CustomerController extends AbstractController
         $field = AccountCustomerManager::getCustomerTargetField(Customer::class);
 
         /** @var QueryBuilder $qb */
-        $qb = $this->getDoctrine()
-            ->getRepository('OroCustomerBundle:Customer')
+        $qb = $this->container->get('doctrine')
+            ->getRepository(Customer::class)
             ->createQueryBuilder('c');
         $customers = $qb->join(CustomerAssociation::class, 'ca', 'WITH', sprintf('ca.%s = c', $field))
             ->where('ca.account = :account')
@@ -84,13 +86,13 @@ class CustomerController extends AbstractController
      *        name="oro_account_customer_widget_customer_info",
      *        requirements={"id"="\d+", "channelId"="\d+"}
      * )
-     * @ParamConverter("customer", class="OroCustomerBundle:Customer", options={"id" = "id"})
+     * @ParamConverter("customer", class="Oro\Bundle\CustomerBundle\Entity\Customer", options={"id" = "id"})
      * @AclAncestor("oro_customer_account_view"))
      * @Template
      */
     public function customerInfoAction(Customer $customer)
     {
-        $accountCustomerManager = $this->get(AccountCustomerManager::class);
+        $accountCustomerManager = $this->container->get(AccountCustomerManager::class);
 
         return [
             'customer' => $customer,
@@ -108,7 +110,7 @@ class CustomerController extends AbstractController
      *        name="oro_account_customer_widget_customer_user_info",
      *        requirements={"id"="\d+"}
      * )
-     * @ParamConverter("customer", class="OroCustomerBundle:Customer", options={"id" = "id"})
+     * @ParamConverter("customer", class="Oro\Bundle\CustomerBundle\Entity\Customer", options={"id" = "id"})
      * @AclAncestor("oro_account_account_user_view")
      * @Template
      */
@@ -128,7 +130,7 @@ class CustomerController extends AbstractController
      *        name="oro_account_customer_widget_shopping_lists_info",
      *        requirements={"id"="\d+"}
      * )
-     * @ParamConverter("customer", class="OroCustomerBundle:Customer", options={"id" = "id"})
+     * @ParamConverter("customer", class="Oro\Bundle\CustomerBundle\Entity\Customer", options={"id" = "id"})
      * @AclAncestor("oro_shopping_list_view")
      * @Template
      */
@@ -148,7 +150,7 @@ class CustomerController extends AbstractController
      *        name="oro_account_customer_widget_rfq_info",
      *        requirements={"id"="\d+"}
      * )
-     * @ParamConverter("customer", class="OroCustomerBundle:Customer", options={"id" = "id"})
+     * @ParamConverter("customer", class="Oro\Bundle\CustomerBundle\Entity\Customer", options={"id" = "id"})
      * @AclAncestor("oro_rfp_request_view")
      * @Template
      */
@@ -168,7 +170,7 @@ class CustomerController extends AbstractController
      *        name="oro_account_customer_widget_orders_info",
      *        requirements={"id"="\d+"}
      * )
-     * @ParamConverter("customer", class="OroCustomerBundle:Customer", options={"id" = "id"})
+     * @ParamConverter("customer", class="Oro\Bundle\CustomerBundle\Entity\Customer", options={"id" = "id"})
      * @AclAncestor("oro_order_view")
      * @Template
      */
@@ -188,7 +190,7 @@ class CustomerController extends AbstractController
      *        name="oro_account_customer_widget_quotes_info",
      *        requirements={"id"="\d+"}
      * )
-     * @ParamConverter("customer", class="OroCustomerBundle:Customer", options={"id" = "id"})
+     * @ParamConverter("customer", class="Oro\Bundle\CustomerBundle\Entity\Customer", options={"id" = "id"})
      * @AclAncestor("oro_sale_quote_view")
      * @Template
      */
@@ -208,7 +210,7 @@ class CustomerController extends AbstractController
      *        name="oro_account_customer_widget_opportunities_info",
      *        requirements={"id"="\d+"}
      * )
-     * @ParamConverter("customer", class="OroCustomerBundle:Customer", options={"id" = "id"})
+     * @ParamConverter("customer", class="Oro\Bundle\CustomerBundle\Entity\Customer", options={"id" = "id"})
      * @AclAncestor("oro_sales_opportunity_view")
      * @Template
      */

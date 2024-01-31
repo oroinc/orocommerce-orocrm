@@ -76,6 +76,7 @@ services:
         arguments:
             - '@oro_config.manager'
             - '@doctrine'
+            - '@oro_sales.manager.account_customer'
         tags:
          - { name: oro_sales.provider.customer.account_creation, priority: 10 }
 

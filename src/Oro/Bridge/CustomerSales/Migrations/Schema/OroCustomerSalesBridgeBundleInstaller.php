@@ -14,25 +14,23 @@ class OroCustomerSalesBridgeBundleInstaller implements Installation, CustomerExt
     use CustomerExtensionTrait;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getMigrationVersion()
+    public function getMigrationVersion(): string
     {
         return 'v1_0';
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function up(Schema $schema, QueryBag $queries)
+    public function up(Schema $schema, QueryBag $queries): void
     {
         $this->customerExtension->addCustomerAssociation($schema, 'oro_customer');
-
-        $table = $schema->getTable('oro_customer');
 
         // before activity block which have 1000
         $options = new OroOptions();
         $options->set('customer', 'associated_opportunity_block_priority', 990);
-        $table->addOption(OroOptions::KEY, $options);
+        $schema->getTable('oro_customer')->addOption(OroOptions::KEY, $options);
     }
 }

@@ -3,14 +3,14 @@
 namespace Oro\Bridge\CustomerAccount\Migrations\Schema;
 
 use Doctrine\DBAL\Schema\Schema;
-use Oro\Bundle\ActivityListBundle\Migration\Extension\ActivityListExtension;
 use Oro\Bundle\ActivityListBundle\Migration\Extension\ActivityListExtensionAwareInterface;
+use Oro\Bundle\ActivityListBundle\Migration\Extension\ActivityListExtensionAwareTrait;
 use Oro\Bundle\EntityBundle\EntityConfig\DatagridScope;
 use Oro\Bundle\EntityConfigBundle\Entity\ConfigModel;
 use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
 use Oro\Bundle\EntityExtendBundle\Migration\ExtendOptionsManager;
-use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtension;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterface;
+use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareTrait;
 use Oro\Bundle\EntityExtendBundle\Migration\OroOptions;
 use Oro\Bundle\MigrationBundle\Migration\Installation;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
@@ -21,40 +21,21 @@ class OroCustomerAccountBridgeBundleInstaller implements
     ExtendExtensionAwareInterface,
     ActivityListExtensionAwareInterface
 {
-    /** @var ActivityListExtension */
-    protected $activityListExtension;
-
-    /** @var ExtendExtension */
-    protected $extendExtension;
+    use ExtendExtensionAwareTrait;
+    use ActivityListExtensionAwareTrait;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function setActivityListExtension(ActivityListExtension $activityListExtension)
-    {
-        $this->activityListExtension = $activityListExtension;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setExtendExtension(ExtendExtension $extendExtension)
-    {
-        $this->extendExtension = $extendExtension;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getMigrationVersion()
+    public function getMigrationVersion(): string
     {
         return 'v1_5';
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function up(Schema $schema, QueryBag $queries)
+    public function up(Schema $schema, QueryBag $queries): void
     {
         if ($schema->hasTable('oro_customer') && $schema->hasTable('orocrm_account')) {
             $this->createFields($schema);
@@ -64,7 +45,7 @@ class OroCustomerAccountBridgeBundleInstaller implements
         }
     }
 
-    public function addInheritanceTargets(Schema $schema)
+    private function addInheritanceTargets(Schema $schema): void
     {
         $customerPath = [
             'join'          => 'Oro\Bundle\SalesBundle\Entity\Customer',
@@ -113,7 +94,7 @@ class OroCustomerAccountBridgeBundleInstaller implements
         );
     }
 
-    protected function createFields(Schema $schema)
+    private function createFields(Schema $schema): void
     {
         /**
          * The previous_account association is used to remember customer's account during changing of
@@ -147,7 +128,7 @@ class OroCustomerAccountBridgeBundleInstaller implements
         );
     }
 
-    protected function createLifetimeFields(Schema $schema)
+    private function createLifetimeFields(Schema $schema): void
     {
         $table = $schema->getTable('oro_customer');
         $table->addColumn(
@@ -172,7 +153,7 @@ class OroCustomerAccountBridgeBundleInstaller implements
         );
     }
 
-    protected function createChannelFields(Schema $schema)
+    private function createChannelFields(Schema $schema): void
     {
         $this->extendExtension->addManyToOneRelation(
             $schema,

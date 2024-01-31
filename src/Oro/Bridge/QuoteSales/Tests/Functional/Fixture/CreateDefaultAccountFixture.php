@@ -3,38 +3,33 @@
 namespace Oro\Bridge\QuoteSales\Tests\Functional\Fixture;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\AccountBundle\Entity\Account;
-use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization;
 
-class CreateDefaultAccountFixture extends AbstractFixture
+class CreateDefaultAccountFixture extends AbstractFixture implements DependentFixtureInterface
 {
-    const DEFAULT_ACCOUNT_REF = 'default_account';
-
-    /** @var Organization */
-    protected $organization;
+    public const DEFAULT_ACCOUNT_REF = 'default_account';
 
     /**
-     * @return Account
+     * {@inheritDoc}
      */
-    protected function createAccount()
+    public function getDependencies(): array
+    {
+        return [LoadOrganization::class];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function load(ObjectManager $manager): void
     {
         $account = new Account();
         $account->setName('Default account');
-        $account->setOrganization($this->organization);
-
-        return $account;
-    }
-
-    public function load(ObjectManager $manager)
-    {
-        $this->organization = $manager->getRepository('OroOrganizationBundle:Organization')->getFirst();
-
-        $account = $this->createAccount();
-
+        $account->setOrganization($this->getReference(LoadOrganization::ORGANIZATION));
         $manager->persist($account);
         $manager->flush();
-
         $this->setReference(self::DEFAULT_ACCOUNT_REF, $account);
     }
 }

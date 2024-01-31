@@ -11,6 +11,9 @@ use Oro\Bundle\CustomerBundle\Entity\Repository\AccountRepository;
 use Oro\Bundle\SalesBundle\Entity\Customer as CustomerAssociation;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Simplifies account creation for customers and customer associations by using assign strategies
+ */
 class AccountManager
 {
     /**
@@ -90,7 +93,7 @@ class AccountManager
      */
     protected function getRepository()
     {
-        return $this->getManager()->getRepository('OroCustomerBundle:Customer');
+        return $this->getManager()->getRepository(Customer::class);
     }
 
     /**
@@ -98,7 +101,7 @@ class AccountManager
      */
     protected function getManager()
     {
-        return $this->registry->getManagerForClass('OroCustomerBundle:Customer');
+        return $this->registry->getManagerForClass(Customer::class);
     }
 
     /**
