@@ -44,8 +44,7 @@ Feature: Contact us page fill form
     And I should see "Thank you for your Request!" flash message and I close it
 
   Scenario: Fill contact us form with localized contact reason
-    Given I click "Localization Switcher"
-    And I select "Localization 1" localization
+    Given I select "Localization 1" localization
     When fill form with:
       | First Name               | Branda                                               |
       | Last Name                | Smith                                                |
@@ -55,7 +54,6 @@ Feature: Contact us page fill form
       | Comment                  | Test Comment                                         |
     And click "Submit"
     Then I should see "Thank you for your Request!" flash message and I close it
-    And I click "Localization Switcher"
     And I select "English" localization
 
   Scenario: Check contact requests
