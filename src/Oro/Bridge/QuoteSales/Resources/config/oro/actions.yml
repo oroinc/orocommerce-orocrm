@@ -82,3 +82,4 @@ action_groups:
                     - [[keep], [propertyType, ['Oro\Bundle\PaymentTermBundle\Entity\PaymentTerm']]]
                     - [[keep], [propertyType, ['Oro\Bundle\RFPBundle\Entity\RequestProductItem']]]
                     - [[collection], [propertyType, ['Doctrine\Common\Collections\Collection']]]
+                    - [[keep], [propertyType, ['Oro\Bundle\ProductBundle\Entity\ProductKitItem']]]
