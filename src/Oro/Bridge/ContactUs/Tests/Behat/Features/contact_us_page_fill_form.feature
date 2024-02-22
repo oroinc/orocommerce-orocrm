@@ -54,7 +54,7 @@ Feature: Contact us page fill form
       | Comment                  | Test Comment                                         |
     And click "Submit"
     Then I should see "Thank you for your Request!" flash message and I close it
-    And I select "English" localization
+    And I select "English (United States)" localization
 
   Scenario: Check contact requests
     Given I proceed as the Admin
