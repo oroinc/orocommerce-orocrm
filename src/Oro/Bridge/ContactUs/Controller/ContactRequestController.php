@@ -5,7 +5,7 @@ namespace Oro\Bridge\ContactUs\Controller;
 use Oro\Bridge\ContactUs\Form\Type\ContactRequestType;
 use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
 use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
-use Oro\Bundle\LayoutBundle\Annotation\Layout;
+use Oro\Bundle\LayoutBundle\Attribute\Layout;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormErrorIterator;
 use Symfony\Component\Form\FormInterface;
@@ -22,16 +22,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ContactRequestController extends AbstractController
 {
     /**
-     * @Route(
-     *      "/create",
-     *      name="oro_contactus_bridge_request_create",
-     *      methods={"POST"}
-     * )
      *
      * @param Request $request
-     *
      * @return RedirectResponse
      */
+    #[Route(path: '/create', name: 'oro_contactus_bridge_request_create', methods: ['POST'])]
     public function createAction(Request $request)
     {
         $contactRequest = new ContactRequest();
@@ -46,11 +41,10 @@ class ContactRequestController extends AbstractController
     }
 
     /**
-     * @Route("/", name="oro_contactus_bridge_contact_us_page")
-     * @Layout
-     *
      * @return array|RedirectResponse
      */
+    #[Route(path: '/', name: 'oro_contactus_bridge_contact_us_page')]
+    #[Layout]
     public function contactUsPageAction()
     {
         $contactRequest = new ContactRequest();

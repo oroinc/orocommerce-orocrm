@@ -28,9 +28,9 @@ class OpportunityToQuoteDataStorageTest extends \PHPUnit\Framework\TestCase
 
     public function testSaveToStorage()
     {
-        $testOpportunity = new OpportunityStub('test_opportunity');
+        $testOpportunity = new OpportunityStub(500);
         $opportunityCustomer = new CustomerStub();
-        $commerceCustomer = new CustomerStub('test_customer');
+        $commerceCustomer = new CustomerStub(300);
 
         $opportunityCustomer->setCustomerTarget($commerceCustomer);
         $testOpportunity->setCustomerAssociation($opportunityCustomer);
@@ -41,7 +41,7 @@ class OpportunityToQuoteDataStorageTest extends \PHPUnit\Framework\TestCase
 
         $this->assertNotEmpty($data);
         $this->assertNotEmpty($data['entity_data']);
-        $this->assertEquals('test_opportunity', $data['entity_data']['opportunity']);
-        $this->assertEquals('test_customer', $data['entity_data']['customer']);
+        $this->assertEquals(500, $data['entity_data']['opportunity']);
+        $this->assertEquals(300, $data['entity_data']['customer']);
     }
 }
