@@ -1,8 +1,8 @@
 /* @theme: default; */
 
 .contact-us-form {
-    padding: 28px 32px;
-    margin: 28px 0;
+    --grid-gap: #{$customer-form-grid-gap};
 
+    margin-top: $customer-form-grid-offset-top;
     background: $contact-us-form-background;
 }
