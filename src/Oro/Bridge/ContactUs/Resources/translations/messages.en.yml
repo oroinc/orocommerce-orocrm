@@ -15,7 +15,10 @@ oro.contactus:
 
 oro.contact_us_bridge:
     frontend.navigation.items:
-                contact_us.label: 'Contact Us'
+        # Start Requirement for "Default Theme 50/51"
+        live_chat.label: 'Live Chat'
+        # End Requirement for "Default Theme 50/51"
+        contact_us.label: 'Contact Us'
     system_configuration:
         groups:
             contact_requests.label: Contact Requests
