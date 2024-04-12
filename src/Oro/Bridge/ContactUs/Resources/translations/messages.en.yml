@@ -12,6 +12,7 @@ oro.contactus:
         contactrequest.sent: "Thank you for your Request!"
         submit: "Submit"
     title: Contact Us
+    required_info: required info
 
 oro.contact_us_bridge:
     frontend.navigation.items:

@@ -5,4 +5,15 @@
 
     margin-top: $customer-form-grid-offset-top;
     background: $contact-us-form-background;
+    max-width: $contact-us-form-max-width;
+}
+
+.contact-us-required {
+    margin-block: $contact-us-required-margin-block;
+}
+
+@include breakpoint('mobile-landscape') {
+    .contact-us-form {
+        --grid-gap: #{$customer-form-mobile-landscape-grid-gap};
+    }
 }
