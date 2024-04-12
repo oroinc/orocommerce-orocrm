@@ -1,5 +1,8 @@
 layout:
     actions:
+        - '@setBlockTheme':
+            themes: '@OroContactUsBridge/layouts/default/oro_contactus_bridge_contact_us_page/layout.html.twig'
+
         - '@add':
             id: form_item
             parentId: page_content
@@ -11,3 +14,16 @@ layout:
             optionName: defaultValue
             optionValue:
                 label: 'oro.contactus.title'
+
+        - '@addTree':
+            items:
+                contact_us_required_wrapper:
+                    blockType: container
+                    siblingId: page_title_container
+                    prepend: false
+                contact_us_required_label:
+                    blockType: block
+            tree:
+                page_content:
+                    contact_us_required_wrapper:
+                        contact_us_required_label: ~
