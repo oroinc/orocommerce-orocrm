@@ -1,3 +1,11 @@
+{% block _page_title_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' page-title--centered'
+    }) %}
+
+    {{- parent_block_widget(block) -}}
+{% endblock %}
+
 {% block _contact_us_required_wrapper_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' contact-us-required',
@@ -8,6 +16,7 @@
         {{- block_widget(block) -}}
     </div>
 {% endblock %}
+
 {% block _contact_us_required_label_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' required-label',
