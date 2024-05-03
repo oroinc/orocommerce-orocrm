@@ -1,3 +1,4 @@
+@regression
 @ticket-CRM-7573
 @automatically-ticket-tagged
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml

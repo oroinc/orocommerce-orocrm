@@ -1,4 +1,3 @@
-@regression
 @ticket-BB-7843
 @automatically-ticket-tagged
 @fixture-OroCustomerAccountBridgeBundle:ExportCustomerFixture.yml
