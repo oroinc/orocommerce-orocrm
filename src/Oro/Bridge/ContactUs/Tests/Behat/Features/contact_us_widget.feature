@@ -1,3 +1,4 @@
+@regression
 @ticket-BB-20600
 @fixture-OroContactUsBridgeBundle:CustomerUserFixture.yml
 Feature: Contact us widget
