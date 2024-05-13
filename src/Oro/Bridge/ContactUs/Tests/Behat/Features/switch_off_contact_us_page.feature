@@ -1,3 +1,4 @@
+@regression
 Feature: Switch off contact us page
   As an Administrator
   I want be able to enable/disable ability of contacting Seller via Contact form on the website

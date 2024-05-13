@@ -1,3 +1,4 @@
+@regression
 @fix-BAP-16833
 @fixture-OroCustomerAccountBridgeBundle:opportunities.yml
 Feature: Pagination by opportunities
