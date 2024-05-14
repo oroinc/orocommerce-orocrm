@@ -106,6 +106,11 @@ class CustomerLifetimeListenerTest extends WebTestCase
 
         $manager = self::getDataFixturesExecutorEntityManager();
 
+        self::consumeAllMessages();
+
+        $auditFieldCount = $manager->getRepository(AuditField::class)->count([]);
+        $auditCount = $manager->getRepository(Audit::class)->count([]);
+
         $orderReference = $this->getReference(LoadOrders::ORDER_1);
 
         $paymentStatus = new PaymentStatus();
@@ -118,8 +123,8 @@ class CustomerLifetimeListenerTest extends WebTestCase
 
         self::consumeAllMessages();
 
-        $this->assertEmpty($manager->getRepository(AuditField::class)->findAll());
-        $this->assertEmpty($manager->getRepository(Audit::class)->findAll());
+        self::assertEquals($auditFieldCount, $manager->getRepository(AuditField::class)->count([]));
+        self::assertEquals($auditCount, $manager->getRepository(Audit::class)->count([]));
 
         $this->getOptionalListenerManager()->disableListener(
             'oro_dataaudit.listener.send_changed_entities_to_message_queue'
