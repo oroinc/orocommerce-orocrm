@@ -30,7 +30,7 @@ oro.contact_us_bridge:
                     Enable the option to display the Contact Us form in the storefront.
                     When the form is disabled, you can still use the Contact Us widget in your web catalog pages.
             consent:
-                consent_contact_reason.label: Сontact Reason
+                consent_contact_reason.label: Contact Reason
                 consent_contact_reason.tooltip: |
                                       If the consent is declined in the storefront, a notification is created
                                       in the management console as a contact reason. Select the contact reason

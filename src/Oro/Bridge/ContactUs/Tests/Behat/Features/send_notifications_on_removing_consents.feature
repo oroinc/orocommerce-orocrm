@@ -114,7 +114,7 @@ Feature: Send notifications on removing consents
     Given go to System/ Configuration
     And follow "Commerce/Customer/Consents" on configuration sidebar
     And I fill form with:
-      | Сontact Reason | Other |
+      | Contact Reason | Other |
     When click "Save settings"
     Then I should see "Configuration saved" flash message
 
