@@ -12,5 +12,6 @@ oro_behat_extension:
         - Oro\Bundle\NavigationBundle\Tests\Behat\Context\FeatureContext
         - Oro\Bundle\QueryDesignerBundle\Tests\Behat\Context\QueryDesignerContext
         - Oro\Bundle\ConfigBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\ApplicationBundle\Tests\Behat\Context\CommerceMainContext
       paths:
         - '@OroCustomerSalesBridgeBundle/Tests/Behat/Features'
