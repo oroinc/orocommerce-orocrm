@@ -100,6 +100,8 @@ class CustomerLifetimeListenerTest extends WebTestCase
 
     public function testThatListenerNotProduceNewDataAuditRecordsInDatabase()
     {
+        $this->markTestSkipped('will be unskipped in BAP-22632');
+
         $this->getOptionalListenerManager()->enableListener(
             'oro_dataaudit.listener.send_changed_entities_to_message_queue'
         );

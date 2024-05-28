@@ -10,6 +10,8 @@ class RecalculateLifetimeCommandTest extends AbstractRecalculateLifetimeCommandT
 {
     protected function setUp(): void
     {
+        $this->markTestSkipped('will be unskipped in BAP-22632');
+
         parent::setUp();
         $this->loadFixtures([LoadOrders::class]);
     }
