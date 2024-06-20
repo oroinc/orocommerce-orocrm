@@ -13,6 +13,5 @@ oro_behat_extension:
                 - Oro\Bundle\FormBundle\Tests\Behat\Context\FeatureContext
                 - Oro\Bundle\WebCatalogBundle\Tests\Behat\Context\FeatureContext
                 - Oro\Bundle\CMSBundle\Tests\Behat\Context\FeatureContext
-                - Oro\Bundle\ConfigBundle\Tests\Behat\Context\FeatureContext
             paths:
                 - '@OroContactUsBridgeBundle/Tests/Behat/Features'
