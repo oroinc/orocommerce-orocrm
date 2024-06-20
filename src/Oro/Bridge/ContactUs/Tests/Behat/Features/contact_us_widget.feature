@@ -21,6 +21,15 @@ Feature: Contact us widget
     And I save and close form
     Then I should see "Page has been saved" flash message
 
+  Scenario: Disable contact requests
+    Given I go to System/ Configuration
+    And follow "Commerce/Customer/Contact Requests" on configuration sidebar
+    When I uncheck "Use default" for "Allow Contact Requests" field
+    And fill form with:
+      | Allow Contact Requests | false |
+    And click "Save settings"
+    Then I should see "Configuration saved" flash message
+
   Scenario: Fill contact us form as unauthorized user
     Given I proceed as the Guest
     And I am on the homepage

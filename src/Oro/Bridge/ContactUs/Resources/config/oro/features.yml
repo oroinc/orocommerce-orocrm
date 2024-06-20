@@ -3,6 +3,8 @@ features:
         label: oro.contactus.contactrequest.feature.label
         description: oro.contactus.contactrequest.feature.description
         toggle: oro_contact_us_bridge.enable_contact_request
+        # Do not block the ability to create a contact request, (oro_contactus_bridge_request_create) because the
+        # contact form can be used as a widget.
+        # The csrf token is responsible for the security of form submission.
         routes:
             - oro_contactus_bridge_contact_us_page
-            - oro_contactus_bridge_request_create
