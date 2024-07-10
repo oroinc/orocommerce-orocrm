@@ -7,6 +7,7 @@ services:
             - '@oro_locale.helper.localization'
         tags:
             - { name: form.type }
+            - { name: oro_form.captcha_protected, form_name: contact_request }
 
     oro_contact_us_bridge.event_listener.contact_request_datagrid:
         class: 'Oro\Bridge\ContactUs\EventListener\ContactRequestDatagridListener'
