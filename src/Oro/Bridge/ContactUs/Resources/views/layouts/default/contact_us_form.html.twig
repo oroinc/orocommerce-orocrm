@@ -46,6 +46,11 @@
             <div class="grid-col-12">
                 {{ form_row(form.comment, {attr: {rows: 25}}) }}
             </div>
+            {% if form.captcha is defined %}
+                <div class="grid-col-12">
+                    {{ form_row(form.captcha) }}
+                </div>
+            {% endif %}
             <div class="grid-col-12">
                 <button class="role-submit btn btn--info" type="submit">{{ 'oro.contactus.form.submit'|trans }}</button>
             </div>
