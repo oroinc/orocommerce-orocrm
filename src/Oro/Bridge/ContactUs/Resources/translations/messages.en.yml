@@ -35,3 +35,5 @@ oro.contact_us_bridge:
                                       If the consent is declined in the storefront, a notification is created
                                       in the management console as a contact reason. Select the contact reason
                                       from the list for a declined consent notification.
+
+oro_form.captcha.protected_form_name.contact_request: Contact Us Form
