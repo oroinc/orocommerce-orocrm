@@ -42,7 +42,28 @@ class ContactRequestController extends AbstractController
         );
         $this->handleForm($form, $contactRequest);
 
-        return $this->redirect($request->query->get('requestUri', $this->generateUrl('oro_frontend_root')));
+        return $this->redirect($this->getRedirectUri($request));
+    }
+
+    private function getRedirectUri(Request $request): string
+    {
+        $redirectUrl = $request->query->get('requestUri');
+        if (!$redirectUrl) {
+            return $this->generateUrl('oro_frontend_root');
+        }
+
+        $redirectUrlParts = parse_url($redirectUrl);
+        // Only URI is allowed, if URL is passed - return oro_frontend_root URI
+        if (!empty($redirectUrlParts['host'])) {
+            return $this->generateUrl('oro_frontend_root');
+        }
+
+        $redirectUrl = $redirectUrlParts['path'] ?? '/';
+        if (isset($redirectUrlParts['query'])) {
+            $redirectUrl .= '?' . $redirectUrlParts['query'];
+        }
+
+        return $redirectUrl;
     }
 
     /**
@@ -55,7 +76,7 @@ class ContactRequestController extends AbstractController
     {
         $contactRequest = new ContactRequest();
         $form = $this->createForm(ContactRequestType::class, $contactRequest);
-        $result =  $this->handleForm($form, $contactRequest);
+        $result = $this->handleForm($form, $contactRequest);
         if ($result instanceof Response) {
             return $result;
         }

@@ -60,7 +60,7 @@ class ContactUsFormContentWidgetType extends AbstractContentWidgetType
             [
                 'action' => $this->urlGenerator->generate(
                     'oro_contactus_bridge_request_create',
-                    ['requestUri' => $this->requestStack->getCurrentRequest()->getRequestUri()]
+                    ['requestUri' => $this->requestStack->getCurrentRequest()?->getRequestUri()]
                 ),
             ]
         );
