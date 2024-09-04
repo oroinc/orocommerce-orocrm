@@ -1,5 +1,4 @@
-ROLE_SALES_REP:
-    bap_role: ROLE_USER
+ROLE_USER:
     permissions:
         workflow|commerce_opportunity_flow: [VIEW_WORKFLOW_SYSTEM, PERFORM_TRANSITIONS_SYSTEM]
         workflow|quote_flow: [VIEW_WORKFLOW_SYSTEM, PERFORM_TRANSITIONS_SYSTEM]
@@ -10,10 +9,8 @@ ROLE_SALES_REP:
         entity|Oro\Bundle\ProductBundle\Entity\Product: [VIEW_SYSTEM]
         entity|Oro\Bundle\PricingBundle\Entity\ProductPrice: [VIEW_SYSTEM, CREATE_SYSTEM, EDIT_SYSTEM, DELETE_SYSTEM]
         entity|Oro\Bundle\PricingBundle\Entity\PriceList: [VIEW_SYSTEM, CREATE_SYSTEM, EDIT_SYSTEM, DELETE_SYSTEM, RECALCULATE_SYSTEM]
-        entity|Oro\Bundle\OrderBundle\Entity\Order: [VIEW_SYSTEM, CREATE_SYSTEM, EDIT_SYSTEM, DELETE_SYSTEM, ASSIGN_SYSTEM]
 
-ROLE_SALES_MANAGER:
-    bap_role: ROLE_MANAGER
+ROLE_MANAGER:
     permissions:
         workflow|commerce_opportunity_flow: [VIEW_WORKFLOW_SYSTEM, PERFORM_TRANSITIONS_SYSTEM]
         workflow|quote_flow: [VIEW_WORKFLOW_SYSTEM, PERFORM_TRANSITIONS_SYSTEM]
@@ -24,4 +21,3 @@ ROLE_SALES_MANAGER:
         entity|Oro\Bundle\ProductBundle\Entity\Product: [VIEW_SYSTEM]
         entity|Oro\Bundle\PricingBundle\Entity\ProductPrice: [VIEW_SYSTEM, CREATE_SYSTEM, EDIT_SYSTEM, DELETE_SYSTEM]
         entity|Oro\Bundle\PricingBundle\Entity\PriceList: [VIEW_SYSTEM, CREATE_SYSTEM, EDIT_SYSTEM, DELETE_SYSTEM, RECALCULATE_SYSTEM]
-        entity|Oro\Bundle\OrderBundle\Entity\Order: [VIEW_SYSTEM, CREATE_SYSTEM, EDIT_SYSTEM, DELETE_SYSTEM, ASSIGN_SYSTEM]
