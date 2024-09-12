@@ -3,67 +3,45 @@
 namespace Oro\Bridge\CustomerAccount\Manager;
 
 use Doctrine\ORM\Query\Expr\Join;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CurrencyBundle\Query\CurrencyQueryBuilderTransformerInterface;
-use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\OrderBundle\Entity\Order;
+use Oro\Bundle\PaymentBundle\Entity\PaymentStatus;
 use Oro\Bundle\PaymentBundle\Provider\PaymentStatusProvider;
 
 /**
- * Calculates lifetime value for customer
+ * Calculates lifetime value for a customer.
  */
 class LifetimeProcessor
 {
-    /**
-     * @var ManagerRegistry
-     */
-    protected $registry;
+    private ManagerRegistry $doctrine;
+    private CurrencyQueryBuilderTransformerInterface $qbTransformer;
 
-    /**
-     * @var CurrencyQueryBuilderTransformerInterface
-     */
-    protected $qbTransformer;
-
-    public function __construct(ManagerRegistry $registry, CurrencyQueryBuilderTransformerInterface $qbTransformer)
+    public function __construct(ManagerRegistry $doctrine, CurrencyQueryBuilderTransformerInterface $qbTransformer)
     {
-        $this->registry = $registry;
+        $this->doctrine = $doctrine;
         $this->qbTransformer = $qbTransformer;
     }
 
-    /**
-     * @param Customer $customer
-     *
-     * @return float
-     */
-    public function calculateLifetimeValue(Customer $customer)
+    public function calculateLifetimeValue(Customer $customer): float
     {
-        $qb = $this->getEntityManager()->getRepository(Order::class)
-            ->createQueryBuilder('o');
-        $subtotalValueQuery = $this->qbTransformer->getTransformSelectQuery('subtotal', $qb);
-        $qb->select(sprintf('SUM(%s)', $subtotalValueQuery))
+        /** @var QueryBuilder $qb */
+        $qb = $this->doctrine->getManagerForClass(Order::class)->createQueryBuilder();
+        $qb->from(Order::class, 'o')
+            ->select(sprintf('SUM(%s)', $this->qbTransformer->getTransformSelectQuery('subtotal', $qb)))
             ->leftJoin(
-                'Oro\Bundle\PaymentBundle\Entity\PaymentStatus',
+                PaymentStatus::class,
                 'payment_status',
                 Join::WITH,
-                'payment_status.entityIdentifier = o.id '
-                . "AND payment_status.entityClass = 'Oro\\Bundle\\OrderBundle\\Entity\\Order'"
+                'payment_status.entityIdentifier = o.id AND payment_status.entityClass = :entityClass'
             )
-            ->where(
-                $qb->expr()->eq('o.customer', ':customer')
-            )
-            ->andWhere('payment_status.paymentStatus = :paymentStatus')
+            ->where('o.customer = :customer AND payment_status.paymentStatus = :paymentStatus')
+            ->setParameter('entityClass', Order::class)
             ->setParameter('customer', $customer->getId())
             ->setParameter('paymentStatus', PaymentStatusProvider::FULL);
 
         return (float)$qb->getQuery()->getSingleScalarResult();
-    }
-
-    /**
-     * @return ObjectManager
-     */
-    protected function getEntityManager()
-    {
-        return $this->registry->getManager();
     }
 }
