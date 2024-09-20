@@ -61,33 +61,33 @@ Oro\Bundle\SalesBundle\Entity\Opportunity:
   opportunity1:
     name: 'Testing opportunity1'
     customerAssociation: '@mrcustomer'
-    status: '@opportunity_status_in_progress'
+    status: '@opportunity_status.in_progress'
     organization: '@organization'
     owner: '@admin'
   opportunity2:
     name: 'Testing opportunity_2'
     customerAssociation: '@mrcustomer'
-    status: '@opportunity_status_won'
+    status: '@opportunity_status.won'
     organization: '@organization'
   opportunity21:
     name: 'Testing opportunity21'
     customerAssociation: '@mrcustomer'
-    status: '@opportunity_status_lost'
+    status: '@opportunity_status.lost'
     organization: '@organization'
   opportunity3:
     name: 'Testing opportunity3'
     customerAssociation: '@mrcustomer'
-    status: '@opportunity_status_needs_analysis'
+    status: '@opportunity_status.needs_analysis'
     organization: '@organization'
   opportunity4:
     name: 'Testing opportunity4'
     customerAssociation: '@mrcustomer2'
-    status: '@opportunity_status_solution_development'
+    status: '@opportunity_status.solution_development'
     organization: '@organization'
   opportunity5:
     name: 'Testing opportunity5'
     customerAssociation: '@mrcustomer2'
-    status: '@opportunity_status_negotiation'
+    status: '@opportunity_status.negotiation'
     organization: '@organization'
 
 Oro\Bundle\SaleBundle\Entity\Quote:

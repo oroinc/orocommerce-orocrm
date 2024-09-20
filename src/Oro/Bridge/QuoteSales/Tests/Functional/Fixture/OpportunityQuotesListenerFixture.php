@@ -6,7 +6,8 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer as CommerceCustomer;
-use Oro\Bundle\EntityExtendBundle\Entity\AbstractEnumValue;
+use Oro\Bundle\EntityExtendBundle\Entity\EnumOption;
+use Oro\Bundle\EntityExtendBundle\Entity\EnumOptionInterface;
 use Oro\Bundle\EntityExtendBundle\Tools\ExtendHelper;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SaleBundle\Entity\Quote;
@@ -109,10 +110,13 @@ class OpportunityQuotesListenerFixture extends AbstractFixture implements
         return $this->container->get('oro_sales.manager.account_customer')->getAccountCustomerByTarget($customer);
     }
 
-    private function getStatus(ObjectManager $manager, string $statusId): AbstractEnumValue
+    private function getStatus(ObjectManager $manager, string $statusId): EnumOptionInterface
     {
-        return $manager->getRepository(ExtendHelper::buildEnumValueClassName(Opportunity::INTERNAL_STATUS_CODE))
-            ->find(ExtendHelper::buildEnumValueId($statusId));
+        return $manager->getRepository(EnumOption::class)
+            ->find(ExtendHelper::buildEnumOptionId(
+                Opportunity::INTERNAL_STATUS_CODE,
+                ExtendHelper::buildEnumInternalId($statusId)
+            ));
     }
 
     private function createQuote(ObjectManager $manager, Opportunity $opportunity, Website $website): void

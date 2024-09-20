@@ -76,25 +76,30 @@ Oro\Bundle\SalesBundle\Entity\Customer:
         account: '@acc_customer_G'
         customer_e197f906: '@customer_G'
 
-Extend\Entity\EV_Acc_Internal_Rating:
+Oro\Bundle\EntityExtendBundle\Entity\EnumOption:
     1_of_5:
         __construct:
+            - 'acc_internal_rating'
             - '1_of_5'
             - '1_of_5'
     2_of_5:
         __construct:
+            - 'acc_internal_rating'
             - '2_of_5'
             - '2_of_5'
     3_of_5:
         __construct:
+            - 'acc_internal_rating'
             - '3_of_5'
             - '3_of_5'
     4_of_5:
         __construct:
+            - 'acc_internal_rating'
             - '4_of_5'
             - '4_of_5'
     5_of_5:
         __construct:
+            - 'acc_internal_rating'
             - '5_of_5'
             - '5_of_5'
 Oro\Bundle\CustomerBundle\Entity\CustomerGroup:

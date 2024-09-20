@@ -5,8 +5,8 @@ workflows:
             quote_creating_definition:
                 preconditions:
                    '@and':
-                       - '@neq':  [$status.id, 'lost']
-                       - '@neq':  [$status.id, 'won']
+                       - '@neq':  [$status.internalId, 'lost']
+                       - '@neq':  [$status.internalId, 'won']
                        - '@type': [$customer.target, 'Oro\Bundle\CustomerBundle\Entity\Customer']
                 actions:
                        - '@call_service_method':

@@ -50,7 +50,7 @@ Oro\Bundle\SalesBundle\Entity\Opportunity:
     name: 'New Opportunity'
     owner: '@admin'
     organization: '@organization'
-    status: '@opportunity_status_in_progress'
+    status: '@opportunity_status.in_progress'
     customerAssociation: '@sales_customer_entity'
 
 Oro\Bundle\SalesBundle\Entity\Lead:
@@ -58,7 +58,7 @@ Oro\Bundle\SalesBundle\Entity\Lead:
     name: 'New Lead'
     owner: '@admin'
     organization: '@organization'
-    status: '@lead_status_new'
+    status: '@lead_status.new'
 
 Oro\Bundle\ChannelBundle\Entity\Channel:
   sales_channel_entity:

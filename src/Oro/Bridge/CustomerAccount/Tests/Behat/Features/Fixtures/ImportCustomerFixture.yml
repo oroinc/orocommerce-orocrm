@@ -95,25 +95,30 @@ Oro\Bundle\AccountBundle\Entity\Account:
         organization: '@organization'
         owner: '@admin'
 
-Extend\Entity\EV_Acc_Internal_Rating:
+Oro\Bundle\EntityExtendBundle\Entity\EnumOption:
     1_of_5:
         __construct:
+            - 'acc_internal_rating'
             - '1_of_5'
             - '1_of_5'
     2_of_5:
         __construct:
+            - 'acc_internal_rating'
             - '2_of_5'
             - '2_of_5'
     3_of_5:
         __construct:
+            - 'acc_internal_rating'
             - '3_of_5'
             - '3_of_5'
     4_of_5:
         __construct:
+            - 'acc_internal_rating'
             - '4_of_5'
             - '4_of_5'
     5_of_5:
         __construct:
+            - 'acc_internal_rating'
             - '5_of_5'
             - '5_of_5'
 Oro\Bundle\CustomerBundle\Entity\CustomerGroup:
@@ -129,3 +134,47 @@ Oro\Bundle\CustomerBundle\Entity\CustomerGroup:
         name: 'Wholesale Customers'
         organization: '@organization'
         owner: '@admin'
+
+Oro\Bundle\TranslationBundle\Entity\TranslationKey:
+    tk_1_of_5:
+        key: 'oro.entity_extend.enum_option.acc_internal_rating.1_of_5'
+        domain: 'messages'
+    tk_2_of_5:
+        key: 'oro.entity_extend.enum_option.acc_internal_rating.2_of_5'
+        domain: 'messages'
+    tk_3_of_5:
+        key: 'oro.entity_extend.enum_option.acc_internal_rating.3_of_5'
+        domain: 'messages'
+    tk_4_of_5:
+        key: 'oro.entity_extend.enum_option.acc_internal_rating.4_of_5'
+        domain: 'messages'
+    tk_5_of_5:
+        key: 'oro.entity_extend.enum_option.acc_internal_rating.5_of_5'
+        domain: 'messages'
+
+Oro\Bundle\TranslationBundle\Entity\Translation:
+    t_1_of_5:
+        translationKey: '@tk_1_of_5'
+        value: '1_of_5'
+        language: '@en_language'
+        scope: 1
+    t_2_of_5:
+        translationKey: '@tk_2_of_5'
+        value: '2_of_5'
+        language: '@en_language'
+        scope: 1
+    t_3_of_5:
+        translationKey: '@tk_3_of_5'
+        value: '3_of_5'
+        language: '@en_language'
+        scope: 1
+    t_4_of_5:
+        translationKey: '@tk_4_of_5'
+        value: '4_of_5'
+        language: '@en_language'
+        scope: 1
+    t_5_of_5:
+        translationKey: '@tk_5_of_5'
+        value: '5_of_5'
+        language: '@en_language'
+        scope: 1
