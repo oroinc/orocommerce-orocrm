@@ -12,6 +12,7 @@ use Oro\Bundle\WorkflowBundle\Model\WorkflowManager;
  */
 class QuoteWorkflowDefinitionTest extends WebTestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient(

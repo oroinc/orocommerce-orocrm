@@ -15,6 +15,7 @@ class DataFixturesCommandListenerTest extends \PHPUnit\Framework\TestCase
 {
     private DataFixturesCommandListener $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->listener = new DataFixturesCommandListener();

@@ -12,17 +12,13 @@ class CreateDefaultAccountFixture extends AbstractFixture implements DependentFi
 {
     public const DEFAULT_ACCOUNT_REF = 'default_account';
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getDependencies(): array
     {
         return [LoadOrganization::class];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         $account = new Account();

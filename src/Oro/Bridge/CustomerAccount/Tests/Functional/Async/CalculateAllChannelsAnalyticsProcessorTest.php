@@ -15,6 +15,7 @@ use Oro\Component\MessageQueue\Transport\Message;
  */
 class CalculateAllChannelsAnalyticsProcessorTest extends BaseCalculateAllChannelsAnalyticsProcessorTest
 {
+    #[\Override]
     public function testShouldSendCalculateAnalyticsMessageForEachChannel(): void
     {
         /** @var CalculateAllChannelsAnalyticsProcessor $processor */
@@ -27,6 +28,7 @@ class CalculateAllChannelsAnalyticsProcessorTest extends BaseCalculateAllChannel
         self::assertMessagesCount(CalculateChannelAnalyticsTopic::getName(), 3);
     }
 
+    #[\Override]
     public function testShouldSendCalculateAnalyticsMessageOnlyForActiveChannels(): void
     {
         /** @var Channel $channel */

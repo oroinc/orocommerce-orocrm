@@ -22,6 +22,7 @@ class OroAccountInheritanceTarget implements Migration, ContainerAwareInterface,
     use ContainerAwareTrait;
     use ExtendExtensionAwareTrait;
 
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries): void
     {
         $customerPath = [

@@ -16,6 +16,7 @@ class ResetConsentContactReasonSystemConfigListenerTest extends \PHPUnit\Framewo
     /** @var ResetConsentContactReasonSystemConfigListener */
     private $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->configManager = $this->createMock(ConfigManager::class);

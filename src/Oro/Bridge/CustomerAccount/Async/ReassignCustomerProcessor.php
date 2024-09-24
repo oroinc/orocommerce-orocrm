@@ -27,9 +27,7 @@ class ReassignCustomerProcessor implements MessageProcessorInterface, TopicSubsc
         $this->jobRunner = $jobRunner;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function process(MessageInterface $message, SessionInterface $session)
     {
         $messageBody = $message->getBody();
@@ -44,9 +42,7 @@ class ReassignCustomerProcessor implements MessageProcessorInterface, TopicSubsc
         return $result ? self::ACK : self::REJECT;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public static function getSubscribedTopics()
     {
         return [ReassignCustomerAccountTopic::getName()];

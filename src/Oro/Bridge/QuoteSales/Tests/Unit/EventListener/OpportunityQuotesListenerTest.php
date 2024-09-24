@@ -19,6 +19,7 @@ class OpportunityQuotesListenerTest extends \PHPUnit\Framework\TestCase
     /** @var \PHPUnit\Framework\MockObject\MockObject */
     private $translator;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->opportunityQuotesProvider = $this->createMock(OpportunityQuotesProvider::class);

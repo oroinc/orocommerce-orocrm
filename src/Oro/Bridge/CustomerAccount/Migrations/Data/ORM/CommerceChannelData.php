@@ -16,17 +16,13 @@ use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
  */
 class CommerceChannelData extends AbstractDefaultChannelDataFixture
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getDependencies(): array
     {
         return array_merge(parent::getDependencies(), [CreateAccountEntities::class, CommerceChannel::class]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         /** @var Channel $channel */
@@ -51,9 +47,7 @@ class CommerceChannelData extends AbstractDefaultChannelDataFixture
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function fillChannelToEntity(
         ObjectManager $manager,
         Channel $channel,
@@ -75,9 +69,7 @@ class CommerceChannelData extends AbstractDefaultChannelDataFixture
         $qb->getQuery()->execute();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function updateLifetime(
         ObjectManager $manager,
         array $accountIds,

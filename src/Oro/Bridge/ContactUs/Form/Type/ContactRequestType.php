@@ -42,9 +42,7 @@ class ContactRequestType extends AbstractType
         $this->localizationHelper = $localizationHelper;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->remove('submit');
@@ -108,9 +106,7 @@ class ContactRequestType extends AbstractType
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -119,9 +115,7 @@ class ContactRequestType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getParent(): ?string
     {
         return BaseContactRequestType::class;

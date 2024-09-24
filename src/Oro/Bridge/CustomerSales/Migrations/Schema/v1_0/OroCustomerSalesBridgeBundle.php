@@ -13,9 +13,7 @@ class OroCustomerSalesBridgeBundle implements Migration, CustomerExtensionAwareI
 {
     use CustomerExtensionTrait;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries)
     {
         $this->customerExtension->addCustomerAssociation($schema, 'oro_customer');

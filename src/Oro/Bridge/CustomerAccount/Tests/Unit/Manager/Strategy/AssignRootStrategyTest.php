@@ -21,6 +21,7 @@ class AssignRootStrategyTest extends \PHPUnit\Framework\TestCase
     /** @var AssignRootStrategy */
     private $strategy;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->manager = $this->createMock(AccountCustomerManager::class);

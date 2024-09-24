@@ -36,9 +36,7 @@ class ContactRequestHelperTest extends \PHPUnit\Framework\TestCase
     /** @var ContactRequestHelper */
     private $helper;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);

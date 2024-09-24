@@ -22,9 +22,7 @@ class LoadAccount extends AbstractFixture implements DependentFixtureInterface
         ]
     ];
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDependencies()
     {
         return [
@@ -32,9 +30,7 @@ class LoadAccount extends AbstractFixture implements DependentFixtureInterface
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         foreach ($this->accounts as $name => $order) {

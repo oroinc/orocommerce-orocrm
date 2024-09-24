@@ -27,6 +27,7 @@ class AccountProviderTest extends \PHPUnit\Framework\TestCase
     /** @var AccountCustomerManager|\PHPUnit\Framework\MockObject\MockObject */
     private $customerManager;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->configManager = self::createMock(ConfigManager::class);

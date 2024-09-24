@@ -42,6 +42,7 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit\Framework\TestCase
     /** @var Account[] */
     private $accounts = [];
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);

@@ -13,9 +13,7 @@ class Configuration implements ConfigurationInterface
     const ENABLE_CONTACT_REQUEST = 'enable_contact_request';
     const CONSENT_CONTACT_REASON = 'consent_contact_reason';
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder(self::ROOT_NODE);

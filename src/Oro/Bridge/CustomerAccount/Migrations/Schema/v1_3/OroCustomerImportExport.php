@@ -18,6 +18,7 @@ class OroCustomerImportExport implements Migration
      * @param QueryBag $queries
      * @return void
      */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries)
     {
         $queries->addQuery(

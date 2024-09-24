@@ -10,9 +10,7 @@ class CustomerIconProvider implements CustomerIconProviderInterface
 {
     const CUSTOMER_ICON_FILE = 'bundles/orocustomersalesbridge/img/customer-logo.png';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getIcon($entity)
     {
         if (!$entity instanceof Customer) {

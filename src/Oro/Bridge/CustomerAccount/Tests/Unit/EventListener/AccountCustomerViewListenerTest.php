@@ -16,9 +16,7 @@ class AccountCustomerViewListenerTest extends \PHPUnit\Framework\TestCase
 
     private AccountCustomerViewListener $listener;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
         $this->accountCustomerManager = $this->createMock(AccountCustomerManager::class);

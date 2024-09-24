@@ -11,9 +11,7 @@ use Oro\Bundle\TaxBundle\Tests\Functional\Controller\CustomerControllerTest as B
 
 class TaxAccountControllerTest extends BaseAccountControllerTest
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getFixtureList(): array
     {
         $values = parent::getFixtureList();
@@ -22,9 +20,7 @@ class TaxAccountControllerTest extends BaseAccountControllerTest
         return $values;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getFormValues(
         string $name,
         Customer $parent,

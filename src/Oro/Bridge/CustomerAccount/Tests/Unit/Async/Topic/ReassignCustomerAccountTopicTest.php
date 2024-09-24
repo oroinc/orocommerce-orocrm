@@ -10,11 +10,13 @@ use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 class ReassignCustomerAccountTopicTest extends AbstractTopicTestCase
 {
+    #[\Override]
     protected function getTopic(): TopicInterface
     {
         return new ReassignCustomerAccountTopic();
     }
 
+    #[\Override]
     public function validBodyDataProvider(): array
     {
         $requiredOptionsSet = [
@@ -32,6 +34,7 @@ class ReassignCustomerAccountTopicTest extends AbstractTopicTestCase
     /**
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
+    #[\Override]
     public function invalidBodyDataProvider(): array
     {
         return [

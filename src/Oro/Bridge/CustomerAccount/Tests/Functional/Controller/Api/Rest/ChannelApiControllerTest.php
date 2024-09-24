@@ -7,17 +7,13 @@ use Oro\Bundle\ChannelBundle\Tests\Functional\Controller\Api\Rest\ChannelApiCont
 
 class ChannelApiControllerTest extends BaseControllerTest
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getExpectedCountForCget(): int
     {
         return 3;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function assertActiveChannels(array $channels): void
     {
         /** @var Channel $activeChannel */

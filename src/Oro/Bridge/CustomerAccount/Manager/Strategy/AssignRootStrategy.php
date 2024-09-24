@@ -6,17 +6,13 @@ class AssignRootStrategy extends AssignStrategyAbstract
 {
     const NAME = 'root';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getName()
     {
         return self::NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function process($entity)
     {
         $objects = [];

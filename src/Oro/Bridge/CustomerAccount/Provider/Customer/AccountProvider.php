@@ -25,6 +25,7 @@ class AccountProvider implements AccountProviderInterface
     ) {
     }
 
+    #[\Override]
     public function getAccount($targetCustomer): ?Account
     {
         if (!$targetCustomer instanceof Customer) {

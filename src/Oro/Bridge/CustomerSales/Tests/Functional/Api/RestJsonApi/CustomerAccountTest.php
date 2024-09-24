@@ -13,6 +13,7 @@ use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
  */
 class CustomerAccountTest extends RestJsonApiTestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

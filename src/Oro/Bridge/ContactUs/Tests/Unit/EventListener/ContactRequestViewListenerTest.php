@@ -14,6 +14,7 @@ class ContactRequestViewListenerTest extends \PHPUnit\Framework\TestCase
     /** @var ContactRequestViewListener */
     private $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->listener = new ContactRequestViewListener();

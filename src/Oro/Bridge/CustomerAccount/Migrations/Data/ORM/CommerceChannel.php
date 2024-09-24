@@ -17,9 +17,7 @@ class CommerceChannel extends AbstractFixture implements ContainerAwareInterface
 
     public const COMMERCE_CHANNEL_TYPE = 'commerce';
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         $channel = $this->container->get('oro_channel.builder.factory')

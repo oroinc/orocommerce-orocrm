@@ -196,9 +196,7 @@ class ContactRequestTypeTest extends TypeTestCase
         $this->assertEquals(BaseContactRequestType::class, $this->type->getParent());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
         $this->registry = $this->createMock(ManagerRegistry::class);
@@ -214,9 +212,7 @@ class ContactRequestTypeTest extends TypeTestCase
         parent::setUp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         return [

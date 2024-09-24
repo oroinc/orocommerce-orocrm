@@ -18,11 +18,13 @@ class LoadContactReasonData extends AbstractFixture implements ContainerAwareInt
     /** @var ContainerInterface */
     private $container;
 
+    #[\Override]
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
     }
 
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         $reasonLabel = 'General Data Protection Regulation details';

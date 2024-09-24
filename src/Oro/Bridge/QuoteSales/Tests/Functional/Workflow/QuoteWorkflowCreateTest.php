@@ -15,9 +15,7 @@ use Symfony\Component\DomCrawler\Form;
  */
 class QuoteWorkflowCreateTest extends WebTestCase
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient([], $this->generateWsseAuthHeader());

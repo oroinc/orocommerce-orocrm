@@ -19,9 +19,7 @@ class OroCustomerLifetimeField implements
 {
     use ExtendExtensionAwareTrait;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries)
     {
         if ($schema->hasTable('oro_customer')) {

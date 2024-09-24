@@ -11,9 +11,7 @@ class Configuration implements ConfigurationInterface
     const DEFAULT_CREATE_METHOD = 'each';
     const DEFAULT_SECTION_NAME = 'Commerce Customers';
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('oro_customer_account_bridge');

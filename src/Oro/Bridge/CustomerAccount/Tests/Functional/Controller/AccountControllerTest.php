@@ -10,17 +10,13 @@ use Oro\Bundle\EntityExtendBundle\Entity\EnumOptionInterface;
 
 class AccountControllerTest extends CustomerControllerTest
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getFixtureList(): array
     {
         return array_merge(parent::getFixtureList(), [LoadAccount::class]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function prepareFormValues(
         string $name,
         ?CustomerGroup $group,

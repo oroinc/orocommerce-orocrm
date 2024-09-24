@@ -15,6 +15,7 @@ class OpportunityQuotesListenerTest extends AbstractDatagridTestCase
     /** @var WorkflowManager */
     private $manager;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient(['debug' => false], $this->generateBasicAuthHeader());
@@ -48,6 +49,7 @@ class OpportunityQuotesListenerTest extends AbstractDatagridTestCase
     /**
      * @dataProvider gridProvider
      */
+    #[\Override]
     public function testGrid(array $requestData)
     {
         $this->manager->deactivateWorkflow('b2b_quote_backoffice_approvals');
@@ -79,9 +81,7 @@ class OpportunityQuotesListenerTest extends AbstractDatagridTestCase
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function gridProvider(): array
     {
         return [

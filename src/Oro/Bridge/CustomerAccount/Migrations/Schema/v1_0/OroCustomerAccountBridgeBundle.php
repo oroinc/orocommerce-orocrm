@@ -21,9 +21,7 @@ class OroCustomerAccountBridgeBundle implements
     use ExtendExtensionAwareTrait;
     use ActivityListExtensionAwareTrait;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries)
     {
         if ($schema->hasTable('oro_customer') && $schema->hasTable('orocrm_account')) {

@@ -10,6 +10,7 @@ class CustomerIconProviderTest extends \PHPUnit\Framework\TestCase
 {
     private CustomerIconProvider $customerIconProvider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->customerIconProvider = new CustomerIconProvider();

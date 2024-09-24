@@ -12,9 +12,7 @@ use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
 
 class CreateAccountEntities extends AbstractFixture
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         $field = AccountCustomerManager::getCustomerTargetField(Customer::class);

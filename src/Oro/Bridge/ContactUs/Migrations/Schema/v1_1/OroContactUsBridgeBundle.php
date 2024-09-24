@@ -10,6 +10,7 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
 class OroContactUsBridgeBundle implements Migration
 {
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries): void
     {
         $queries->addPostQuery(

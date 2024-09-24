@@ -29,6 +29,7 @@ class ContactUsFormContentWidgetTypeTest extends \PHPUnit\Framework\TestCase
     /** @var ContactUsFormContentWidgetType */
     private $contentWidgetType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->formFactory = $this->createMock(FormFactoryInterface::class);

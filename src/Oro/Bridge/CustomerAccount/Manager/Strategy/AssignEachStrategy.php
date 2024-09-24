@@ -10,17 +10,13 @@ class AssignEachStrategy extends AssignStrategyAbstract
 {
     const NAME = 'each';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getName()
     {
         return self::NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function process($entity)
     {
         $objects = [];

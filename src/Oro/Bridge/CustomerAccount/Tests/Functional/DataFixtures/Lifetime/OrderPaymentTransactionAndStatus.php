@@ -33,9 +33,7 @@ class OrderPaymentTransactionAndStatus extends AbstractFixture implements Depend
         ]
     ];
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDependencies()
     {
         return [
@@ -43,9 +41,7 @@ class OrderPaymentTransactionAndStatus extends AbstractFixture implements Depend
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager)
     {
         foreach ($this->orders as $orderReferenceName => $config) {

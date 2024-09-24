@@ -35,23 +35,19 @@ class ContactUsFormContentWidgetType extends AbstractContentWidgetType
         $this->requestStack = $requestStack;
     }
 
-    /** {@inheritdoc} */
+    #[\Override]
     public static function getName(): string
     {
         return 'contact_us_form';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getLabel(): string
     {
         return 'oro.contactus.content_widget.contact_us_form.label';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getWidgetData(ContentWidget $contentWidget): array
     {
         $form = $this->formFactory->create(
@@ -68,9 +64,7 @@ class ContactUsFormContentWidgetType extends AbstractContentWidgetType
         return ['form' => $form->createView()];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getDefaultTemplate(ContentWidget $contentWidget, Environment $twig): string
     {
         return $twig->render(

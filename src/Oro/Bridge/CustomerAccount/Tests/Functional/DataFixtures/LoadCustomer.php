@@ -29,17 +29,13 @@ class LoadCustomer extends AbstractFixture implements DependentFixtureInterface,
         ]
     ];
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getDependencies(): array
     {
         return [LoadAccount::class, LoadUserData::class, LoadOrganization::class];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         $this->createChannel($manager);

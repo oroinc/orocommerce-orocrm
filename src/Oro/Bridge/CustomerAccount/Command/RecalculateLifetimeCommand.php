@@ -32,6 +32,7 @@ class RecalculateLifetimeCommand extends AbstractRecalculateLifetimeCommand
         $this->lifetimeProcessor = $lifetimeProcessor;
     }
 
+    #[\Override]
     public function configure()
     {
         parent::configure();
@@ -40,6 +41,7 @@ class RecalculateLifetimeCommand extends AbstractRecalculateLifetimeCommand
             ->addUsage('--force');
     }
 
+    #[\Override]
     protected function getChannelType(): string
     {
         return 'commerce';
@@ -51,6 +53,7 @@ class RecalculateLifetimeCommand extends AbstractRecalculateLifetimeCommand
      * @return float
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
+    #[\Override]
     protected function calculateCustomerLifetime(EntityManager $em, object $customer): float
     {
         return $this->lifetimeProcessor->calculateLifetimeValue($customer);
@@ -60,6 +63,7 @@ class RecalculateLifetimeCommand extends AbstractRecalculateLifetimeCommand
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @noinspection PhpMissingParentCallCommonInspection
      */
+    #[\Override]
     protected function getCustomersQueryBuilder(
         EntityManager $em,
         string $customerClass,
@@ -73,6 +77,7 @@ class RecalculateLifetimeCommand extends AbstractRecalculateLifetimeCommand
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @noinspection PhpMissingParentCallCommonInspection
      */
+    #[\Override]
     protected function getCustomerClass($channelSettings): string
     {
         return Customer::class;

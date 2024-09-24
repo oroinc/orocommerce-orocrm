@@ -13,17 +13,13 @@ class OroCustomerSalesBridgeBundleInstaller implements Installation, CustomerExt
 {
     use CustomerExtensionTrait;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getMigrationVersion(): string
     {
         return 'v1_0';
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries): void
     {
         $this->customerExtension->addCustomerAssociation($schema, 'oro_customer');

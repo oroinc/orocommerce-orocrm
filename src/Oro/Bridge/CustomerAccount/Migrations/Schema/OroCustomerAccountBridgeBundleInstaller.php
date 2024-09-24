@@ -24,17 +24,13 @@ class OroCustomerAccountBridgeBundleInstaller implements
     use ExtendExtensionAwareTrait;
     use ActivityListExtensionAwareTrait;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getMigrationVersion(): string
     {
         return 'v1_5';
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries): void
     {
         if ($schema->hasTable('oro_customer') && $schema->hasTable('orocrm_account')) {

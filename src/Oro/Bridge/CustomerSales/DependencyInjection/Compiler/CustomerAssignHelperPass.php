@@ -13,9 +13,7 @@ class CustomerAssignHelperPass implements CompilerPassInterface
 {
     const HELPER_SERVICE_NAME = 'oro_customer.customer.assign.helper';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition(self::HELPER_SERVICE_NAME)) {

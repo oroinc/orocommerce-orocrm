@@ -18,6 +18,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
  */
 class ActionGroupTest extends ActionTestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

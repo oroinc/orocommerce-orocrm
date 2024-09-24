@@ -12,6 +12,7 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class CustomerCreateListenerTest extends WebTestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

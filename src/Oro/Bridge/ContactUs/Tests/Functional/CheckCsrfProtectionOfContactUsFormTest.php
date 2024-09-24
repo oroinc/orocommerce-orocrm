@@ -6,6 +6,7 @@ use Oro\Bundle\FrontendTestFrameworkBundle\Test\FrontendWebTestCase;
 
 class CheckCsrfProtectionOfContactUsFormTest extends FrontendWebTestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();

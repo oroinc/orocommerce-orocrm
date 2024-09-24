@@ -11,9 +11,7 @@ use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerData
  */
 class CustomerTest extends RestJsonApiTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
