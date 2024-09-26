@@ -28,14 +28,11 @@ system_configuration:
                     customer:
                         priority: 1000
                         children:
-                            contact_requests:
-                                priority: 100
+                            customer_user_interactions:
                                 children:
                                     contact_requests_check:
                                         children:
                                             - oro_contact_us_bridge.enable_contact_request
-                            consents:
-                                children:
                                     consents:
                                         children:
                                             - oro_consent.consent_feature_enabled

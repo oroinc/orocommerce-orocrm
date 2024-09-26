@@ -23,7 +23,7 @@ Feature: Contact us widget
 
   Scenario: Disable contact requests
     Given I go to System/ Configuration
-    And follow "Commerce/Customer/Contact Requests" on configuration sidebar
+    And follow "Commerce/Customer/Interactions" on configuration sidebar
     When I uncheck "Use default" for "Allow Contact Requests" field
     And fill form with:
       | Allow Contact Requests | false |

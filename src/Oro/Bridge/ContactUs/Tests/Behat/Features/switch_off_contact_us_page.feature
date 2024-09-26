@@ -7,7 +7,7 @@ Feature: Switch off contact us page
   Scenario: Disable contact us page on System level
     Given I login as administrator
     And I go to System/ Configuration
-    And I follow "Commerce/Customer/Contact Requests" on configuration sidebar
+    And I follow "Commerce/Customer/Interactions" on configuration sidebar
     And uncheck "Use default" for "Allow Contact Requests" field
     And I fill form with:
       | Allow Contact Requests | false |
