@@ -13,9 +13,8 @@ Feature: New fields appear on the view and edit pages
     # Enable Consent Management
     And go to System/Configuration
     And follow "Commerce/Customer/Consents" on configuration sidebar
-    And fill form with:
-      | Use Default                  | false |
-      | Enable User Consents Feature | true  |
+    And I uncheck "Use default" for "Enable user consents feature" field
+    And I check "Enable user consents feature"
     And click "Save settings"
 
   Scenario Outline: Create extend fields

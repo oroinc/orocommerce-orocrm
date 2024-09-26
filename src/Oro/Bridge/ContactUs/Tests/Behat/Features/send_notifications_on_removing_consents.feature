@@ -41,9 +41,8 @@ Feature: Send notifications on removing consents
     Given go to System/ Configuration
     And follow "Commerce/Customer/Consents" on configuration sidebar
     And I should not see a "Sortable Consent List" element
-    And fill form with:
-      | Use Default                  | false |
-      | Enable User Consents Feature | true  |
+    And I uncheck "Use default" for "Enable user consents feature" field
+    And I check "Enable user consents feature"
     And click "Save settings"
 
   Scenario: Create Consent
@@ -64,8 +63,7 @@ Feature: Send notifications on removing consents
   Scenario: Enable Consent on the system level
     Given go to System/ Configuration
     And follow "Commerce/Customer/Consents" on configuration sidebar
-    And fill "Consent Settings Form" with:
-      | Enabled User Consents Use Default | false |
+    And I uncheck "Use default" for "Enabled user consents" field
     When click "Save settings"
     Then I should see "Configuration saved" flash message
     And click "Add Consent"
