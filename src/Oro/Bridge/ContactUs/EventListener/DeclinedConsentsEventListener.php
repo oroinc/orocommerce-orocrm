@@ -37,8 +37,10 @@ class DeclinedConsentsEventListener
         $entityManager = $this->getEntityManager();
 
         foreach ($declinedConsents as $declinedConsent) {
-            $contactRequest = $this->contactRequestHelper->createContactRequest($declinedConsent, $customerUser);
-            $entityManager->persist($contactRequest);
+            if ($declinedConsent->getConsent()->getDeclinedNotification()) {
+                $contactRequest = $this->contactRequestHelper->createContactRequest($declinedConsent, $customerUser);
+                $entityManager->persist($contactRequest);
+            }
         }
 
         $entityManager->flush();
