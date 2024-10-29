@@ -6,6 +6,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bridge\ContactUs\EventListener\DeclinedConsentsEventListener;
 use Oro\Bridge\ContactUs\Helper\ContactRequestHelper;
+use Oro\Bundle\ConsentBundle\Entity\Consent;
 use Oro\Bundle\ConsentBundle\Entity\ConsentAcceptance;
 use Oro\Bundle\ConsentBundle\Event\DeclinedConsentsEvent;
 use Oro\Bundle\ContactUsBundle\Entity\ContactRequest;
@@ -54,6 +55,13 @@ class DeclinedConsentsEventListenerTest extends \PHPUnit\Framework\TestCase
         $this->mockRegistry();
 
         $declinedConsent = $this->getEntity(ConsentAcceptance::class, ['id' => 1]);
+        $consent = $this->getEntity(Consent::class, ['id' => 1]);
+        $declinedConsent->setConsent($consent);
+
+        $declinedConsentWithoutNotification = $this->getEntity(ConsentAcceptance::class, ['id' => 2]);
+        $consentWithoutNotification = $this->getEntity(Consent::class, ['id' => 2, 'declinedNotification' => false]);
+        $declinedConsentWithoutNotification->setConsent($consentWithoutNotification);
+
         $customerUser = $this->getEntity(CustomerUser::class, ['id' => 1]);
         $contactRequest = $this->getEntity(ContactRequest::class, ['id' => 1]);
 
@@ -68,7 +76,7 @@ class DeclinedConsentsEventListenerTest extends \PHPUnit\Framework\TestCase
         $this->entityManager->expects($this->once())
             ->method('flush');
 
-        $event = new DeclinedConsentsEvent([$declinedConsent], $customerUser);
+        $event = new DeclinedConsentsEvent([$declinedConsent, $declinedConsentWithoutNotification], $customerUser);
 
         $this->listener->onDecline($event);
     }
