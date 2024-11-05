@@ -1,12 +1,12 @@
 {
     "name": "oro/commerce-crm",
     "description": "OroCRM integration for OroCommerce",
-    "homepage": "https://github.com/orocommerce/orocommerce-orocrm",
+    "homepage": "https://github.com/oroinc/orocommerce-orocrm",
     "license": "OSL-3.0",
     "authors": [
         {
             "name": "Oro, Inc",
-            "homepage": "https://www.orocommerce.com/"
+            "homepage": "https://oroinc.com/"
         }
     ],
     "autoload": {
@@ -27,7 +27,7 @@
     "repositories": {
         "oro": {
             "type": "composer",
-            "url": "https://packagist.orocrm.com"
+            "url": "https://packagist.oroinc.com"
         }
     },
     "minimum-stability": "dev",
