@@ -56,8 +56,8 @@ Feature: Default workflow for Commerce Sales Rep
     And I go to Sales/Opportunities
     When I click "Create Opportunity"
     And I fill form with:
-      | Opportunity Name | Europe Oppo 2x1  |
-      | Probability (%)  | 2             |
+      | Opportunity Name | Europe Oppo 2x1 |
+      | Probability (%)  | 2               |
     And I type "Commerce John" in "Account"
     And I should see "Commerce John (Customer)"
     And I click on "Customer Related Account"
@@ -72,8 +72,8 @@ Feature: Default workflow for Commerce Sales Rep
   Scenario: Sales Rep develops Opportunity
     Given I click "Develop"
     When I fill form with:
-      | Status          | Needs Analysis  |
-      | Probability (%) | 52              |
+      | Status          | Needs Analysis |
+      | Probability (%) | 52             |
     And I click "Submit"
     Then I should see "Needs Analysis" green status
     And I should see following buttons:
@@ -101,16 +101,18 @@ Feature: Default workflow for Commerce Sales Rep
 
   Scenario: Sales Rep closes Opportunity as Lost
     Given I click "Close as Lost"
+    And I fill "Opportunity Transition Form" with:
+      | Close Date    | Sep 30, 2019 |
     When I click "Submit"
     Then I should see "Closed Lost" gray status
     And I should see following buttons:
-      | Reopen      |
+      | Reopen |
 
   Scenario: Sales Rep reopens Opportunity
     Given I click "Reopen"
     When I fill form with:
       | Status          | Open |
-      | Probability (%) | 3 |
+      | Probability (%) | 3    |
     And I click "Submit"
     Then I should see "Open" green status
     And I should see following buttons:
@@ -122,7 +124,7 @@ Feature: Default workflow for Commerce Sales Rep
   Scenario: Sales Rep creates Quote for Opportunity and closes as Won
     Given I click "Create Quote"
     When I fill form with:
-      | Website  | SaleSite |
+      | Website | SaleSite |
     And fill "Quote Line Items" with:
       | Product    | SKU123 |
       | Unit Price | 90     |
@@ -137,17 +139,18 @@ Feature: Default workflow for Commerce Sales Rep
       | Create Quote  |
     But I click "Close as Won"
     And I fill "Opportunity Transition Form" with:
-      | Close Revenue | 12000 |
+      | Close Date    | Sep 30, 2019 |
+      | Close Revenue | 12000        |
     And click "Submit"
     Then I should see "Closed Won" green status
     And I should see following buttons:
-      | Reopen      |
+      | Reopen |
 
   Scenario: Sales Rep reopens and closes Opportunity and as Lost
     Given I click "Reopen"
     When I fill form with:
-      | Status          | Open   |
-      | Probability (%) | 4               |
+      | Status          | Open |
+      | Probability (%) | 4    |
     And click "Submit"
     Then I should see "Open" green status
     And I should see following buttons:
@@ -156,10 +159,12 @@ Feature: Default workflow for Commerce Sales Rep
       | Close as Lost |
       | Create Quote  |
     But I click "Close as Lost"
+    And I fill "Opportunity Transition Form" with:
+      | Close Date    | Sep 30, 2019 |
     And click "Submit"
     Then I should see "Closed Lost" gray status
     And I should see following buttons:
-      | Reopen      |
+      | Reopen |
 
   Scenario: Sales Rep reopens and closes Opportunity and as Won
     Given I click "Reopen"
@@ -175,8 +180,9 @@ Feature: Default workflow for Commerce Sales Rep
       | Create Quote  |
     But I click "Close as Won"
     And I fill "Opportunity Transition Form" with:
-      | Close Revenue | 13000 |
+      | Close Date    | Sep 30, 2019 |
+      | Close Revenue | 13000        |
     And click "Submit"
     Then I should see "Closed Won" green status
     And I should see following buttons:
-      | Reopen      |
+      | Reopen |
