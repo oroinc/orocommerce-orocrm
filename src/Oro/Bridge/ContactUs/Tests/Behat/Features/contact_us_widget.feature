@@ -107,3 +107,21 @@ Feature: Contact us widget
     Then I should see validation errors:
       |Email      | This value is too long. It should have 100 characters or less. |
       |Phone      | This value is too long. It should have 100 characters or less. |
+    When fill form with:
+      |Preferred contact method|Email             |
+      |Email                   |tes@@testx.com    |
+      |Phone                   |                  |
+      |Contact Reason          |Other             |
+      |Comment                 |Testers Comment   |
+    And I click "Submit"
+    And I should see "Email: This value is not a valid email address." flash message and I close it
+    When fill form with:
+      |Preferred contact method|Both phone & email |
+      |First Name              |Amanda             |
+      |Last Name               |Cole               |
+      |Email                   |tes@@testx.com     |
+      |Phone                   |22342342342354     |
+      |Contact Reason          |Other              |
+      |Comment                 |Testers Comment    |
+    And I click "Submit"
+    And I should see "Email: This value is not a valid email address." flash message and I close it
