@@ -16,12 +16,3 @@
         {{- block_widget(block) -}}
     </div>
 {% endblock %}
-
-{% block _contact_us_required_label_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' required-label',
-        'aria-hidden': 'true'
-    }) %}
-
-    <p {{ block('block_attributes') }}><span class="required-symbol" aria-hidden="true">*</span> {{ 'oro.contactus.required_info'|trans }}</p>
-{% endblock %}
