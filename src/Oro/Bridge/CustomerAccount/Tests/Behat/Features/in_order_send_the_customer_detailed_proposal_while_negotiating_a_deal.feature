@@ -107,7 +107,7 @@ Feature: In order send the customer detailed proposal while negotiating a deal
     When I click "Quotes"
     Then records in "Customer Quotes Grid" should be 1
     When I click "View"
-    Then I should see SKU123 in Quote View Grid with following data:
+    Then I should see SKU123 in Frontend Quote Grid with following data:
       | Quantity   | 1 item or more |
       | Unit Price | $10.00         |
 
