@@ -25,7 +25,7 @@ class Customer extends BaseCustomer
         return $this->account;
     }
 
-    public function setAccount(Account $account = null)
+    public function setAccount(?Account $account = null)
     {
         $this->account = $account;
     }
@@ -35,7 +35,7 @@ class Customer extends BaseCustomer
         return $this->previousAccount;
     }
 
-    public function setPreviousAccount(Account $account = null)
+    public function setPreviousAccount(?Account $account = null)
     {
         $this->previousAccount = $account;
     }

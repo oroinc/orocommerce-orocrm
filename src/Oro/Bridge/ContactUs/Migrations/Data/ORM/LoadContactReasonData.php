@@ -19,7 +19,7 @@ class LoadContactReasonData extends AbstractFixture implements ContainerAwareInt
     private $container;
 
     #[\Override]
-    public function setContainer(ContainerInterface $container = null)
+    public function setContainer(?ContainerInterface $container = null)
     {
         $this->container = $container;
     }

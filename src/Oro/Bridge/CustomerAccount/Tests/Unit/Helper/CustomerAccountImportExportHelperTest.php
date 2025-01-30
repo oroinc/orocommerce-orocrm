@@ -80,7 +80,7 @@ class CustomerAccountImportExportHelperTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider denormalizeAccountWithProperArrayDataProvider
      */
-    public function testDenormalizeAccountWithProperArray(array $data, Account $expectedAccount = null)
+    public function testDenormalizeAccountWithProperArray(array $data, ?Account $expectedAccount = null)
     {
         $this->shouldCallAccountRepository(1);
         $this->andShouldFind(1);
