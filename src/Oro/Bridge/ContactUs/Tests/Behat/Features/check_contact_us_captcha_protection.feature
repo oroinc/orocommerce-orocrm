@@ -1,6 +1,7 @@
 @regression
 @behat-test-env
 @ticket-BB-24484
+@fixture-OroContactUsBridgeBundle:CustomerUserFixture.yml
 
 Feature: Check Contact Us captcha protection
 
@@ -27,7 +28,7 @@ Feature: Check Contact Us captcha protection
     And I submit form
     Then I should see "Configuration saved" flash message
 
-  Scenario: Check CAPTCHA protection for Customer User Reset Password Form
+  Scenario: Check CAPTCHA protection for Contact Us
     Given I proceed as the Buyer
 
     When I am on the homepage
@@ -52,5 +53,31 @@ Feature: Check Contact Us captcha protection
       | Email                    | qa@oroinc.com |
       | Comment                  | Test Comment  |
       | Captcha                  | valid         |
+    And I click "Submit"
+    Then I should see "Thank you for your Request!" flash message
+
+  Scenario: Check CAPTCHA can be skipped for logged in Customer User
+    Given I proceed as the Admin
+    And uncheck "Use default" for "Use CAPTCHA for logged in user" field
+    And I uncheck "Use CAPTCHA for logged in user"
+    And I submit form
+    Then I should see "Configuration saved" flash message
+
+    When I proceed as the Buyer
+    And I am on the homepage
+    And I click "Contact Us" in hamburger menu
+    Then I should see "Captcha"
+
+    When I am on the homepage
+    And I signed in as AmandaRCole@example.org on the store frontend
+    And I click "Contact Us" in hamburger menu
+    Then I should not see "Captcha"
+
+    When fill form with:
+      | First Name               | Test          |
+      | Last Name                | Tester        |
+      | Preferred contact method | Email         |
+      | Email                    | qa@oroinc.com |
+      | Comment                  | Test Comment  |
     And I click "Submit"
     Then I should see "Thank you for your Request!" flash message
