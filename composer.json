@@ -18,7 +18,7 @@
             "Oro\\Bridge\\SaleActivityContact\\": "src/Oro/Bridge/SaleActivityContact",
             "Oro\\Bundle\\DemoDataCommerceCRMBundle\\": "src/Oro/Bundle/DemoDataCommerceCRMBundle"
         },
-        "exclude-from-classmap": ["/Tests/"]
+        "exclude-from-classmap": ["**/Tests/"]
     },
     "require": {
         "oro/crm": "6.0.*",
