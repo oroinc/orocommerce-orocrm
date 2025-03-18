@@ -16,23 +16,11 @@ use Twig\Environment;
  */
 class ContactUsFormContentWidgetType extends AbstractContentWidgetType
 {
-    /** @var FormFactoryInterface */
-    private $formFactory;
-
-    /** @var UrlGeneratorInterface */
-    private $urlGenerator;
-
-    /** @var RequestStack */
-    private $requestStack;
-
     public function __construct(
-        FormFactoryInterface $formFactory,
-        UrlGeneratorInterface $urlGenerator,
-        RequestStack $requestStack
+        private FormFactoryInterface $formFactory,
+        private UrlGeneratorInterface $urlGenerator,
+        private RequestStack $requestStack
     ) {
-        $this->formFactory = $formFactory;
-        $this->urlGenerator = $urlGenerator;
-        $this->requestStack = $requestStack;
     }
 
     #[\Override]

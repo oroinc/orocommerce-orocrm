@@ -17,6 +17,19 @@ The current file describes significant changes in the code that may affect the u
 - [1.3.0](#130-2017-07-28)
 - [1.2.0](#120-2017-06-01)
 
+## UNRELEASED
+
+### Added
+
+#### ContactUsBridge
+* Added a new `contact_us_form` theme config option.
+
+### Changed
+
+#### ContactUsBridge
+* Replaced the form with the `contact_us_form` widget on the `Contact Us` page.
+
+
 ## 6.0.0 (2024-03-30)
 [Show detailed list of changes](incompatibilities-6-0.md)
 

@@ -9,11 +9,12 @@ layout:
             themes: '@OroContactUsBridge/layouts/default/oro_contactus_bridge_contact_us_page/layout.html.twig'
 
         - '@add':
-            id: form_item
+            id: contact_us_widget
             parentId: page_content
-            blockType: form_fields
+            blockType: content_widget
             options:
-                form: '=data["contact_us_request_form"]'
+                visible: '=data["theme_configuration"].getThemeConfigurationOption("contact_us__contact_us_form")'
+                name: '=data["content_widget_data"].getContentWidgetNameByThemeConfigKey("contact_us__contact_us_form")'
 
         - '@setOption':
             id: page_title

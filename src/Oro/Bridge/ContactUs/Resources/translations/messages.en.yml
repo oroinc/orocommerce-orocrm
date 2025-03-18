@@ -15,11 +15,22 @@ oro.contactus:
     required_info: required info
 
 oro.contact_us_bridge:
-    frontend.navigation.items:
-        # Start Requirement for "Default Theme 50/51"
-        live_chat.label: 'Live Chat'
-        # End Requirement for "Default Theme 50/51"
-        contact_us.label: 'Contact Us'
+    frontend:
+        theme:
+            default:
+                configuration:
+                    contact_us:
+                        label: Contact US
+                        contact_us_form:
+                            label: Contact Us Form
+                            tooltip: 'If provided, this content widget will be displayed on the Contact Us page.'
+
+        navigation.items:
+            # Start Requirement for "Default Theme 50/51"
+            live_chat.label: 'Live Chat'
+            # End Requirement for "Default Theme 50/51"
+            contact_us.label: 'Contact Us'
+
     system_configuration:
         groups:
             contact_requests.label: Contact Requests

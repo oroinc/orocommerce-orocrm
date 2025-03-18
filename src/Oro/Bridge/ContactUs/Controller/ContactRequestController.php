@@ -11,7 +11,6 @@ use Symfony\Component\Form\FormErrorIterator;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -61,21 +60,11 @@ class ContactRequestController extends AbstractController
         return $redirectUrl;
     }
 
-    /**
-     * @return array|RedirectResponse
-     */
     #[Route(path: '/', name: 'oro_contactus_bridge_contact_us_page')]
     #[Layout]
-    public function contactUsPageAction()
+    public function contactUsPageAction(): array|RedirectResponse
     {
-        $contactRequest = new ContactRequest();
-        $form = $this->createForm(ContactRequestType::class, $contactRequest);
-        $result = $this->handleForm($form, $contactRequest);
-        if ($result instanceof Response) {
-            return $result;
-        }
-
-        return ['data' => ['contact_us_request_form' => $form->createView()]];
+        return [];
     }
 
     /**

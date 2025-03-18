@@ -1,0 +1,12 @@
+configuration:
+    sections:
+        contact_us:
+            label: 'oro.contact_us_bridge.frontend.theme.default.configuration.contact_us.label'
+            options:
+                contact_us_form:
+                    label: 'oro.contact_us_bridge.frontend.theme.default.configuration.contact_us.contact_us_form.label'
+                    type: content_widget_selector
+                    options:
+                        tooltip: 'oro.contact_us_bridge.frontend.theme.default.configuration.contact_us.contact_us_form.tooltip'
+                        widgetTypes:
+                            - contact_us_form
