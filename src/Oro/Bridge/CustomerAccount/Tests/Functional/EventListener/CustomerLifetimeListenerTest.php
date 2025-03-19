@@ -5,6 +5,7 @@ namespace Oro\Bridge\CustomerAccount\Tests\Functional\EventListener;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManager;
 use Oro\Bridge\CustomerAccount\Tests\Functional\DataFixtures\Lifetime\OrderPaymentTransactionAndStatus;
+use Oro\Bundle\CurrencyBundle\Entity\MultiCurrency;
 use Oro\Bundle\CustomerBundle\Entity\Audit;
 use Oro\Bundle\DataAuditBundle\Entity\AuditField;
 use Oro\Bundle\MessageQueueBundle\Test\Functional\MessageQueueExtension;
@@ -36,7 +37,7 @@ class CustomerLifetimeListenerTest extends WebTestCase
     {
         /** @var Order $order */
         $order = $this->getReference('my_order');
-        $order->setSubtotal(500);
+        $order->setSubtotalObject(MultiCurrency::create('500', 'USD'));
         $customer = $order->getCustomer();
         $em = $this->getEntityManager();
         self::assertEquals(1500.0, $customer->getLifetime());
