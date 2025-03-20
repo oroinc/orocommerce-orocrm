@@ -2,11 +2,11 @@
 
 namespace Oro\Bridge\ContactUs\Migrations\Data\ORM;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CMSBundle\Entity\ContentWidget;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\FrontendBundle\Migrations\Data\ORM\AbstractLoadFrontendTheme;
 use Oro\Bundle\FrontendBundle\Migrations\Data\ORM\LoadGlobalThemeConfigurationData;
 use Oro\Bundle\LayoutBundle\Layout\Extension\ThemeConfiguration as LayoutThemeConfiguration;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
@@ -17,9 +17,9 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 /**
- * Sets contact_us_form widget for theme configuration
+ * Sets contact_us_form widget for global theme configuration for active theme
  */
-class SetContactUsFormForThemeConfiguration extends AbstractFixture implements
+class SetContactUsFormForThemeConfiguration extends AbstractLoadFrontendTheme implements
     DependentFixtureInterface,
     ContainerAwareInterface
 {
@@ -31,11 +31,6 @@ class SetContactUsFormForThemeConfiguration extends AbstractFixture implements
     public function load(ObjectManager $manager): void
     {
         $organization = $manager->getRepository(Organization::class)->getFirst();
-        $themeConfiguration = $this->getThemeConfiguration($manager);
-        if (!$themeConfiguration) {
-            return;
-        }
-
         $contentWidget = $manager->getRepository(ContentWidget::class)->findOneBy([
             'name' => self::CONTACT_US_FORM,
             'organization' => $organization
@@ -45,23 +40,38 @@ class SetContactUsFormForThemeConfiguration extends AbstractFixture implements
             return;
         }
 
-        $key = LayoutThemeConfiguration::buildOptionKey('contact_us', self::CONTACT_US_FORM);
-        if (!$themeConfiguration->getConfigurationOption($key)) {
-            $themeConfiguration->addConfigurationOption($key, $contentWidget->getId());
+        $themeConfigurations = $this->getThemeConfigurations($manager, $organization);
+        if (!$themeConfigurations) {
+            return;
+        }
+
+        $doFlush = false;
+        foreach ($themeConfigurations as $themeConfiguration) {
+            $key = LayoutThemeConfiguration::buildOptionKey('contact_us', self::CONTACT_US_FORM);
+            if (!$themeConfiguration->getConfigurationOption($key)) {
+                $themeConfiguration->addConfigurationOption($key, $contentWidget->getId());
+                $doFlush = true;
+            }
+        }
+
+        if ($doFlush) {
             $manager->flush();
         }
     }
 
-    protected function getThemeConfiguration(ObjectManager $manager): ?ThemeConfiguration
+    protected function getThemeConfigurations(ObjectManager $manager, Organization $organization): array
     {
         /** @var ConfigManager $configManager */
         $configManager = $this->container->get('oro_config.global');
         $value = $configManager->get(Configuration::getConfigKeyByName(Configuration::THEME_CONFIGURATION));
         if (!$value) {
-            return null;
+            return [];
         }
 
-        return $manager->getRepository(ThemeConfiguration::class)->find($value);
+        return $manager->getRepository(ThemeConfiguration::class)->findBy([
+            'id' => (int)$value,
+            'organization' => $organization
+        ]);
     }
 
     public function getDependencies(): array
@@ -71,5 +81,11 @@ class SetContactUsFormForThemeConfiguration extends AbstractFixture implements
             LoadGlobalThemeConfigurationData::class,
             LoadContactUsFormContentWidgetData::class
         ];
+    }
+
+    #[\Override]
+    protected function getFrontendTheme(): ?string
+    {
+        return null;
     }
 }
