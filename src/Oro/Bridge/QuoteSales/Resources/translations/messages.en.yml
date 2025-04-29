@@ -1,0 +1,5 @@
+oro:
+    sale:
+        quote:
+            opportunity:
+                description: The opportunity from which the quote is created.
