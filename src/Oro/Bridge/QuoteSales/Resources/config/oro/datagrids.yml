@@ -11,3 +11,25 @@ datagrids:
                         - opportunity.id = :opportunity_id
             bind_parameters:
                 - opportunity_id
+        columns:
+            qid:
+                label:         oro.sale.quote.qid.label
+            ownerName:
+                label:         oro.sale.quote.owner.label
+            expired:
+                label:         oro.sale.quote.expired.label
+                frontend_type: boolean
+            validUntil:
+                label:         oro.sale.quote.valid_until.label
+                frontend_type: datetime
+            poNumber:
+                label:         oro.sale.quote.po_number.label
+            shipUntil:
+                label:         oro.sale.quote.ship_until.label
+                frontend_type: date
+            createdAt:
+                label:         oro.ui.created_at
+                frontend_type: datetime
+            updatedAt:
+                label:         oro.ui.updated_at
+                frontend_type: datetime

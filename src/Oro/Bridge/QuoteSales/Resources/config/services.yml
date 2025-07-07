@@ -8,6 +8,13 @@ services:
         tags:
             - { name: kernel.event_listener, event: entity_view.render.before, method: addRelatedQuotes }
 
+    oro_quote_sales.listener.datagrid.project_name:
+        class: Oro\Bundle\SaleBundle\EventListener\Datagrid\ProjectNameDatagridListener
+        arguments:
+            - '@oro_config.manager'
+        tags:
+            - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.before.opportunity-quotes-grid, method: onBuildBefore, priority: -10 }
+
     oro_quote_sales.opportunity_quotes.provider:
         class: Oro\Bridge\QuoteSales\Provider\OpportunityQuotesProvider
         arguments:
