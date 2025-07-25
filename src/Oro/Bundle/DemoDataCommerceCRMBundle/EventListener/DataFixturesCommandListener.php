@@ -14,7 +14,7 @@ class DataFixturesCommandListener
     public function onConsoleCommand(ConsoleCommandEvent $event): void
     {
         $command = $event->getCommand();
-        if (!$command || $command->getName() !== LoadDataFixturesCommand::getDefaultName()) {
+        if (!$command || $command->getName() !== 'oro:migration:data:load') {
             return;
         }
 

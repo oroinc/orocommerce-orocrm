@@ -11,15 +11,17 @@ use Oro\Bridge\CustomerAccount\Manager\LifetimeProcessor;
 use Oro\Bundle\ChannelBundle\Command\RecalculateLifetimeCommand as AbstractRecalculateLifetimeCommand;
 use Oro\Bundle\ChannelBundle\Provider\SettingsProvider;
 use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Recalculates lifetime value of eCommerce customers.
  */
+#[AsCommand(
+    name: 'oro:commerce:lifetime:recalculate',
+    description: 'Recalculates lifetime value of eCommerce customers.'
+)]
 class RecalculateLifetimeCommand extends AbstractRecalculateLifetimeCommand
 {
-    /** @var string */
-    protected static $defaultName = 'oro:commerce:lifetime:recalculate';
-
     private LifetimeProcessor $lifetimeProcessor;
 
     public function __construct(
@@ -37,7 +39,7 @@ class RecalculateLifetimeCommand extends AbstractRecalculateLifetimeCommand
     {
         parent::configure();
 
-        $this->setDescription('Recalculates lifetime value of eCommerce customers.')
+        $this
             ->addUsage('--force');
     }
 

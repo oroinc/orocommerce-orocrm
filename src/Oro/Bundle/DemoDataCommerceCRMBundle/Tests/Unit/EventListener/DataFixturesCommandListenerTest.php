@@ -44,7 +44,7 @@ class DataFixturesCommandListenerTest extends \PHPUnit\Framework\TestCase
         $command = $this->createMock(Command::class);
         $command->expects(self::once())
             ->method('getName')
-            ->willReturn(LoadDataFixturesCommand::getDefaultName());
+            ->willReturn('oro:migration:data:load');
         $command->expects(self::once())
             ->method('getDefinition')
             ->willReturn($definition);
@@ -80,7 +80,7 @@ class DataFixturesCommandListenerTest extends \PHPUnit\Framework\TestCase
         $command = $this->createMock(Command::class);
         $command->expects(self::once())
             ->method('getName')
-            ->willReturn(LoadDataFixturesCommand::getDefaultName());
+            ->willReturn('oro:migration:data:load');
         $command->expects(self::never())
             ->method('getDefinition');
 
@@ -106,7 +106,7 @@ class DataFixturesCommandListenerTest extends \PHPUnit\Framework\TestCase
         $command = $this->createMock(Command::class);
         $command->expects(self::once())
             ->method('getName')
-            ->willReturn(LoadDataFixturesCommand::getDefaultName());
+            ->willReturn('oro:migration:data:load');
         $command->expects(self::once())
             ->method('getDefinition')
             ->willReturn($definition);
