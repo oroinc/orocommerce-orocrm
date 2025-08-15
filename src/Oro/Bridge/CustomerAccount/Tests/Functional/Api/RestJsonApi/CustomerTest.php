@@ -21,7 +21,7 @@ class CustomerTest extends RestJsonApiTestCase
 
     public function testCreateCustomerWithEachStrategy(): void
     {
-        $manager = $this->getContainer()->get('oro_sales.manager.account_customer');
+        $manager = self::getContainer()->get('oro_sales.manager.account_customer');
         $response = $this->post(['entity' => 'customers'], 'create_customer.yml');
 
         $customer = $this->getEntityManager()->find(Customer::class, $this->getResourceId($response));
@@ -32,20 +32,26 @@ class CustomerTest extends RestJsonApiTestCase
 
     public function testCreateCustomerWithRootStrategy(): void
     {
+        $manager = self::getContainer()->get('oro_sales.manager.account_customer');
+
         $configManager = self::getConfigManager();
+        $initialSettings = $configManager->get('oro_customer_account_bridge.customer_account_settings');
         $configManager->set('oro_customer_account_bridge.customer_account_settings', 'root');
         $configManager->flush();
+        try {
+            $response = $this->post(['entity' => 'customers'], 'create_customer.yml');
 
-        $manager = $this->getContainer()->get('oro_sales.manager.account_customer');
-        $response = $this->post(['entity' => 'customers'], 'create_customer.yml');
+            $customer = $this->getEntityManager()->find(Customer::class, $this->getResourceId($response));
+            $association = $manager->getAccountCustomerByTarget($customer);
 
-        $customer = $this->getEntityManager()->find(Customer::class, $this->getResourceId($response));
-        $association = $manager->getAccountCustomerByTarget($customer);
-
-        self::assertEquals($customer->getParent()->getName(), $association->getAccount()->getName());
+            self::assertEquals($customer->getParent()->getName(), $association->getAccount()->getName());
+        } finally {
+            $configManager->set('oro_customer_account_bridge.customer_account_settings', $initialSettings);
+            $configManager->flush();
+        }
     }
 
-    public function testGetListShouldNotReturnLifetimeAttribute()
+    public function testGetListShouldNotReturnLifetimeAttribute(): void
     {
         $customerId = $this->getReference('customer.1')->getId();
 
@@ -62,7 +68,7 @@ class CustomerTest extends RestJsonApiTestCase
         self::assertArrayNotHasKey('lifetime', $content['data'][0]['attributes']);
     }
 
-    public function testGetShouldNotReturnLifetimeAttribute()
+    public function testGetShouldNotReturnLifetimeAttribute(): void
     {
         $customerId = $this->getReference('customer.1')->getId();
 
@@ -76,7 +82,7 @@ class CustomerTest extends RestJsonApiTestCase
         self::assertArrayNotHasKey('lifetime', $content['data']['attributes']);
     }
 
-    public function testGetParentSubresourceShouldNotReturnLifetimeAttribute()
+    public function testGetParentSubresourceShouldNotReturnLifetimeAttribute(): void
     {
         /** @var Customer $customer */
         $customer = $this->getReference('customer.1');
@@ -95,7 +101,7 @@ class CustomerTest extends RestJsonApiTestCase
         self::assertArrayNotHasKey('lifetime', $content['data']['attributes']);
     }
 
-    public function testGetChildrenSubresourceShouldNotReturnLifetimeAttribute()
+    public function testGetChildrenSubresourceShouldNotReturnLifetimeAttribute(): void
     {
         /** @var Customer $customer */
         $customer = $this->getReference('customer.1');
@@ -114,7 +120,7 @@ class CustomerTest extends RestJsonApiTestCase
         self::assertArrayNotHasKey('lifetime', $content['data'][0]['attributes']);
     }
 
-    public function testUpdateShouldNotAcceptLifetimeAttribute()
+    public function testUpdateShouldNotAcceptLifetimeAttribute(): void
     {
         $customerId = $this->getReference('customer.1')->getId();
 
