@@ -12,7 +12,7 @@ use Oro\Bundle\MessageQueueBundle\Test\Functional\MessageQueueExtension;
 use Oro\Bundle\OrderBundle\Entity\Order;
 use Oro\Bundle\OrderBundle\Tests\Functional\DataFixtures\LoadOrders;
 use Oro\Bundle\PaymentBundle\Entity\PaymentStatus;
-use Oro\Bundle\PaymentBundle\Provider\PaymentStatusProvider;
+use Oro\Bundle\PaymentBundle\PaymentStatus\PaymentStatuses;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 /**
@@ -60,7 +60,7 @@ class CustomerLifetimeListenerTest extends WebTestCase
         $paymentStatus = new PaymentStatus();
         $paymentStatus->setEntityClass(ClassUtils::getClass($order));
         $paymentStatus->setEntityIdentifier($order->getId());
-        $paymentStatus->setPaymentStatus(PaymentStatusProvider::FULL);
+        $paymentStatus->setPaymentStatus(PaymentStatuses::PAID_IN_FULL);
         $customer = $order->getCustomer();
 
         $em = $this->getEntityManager();
@@ -77,7 +77,7 @@ class CustomerLifetimeListenerTest extends WebTestCase
         $paymentStatus = new PaymentStatus();
         $paymentStatus->setEntityClass(ClassUtils::getClass($order));
         $paymentStatus->setEntityIdentifier($order->getId());
-        $paymentStatus->setPaymentStatus(PaymentStatusProvider::PENDING);
+        $paymentStatus->setPaymentStatus(PaymentStatuses::PENDING);
         $customer = $order->getCustomer();
 
         $em = $this->getEntityManager();
@@ -110,7 +110,7 @@ class CustomerLifetimeListenerTest extends WebTestCase
         $paymentStatus = new PaymentStatus();
         $paymentStatus->setEntityClass(Order::class);
         $paymentStatus->setEntityIdentifier($orderReference->getId());
-        $paymentStatus->setPaymentStatus(PaymentStatusProvider::FULL);
+        $paymentStatus->setPaymentStatus(PaymentStatuses::PAID_IN_FULL);
 
         $manager->persist($paymentStatus);
         $manager->flush();

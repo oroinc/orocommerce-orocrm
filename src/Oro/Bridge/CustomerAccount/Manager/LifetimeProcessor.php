@@ -9,7 +9,7 @@ use Oro\Bundle\CurrencyBundle\Query\CurrencyQueryBuilderTransformerInterface;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\OrderBundle\Entity\Order;
 use Oro\Bundle\PaymentBundle\Entity\PaymentStatus;
-use Oro\Bundle\PaymentBundle\Provider\PaymentStatusProvider;
+use Oro\Bundle\PaymentBundle\PaymentStatus\PaymentStatuses;
 
 /**
  * Calculates lifetime value for a customer.
@@ -40,7 +40,7 @@ class LifetimeProcessor
             ->where('o.customer = :customer AND payment_status.paymentStatus = :paymentStatus')
             ->setParameter('entityClass', Order::class)
             ->setParameter('customer', $customer->getId())
-            ->setParameter('paymentStatus', PaymentStatusProvider::FULL);
+            ->setParameter('paymentStatus', PaymentStatuses::PAID_IN_FULL);
 
         return (float)$qb->getQuery()->getSingleScalarResult();
     }

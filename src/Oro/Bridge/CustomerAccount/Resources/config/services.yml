@@ -94,6 +94,7 @@ services:
         tags:
             - { name: doctrine.event_listener, event: onFlush }
             - { name: doctrine.event_listener, event: postFlush }
+            - { name: kernel.event_listener, event: Oro\Bundle\PaymentBundle\Event\PaymentStatusUpdatedEvent, method: onPaymentStatusUpdated }
             - { name: container.service_subscriber, id: oro_customer_account.manager.lifetime_processor }
             - { name: container.service_subscriber, id: oro_payment.manager.payment_status }
 
