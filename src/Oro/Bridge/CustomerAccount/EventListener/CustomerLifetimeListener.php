@@ -2,6 +2,7 @@
 
 namespace Oro\Bridge\CustomerAccount\EventListener;
 
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PostFlushEventArgs;
@@ -11,8 +12,9 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\OrderBundle\Entity\Order;
 use Oro\Bundle\PaymentBundle\Entity\PaymentStatus;
+use Oro\Bundle\PaymentBundle\Event\PaymentStatusUpdatedEvent;
 use Oro\Bundle\PaymentBundle\Manager\PaymentStatusManager;
-use Oro\Bundle\PaymentBundle\Provider\PaymentStatusProvider;
+use Oro\Bundle\PaymentBundle\PaymentStatus\PaymentStatuses;
 use Psr\Container\ContainerInterface;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
@@ -40,7 +42,7 @@ class CustomerLifetimeListener implements ServiceSubscriberInterface
     {
         return [
             'oro_customer_account.manager.lifetime_processor' => LifetimeProcessor::class,
-            'oro_payment.manager.payment_status' => PaymentStatusManager::class
+            'oro_payment.manager.payment_status' => PaymentStatusManager::class,
         ];
     }
 
@@ -56,11 +58,9 @@ class CustomerLifetimeListener implements ServiceSubscriberInterface
             $entityClass = $this->doctrineHelper->getEntityClass($entity);
 
             if ($entityClass === Order::class && $entity->getId()) {
-                $paymentStatus = $this->getPaymentStatusManager()
-                    ->getPaymentStatusForEntity(Order::class, $entity->getId())
-                    ->getPaymentStatus();
+                $paymentStatus = (string)$this->getPaymentStatusManager()->getPaymentStatus($entity);
 
-                if ($paymentStatus === PaymentStatusProvider::FULL) {
+                if ($paymentStatus === PaymentStatuses::PAID_IN_FULL) {
                     $orders[] = $entity;
                 }
 
@@ -78,6 +78,31 @@ class CustomerLifetimeListener implements ServiceSubscriberInterface
 
         if (count($paymentStatuses) > 0) {
             $this->handlePaymentStatuses($paymentStatuses, $uow, $em);
+        }
+    }
+
+    public function onPaymentStatusUpdated(PaymentStatusUpdatedEvent $event): void
+    {
+        $paymentStatus = $event->getPaymentStatus();
+        $order = $event->getTargetEntity();
+        if (!$order instanceof Order || $paymentStatus->getPaymentStatus() !== PaymentStatuses::PAID_IN_FULL) {
+            return;
+        }
+
+        /** @var EntityManager $entityManager */
+        $entityManager = $this->doctrineHelper->getEntityManager($paymentStatus->getEntityClass());
+        $unitOfWork = $entityManager->getUnitOfWork();
+
+        $customer = $order->getCustomer();
+        if (!$customer || $unitOfWork->isScheduledForDelete($customer)) {
+            return;
+        }
+
+        $newLifetimeValue = $this->getLifetimeProcessor()->calculateLifetimeValue($customer);
+        /** @noinspection TypeUnsafeComparisonInspection */
+        if ($newLifetimeValue != $customer->getLifetime()) {
+            $customer->setLifetime($newLifetimeValue);
+            $entityManager->flush($customer);
         }
     }
 
@@ -129,7 +154,7 @@ class CustomerLifetimeListener implements ServiceSubscriberInterface
     }
 
     /**
-     * @param Order[]    $orders
+     * @param Order[] $orders
      * @param UnitOfWork $uow
      */
     private function handleOrders(array $orders, UnitOfWork $uow): void
@@ -159,16 +184,15 @@ class CustomerLifetimeListener implements ServiceSubscriberInterface
     }
 
     /**
-     * @param PaymentStatus[]        $paymentStatuses
-     * @param UnitOfWork             $uow
+     * @param PaymentStatus[] $paymentStatuses
+     * @param UnitOfWork $uow
      * @param EntityManagerInterface $em
      */
     private function handlePaymentStatuses(array $paymentStatuses, UnitOfWork $uow, EntityManagerInterface $em): void
     {
-        /** @var PaymentStatus $paymentStatus */
         foreach ($paymentStatuses as $paymentStatus) {
             if ($paymentStatus->getEntityClass() === Order::class
-                && PaymentStatusProvider::FULL === $paymentStatus->getPaymentStatus()
+                && PaymentStatuses::PAID_IN_FULL === $paymentStatus->getPaymentStatus()
             ) {
                 $order = $em->getRepository($paymentStatus->getEntityClass())
                     ->find($paymentStatus->getEntityIdentifier());

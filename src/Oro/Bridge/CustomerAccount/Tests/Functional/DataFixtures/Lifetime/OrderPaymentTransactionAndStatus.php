@@ -6,13 +6,21 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\Persistence\ObjectManager;
+use Oro\Bundle\OrderBundle\Entity\Order;
 use Oro\Bundle\OrderBundle\Tests\Functional\DataFixtures\LoadOrders;
 use Oro\Bundle\PaymentBundle\Entity\PaymentStatus;
 use Oro\Bundle\PaymentBundle\Entity\PaymentTransaction;
-use Oro\Bundle\PaymentBundle\Provider\PaymentStatusProvider;
+use Oro\Bundle\PaymentBundle\Manager\PaymentStatusManager;
+use Oro\Bundle\PaymentBundle\PaymentStatus\PaymentStatuses;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-class OrderPaymentTransactionAndStatus extends AbstractFixture implements DependentFixtureInterface
+class OrderPaymentTransactionAndStatus extends AbstractFixture implements
+    DependentFixtureInterface,
+    ContainerAwareInterface
 {
+    use ContainerAwareTrait;
+
     /**
      * @var array
      */
@@ -20,7 +28,7 @@ class OrderPaymentTransactionAndStatus extends AbstractFixture implements Depend
         LoadOrders::MY_ORDER => [
             'paymentStatus' => [
                 'referenceName' => 'my_order_payment_status',
-                'value' => PaymentStatusProvider::FULL
+                'value' => PaymentStatuses::PAID_IN_FULL
             ],
             'paymentTransaction' => [
                 'referenceName' => 'my_order_payment_transaction',
@@ -90,14 +98,13 @@ class OrderPaymentTransactionAndStatus extends AbstractFixture implements Depend
      */
     protected function createPaymentStatus(ObjectManager $manager, $orderReferenceName, array $paymentStatusData)
     {
+        /** @var Order $order */
         $order = $this->getReference($orderReferenceName);
 
-        $paymentStatus = new PaymentStatus();
-        $paymentStatus->setEntityClass(ClassUtils::getClass($order));
-        $paymentStatus->setEntityIdentifier($order->getId());
-        $paymentStatus->setPaymentStatus($paymentStatusData['value']);
+        /** @var PaymentStatusManager $paymentStatusManager */
+        $paymentStatusManager = $this->container->get('oro_payment.manager.payment_status');
+        $paymentStatus = $paymentStatusManager->setPaymentStatus($order, $paymentStatusData['value']);
 
-        $manager->persist($paymentStatus);
         $this->addReference($paymentStatusData['referenceName'], $paymentStatus);
 
         return $paymentStatus;
