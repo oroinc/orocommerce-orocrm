@@ -10,8 +10,8 @@ use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
 use Oro\Bundle\SalesBundle\Entity\Customer as CustomerAssociation;
 use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
 use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -40,12 +40,14 @@ class CustomerController extends AbstractController
         name: 'oro_account_widget_customers_info',
         requirements: ['accountId' => '\d+']
     )]
-    #[ParamConverter('account', class: Account::class, options: ['id' => 'accountId'])]
-    #[ParamConverter('channel', class: Channel::class, options: ['id' => 'channelId'])]
-    #[Template]
+    #[Template('@OroCustomerAccountBridge/Customer/accountCustomersInfo.html.twig')]
     #[AclAncestor('oro_customer_account_view')]
-    public function accountCustomersInfoAction(Account $account, Channel $channel)
-    {
+    public function accountCustomersInfoAction(
+        #[MapEntity(id: 'accountId')]
+        Account $account,
+        #[MapEntity(id: 'channelId')]
+        Channel $channel
+    ) {
         $field = AccountCustomerManager::getCustomerTargetField(Customer::class);
 
         /** @var QueryBuilder $qb */
@@ -83,11 +85,12 @@ class CustomerController extends AbstractController
         name: 'oro_account_customer_widget_customer_info',
         requirements: ['id' => '\d+', 'channelId' => '\d+']
     )]
-    #[ParamConverter('customer', class: Customer::class, options: ['id' => 'id'])]
-    #[Template]
+    #[Template('@OroCustomerAccountBridge/Customer/customerInfo.html.twig')]
     #[AclAncestor('oro_customer_account_view')]
-    public function customerInfoAction(Customer $customer)
-    {
+    public function customerInfoAction(
+        #[MapEntity(id: 'id')]
+        Customer $customer
+    ) {
         $accountCustomerManager = $this->container->get(AccountCustomerManager::class);
 
         return [
@@ -106,11 +109,12 @@ class CustomerController extends AbstractController
         name: 'oro_account_customer_widget_customer_user_info',
         requirements: ['id' => '\d+']
     )]
-    #[ParamConverter('customer', class: Customer::class, options: ['id' => 'id'])]
-    #[Template]
+    #[Template('@OroCustomerAccountBridge/Customer/customerUsers.html.twig')]
     #[AclAncestor('oro_account_account_user_view')]
-    public function customerUsersAction(Customer $customer)
-    {
+    public function customerUsersAction(
+        #[MapEntity(id: 'id')]
+        Customer $customer
+    ) {
         return [
             'customer' => $customer
         ];
@@ -125,11 +129,12 @@ class CustomerController extends AbstractController
         name: 'oro_account_customer_widget_shopping_lists_info',
         requirements: ['id' => '\d+']
     )]
-    #[ParamConverter('customer', class: Customer::class, options: ['id' => 'id'])]
-    #[Template]
+    #[Template('@OroCustomerAccountBridge/Customer/shoppingLists.html.twig')]
     #[AclAncestor('oro_shopping_list_view')]
-    public function shoppingListsAction(Customer $customer)
-    {
+    public function shoppingListsAction(
+        #[MapEntity(id: 'id')]
+        Customer $customer
+    ) {
         return [
             'customer' => $customer
         ];
@@ -144,11 +149,12 @@ class CustomerController extends AbstractController
         name: 'oro_account_customer_widget_rfq_info',
         requirements: ['id' => '\d+']
     )]
-    #[ParamConverter('customer', class: Customer::class, options: ['id' => 'id'])]
-    #[Template]
+    #[Template('@OroCustomerAccountBridge/Customer/rfq.html.twig')]
     #[AclAncestor('oro_rfp_request_view')]
-    public function rfqAction(Customer $customer)
-    {
+    public function rfqAction(
+        #[MapEntity(id: 'id')]
+        Customer $customer
+    ) {
         return [
             'customer' => $customer
         ];
@@ -163,11 +169,12 @@ class CustomerController extends AbstractController
         name: 'oro_account_customer_widget_orders_info',
         requirements: ['id' => '\d+']
     )]
-    #[ParamConverter('customer', class: Customer::class, options: ['id' => 'id'])]
-    #[Template]
+    #[Template('@OroCustomerAccountBridge/Customer/orders.html.twig')]
     #[AclAncestor('oro_order_view')]
-    public function ordersAction(Customer $customer)
-    {
+    public function ordersAction(
+        #[MapEntity(id: 'id')]
+        Customer $customer
+    ) {
         return [
             'customer' => $customer
         ];
@@ -182,11 +189,12 @@ class CustomerController extends AbstractController
         name: 'oro_account_customer_widget_quotes_info',
         requirements: ['id' => '\d+']
     )]
-    #[ParamConverter('customer', class: Customer::class, options: ['id' => 'id'])]
-    #[Template]
+    #[Template('@OroCustomerAccountBridge/Customer/quotes.html.twig')]
     #[AclAncestor('oro_sale_quote_view')]
-    public function quotesAction(Customer $customer)
-    {
+    public function quotesAction(
+        #[MapEntity(id: 'id')]
+        Customer $customer
+    ) {
         return [
             'customer' => $customer
         ];
@@ -201,11 +209,12 @@ class CustomerController extends AbstractController
         name: 'oro_account_customer_widget_opportunities_info',
         requirements: ['id' => '\d+']
     )]
-    #[ParamConverter('customer', class: Customer::class, options: ['id' => 'id'])]
-    #[Template]
+    #[Template('@OroCustomerAccountBridge/Customer/opportunities.html.twig')]
     #[AclAncestor('oro_sales_opportunity_view')]
-    public function opportunitiesAction(Customer $customer)
-    {
+    public function opportunitiesAction(
+        #[MapEntity(id: 'id')]
+        Customer $customer
+    ) {
         return [
             'customer' => $customer
         ];
