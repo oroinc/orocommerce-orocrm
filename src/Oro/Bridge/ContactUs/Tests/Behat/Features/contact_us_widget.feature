@@ -79,6 +79,27 @@ Feature: Contact us widget
     When I click view "AmandaRCole@example.org" in grid
     Then I should see "Testers Comment"
 
+  Scenario: Fill contact us form as authorized user with empty company name
+    Given I proceed as the Buyer
+    And I click "About" in hamburger menu
+    And fill form with:
+      |Company Name            |             |
+      |Preferred contact method|Email        |
+      |Contact Reason          |Other        |
+      |Comment                 |Some Comment |
+    And click "Submit"
+    Then I should see "Thank you for your Request!" flash message
+    When I proceed as the Admin
+    And go to Activities/ Contact Requests
+    Then I should see Amanda in grid with following data:
+      | First Name  | Amanda                  |
+      | Last Name   | Cole                    |
+      | Email       | AmandaRCole@example.org |
+      | Website     | Default                 |
+    When I click view "AmandaRCole@example.org" in grid
+    Then I should see "Some Comment"
+    And should see "Company Name N/A"
+
   Scenario: Check validation messages
     Given I proceed as the Guest
     And I am on the homepage
