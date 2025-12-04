@@ -116,6 +116,7 @@ class ContactRequestType extends AbstractType
         $resolver->setDefaults([
             'data_class' => ContactRequest::class,
             'dataChannelField' => false,
+            'csrf_token_id' => 'contact_us',
         ]);
     }
 
