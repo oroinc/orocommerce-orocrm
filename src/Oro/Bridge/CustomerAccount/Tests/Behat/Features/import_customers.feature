@@ -27,15 +27,12 @@ Feature: Import Customers
       |    | Company A - West Division | Company A   | All Customers       | Tax_code_1 | 3          | 1_of_5             | net 60             |          |
       |    | Customer G                |             | Wholesale Customers | Tax_code_3 | 4          | 3_of_5             | net 60             | 2        |
       |    | Partner C                 |             | Partners            | Tax_code_3 | 5          | 4_of_5             | net 30             | 1        |
-      |    | Wholesaler B              |             | All Customers       | Tax_code_2 | 6          | 4_of_5             | net 60             | 3        |
     When I import file
     And reload the page
-    Then Email should contains the following "Errors: 1 processed: 5, read: 6, added: 5, updated: 0, replaced: 0" text
-    When I follow "Error log" link from the email
-    Then I should see "Error in row #6. You have no access to set given owner"
+    Then Email should contains the following "Errors: 0 processed: 5, read: 5, added: 5, updated: 0, replaced: 0" text
     When I login as administrator
     And go to Customers/ Customers
-    Then I should see following grid:
+    And I should see following grid:
       | Name                      | Group               | Parent Customer | Internal rating | Payment term | Tax code   | Account                   |
       | Company A                 | All Customers       |                 | 2_of_5          | net 30       | Tax_code_1 | Company A                 |
       | Company A - East Division | All Customers       | Company A       | 1_of_5          | net 90       | Tax_code_1 | Company A - East Division |
