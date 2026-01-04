@@ -4,7 +4,7 @@ namespace Oro\Bridge\CustomerAccount\Manager\Strategy;
 
 class AssignRootStrategy extends AssignStrategyAbstract
 {
-    const NAME = 'root';
+    public const NAME = 'root';
 
     #[\Override]
     public function getName()

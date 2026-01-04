@@ -11,7 +11,7 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
  */
 class CustomerCreateListener
 {
-    const COMMERCE_CHANNEL_TYPE = 'commerce';
+    public const COMMERCE_CHANNEL_TYPE = 'commerce';
 
     public function postPersist(Customer $customer, LifecycleEventArgs $args)
     {

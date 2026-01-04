@@ -8,7 +8,7 @@ use Oro\Bundle\SalesBundle\Entity\Customer as CustomerAssociation;
 
 class AssignEachStrategy extends AssignStrategyAbstract
 {
-    const NAME = 'each';
+    public const NAME = 'each';
 
     #[\Override]
     public function getName()

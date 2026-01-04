@@ -7,7 +7,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class CustomerAccountConfigChoice extends AbstractType
 {
-    const NAME = 'oro_config_customer_account_choice';
+    public const NAME = 'oro_config_customer_account_choice';
 
     #[\Override]
     public function getBlockPrefix(): string

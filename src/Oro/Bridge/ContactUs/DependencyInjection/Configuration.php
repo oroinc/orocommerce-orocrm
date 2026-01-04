@@ -9,9 +9,9 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    const ROOT_NODE = 'oro_contact_us_bridge';
-    const ENABLE_CONTACT_REQUEST = 'enable_contact_request';
-    const CONSENT_CONTACT_REASON = 'consent_contact_reason';
+    public const ROOT_NODE = 'oro_contact_us_bridge';
+    public const ENABLE_CONTACT_REQUEST = 'enable_contact_request';
+    public const CONSENT_CONTACT_REASON = 'consent_contact_reason';
 
     #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder

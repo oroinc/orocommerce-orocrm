@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class CustomerAssignHelperPass implements CompilerPassInterface
 {
-    const HELPER_SERVICE_NAME = 'oro_customer.customer.assign.helper';
+    public const HELPER_SERVICE_NAME = 'oro_customer.customer.assign.helper';
 
     #[\Override]
     public function process(ContainerBuilder $container)

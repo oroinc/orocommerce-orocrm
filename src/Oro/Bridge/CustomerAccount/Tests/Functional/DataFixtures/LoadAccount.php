@@ -11,7 +11,7 @@ use Oro\Bundle\UserBundle\Tests\Functional\DataFixtures\LoadUserData;
 
 class LoadAccount extends AbstractFixture implements DependentFixtureInterface
 {
-    const ACCOUNT_1 = 'simple_account';
+    public const ACCOUNT_1 = 'simple_account';
 
     /**
      * @var array

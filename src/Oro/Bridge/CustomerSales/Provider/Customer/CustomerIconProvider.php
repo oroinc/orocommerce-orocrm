@@ -8,7 +8,7 @@ use Oro\Bundle\UIBundle\Model\Image;
 
 class CustomerIconProvider implements CustomerIconProviderInterface
 {
-    const CUSTOMER_ICON_FILE = 'bundles/orocustomersalesbridge/img/customer-logo.png';
+    public const CUSTOMER_ICON_FILE = 'bundles/orocustomersalesbridge/img/customer-logo.png';
 
     #[\Override]
     public function getIcon($entity)

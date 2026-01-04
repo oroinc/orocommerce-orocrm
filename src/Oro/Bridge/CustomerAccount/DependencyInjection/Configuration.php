@@ -8,8 +8,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    const DEFAULT_CREATE_METHOD = 'each';
-    const DEFAULT_SECTION_NAME = 'Commerce Customers';
+    public const DEFAULT_CREATE_METHOD = 'each';
+    public const DEFAULT_SECTION_NAME = 'Commerce Customers';
 
     #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder

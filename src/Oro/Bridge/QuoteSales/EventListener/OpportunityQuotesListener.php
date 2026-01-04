@@ -14,7 +14,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class OpportunityQuotesListener
 {
     // below activity block which have 1000
-    const GRID_BLOCK_PRIORITY = 1005;
+    public const GRID_BLOCK_PRIORITY = 1005;
 
     /** @var TranslatorInterface */
     protected $translator;
