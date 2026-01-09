@@ -168,7 +168,8 @@ class CustomerLifetimeListener implements ServiceSubscriberInterface
                 $changeSet = $uow->getEntityChangeSet($entity);
 
                 if ($this->isChangeSetValuable($changeSet)) {
-                    if (!empty($changeSet['customer'])
+                    if (
+                        !empty($changeSet['customer'])
                         && reset($changeSet['customer']) instanceof Customer
                     ) {
                         // handle change of customer
@@ -191,7 +192,8 @@ class CustomerLifetimeListener implements ServiceSubscriberInterface
     private function handlePaymentStatuses(array $paymentStatuses, UnitOfWork $uow, EntityManagerInterface $em): void
     {
         foreach ($paymentStatuses as $paymentStatus) {
-            if ($paymentStatus->getEntityClass() === Order::class
+            if (
+                $paymentStatus->getEntityClass() === Order::class
                 && PaymentStatuses::PAID_IN_FULL === $paymentStatus->getPaymentStatus()
             ) {
                 $order = $em->getRepository($paymentStatus->getEntityClass())

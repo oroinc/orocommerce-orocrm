@@ -21,10 +21,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class ContactRequestHelper
 {
-    private DoctrineHelper            $doctrineHelper;
-    private ConfigManager             $configManager;
-    private LocalizationHelper        $localizationHelper;
-    private TranslatorInterface       $translator;
+    private DoctrineHelper $doctrineHelper;
+    private ConfigManager $configManager;
+    private LocalizationHelper $localizationHelper;
+    private TranslatorInterface $translator;
     private PropertyAccessorInterface $propertyAccessor;
 
     public function __construct(

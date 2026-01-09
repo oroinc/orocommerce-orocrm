@@ -46,7 +46,8 @@ class OroAccountInheritanceTarget implements
         $isUpdateNeeded = false;
         foreach ($inheritanceTargets as $key => $inheritanceTarget) {
             // compare if exists inheritance target with expected path
-            if ($inheritanceTarget['target'] !== $inheritanceTargetClass
+            if (
+                $inheritanceTarget['target'] !== $inheritanceTargetClass
                 || strcmp(json_encode($inheritanceTarget['path']), json_encode($previousPath)) === 1
             ) {
                 continue;
