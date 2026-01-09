@@ -17,7 +17,7 @@ Feature: Export Customers
       |  1  | Company A                  |              | All Customers       | 1      | Tax_code_1 | 1           | 2_of_5             |        net 30      |
       |  2  | Company A - East Division  |  1           | All Customers       | 1      | Tax_code_1 | 2           | 1_of_5             |        net 90      |
       |  3  | Company A - West Division  |  1           | All Customers       | 1      | Tax_code_1 | 3           | 1_of_5             |        net 60      |
-      |  4  | Customer G                 |              | Wholesale Customers | 2      | Tax_code_3 | 4           | 3_of_5             |        net 60      |
+      |  4  | Wholesaler B               |              | All Customers       | 2      | Tax_code_2 | 6           | 4_of_5             |        net 60      |
       |  5  | Partner C                  |              | Partners            | 2      | Tax_code_3 | 5           | 4_of_5             |        net 30      |
-      |  6  | Wholesaler B               |              | All Customers       | 2      | Tax_code_2 | 6           | 4_of_5             |        net 60      |
+      |  6  | Customer G                 |              | Wholesale Customers | 2      | Tax_code_3 | 4           | 3_of_5             |        net 60      |
     And I click Logout in user menu

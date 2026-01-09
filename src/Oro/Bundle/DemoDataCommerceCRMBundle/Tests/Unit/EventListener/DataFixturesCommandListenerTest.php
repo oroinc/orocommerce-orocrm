@@ -28,8 +28,7 @@ class DataFixturesCommandListenerTest extends \PHPUnit\Framework\TestCase
             ->method('getDefault')
             ->willReturn(['OroTestBundle']);
         $option->expects(self::once())
-            ->method('setDefault')
-            ->willReturn(['OroTestBundle', 'OroMagentoBundle', 'OroMarketingCRMBridgeBundle']);
+            ->method('setDefault');
 
         $definition = $this->createMock(InputDefinition::class);
         $definition->expects(self::once())

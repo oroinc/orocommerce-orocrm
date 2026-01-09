@@ -14,8 +14,8 @@ use Oro\Bundle\MigrationBundle\Migration\ConnectionAwareTrait;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Oro\Component\DependencyInjection\ContainerAwareInterface;
+use Oro\Component\DependencyInjection\ContainerAwareTrait;
 
 /**
  * Update oro account inheritance target.
@@ -47,7 +47,8 @@ class OroAccountInheritanceTarget implements
         foreach ($inheritanceTargets as $key => $inheritanceTarget) {
             // compare if exists inheritance target with expected path
             if ($inheritanceTarget['target'] !== $inheritanceTargetClass
-                || strcmp(json_encode($inheritanceTarget['path']), json_encode($previousPath)) === 1) {
+                || strcmp(json_encode($inheritanceTarget['path']), json_encode($previousPath)) === 1
+            ) {
                 continue;
             }
             // replace target with updated path

@@ -7,7 +7,7 @@ use Doctrine\Persistence\ObjectManager;
 use Oro\Bridge\ContactUs\DependencyInjection\Configuration;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\ContactUsBundle\Entity\ContactReason;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Oro\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
