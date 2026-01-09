@@ -2,6 +2,14 @@
 
 namespace Oro\Bridge\CustomerAccount\Manager\Strategy;
 
+/**
+ * Assigns customers to the account of their root customer.
+ *
+ * Implements a customer-to-account assignment strategy where child customers are
+ * assigned to the same account as their root customer. If the root customer has no
+ * account, a new one is created. This strategy maintains hierarchical customer
+ * relationships and ensures all customers in a hierarchy share the same account.
+ */
 class AssignRootStrategy extends AssignStrategyAbstract
 {
     public const NAME = 'root';

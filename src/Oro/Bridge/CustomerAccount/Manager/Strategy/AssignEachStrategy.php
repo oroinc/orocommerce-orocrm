@@ -6,6 +6,14 @@ use Oro\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
 use Oro\Bundle\SalesBundle\Entity\Customer as CustomerAssociation;
 
+/**
+ * Assigns each customer to their own dedicated account.
+ *
+ * Implements a customer-to-account assignment strategy where each customer receives
+ * their own account. If a customer already has an account, it is reused; otherwise,
+ * a new account is created. This strategy ensures one-to-one customer-to-account
+ * relationships and recalculates lifetime values accordingly.
+ */
 class AssignEachStrategy extends AssignStrategyAbstract
 {
     public const NAME = 'each';

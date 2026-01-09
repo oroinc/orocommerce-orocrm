@@ -6,6 +6,13 @@ use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
 use Oro\Bundle\SalesBundle\Provider\Customer\CustomerIconProviderInterface;
 use Oro\Bundle\UIBundle\Model\Image;
 
+/**
+ * Provides customer icon for display in the sales context.
+ *
+ * Implements the customer icon provider interface to supply a branded customer icon
+ * that is displayed in sales-related views and interfaces. Returns null for non-customer
+ * entities to allow other providers to handle them.
+ */
 class CustomerIconProvider implements CustomerIconProviderInterface
 {
     public const CUSTOMER_ICON_FILE = 'bundles/orocustomersalesbridge/img/customer-logo.png';
