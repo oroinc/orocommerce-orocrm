@@ -6,6 +6,14 @@ use Oro\Bundle\ProductBundle\Storage\DataStorageInterface;
 use Oro\Bundle\ProductBundle\Storage\ProductDataStorage;
 use Oro\Bundle\SalesBundle\Entity\Opportunity;
 
+/**
+ * Stores opportunity data for use in quote creation workflows.
+ *
+ * Manages temporary storage of opportunity information (customer and opportunity IDs)
+ * that is needed during the quote creation process. This data is persisted in a session
+ * or temporary storage and retrieved by the quote controller to pre-populate quote forms
+ * with relevant opportunity details.
+ */
 class OpportunityToQuoteDataStorage
 {
     /**

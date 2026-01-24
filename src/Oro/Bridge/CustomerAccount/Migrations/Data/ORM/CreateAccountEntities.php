@@ -10,6 +10,13 @@ use Oro\Bundle\CustomerBundle\Entity\Customer as Customer;
 use Oro\Bundle\SalesBundle\Entity\Customer as CustomerAssociation;
 use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
 
+/**
+ * Data fixture that creates account entities for customers without existing accounts.
+ *
+ * Loads all customers that do not have associated accounts and creates new Account
+ * entities for them with matching names, organizations, and owners. Processes customers
+ * in batches to optimize database performance and memory usage during the migration.
+ */
 class CreateAccountEntities extends AbstractFixture
 {
     #[\Override]

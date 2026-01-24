@@ -11,6 +11,14 @@ use Oro\Bundle\SalesBundle\Entity\Customer as SalesCustomer;
 use Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager;
 use Oro\Bundle\SalesBundle\Entity\Repository\CustomerRepository as SalesCustomerRepository;
 
+/**
+ * Manages customer account associations during import and export operations.
+ *
+ * Provides functionality to load, fetch, and assign accounts to customers during
+ * import/export processes. Handles the relationship between commerce customers and
+ * sales accounts, including creating new associations when needed and updating
+ * existing ones based on customer data changes.
+ */
 class CustomerAccountImportExportHelper
 {
     /**

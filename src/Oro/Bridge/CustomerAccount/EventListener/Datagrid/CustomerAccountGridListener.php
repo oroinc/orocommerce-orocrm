@@ -8,6 +8,13 @@ use Oro\Bundle\DataGridBundle\Event\BuildBefore;
 use Oro\Bundle\EntityExtendBundle\Tools\ExtendHelper;
 use Oro\Bundle\SalesBundle\EntityConfig\CustomerScope;
 
+/**
+ * Filters customer account datagrid to show only accounts associated with the current customer.
+ *
+ * Listens to the datagrid build event and adds a `WHERE` condition to filter the query
+ * based on the customer association, ensuring that only relevant accounts are displayed
+ * in the customer account grid.
+ */
 class CustomerAccountGridListener
 {
     public function onBuildBefore(BuildBefore $event)
