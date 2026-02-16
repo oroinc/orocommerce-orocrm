@@ -44,7 +44,7 @@ Feature: Check Contact Us captcha protection
       | Comment                  | Test Comment  |
       | Captcha                  | invalid       |
     And I click "Submit"
-    Then I should see "The form cannot be sent because you did not passed the anti-bot validation. If you are a human, please contact us."
+    Then I should see "The form cannot be sent because you did not passed the anti-bot validation. If you are a human, please contact us." flash message
 
     When fill form with:
       | First Name               | Test          |

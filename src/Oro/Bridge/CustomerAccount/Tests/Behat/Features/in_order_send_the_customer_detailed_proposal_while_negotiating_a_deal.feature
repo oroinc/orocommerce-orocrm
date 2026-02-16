@@ -150,7 +150,7 @@ Feature: In order send the customer detailed proposal while negotiating a deal
 
   Scenario: Check expired quote from buyer account
     When I click "View"
-    Then I should see "This quote has expired. You may submit a new request for quote."
+    Then I should see "This quote has expired. You may submit a new request for quote." flash message
 
   Scenario: Delete Quote from Quote Section on Opportunity view
     Given I operate as the Admin
