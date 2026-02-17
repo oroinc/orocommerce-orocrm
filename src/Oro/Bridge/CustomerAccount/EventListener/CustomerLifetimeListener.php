@@ -41,8 +41,8 @@ class CustomerLifetimeListener implements ServiceSubscriberInterface
     public static function getSubscribedServices(): array
     {
         return [
-            'oro_customer_account.manager.lifetime_processor' => LifetimeProcessor::class,
-            'oro_payment.manager.payment_status' => PaymentStatusManager::class,
+            LifetimeProcessor::class,
+            PaymentStatusManager::class
         ];
     }
 
@@ -224,7 +224,7 @@ class CustomerLifetimeListener implements ServiceSubscriberInterface
     private function getLifetimeProcessor(): LifetimeProcessor
     {
         if (null === $this->lifetimeProcessor) {
-            $this->lifetimeProcessor = $this->container->get('oro_customer_account.manager.lifetime_processor');
+            $this->lifetimeProcessor = $this->container->get(LifetimeProcessor::class);
         }
 
         return $this->lifetimeProcessor;
@@ -233,7 +233,7 @@ class CustomerLifetimeListener implements ServiceSubscriberInterface
     private function getPaymentStatusManager(): PaymentStatusManager
     {
         if (null === $this->paymentStatusManager) {
-            $this->paymentStatusManager = $this->container->get('oro_payment.manager.payment_status');
+            $this->paymentStatusManager = $this->container->get(PaymentStatusManager::class);
         }
 
         return $this->paymentStatusManager;

@@ -95,8 +95,8 @@ services:
             - { name: doctrine.event_listener, event: onFlush }
             - { name: doctrine.event_listener, event: postFlush }
             - { name: kernel.event_listener, event: Oro\Bundle\PaymentBundle\Event\PaymentStatusUpdatedEvent, method: onPaymentStatusUpdated }
-            - { name: container.service_subscriber, id: oro_customer_account.manager.lifetime_processor }
-            - { name: container.service_subscriber, id: oro_payment.manager.payment_status }
+            - { name: container.service_subscriber, id: oro_customer_account.manager.lifetime_processor, key: Oro\Bridge\CustomerAccount\Manager\LifetimeProcessor }
+            - { name: container.service_subscriber, id: oro_payment.manager.payment_status, key: Oro\Bundle\PaymentBundle\Manager\PaymentStatusManager }
 
     oro_sales.helper.import_export_account_helper:
         class: Oro\Bridge\CustomerAccount\Helper\CustomerAccountImportExportHelper
