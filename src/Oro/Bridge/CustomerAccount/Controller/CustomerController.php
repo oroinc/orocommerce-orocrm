@@ -26,7 +26,7 @@ class CustomerController extends AbstractController
     {
         return array_merge(parent::getSubscribedServices(), [
             AccountCustomerManager::class,
-            'doctrine' => ManagerRegistry::class,
+            ManagerRegistry::class
         ]);
     }
 
@@ -51,7 +51,7 @@ class CustomerController extends AbstractController
         $field = AccountCustomerManager::getCustomerTargetField(Customer::class);
 
         /** @var QueryBuilder $qb */
-        $qb = $this->container->get('doctrine')
+        $qb = $this->container->get(ManagerRegistry::class)
             ->getRepository(Customer::class)
             ->createQueryBuilder('c');
         $customers = $qb->join(CustomerAssociation::class, 'ca', 'WITH', sprintf('ca.%s = c', $field))

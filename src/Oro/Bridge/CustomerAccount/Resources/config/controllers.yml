@@ -7,3 +7,4 @@ services:
             - ['setContainer', ['@Psr\Container\ContainerInterface']]
         tags:
             - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: oro_sales.manager.account_customer, key: Oro\Bundle\SalesBundle\Entity\Manager\AccountCustomerManager }
