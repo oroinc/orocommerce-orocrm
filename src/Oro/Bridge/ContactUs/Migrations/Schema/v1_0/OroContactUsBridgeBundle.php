@@ -35,7 +35,8 @@ class OroContactUsBridgeBundle implements
                 'datagrid' => [
                     'is_visible' => DatagridScope::IS_VISIBLE_FALSE
                 ],
-                'view' => ['is_displayable' => false]
+                'view' => ['is_displayable' => false],
+                'email' => ['available_in_template' => true],
             ]
         );
     }
