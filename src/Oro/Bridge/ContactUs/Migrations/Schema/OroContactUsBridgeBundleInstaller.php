@@ -49,6 +49,7 @@ class OroContactUsBridgeBundleInstaller implements
                 'frontend' => [
                     'is_editable' => false,
                 ],
+                'email' => ['available_in_template' => true],
             ]
         );
     }
