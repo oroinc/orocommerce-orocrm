@@ -48,7 +48,8 @@ class OroQuoteSalesBridgeBundle implements Migration, ExtendExtensionAwareInterf
                 ],
                 'view' => ['is_displayable' => true],
                 'merge' => ['display' => false],
-                'dataaudit' => ['auditable' => false]
+                'dataaudit' => ['auditable' => false],
+                'email' => ['available_in_template' => true],
             ]
         );
     }
