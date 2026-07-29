@@ -1,6 +1,8 @@
 oro.contactus:
     contactrequest:
         customer_user.label: Customer User
+        sections:
+            additional.label: Additional Information
         feature:
             label: Contact Requests
             description: Enables the Contact Us form in the storefront menu. When the form is disabled, the Contact Us widget can still be used in web catalog pages.

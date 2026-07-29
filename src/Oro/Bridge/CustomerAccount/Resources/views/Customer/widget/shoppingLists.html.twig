@@ -5,6 +5,7 @@
 
     {{ dataGrid.renderGrid(
         oro_datagrid_build_fullname('shopping-list-by-account-grid', scope),
-        {customer_id: customer.id})
+        {customer_id: customer.id},
+        {cssClass: 'inner-grid'})
     }}
 </div>

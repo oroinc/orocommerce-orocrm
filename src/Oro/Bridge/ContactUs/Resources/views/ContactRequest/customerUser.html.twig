@@ -1,6 +1,13 @@
 {% import '@OroUI/macros.html.twig' as UI %}
 
-{{ UI.renderHtmlProperty(
-    'oro.contactus.contactrequest.customer_user.label'|trans,
-    UI.entityViewLink(customerUser, customerUser|oro_format_name, 'oro_customer_customer_user_view')
-) }}
+<h5 class="user-fieldset user-fieldset-with-offset-top">
+    <span>{{ 'oro.contactus.contactrequest.sections.additional.label'|trans }}</span>
+</h5>
+<div class="row-fluid">
+    <div class="responsive-block">
+        {{ UI.renderHtmlProperty(
+            'oro.contactus.contactrequest.customer_user.label'|trans,
+            UI.entityViewLink(customerUser, customerUser|oro_format_name, 'oro_customer_customer_user_view')
+        ) }}
+    </div>
+</div>
