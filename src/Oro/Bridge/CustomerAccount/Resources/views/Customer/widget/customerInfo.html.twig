@@ -55,14 +55,16 @@
     }
 ]) %}
 
-{% set tabs = tabs|merge([
-    {
-        'alias': 'oro_account_customer_rfqs' ~ uniqueSuffix,
-        'widgetType': 'block',
-        'label': 'oro.rfp.request.entity_plural_label'|trans,
-        'url': path('oro_account_customer_widget_rfq_info', {'id': customer.id})
-    }
-]) %}
+{% if feature_resource_enabled('Oro\\Bundle\\RFPBundle\\Entity\\Request', 'entities') %}
+    {% set tabs = tabs|merge([
+        {
+            'alias': 'oro_account_customer_rfqs' ~ uniqueSuffix,
+            'widgetType': 'block',
+            'label': 'oro.rfp.request.entity_plural_label'|trans,
+            'url': path('oro_account_customer_widget_rfq_info', {'id': customer.id})
+        }
+    ]) %}
+{% endif %}
 
 {% set tabs = tabs|merge([
     {
@@ -83,14 +85,14 @@
 ]) %}
 
 {% if feature_resource_enabled('Oro\\Bundle\\SalesBundle\\Entity\\Opportunity', 'entities') %}
-{% set tabs = tabs|merge([
-    {
-        'alias': 'oro_account_customer_opportunity' ~ uniqueSuffix,
-        'widgetType': 'block',
-        'label': 'oro.sales.opportunity.entity_plural_label'|trans,
-        'url': path('oro_account_customer_widget_opportunities_info', {'id': customer.id})
-    }
-]) %}
+    {% set tabs = tabs|merge([
+        {
+            'alias': 'oro_account_customer_opportunity' ~ uniqueSuffix,
+            'widgetType': 'block',
+            'label': 'oro.sales.opportunity.entity_plural_label'|trans,
+            'url': path('oro_account_customer_widget_opportunities_info', {'id': customer.id})
+        }
+    ]) %}
 {% endif %}
 
 {% set tabPanelOptions = {} %}

@@ -1,0 +1,31 @@
+Oro\Bundle\ChannelBundle\Entity\Channel:
+    commerce_channel_entity:
+        owner: '@organization'
+        name: 'Commerce Channel Tabs'
+        channelType: 'commerce'
+        status: 1
+        customerIdentity: 'Oro\\Bundle\\CustomerBundle\\Entity\\Customer'
+        entities:
+            - '@commerce_channel_entity_customer'
+
+Oro\Bundle\ChannelBundle\Entity\EntityName:
+    commerce_channel_entity_customer:
+        __construct: ['Oro\\Bundle\\CustomerBundle\\Entity\\Customer']
+
+Oro\Bundle\AccountBundle\Entity\Account:
+    tabs_account:
+        name: 'Tabs Account'
+        organization: '@organization'
+        owner: '@admin'
+
+Oro\Bundle\CustomerBundle\Entity\Customer:
+    tabs_customer:
+        name: 'Tabs Customer'
+        organization: '@organization'
+        owner: '@admin'
+        dataChannel: '@commerce_channel_entity'
+
+Oro\Bundle\SalesBundle\Entity\Customer:
+    tabs_sales_customer:
+        account: '@tabs_account'
+        customer_e197f906: '@tabs_customer'
