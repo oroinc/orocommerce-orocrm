@@ -16,6 +16,9 @@ oro_behat_extension:
         - '@OroCustomerAccountBridgeBundle/Tests/Behat/Features'
 
   elements:
+    Account Customer Tabs:
+      selector: 'div.customer-without-border-tabs'
+
     Next opportunity icon:
       selector: 'i.fa-chevron-right'
 

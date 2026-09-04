@@ -1,0 +1,8 @@
+features:
+    rfp:
+        routes:
+            - 'oro_account_customer_widget_rfq_info'
+
+    sales_opportunity:
+        routes:
+            - 'oro_account_customer_widget_opportunities_info'
