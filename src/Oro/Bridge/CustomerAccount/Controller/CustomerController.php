@@ -41,7 +41,7 @@ class CustomerController extends AbstractController
         requirements: ['accountId' => '\d+']
     )]
     #[Template('@OroCustomerAccountBridge/Customer/accountCustomersInfo.html.twig')]
-    #[AclAncestor('oro_customer_account_view')]
+    #[AclAncestor('oro_account_view')]
     public function accountCustomersInfoAction(
         #[MapEntity(id: 'accountId')]
         Account $account,
@@ -86,7 +86,7 @@ class CustomerController extends AbstractController
         requirements: ['id' => '\d+', 'channelId' => '\d+']
     )]
     #[Template('@OroCustomerAccountBridge/Customer/customerInfo.html.twig')]
-    #[AclAncestor('oro_customer_account_view')]
+    #[AclAncestor('oro_customer_customer_view')]
     public function customerInfoAction(
         #[MapEntity(id: 'id')]
         Customer $customer
@@ -110,7 +110,7 @@ class CustomerController extends AbstractController
         requirements: ['id' => '\d+']
     )]
     #[Template('@OroCustomerAccountBridge/Customer/customerUsers.html.twig')]
-    #[AclAncestor('oro_account_account_user_view')]
+    #[AclAncestor('oro_customer_customer_view')]
     public function customerUsersAction(
         #[MapEntity(id: 'id')]
         Customer $customer
