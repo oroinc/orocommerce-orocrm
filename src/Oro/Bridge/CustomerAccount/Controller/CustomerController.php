@@ -45,7 +45,7 @@ class CustomerController extends AbstractController
     #[ParamConverter('account', class: Account::class, options: ['id' => 'accountId'])]
     #[ParamConverter('channel', class: Channel::class, options: ['id' => 'channelId'])]
     #[Template]
-    #[AclAncestor('oro_customer_account_view')]
+    #[AclAncestor('oro_account_view')]
     public function accountCustomersInfoAction(Account $account, Channel $channel)
     {
         $field = AccountCustomerManager::getCustomerTargetField(Customer::class);
@@ -87,7 +87,7 @@ class CustomerController extends AbstractController
     )]
     #[ParamConverter('customer', class: Customer::class, options: ['id' => 'id'])]
     #[Template]
-    #[AclAncestor('oro_customer_account_view')]
+    #[AclAncestor('oro_customer_customer_view')]
     public function customerInfoAction(Customer $customer)
     {
         $accountCustomerManager = $this->container->get(AccountCustomerManager::class);
@@ -110,7 +110,7 @@ class CustomerController extends AbstractController
     )]
     #[ParamConverter('customer', class: Customer::class, options: ['id' => 'id'])]
     #[Template]
-    #[AclAncestor('oro_account_account_user_view')]
+    #[AclAncestor('oro_customer_customer_view')]
     public function customerUsersAction(Customer $customer)
     {
         return [
