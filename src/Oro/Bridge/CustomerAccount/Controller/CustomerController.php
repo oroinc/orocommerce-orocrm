@@ -42,7 +42,7 @@ class CustomerController extends AbstractController
      * )
      * @ParamConverter("account", class="OroAccountBundle:Account", options={"id" = "accountId"})
      * @ParamConverter("channel", class="OroChannelBundle:Channel", options={"id" = "channelId"})
-     * @AclAncestor("oro_customer_account_view"))
+     * @AclAncestor("oro_account_view"))
      * @Template
      */
     public function accountCustomersInfoAction(Account $account, Channel $channel)
@@ -85,7 +85,7 @@ class CustomerController extends AbstractController
      *        requirements={"id"="\d+", "channelId"="\d+"}
      * )
      * @ParamConverter("customer", class="OroCustomerBundle:Customer", options={"id" = "id"})
-     * @AclAncestor("oro_customer_account_view"))
+     * @AclAncestor("oro_customer_customer_view"))
      * @Template
      */
     public function customerInfoAction(Customer $customer)
@@ -109,7 +109,7 @@ class CustomerController extends AbstractController
      *        requirements={"id"="\d+"}
      * )
      * @ParamConverter("customer", class="OroCustomerBundle:Customer", options={"id" = "id"})
-     * @AclAncestor("oro_account_account_user_view")
+     * @AclAncestor("oro_customer_customer_view")
      * @Template
      */
     public function customerUsersAction(Customer $customer)
