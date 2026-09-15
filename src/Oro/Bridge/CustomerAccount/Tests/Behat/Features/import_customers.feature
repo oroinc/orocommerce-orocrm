@@ -1,3 +1,4 @@
+@skip-base
 @ticket-BAP-19273
 @fixture-OroCustomerAccountBridgeBundle:ImportCustomerFixture.yml
 Feature: Import Customers
