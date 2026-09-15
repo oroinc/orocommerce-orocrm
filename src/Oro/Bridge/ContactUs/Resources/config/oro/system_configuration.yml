@@ -15,6 +15,7 @@ system_configuration:
                 required: false
         oro_contact_us_bridge.consent_contact_reason:
             data_type: integer
+            priority: 15
             type: Oro\Bundle\ContactUsBundle\Form\Type\ContactReasonSelectType
             options:
                 label: oro.contact_us_bridge.system_configuration.fields.consent.consent_contact_reason.label
@@ -35,6 +36,4 @@ system_configuration:
                                             - oro_contact_us_bridge.enable_contact_request
                                     consents:
                                         children:
-                                            - oro_consent.consent_feature_enabled
                                             - oro_contact_us_bridge.consent_contact_reason
-                                            - oro_consent.enabled_consents
