@@ -1,4 +1,3 @@
-@regression
 @ticket-BB-19210
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
 @fixture-OroCustomerAccountBridgeBundle:NewFieldsInViewAndEditPage.yml
