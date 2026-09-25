@@ -6,8 +6,7 @@ use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManager;
 use Oro\Bridge\CustomerAccount\Tests\Functional\DataFixtures\Lifetime\OrderPaymentTransactionAndStatus;
 use Oro\Bundle\CurrencyBundle\Entity\MultiCurrency;
-use Oro\Bundle\CustomerBundle\Entity\Audit;
-use Oro\Bundle\DataAuditBundle\Entity\AuditField;
+use Oro\Bundle\DataAuditBundle\Test\Functional\AuditRecordsExtension;
 use Oro\Bundle\MessageQueueBundle\Test\Functional\MessageQueueExtension;
 use Oro\Bundle\OrderBundle\Entity\Order;
 use Oro\Bundle\OrderBundle\Tests\Functional\DataFixtures\LoadOrders;
@@ -20,6 +19,7 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
  */
 class CustomerLifetimeListenerTest extends WebTestCase
 {
+    use AuditRecordsExtension;
     use MessageQueueExtension;
 
     /**
@@ -101,34 +101,46 @@ class CustomerLifetimeListenerTest extends WebTestCase
 
     public function testThatListenerNotProduceNewDataAuditRecordsInDatabase()
     {
+        /** @var EntityManager $manager */
+        $manager = self::getDataFixturesExecutorEntityManager();
+
+        $this->emptyMessageQueue();
+
+        $lastAuditId = $this->getLastAuditId();
+        $lastAuditFieldId = $this->getLastAuditFieldId();
+
         $this->getOptionalListenerManager()->enableListener(
             'oro_dataaudit.listener.send_changed_entities_to_message_queue'
         );
 
-        $manager = self::getDataFixturesExecutorEntityManager();
+        try {
+            $orderReference = $this->getReference(LoadOrders::ORDER_1);
 
-        self::consumeAllMessages();
+            $paymentStatus = new PaymentStatus();
+            $paymentStatus->setEntityClass(Order::class);
+            $paymentStatus->setEntityIdentifier($orderReference->getId());
+            $paymentStatus->setPaymentStatus(PaymentStatusProvider::FULL);
 
-        $auditFieldCount = $manager->getRepository(AuditField::class)->count([]);
-        $auditCount = $manager->getRepository(Audit::class)->count([]);
+            $manager->persist($paymentStatus);
+            $manager->flush();
 
-        $orderReference = $this->getReference(LoadOrders::ORDER_1);
+            self::consumeAllMessages();
+        } finally {
+            // A failed assertion must not leave the listener enabled for the next tests.
+            $this->getOptionalListenerManager()->disableListener(
+                'oro_dataaudit.listener.send_changed_entities_to_message_queue'
+            );
+        }
 
-        $paymentStatus = new PaymentStatus();
-        $paymentStatus->setEntityClass(Order::class);
-        $paymentStatus->setEntityIdentifier($orderReference->getId());
-        $paymentStatus->setPaymentStatus(PaymentStatusProvider::FULL);
-
-        $manager->persist($paymentStatus);
-        $manager->flush();
-
-        self::consumeAllMessages();
-
-        self::assertEquals($auditFieldCount, $manager->getRepository(AuditField::class)->count([]));
-        self::assertEquals($auditCount, $manager->getRepository(Audit::class)->count([]));
-
-        $this->getOptionalListenerManager()->disableListener(
-            'oro_dataaudit.listener.send_changed_entities_to_message_queue'
+        self::assertSame(
+            [],
+            $this->getAuditFieldsCreatedAfter($lastAuditFieldId),
+            'Updating the lifetime value must not add audit field records.'
+        );
+        self::assertSame(
+            [],
+            $this->getAuditsCreatedAfter($lastAuditId),
+            'Updating the lifetime value must not add audit records.'
         );
     }
 
