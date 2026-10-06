@@ -1,4 +1,3 @@
-@regression
 @ticket-BB-18711
 @fixture-OroCustomerAccountBridgeBundle:CustomerContext.yml
 
